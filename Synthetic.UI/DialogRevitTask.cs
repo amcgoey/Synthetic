@@ -54,54 +54,108 @@ namespace Synthetic.UI
             return taskDialog;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="taskDialog"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
         public static DialogRevitTask SetContent (DialogRevitTask taskDialog, string content)
         {
             taskDialog.dialog.MainContent = content;
             return taskDialog;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="taskDialog"></param>
+        /// <param name="instructions"></param>
+        /// <returns></returns>
         public static DialogRevitTask SetInstructions(DialogRevitTask taskDialog, string instructions)
         {
             taskDialog.dialog.MainInstruction = instructions;
             return taskDialog;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="taskDialog"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
         public static DialogRevitTask SetTitle(DialogRevitTask taskDialog, string title)
         {
             taskDialog.dialog.Title = title;
             return taskDialog;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="taskDialog"></param>
+        /// <param name="prefix"></param>
+        /// <returns></returns>
         public static DialogRevitTask SetTitleAutoPrefix(DialogRevitTask taskDialog, bool prefix)
         {
             taskDialog.dialog.TitleAutoPrefix = prefix;
             return taskDialog;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="taskDialog"></param>
+        /// <param name="FooterText"></param>
+        /// <returns></returns>
         public static DialogRevitTask SetFooterText(DialogRevitTask taskDialog, string FooterText)
         {
             taskDialog.dialog.FooterText = FooterText;
             return taskDialog;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="taskDialog"></param>
+        /// <param name="ExpandedContent"></param>
+        /// <returns></returns>
         public static DialogRevitTask SetExpandedContent(DialogRevitTask taskDialog, string ExpandedContent)
         {
             taskDialog.dialog.ExpandedContent = ExpandedContent;
             return taskDialog;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="taskDialog"></param>
+        /// <param name="VerificationText"></param>
+        /// <returns></returns>
         public static DialogRevitTask SetVerificationText(DialogRevitTask taskDialog, string VerificationText)
         {
             taskDialog.dialog.VerificationText = VerificationText;
             return taskDialog;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="taskDialog"></param>
+        /// <param name="AllowCancellation"></param>
+        /// <returns></returns>
         public static DialogRevitTask AllowCancellation(DialogRevitTask taskDialog, bool AllowCancellation)
         {
             taskDialog.dialog.AllowCancellation = AllowCancellation;
             return taskDialog;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="taskDialog"></param>
+        /// <param name="ExtraCheckBoxText"></param>
+        /// <returns></returns>
         public static DialogRevitTask SetExtraCheckBoxText(DialogRevitTask taskDialog, string ExtraCheckBoxText)
         {
             taskDialog.dialog.ExtraCheckBoxText = ExtraCheckBoxText;
@@ -229,16 +283,31 @@ namespace Synthetic.UI
             return e;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ResultName"></param>
+        /// <returns></returns>
         public static RevitUi.TaskDialogResult GetResultType (string ResultName)
         {
             return (RevitUi.TaskDialogResult)sEnum.Parse("Autodesk.Revit.UI.TaskDialogResult", ResultName);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public static List<object> ListDialogResults ()
         {
             return sEnum.GetEnums("Autodesk.Revit.UI.TaskDialogResult");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ResultName"></param>
+        /// <param name="Execute"></param>
+        /// <returns></returns>
         public static Dictionary<RevitUi.TaskDialogResult, object> ParseResults (List<string> ResultName, List<object> Execute)
         {
             Dictionary<RevitUi.TaskDialogResult, object> dict = new Dictionary<Autodesk.Revit.UI.TaskDialogResult, object>();
@@ -256,6 +325,10 @@ namespace Synthetic.UI
             return dict;
         }
 
+        /// <summary>
+        /// Represents the Dialog box in a string format.
+        /// </summary>
+        /// <returns name="string">A string representation</returns>
         public override string ToString()
         {
             return string.Format("Task Dialog {0}", this.dialog.Title);
@@ -272,7 +345,7 @@ namespace Synthetic.UI
         /// <param name="CommandLinkResults">The results to be returned based on the command link selection.  There should be an equal number of results as there are command links.</param>
         /// <param name="reset">Resets the node so the dialog will reopen.</param>
         /// <returns name="Results">Returns the corresponding result based on the command link selected.  Will return null if no command links are selected or available.</returns>
-        public static object DialogTask(
+        public static object ByProperties(
             [DefaultArgument("\"Title\"")] string Title,
             [DefaultArgument("\"\"")] string Instructions,
             [DefaultArgument("\"\"")] string Content,
