@@ -16,10 +16,11 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\output\Synthetic\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\output\Synthetic\bin\Synthetic.UI.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,27 +33,35 @@
   <ItemGroup>
     <Reference Include="DSCoreNodes">
       <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Core\1.2\DSCoreNodes.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="DynamoServices">
       <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Core\1.2\DynamoServices.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPI">
       <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2017\RevitAPI.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPIUI">
       <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2017\RevitAPIUI.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="RevitNodes">
       <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Revit\1.2\Revit_2017\RevitNodes.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="RevitServices">
       <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Revit\1.2\Revit_2017\RevitServices.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Synthetic.Core">
       <HintPath>..\..\Output\Synthetic\bin\Synthetic.Core.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Synthetic.Revit">
       <HintPath>..\..\..\Revit Dynamo Synthetic R1\Package\Synthetic\bin\Synthetic.Revit.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
@@ -66,7 +75,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Synthetic.Revit_DynamoCustomization.xml">
+    <Content Include="Synthetic.UI_DynamoCustomization.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
