@@ -59,7 +59,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PickRevit.cs" />
+    <Compile Include="Pick.cs" />
     <Compile Include="DialogRevit.cs" />
     <Compile Include="DialogRevitTask.cs" />
     <Compile Include="DialogWindows.cs" />
