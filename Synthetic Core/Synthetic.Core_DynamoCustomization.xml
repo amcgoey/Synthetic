@@ -7,6 +7,9 @@
     <namespace name="Synthetic.Core">
       <category>Synthetic.Core</category>
     </namespace>
+    <namespace name="Synthetic.Core.Input">
+      <category>Synthetic.Core.Input</category>
+    </namespace>
     <namespace name="Synthetic.Experimental">
       <category>Synthetic.Experimental</category>
     </namespace>

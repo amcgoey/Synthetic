@@ -7,6 +7,9 @@
     <namespace name="Synthetic.Revit">
       <category>Synthetic.Revit</category>
     </namespace>
+    <namespace name="Synthetic.Revit.Input">
+      <category>Synthetic.Revit.Input</category>
+    </namespace>
     <namespace name="Synthetic.Experimental">
       <category>Synthetic.Experimental</category>
     </namespace>

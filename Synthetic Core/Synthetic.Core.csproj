@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DialogWindows.cs" />
     <Compile Include="Dictionary.cs" />
     <Compile Include="Enum.cs" />
     <Compile Include="Json.cs" />
