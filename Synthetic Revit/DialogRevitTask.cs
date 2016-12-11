@@ -257,6 +257,11 @@ namespace Synthetic.Revit
             return dict;
         }
 
+        public override string ToString()
+        {
+            return string.Format("Task Dialog {0}", this.dialog.Title);
+        }
+
         /// <summary>
         /// Creates a Revit Task Dialog.  This can be used to make a choice from up to four different options.
         /// </summary>
