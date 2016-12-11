@@ -68,6 +68,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DialogRevitTask.cs" />
     <Compile Include="Document.cs" />
     <Compile Include="Elements.cs" />
     <Compile Include="Input.cs" />
