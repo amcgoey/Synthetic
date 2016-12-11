@@ -1,0 +1,32 @@
+<Workspace Version="1.2.1.3083" X="79.6355041987562" Y="-169.58039207404" zoom="0.910063803931439" Name="Home" Description="" RunType="Automatic" RunPeriod="1000" HasRunWithoutCrash="True">
+  <NamespaceResolutionMap />
+  <Elements>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="e1a467ac-fecb-4dde-98e6-9af28d148e15" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Pick.Elements" x="193.643552518679" y="387.370641290289" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\..\..\Output\Synthetic\bin\Synthetic.UI.dll" function="Synthetic.UI.Pick.Elements@string,bool">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="True" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <CoreNodeModels.Input.StringInput guid="09eca16e-6fa7-4c00-898f-842b4630a971" type="CoreNodeModels.Input.StringInput" nickname="String" x="-91.2225125183209" y="386.32442422951" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>Pick elements, click the finish buttn to move on.</System.String>
+      <System.String value="Pick elements, click the finish buttn to move on." />
+    </CoreNodeModels.Input.StringInput>
+    <CoreNodeModels.Input.BoolSelector guid="637f8694-cb27-41c9-badd-1cc907f11dcc" type="CoreNodeModels.Input.BoolSelector" nickname="Boolean" x="-17.8001663566682" y="473.866452345327" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.Boolean>False</System.Boolean>
+    </CoreNodeModels.Input.BoolSelector>
+    <CoreNodeModels.Watch guid="08844079-544a-4305-b823-62e5a79e1af0" type="CoreNodeModels.Watch" nickname="Watch" x="489.118143910835" y="379.884007561447" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+    </CoreNodeModels.Watch>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="e1a467ac-fecb-4dde-98e6-9af28d148e15" start_index="0" end="08844079-544a-4305-b823-62e5a79e1af0" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="09eca16e-6fa7-4c00-898f-842b4630a971" start_index="0" end="e1a467ac-fecb-4dde-98e6-9af28d148e15" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="637f8694-cb27-41c9-badd-1cc907f11dcc" start_index="0" end="e1a467ac-fecb-4dde-98e6-9af28d148e15" end_index="1" portType="0" />
+  </Connectors>
+  <Notes>
+    <Dynamo.Graph.Notes.NoteModel guid="1384dae3-e459-45c7-8d70-3ad886b82d6a" text="Status bar message" x="-37.2755152694658" y="348.751083172548" />
+  </Notes>
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>
