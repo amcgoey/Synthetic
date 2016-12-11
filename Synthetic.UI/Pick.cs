@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using Autodesk.DesignScript.Runtime;
 using RevitServices.Persistence;
 using Revit.Elements;
-using dynamoElem = Revit.Elements.Element;
+using DynElem = Revit.Elements.Element;
 using DynColor = DSCore.Color;
 
 //References to Revit
@@ -39,7 +39,7 @@ namespace Synthetic.UI
         /// <param name="message">A message to be displayed in the status bar.</param>
         /// <param name="reset">Resets the node so one can pick new objects.</param>
         /// <returns name="Elements">List of the selected elements.</returns>
-        public static List<dynamoElem> PickElements(
+        public static List<DynElem> Elements(
             [DefaultArgument("Select elements")] string message,
             [DefaultArgument("true")] bool reset)
         {
@@ -47,7 +47,7 @@ namespace Synthetic.UI
             Autodesk.Revit.UI.UIApplication uiapp = DocumentManager.Instance.CurrentUIApplication;
             RevitDoc doc = DocumentManager.Instance.CurrentDBDocument;
 
-            List<dynamoElem> elems = new List<dynamoElem>();
+            List<DynElem> elems = new List<DynElem>();
 
             revitSelect.Selection selection = uiapp.ActiveUIDocument.Selection;
 
@@ -56,7 +56,7 @@ namespace Synthetic.UI
                 IList<Reference> references = selection.PickObjects(revitSelect.ObjectType.Element, message);
                 foreach (Reference r in references)
                 {
-                    dynamoElem elem = doc.GetElement(r.ElementId).ToDSType(true);
+                    DynElem elem = doc.GetElement(r.ElementId).ToDSType(true);
                     elems.Add(elem);
                 }
             }
@@ -72,7 +72,7 @@ namespace Synthetic.UI
         /// Opens a pick color dialog box.
         /// </summary>
         /// <returns name="Color">A Dynamo Core Color</returns>
-        public static DynColor PickColor()
+        public static DynColor Color()
         {
             DynColor _dColor = null;
 
