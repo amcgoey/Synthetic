@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <doc>
   <assembly>
-    <name>Synthetic.Core</name>
+    <name>Synthetic.Revit</name>
   </assembly>
   <namespaces>
-    <namespace name="Synthetic.Core">
-      <category>Synthetic.Core</category>
+    <namespace name="Synthetic.UI">
+      <category>Synthetic.UI</category>
     </namespace>
     <namespace name="Synthetic.Experimental">
       <category>Synthetic.Experimental</category>
