@@ -1,0 +1,214 @@
+<Workspace Version="1.2.1.3083" X="150.39506271878" Y="520.661953927149" zoom="0.52563487042659" Name="Home" Description="" RunType="Automatic" RunPeriod="1000" HasRunWithoutCrash="True">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="List" resolvedName="DSCore.List" assemblyName="DSCoreNodes.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="515ae72d-6767-4d0c-bf41-a296209f343e" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="RoundInches" x="675.976823574098" y="391.093522952885" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="True" />
+      <ID value="386c65f3-ae78-4e53-a00d-8d991ccfaed6" />
+      <Name value="RoundInches" />
+      <Description value="Round a number to the nearest inch or fractional inch." />
+      <Inputs>
+        <Input value="number" />
+        <Input value="precision" />
+      </Inputs>
+      <Outputs>
+        <Output value="number" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+    <UnitsUI.LengthFromString guid="85d2932b-af1f-42e9-a046-159c93a08938" type="UnitsUI.LengthFromString" nickname="Number From Feet and Inches" x="128" y="256" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.Double value="3.18849375001275" />
+    </UnitsUI.LengthFromString>
+    <CoreNodeModels.Watch guid="7332c9a8-9435-42e4-aaf6-1bc61866d870" type="CoreNodeModels.Watch" nickname="Watch" x="1235.26431443647" y="391.930820637712" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+    </CoreNodeModels.Watch>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="0dc24e11-23f0-4df4-8bd0-9294c9d3e46f" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="Feet2Fraction" x="929.932931633444" y="396.247626141447" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <ID value="3784aae0-dd38-4cfd-ac57-a87ebe885a81" />
+      <Name value="Feet2Fraction" />
+      <Description value="Converts a decimal foot value to a fractional foot/inch string." />
+      <Inputs>
+        <Input value="number" />
+      </Inputs>
+      <Outputs>
+        <Output value="fraction(str)" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="16e4c44a-e540-46ae-951b-199234db763d" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="167.518291327166" y="571.156100814801" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="1/4;&#xA;1;" ShouldFocus="false" />
+    <UnitsUI.LengthFromString guid="2abf0ae5-fef6-48fd-b0fe-e0fa39b0a17e" type="UnitsUI.LengthFromString" nickname="Number From Feet and Inches" x="132.048170867283" y="361.614633061733" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.Double value="0.357981250001432" />
+    </UnitsUI.LengthFromString>
+    <CoreNodeModels.CreateList guid="c791a6c0-6455-4be6-997f-b67cb52a2201" type="CoreNodeModels.CreateList" nickname="List.Create" x="487.976823574098" y="329.593522952885" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+    </CoreNodeModels.CreateList>
+    <CoreNodeModels.CreateList guid="6fd47123-22a5-4879-b317-c172c4f649b6" type="CoreNodeModels.CreateList" nickname="List.Create" x="485.976823574098" y="473.593522952885" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+    </CoreNodeModels.CreateList>
+    <CoreNodeModels.Watch guid="6a71dadf-7efb-4302-9479-a222017c322f" type="CoreNodeModels.Watch" nickname="Watch" x="1242.9075898401" y="-143.343145357917" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+    </CoreNodeModels.Watch>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="bae9fac8-059c-408b-a1e4-43be6ae7d57d" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="RoundInches" x="680.422376716927" y="-141.677209560995" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="True" />
+      <ID value="386c65f3-ae78-4e53-a00d-8d991ccfaed6" />
+      <Name value="RoundInches" />
+      <Description value="Round a number to the nearest inch or fractional inch." />
+      <Inputs>
+        <Input value="number" />
+        <Input value="precision" />
+      </Inputs>
+      <Outputs>
+        <Output value="number" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="d4c2c8d9-2e66-4808-9bfc-5ab03b3b70f6" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="Feet2Fraction" x="932.732697817859" y="-138.818590294939" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <ID value="3784aae0-dd38-4cfd-ac57-a87ebe885a81" />
+      <Name value="Feet2Fraction" />
+      <Description value="Converts a decimal foot value to a fractional foot/inch string." />
+      <Inputs>
+        <Input value="number" />
+      </Inputs>
+      <Outputs>
+        <Output value="fraction(str)" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+    <CoreNodeModels.CreateList guid="54e533ff-a44d-4af2-a005-2b92960225f5" type="CoreNodeModels.CreateList" nickname="List.Create" x="492.422376716927" y="-203.177209560995" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+    </CoreNodeModels.CreateList>
+    <UnitsUI.LengthFromString guid="8a5ffb0e-1d56-475d-b514-9677e714a6c1" type="UnitsUI.LengthFromString" nickname="Number From Feet and Inches" x="125.707157479727" y="-169.506335406202" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.Double value="0.357981250001432" />
+    </UnitsUI.LengthFromString>
+    <UnitsUI.LengthFromString guid="935994a9-cb9c-49c2-8fb1-e11d816cd2e8" type="UnitsUI.LengthFromString" nickname="Number From Feet and Inches" x="126.654370872705" y="-272.123737911778" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.Double value="3.18849375001275" />
+    </UnitsUI.LengthFromString>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="99db41ac-d98c-47ad-8167-4e5bc7fae832" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="166.172662199871" y="43.0323629030226" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="1/4;" ShouldFocus="false" />
+    <CoreNodeModels.Watch guid="d7bc0552-eb53-4179-b189-dbe247c71024" type="CoreNodeModels.Watch" nickname="Watch" x="1194.01752745327" y="-653.045648861043" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+    </CoreNodeModels.Watch>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="7a4f099d-665b-4181-9c75-13f99995f649" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="RoundInches" x="497.550868540583" y="-643.241497310917" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="True" />
+      <ID value="386c65f3-ae78-4e53-a00d-8d991ccfaed6" />
+      <Name value="RoundInches" />
+      <Description value="Round a number to the nearest inch or fractional inch." />
+      <Inputs>
+        <Input value="number" />
+        <Input value="precision" />
+      </Inputs>
+      <Outputs>
+        <Output value="number" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="4be82778-f0a3-4c35-910e-9e12566b1308" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="Feet2Fraction" x="710.550868540583" y="-642.741497310917" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <ID value="3784aae0-dd38-4cfd-ac57-a87ebe885a81" />
+      <Name value="Feet2Fraction" />
+      <Description value="Converts a decimal foot value to a fractional foot/inch string." />
+      <Inputs>
+        <Input value="number" />
+      </Inputs>
+      <Outputs>
+        <Output value="fraction(str)" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+    <UnitsUI.LengthFromString guid="8ffa013e-f6d4-4759-90de-5fcdfd21e96e" type="UnitsUI.LengthFromString" nickname="Number From Feet and Inches" x="122.742381356801" y="-695.421157362935" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.Double value="3.18849375001275" />
+    </UnitsUI.LengthFromString>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="90a44e82-0e19-46fb-a983-f30a0f24233f" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="182.528803051534" y="-507.207557271319" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="1/4;" ShouldFocus="false" />
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="515ae72d-6767-4d0c-bf41-a296209f343e" start_index="0" end="0dc24e11-23f0-4df4-8bd0-9294c9d3e46f" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="85d2932b-af1f-42e9-a046-159c93a08938" start_index="0" end="c791a6c0-6455-4be6-997f-b67cb52a2201" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="0dc24e11-23f0-4df4-8bd0-9294c9d3e46f" start_index="0" end="7332c9a8-9435-42e4-aaf6-1bc61866d870" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="16e4c44a-e540-46ae-951b-199234db763d" start_index="0" end="6fd47123-22a5-4879-b317-c172c4f649b6" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="16e4c44a-e540-46ae-951b-199234db763d" start_index="1" end="6fd47123-22a5-4879-b317-c172c4f649b6" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="2abf0ae5-fef6-48fd-b0fe-e0fa39b0a17e" start_index="0" end="c791a6c0-6455-4be6-997f-b67cb52a2201" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c791a6c0-6455-4be6-997f-b67cb52a2201" start_index="0" end="515ae72d-6767-4d0c-bf41-a296209f343e" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="6fd47123-22a5-4879-b317-c172c4f649b6" start_index="0" end="515ae72d-6767-4d0c-bf41-a296209f343e" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="bae9fac8-059c-408b-a1e4-43be6ae7d57d" start_index="0" end="d4c2c8d9-2e66-4808-9bfc-5ab03b3b70f6" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="d4c2c8d9-2e66-4808-9bfc-5ab03b3b70f6" start_index="0" end="6a71dadf-7efb-4302-9479-a222017c322f" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="54e533ff-a44d-4af2-a005-2b92960225f5" start_index="0" end="bae9fac8-059c-408b-a1e4-43be6ae7d57d" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="8a5ffb0e-1d56-475d-b514-9677e714a6c1" start_index="0" end="54e533ff-a44d-4af2-a005-2b92960225f5" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="935994a9-cb9c-49c2-8fb1-e11d816cd2e8" start_index="0" end="54e533ff-a44d-4af2-a005-2b92960225f5" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="99db41ac-d98c-47ad-8167-4e5bc7fae832" start_index="0" end="bae9fac8-059c-408b-a1e4-43be6ae7d57d" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="7a4f099d-665b-4181-9c75-13f99995f649" start_index="0" end="4be82778-f0a3-4c35-910e-9e12566b1308" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="4be82778-f0a3-4c35-910e-9e12566b1308" start_index="0" end="d7bc0552-eb53-4179-b189-dbe247c71024" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="8ffa013e-f6d4-4759-90de-5fcdfd21e96e" start_index="0" end="7a4f099d-665b-4181-9c75-13f99995f649" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="90a44e82-0e19-46fb-a983-f30a0f24233f" start_index="0" end="7a4f099d-665b-4181-9c75-13f99995f649" end_index="1" portType="0" />
+  </Connectors>
+  <Notes>
+    <Dynamo.Graph.Notes.NoteModel guid="aef40c3c-1bc8-4cbc-926f-25e4047fa06b" text="Example of replication with lists in both inputs." x="81.2990188393154" y="208.627088795414" />
+    <Dynamo.Graph.Notes.NoteModel guid="d229b864-f448-49d4-8c7d-2a9a3c8df5ff" text="Custom node from SpringNodes" x="943.233836931791" y="353.489938722544" />
+    <Dynamo.Graph.Notes.NoteModel guid="7de401a6-f9e9-4f9a-95d2-ca2a98c33202" text="The precision is a number (double) that represents the fraction to round in inches." x="67.0188602748655" y="514.47409655088" />
+    <Dynamo.Graph.Notes.NoteModel guid="6481ffd7-439a-4fcb-ab9c-f8c8dddb6e9f" text="Custom node from Synthetic" x="682.892751271116" y="351.830401198305" />
+    <Dynamo.Graph.Notes.NoteModel guid="e8f74128-f2d1-4cfa-a0fa-560fe3b9a111" text="Custom node from SpringNodes" x="940.92731375197" y="-180.500842860436" />
+    <Dynamo.Graph.Notes.NoteModel guid="0dea7399-e40e-4911-a674-236f9d172473" text="Custom node from Synthetic" x="699.591691677668" y="-184.085157003649" />
+    <Dynamo.Graph.Notes.NoteModel guid="4425a3b6-a3e5-4db8-a18b-3ab5f7e2befb" text="The precision is a number (double) that represents the fraction to round in inches." x="65.6732311475708" y="-13.6496413608987" />
+    <Dynamo.Graph.Notes.NoteModel guid="4a848948-4361-4a61-b282-b27b1962980f" text="Custom node from SpringNodes" x="706.166181722395" y="-683.637543454395" />
+    <Dynamo.Graph.Notes.NoteModel guid="f7e18cfd-0d75-4146-a525-ac47201e9d8a" text="Custom node from Synthetic Utilities" x="482.127100932504" y="-682.504619065496" />
+    <Dynamo.Graph.Notes.NoteModel guid="9f8ee661-2cff-4a80-b91c-57dd947d16c5" text="The precision is a number (double) that represents the fraction to round in inches." x="82.0293719992335" y="-563.889561535241" />
+    <Dynamo.Graph.Notes.NoteModel guid="d628ad8e-0456-49e8-9eab-1eeeb0195fa3" text="Example of replication with a list in the initial input." x="71.3315555677935" y="-310.570029821292" />
+    <Dynamo.Graph.Notes.NoteModel guid="59200b42-b068-4172-a867-0fa5adf85d61" text="Example with single values for both inputs." x="91.3393428200095" y="-738.812366003426" />
+  </Notes>
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="2c93e3d5-c873-430d-9f73-67aa36bc9c01" annotationText="Input" left="57.0188602748655" top="178.627088795414" width="306" height="495.529012019387" fontSize="14" InitialTop="208.627088795414" InitialHeight="367" TextblockHeight="20" backgrouund="#FFFFB8D8">
+      <Models ModelGuid="85d2932b-af1f-42e9-a046-159c93a08938" />
+      <Models ModelGuid="16e4c44a-e540-46ae-951b-199234db763d" />
+      <Models ModelGuid="2abf0ae5-fef6-48fd-b0fe-e0fa39b0a17e" />
+      <Models ModelGuid="7de401a6-f9e9-4f9a-95d2-ca2a98c33202" />
+      <Models ModelGuid="aef40c3c-1bc8-4cbc-926f-25e4047fa06b" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="b139b847-fcfd-4e6a-bd7e-a386749677ea" annotationText="OPERATIONS" left="475.976823574098" top="299.593522952885" width="693.956108059346" height="293" fontSize="14" InitialTop="329.593522952885" InitialHeight="293" TextblockHeight="20" backgrouund="#FF848484">
+      <Models ModelGuid="515ae72d-6767-4d0c-bf41-a296209f343e" />
+      <Models ModelGuid="0dc24e11-23f0-4df4-8bd0-9294c9d3e46f" />
+      <Models ModelGuid="c791a6c0-6455-4be6-997f-b67cb52a2201" />
+      <Models ModelGuid="6fd47123-22a5-4879-b317-c172c4f649b6" />
+      <Models ModelGuid="d229b864-f448-49d4-8c7d-2a9a3c8df5ff" />
+      <Models ModelGuid="6481ffd7-439a-4fcb-ab9c-f8c8dddb6e9f" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="10b1adcb-280b-4ae5-80d0-a111ec049fa8" annotationText="MONITOR" left="1225.26431443647" top="361.930820637712" width="158" height="194" fontSize="14" InitialTop="391.930820637712" InitialHeight="170" TextblockHeight="20" backgrouund="#FFA4E1FF">
+      <Models ModelGuid="7332c9a8-9435-42e4-aaf6-1bc61866d870" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="b4c91b87-bf87-4d76-99ad-40e451c4db16" annotationText="OPERATIONS" left="482.422376716927" top="-233.177209560995" width="690.310321100932" height="210.5" fontSize="14" InitialTop="-203.177209560995" InitialHeight="293" TextblockHeight="20" backgrouund="#FF848484">
+      <Models ModelGuid="bae9fac8-059c-408b-a1e4-43be6ae7d57d" />
+      <Models ModelGuid="d4c2c8d9-2e66-4808-9bfc-5ab03b3b70f6" />
+      <Models ModelGuid="54e533ff-a44d-4af2-a005-2b92960225f5" />
+      <Models ModelGuid="e8f74128-f2d1-4cfa-a0fa-560fe3b9a111" />
+      <Models ModelGuid="0dea7399-e40e-4911-a674-236f9d172473" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="3dcdce4e-2231-438f-954e-763eeb9cb00d" annotationText="MONITOR" left="1232.9075898401" top="-173.343145357917" width="158" height="194" fontSize="14" InitialTop="-143.343145357917" InitialHeight="122" TextblockHeight="20" backgrouund="#FFA4E1FF">
+      <Models ModelGuid="6a71dadf-7efb-4302-9479-a222017c322f" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="bf15dad8-7e93-450c-bf9e-ccda051d873b" annotationText="Input" left="55.6732311475708" top="-340.570029821292" width="306" height="476.602392724315" fontSize="14" InitialTop="-310.570029821292" InitialHeight="448.156100814801" TextblockHeight="20" backgrouund="#FFFFB8D8">
+      <Models ModelGuid="935994a9-cb9c-49c2-8fb1-e11d816cd2e8" />
+      <Models ModelGuid="99db41ac-d98c-47ad-8167-4e5bc7fae832" />
+      <Models ModelGuid="8a5ffb0e-1d56-475d-b514-9677e714a6c1" />
+      <Models ModelGuid="4425a3b6-a3e5-4db8-a18b-3ab5f7e2befb" />
+      <Models ModelGuid="d628ad8e-0456-49e8-9eab-1eeeb0195fa3" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="5fd1a091-4485-40f2-8c23-fd83cf9348ab" annotationText="Monitor" left="1184.01752745327" top="-683.045648861043" width="121" height="139" fontSize="14" InitialTop="-653.045648861043" InitialHeight="122" TextblockHeight="20" backgrouund="#FFA4E1FF">
+      <Models ModelGuid="d7bc0552-eb53-4179-b189-dbe247c71024" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="6cd27fb0-0763-44de-8fef-efa8db92f1e1" annotationText="Function" left="472.127100932504" top="-713.637543454395" width="478.423767608079" height="189.396046143478" fontSize="14" InitialTop="-683.637543454395" InitialHeight="210.5" TextblockHeight="20" backgrouund="#FF848484">
+      <Models ModelGuid="7a4f099d-665b-4181-9c75-13f99995f649" />
+      <Models ModelGuid="4be82778-f0a3-4c35-910e-9e12566b1308" />
+      <Models ModelGuid="4a848948-4361-4a61-b282-b27b1962980f" />
+      <Models ModelGuid="f7e18cfd-0d75-4146-a525-ac47201e9d8a" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="d6082064-8223-4ba2-b79d-9bf160e9437a" annotationText="Input" left="72.0293719992335" top="-768.812366003426" width="306" height="354.604808732107" fontSize="14" InitialTop="-738.812366003426" InitialHeight="438.156100814801" TextblockHeight="20" backgrouund="#FFFFB8D8">
+      <Models ModelGuid="8ffa013e-f6d4-4759-90de-5fcdfd21e96e" />
+      <Models ModelGuid="90a44e82-0e19-46fb-a983-f30a0f24233f" />
+      <Models ModelGuid="9f8ee661-2cff-4a80-b91c-57dd947d16c5" />
+      <Models ModelGuid="59200b42-b068-4172-a867-0fa5adf85d61" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

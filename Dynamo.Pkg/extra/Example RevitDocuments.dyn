@@ -1,0 +1,37 @@
+<Workspace Version="1.2.1.3083" X="145.176350913763" Y="175.942107293831" zoom="0.873239338949519" Name="Home" Description="" RunType="Automatic" RunPeriod="1000" HasRunWithoutCrash="True">
+  <NamespaceResolutionMap />
+  <Elements>
+    <CoreNodeModels.Watch guid="697bb0d3-076d-4cce-bd62-f2863d315e36" type="CoreNodeModels.Watch" nickname="Watch" x="608.028064969214" y="104.843913846114" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+    </CoreNodeModels.Watch>
+    <CoreNodeModels.Watch guid="5aa16e85-39ee-4510-a20c-40f1e9675e19" type="CoreNodeModels.Watch" nickname="Watch" x="611.610990713219" y="293.800658904283" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+    </CoreNodeModels.Watch>
+    <CoreNodeModels.Watch guid="2d30a352-30f9-4348-ba5e-2322986d26d3" type="CoreNodeModels.Watch" nickname="Watch" x="613.610990713219" y="472.800658904283" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+    </CoreNodeModels.Watch>
+    <CoreNodeModels.Watch guid="fef95d68-b849-4d10-b164-f3c9c626b40e" type="CoreNodeModels.Watch" nickname="Watch" x="624.90673627655" y="657.768492503832" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+    </CoreNodeModels.Watch>
+    <CoreNodeModels.Watch guid="6673beb5-68de-4cc7-9f80-ef0b377add91" type="CoreNodeModels.Watch" nickname="Watch" x="608.913521423089" y="-11.1994988784615" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+    </CoreNodeModels.Watch>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="af4e2781-ce76-4e12-8e76-f0f1532d5840" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Document.Current" x="137.217419946267" y="92.8243713844583" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Document.Current" />
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="0550dca3-c9eb-4a8d-93e7-570ae6355c41" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Document.Title" x="377.701317811684" y="-12.5304791089623" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Document.Title@var">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="a5184804-481b-462b-af90-85244ce2ea8b" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Document.GetAllOpen" x="150.959356967148" y="296.663103860859" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Document.GetAllOpen" />
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="af4e2781-ce76-4e12-8e76-f0f1532d5840" start_index="0" end="0550dca3-c9eb-4a8d-93e7-570ae6355c41" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="af4e2781-ce76-4e12-8e76-f0f1532d5840" start_index="0" end="697bb0d3-076d-4cce-bd62-f2863d315e36" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="0550dca3-c9eb-4a8d-93e7-570ae6355c41" start_index="0" end="6673beb5-68de-4cc7-9f80-ef0b377add91" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="a5184804-481b-462b-af90-85244ce2ea8b" start_index="0" end="5aa16e85-39ee-4510-a20c-40f1e9675e19" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

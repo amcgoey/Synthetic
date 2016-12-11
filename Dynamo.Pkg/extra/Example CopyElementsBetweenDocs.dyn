@@ -1,0 +1,98 @@
+<Workspace Version="1.2.1.3083" X="2480.48277545962" Y="313.531484321028" zoom="0.485697148051781" Name="Home" Description="" RunType="Manual" RunPeriod="1000" HasRunWithoutCrash="True">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="List.map" resolvedName="DSCore.List" assemblyName="DSCoreNodes.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="586e09fa-146d-45ce-99fb-d5d094997b21" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Document.GetAllOpen" x="-3835.1078299695" y="316.58725585755" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="true" assembly="..\Package\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Document.GetAllOpen" />
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="74fa8001-1dd6-4b48-b1aa-15b12ab47701" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="-3572.19840489147" y="201.330557285765" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="l[0];&#xA;l[1];" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="49069486-28b6-42c4-8ebc-23a25bb3fd52" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Element.GetParameterValueByName" x="-3949.17326560313" y="97.8332114875291" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="true" assembly="RevitNodes.dll" function="Revit.Elements.Element.GetParameterValueByName@string">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <CoreNodeModels.Input.StringInput guid="9b56da20-fcd5-481b-a6cf-e7af4030a2f7" type="CoreNodeModels.Input.StringInput" nickname="String" x="-4064.98686232735" y="199.998747566513" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>Type</System.String>
+      <System.String value="Type" />
+    </CoreNodeModels.Input.StringInput>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="36c03d0f-3544-461d-9d26-f8daac8bb4df" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Elements.CopyElementsBetweenDocs" x="-3395.03842956766" y="70.2704141865189" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\Package\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Elements.CopyElementsBetweenDocs@var,int[],var">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="5ee43df5-fafc-4a94-b3de-17c8a95c1109" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Element.Id" x="-3663.71336524368" y="99.695419649281" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="RevitNodes.dll" function="Revit.Elements.Element.Id">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="9df73a5d-5259-4627-8158-e68b07652025" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Document.Current" x="-3617.66458297824" y="5.4732480071512" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\Package\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Document.Current" />
+    <Dynamo.Nodes.DSModelElementSelection guid="6901f3eb-1a89-4456-bea6-719c27503b21" type="Dynamo.Nodes.DSModelElementSelection" nickname="Select Model Element" x="-4289.51832683459" y="101.054245022825" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <instance id="8f9a5717-ea46-43d7-b8e0-16444fbac9c0-0004cb69" />
+    </Dynamo.Nodes.DSModelElementSelection>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="586e09fa-146d-45ce-99fb-d5d094997b21" start_index="0" end="74fa8001-1dd6-4b48-b1aa-15b12ab47701" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="74fa8001-1dd6-4b48-b1aa-15b12ab47701" start_index="0" end="36c03d0f-3544-461d-9d26-f8daac8bb4df" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="49069486-28b6-42c4-8ebc-23a25bb3fd52" start_index="0" end="5ee43df5-fafc-4a94-b3de-17c8a95c1109" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="9b56da20-fcd5-481b-a6cf-e7af4030a2f7" start_index="0" end="49069486-28b6-42c4-8ebc-23a25bb3fd52" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="5ee43df5-fafc-4a94-b3de-17c8a95c1109" start_index="0" end="36c03d0f-3544-461d-9d26-f8daac8bb4df" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="9df73a5d-5259-4627-8158-e68b07652025" start_index="0" end="36c03d0f-3544-461d-9d26-f8daac8bb4df" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="6901f3eb-1a89-4456-bea6-719c27503b21" start_index="0" end="49069486-28b6-42c4-8ebc-23a25bb3fd52" end_index="0" portType="0" />
+  </Connectors>
+  <Notes>
+    <Dynamo.Graph.Notes.NoteModel guid="14ef1e0a-beb3-4f35-b1c0-c9d0cf5f2263" text="INSTRUCTIONS:&#xD;&#xA;----------------------------------------------------------&#xD;&#xA;Instructions go here." x="-5013.89690198321" y="363.08484878114" />
+    <Dynamo.Graph.Notes.NoteModel guid="36765c7f-ffb8-4754-bf81-18bb57d40b96" text="COPYRIGHT:&#xD;&#xA;----------------------------------------------------------&#xD;&#xA;&#xD;&#xA;The MIT LICENSE (MIT):&#xD;&#xA;Copyright (c) 2016 Arthur McGoey&#xD;&#xA;&#xD;&#xA;Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:&#xD;&#xA;&#xD;&#xA;The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.&#xD;&#xA;&#xD;&#xA;THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE." x="-4694.19891317815" y="-85.3148788623072" />
+    <Dynamo.Graph.Notes.NoteModel guid="caec3066-28b0-4467-8311-8550da5a26d3" text="DESCRIPTION: &#xD;&#xA;----------------------------------------------------------&#xD;&#xA;General script definition goes here" x="-5013.89690198321" y="-85.4482594424062" />
+    <Dynamo.Graph.Notes.NoteModel guid="f83921f5-56c3-4dff-83d1-0bf377cec5ae" text="AUTHOR &amp; CONTRIBUTORS:&#xD;&#xA;----------------------------------------------------------&#xD;&#xA;DATE:&#xD;&#xA;2016-09-01&#xD;&#xA;&#xD;&#xA;AUTHOR:&#xD;&#xA;Stuart Chen Knight-Williamson&#xD;&#xA;&#xD;&#xA;CONTRIBUTORS:&#xD;&#xA;Arthur McGoey&#xD;&#xA;&#xD;&#xA;DEFINITION VERSION: &#xD;&#xA;1.0" x="-4694.19891317815" y="388.564854225706" />
+    <Dynamo.Graph.Notes.NoteModel guid="18b3b7f1-3a84-461b-bbcc-66fa476d223c" text="VERSIONS AND COMPATIBILITY&#xD;&#xA;----------------------------------------------------------&#xD;&#xA;REVIT:&#xD;&#xA;Revit 2017&#xD;&#xA;&#xD;&#xA;DYNAMO:&#xD;&#xA;Dynamo 1.1&#xD;&#xA;&#xD;&#xA;OTHER:&#xD;&#xA;" x="-5013.89690198321" y="52.8551384120448" />
+    <Dynamo.Graph.Notes.NoteModel guid="29118112-a5fd-4d05-badc-c05caadf8282" text="DYNAMO PACKAGE DEPENDENCIES:&#xD;&#xA;----------------------------------------------------------&#xD;&#xA;list all required packages here, also leave notes over nodes from specialty packages" x="-5013.89690198321" y="251.821662168034" />
+    <Dynamo.Graph.Notes.NoteModel guid="1794bcbc-2624-4465-82ff-0810cecb7125" text="OUTPUTS" x="-3941.08455938237" y="-145.950896139975" />
+    <Dynamo.Graph.Notes.NoteModel guid="93d30c96-0928-4c71-bc78-fcd22e74a11b" text="OPERATIONS" x="-4155.86965081416" y="-145.950896139975" />
+    <Dynamo.Graph.Notes.NoteModel guid="c4f59971-03b3-41be-93cd-97dc11e2457e" text="INPUTS" x="-4238.26219653005" y="-145.950896139975" />
+    <Dynamo.Graph.Notes.NoteModel guid="4b6067d6-e76d-45e7-ab0d-b35d6cdbbef1" text="NOTES:&#xD;&#xA;----------------------------------------------------------" x="-5013.89690198321" y="561.657260223624" />
+    <Dynamo.Graph.Notes.NoteModel guid="03ba81f0-b781-4b68-ba25-e81c84ff0fd1" text="WATCHING" x="-4043.47710509826" y="-145.950896139975" />
+    <Dynamo.Graph.Notes.NoteModel guid="41f5febf-0e8c-4199-9ae0-91fe0b471722" text="HELP &amp; INFO" x="-3847.69201366648" y="-145.950896139975" />
+    <Dynamo.Graph.Notes.NoteModel guid="e21cc1fd-c127-4e51-b58c-88b284f7fd7a" text="Model Element to copy its type" x="-4308.13874583967" y="60.5118000523341" />
+  </Notes>
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="ae89ba23-de8a-4df6-aea8-0a217943108c" annotationText="SMPC DYNAMO LIBRARY&#xD;&#xA;DEFINITION INFORMATION&#xD;&#xA;---------------------------------------------------------------" left="-5023.89690198321" top="-181.448259442406" width="637.69798880506" height="802.10551966603" fontSize="24" InitialTop="-85.4482594424062" InitialHeight="519.345684696726" TextblockHeight="86" backgrouund="#FFBB87C6">
+      <Models ModelGuid="14ef1e0a-beb3-4f35-b1c0-c9d0cf5f2263" />
+      <Models ModelGuid="36765c7f-ffb8-4754-bf81-18bb57d40b96" />
+      <Models ModelGuid="f83921f5-56c3-4dff-83d1-0bf377cec5ae" />
+      <Models ModelGuid="caec3066-28b0-4467-8311-8550da5a26d3" />
+      <Models ModelGuid="18b3b7f1-3a84-461b-bbcc-66fa476d223c" />
+      <Models ModelGuid="29118112-a5fd-4d05-badc-c05caadf8282" />
+      <Models ModelGuid="4b6067d6-e76d-45e7-ab0d-b35d6cdbbef1" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="94a217d0-76e5-4992-a0b8-1682f43e810b" annotationText="INPUTS" left="-4248.26219653005" top="-175.950896139975" width="80" height="74" fontSize="14" InitialTop="-145.950896139975" InitialHeight="74" TextblockHeight="20" backgrouund="#FFFF7BAC">
+      <Models ModelGuid="c4f59971-03b3-41be-93cd-97dc11e2457e" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="e7d855dd-be6d-4833-9d82-7bbbf13fa70b" annotationText="OPERATIONS" left="-4165.86965081416" top="-175.950896139975" width="110" height="74" fontSize="14" InitialTop="-145.950896139975" InitialHeight="74" TextblockHeight="20" backgrouund="#FF848484">
+      <Models ModelGuid="93d30c96-0928-4c71-bc78-fcd22e74a11b" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="28730ff0-9b26-4481-986b-dbe1cf9a498e" annotationText="OUTPUTS" left="-3951.08455938237" top="-175.950896139975" width="91" height="74" fontSize="14" InitialTop="-145.950896139975" InitialHeight="74" TextblockHeight="20" backgrouund="#FFFFAA45">
+      <Models ModelGuid="1794bcbc-2624-4465-82ff-0810cecb7125" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="b69bea51-07e8-4935-b4c8-a34b674de90a" annotationText="WATCHING" left="-4053.47710509826" top="-175.950896139975" width="100" height="74" fontSize="14" InitialTop="-145.950896139975" InitialHeight="74" TextblockHeight="20" backgrouund="#FF48B9FF">
+      <Models ModelGuid="03ba81f0-b781-4b68-ba25-e81c84ff0fd1" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="d7356568-b449-4dda-ba19-8d1dcabd14ba" annotationText="HELP &amp; INFO" left="-3857.69201366648" top="-175.950896139975" width="110" height="74" fontSize="14" InitialTop="-145.950896139975" InitialHeight="74" TextblockHeight="20" backgrouund="#FFBB87C6">
+      <Models ModelGuid="41f5febf-0e8c-4199-9ae0-91fe0b471722" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="8b8aefbf-3417-4194-ab7a-fba1859b54f1" annotationText="INPUTS" left="-4318.13874583967" top="30.5118000523341" width="197.620419005088" height="162.542444970491" fontSize="14" InitialTop="60.5118000523341" InitialHeight="140" TextblockHeight="20" backgrouund="#FFFF7BAC">
+      <Models ModelGuid="e21cc1fd-c127-4e51-b58c-88b284f7fd7a" />
+      <Models ModelGuid="6901f3eb-1a89-4456-bea6-719c27503b21" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="32129d63-f403-4202-a4bc-fcc7b7006403" annotationText="OPERATIONS" left="-4074.98686232735" top="-24.5267519928488" width="920.948432759696" height="486.114007850399" fontSize="14" InitialTop="5.4732480071512" InitialHeight="413.139022356397" TextblockHeight="20" backgrouund="#FF848484">
+      <Models ModelGuid="586e09fa-146d-45ce-99fb-d5d094997b21" />
+      <Models ModelGuid="74fa8001-1dd6-4b48-b1aa-15b12ab47701" />
+      <Models ModelGuid="49069486-28b6-42c4-8ebc-23a25bb3fd52" />
+      <Models ModelGuid="9b56da20-fcd5-481b-a6cf-e7af4030a2f7" />
+      <Models ModelGuid="36c03d0f-3544-461d-9d26-f8daac8bb4df" />
+      <Models ModelGuid="5ee43df5-fafc-4a94-b3de-17c8a95c1109" />
+      <Models ModelGuid="9df73a5d-5259-4627-8158-e68b07652025" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="12.7647695541382" eyeY="284.439453125" eyeZ="-42.8109130859375" lookX="4.31602811813354" lookY="-4.67569732666016" lookZ="-20.8608016967773" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

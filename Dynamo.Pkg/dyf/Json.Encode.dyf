@@ -1,0 +1,48 @@
+<Workspace Version="1.2.1.3083" X="337.649423924914" Y="258.747117548512" zoom="1.47618023926361" Name="Json.Encode" Description="Input a title and list of list pairs, node encodes the lists into JSON." ID="01a4741e-2159-4352-9cad-f4975cc7cae4" Category="Synthetic.Core.Json">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="List" resolvedName="DSCore.List" assemblyName="DSCoreNodes.dll" />
+    <ClassMap partialName="String" resolvedName="DSCore.String" assemblyName="DSCoreNodes.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <PythonNodeModels.PythonNode guid="01397c74-9ff4-40b6-a976-04f68d107628" type="PythonNodeModels.PythonNode" nickname="Python Script" x="250" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <Script>import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+import sys
+sys.path.append("C:\Program Files (x86)\IronPython 2.7\Lib")
+import json
+#The inputs to this node will be stored as a list in the IN variables.
+title = IN[0]
+data = IN[1]
+
+d1 = dict(data)
+j1 = json.dumps(d1)
+d2 = {title : d1}
+j2 = json.dumps(d2)
+#Assign your output to the OUT variable.
+OUT = j2</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="b77684d7-6ce0-4594-b6ef-b910104204ce" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-67.2796831681332" y="1.68199207920333" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="title : string = &quot;&quot;" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="d3e1da57-ef68-4d49-9549-75bb71543ba6" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="45.2684924876758" y="81.1782208832525" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="list" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="cc0fbbdf-18bf-43ae-8daa-049787ae36c1" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="421.77011881195" y="2.8033201320055" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="json" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="01397c74-9ff4-40b6-a976-04f68d107628" start_index="0" end="cc0fbbdf-18bf-43ae-8daa-049787ae36c1" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="b77684d7-6ce0-4594-b6ef-b910104204ce" start_index="0" end="01397c74-9ff4-40b6-a976-04f68d107628" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="d3e1da57-ef68-4d49-9549-75bb71543ba6" start_index="0" end="01397c74-9ff4-40b6-a976-04f68d107628" end_index="1" portType="0" />
+  </Connectors>
+  <Notes>
+    <Dynamo.Graph.Notes.NoteModel guid="8ccb9d46-371e-4325-b738-c7eb47ee9fb5" text="Encode a list to JSON" x="241.199454286405" y="-38.6209164767115" />
+  </Notes>
+  <Annotations />
+  <Presets />
+</Workspace>

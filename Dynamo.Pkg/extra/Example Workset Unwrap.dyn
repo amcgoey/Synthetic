@@ -1,0 +1,74 @@
+<Workspace Version="1.2.1.3083" X="261.463423696677" Y="113.614962902479" zoom="0.852765925581498" Name="Home" Description="" RunType="Automatic" RunPeriod="1000" HasRunWithoutCrash="True">
+  <NamespaceResolutionMap />
+  <Elements>
+    <CoreNodeModels.Watch guid="c1586bcc-d221-4bbd-bde5-0ad0a79924a0" type="CoreNodeModels.Watch" nickname="Watch" x="750.975570068372" y="325.646246072343" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+    </CoreNodeModels.Watch>
+    <CoreNodeModels.Input.StringInput guid="82f93249-d353-464b-9dfb-601b12192190" type="CoreNodeModels.Input.StringInput" nickname="String" x="121.404531688672" y="342.027371070103" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>import clr
+
+#Add a reference and import Synthetic's workset library.
+clr.AddReference('Synthetic.Revit')
+from Synthetic.Revit import *
+
+#INPUT
+workset = IN[0]
+
+#OUTPUT: Use the workset instance to access the static Unwrap method
+OUT = workset.Unwrap(workset)</System.String>
+      <System.String value="import clr&#xD;&#xA;&#xD;&#xA;#Add a reference and import Synthetic's workset library.&#xD;&#xA;clr.AddReference('Synthetic.Revit')&#xD;&#xA;from Synthetic.Revit import *&#xD;&#xA;&#xD;&#xA;#INPUT&#xD;&#xA;workset = IN[0]&#xD;&#xA;&#xD;&#xA;#OUTPUT: Use the workset instance to access the static Unwrap method&#xD;&#xA;OUT = workset.Unwrap(workset)" />
+    </CoreNodeModels.Input.StringInput>
+    <PythonNodeModels.PythonStringNode guid="34728552-71b6-4b58-9b35-06a98966d85d" type="PythonNodeModels.PythonStringNode" nickname="Python Script From String" x="475.74974770584" y="326.265389943735" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+    </PythonNodeModels.PythonStringNode>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="ddfe3ee1-bcbe-45ba-a4bb-41951236dccb" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Workset.GetByName" x="122.123107793803" y="161.873864676282" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\Package\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Workset.GetByName@string">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <CoreNodeModels.Input.StringInput guid="57c7eae4-d034-438e-9f45-99c6f7cb2040" type="CoreNodeModels.Input.StringInput" nickname="String" x="-99.6175181453809" y="161.233171464389" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>Workset1</System.String>
+      <System.String value="Workset1" />
+    </CoreNodeModels.Input.StringInput>
+    <CoreNodeModels.Watch guid="c2cc7400-3909-49f1-9cbe-bde1888750c1" type="CoreNodeModels.Watch" nickname="Watch" x="748.559243151646" y="159.3392920275" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+    </CoreNodeModels.Watch>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="96a6c24d-5772-44a6-b672-f3e8e83484ff" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Workset.Unwrap" x="430.485691304533" y="160.704734452538" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\Package\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Workset.Unwrap@var">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="82f93249-d353-464b-9dfb-601b12192190" start_index="0" end="34728552-71b6-4b58-9b35-06a98966d85d" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="34728552-71b6-4b58-9b35-06a98966d85d" start_index="0" end="c1586bcc-d221-4bbd-bde5-0ad0a79924a0" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="ddfe3ee1-bcbe-45ba-a4bb-41951236dccb" start_index="0" end="34728552-71b6-4b58-9b35-06a98966d85d" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="ddfe3ee1-bcbe-45ba-a4bb-41951236dccb" start_index="0" end="96a6c24d-5772-44a6-b672-f3e8e83484ff" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="57c7eae4-d034-438e-9f45-99c6f7cb2040" start_index="0" end="ddfe3ee1-bcbe-45ba-a4bb-41951236dccb" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="96a6c24d-5772-44a6-b672-f3e8e83484ff" start_index="0" end="c2cc7400-3909-49f1-9cbe-bde1888750c1" end_index="0" portType="0" />
+  </Connectors>
+  <Notes>
+    <Dynamo.Graph.Notes.NoteModel guid="0f6fcfdb-b626-4bae-b1b0-d51fd983f34c" text="Name of workset in the project." x="-205.433480063706" y="119.72430770212" />
+    <Dynamo.Graph.Notes.NoteModel guid="10531206-fa42-409b-bff7-9294d430b436" text="Example of unwrapping a workset so one can use the workset in Python scripts." x="-254.684978910075" y="-5.74974888267698" />
+  </Notes>
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="250b4ced-45fc-4a82-a34b-0a97ed0def49" annotationText="MONITOR" left="738.559243151646" top="129.3392920275" width="229.416326916726" height="305.306954044843" fontSize="14" InitialTop="159.3392920275" InitialHeight="292.017156002852" TextblockHeight="20" backgrouund="#FFA4E1FF">
+      <Models ModelGuid="c1586bcc-d221-4bbd-bde5-0ad0a79924a0" />
+      <Models ModelGuid="c2cc7400-3909-49f1-9cbe-bde1888750c1" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="179a4bb7-dc30-4268-b1a4-fe53bf7106b2" annotationText="OPERATIONS" left="111.404531688672" top="130.704734452538" width="558.081159615861" height="463.322636617565" fontSize="14" InitialTop="160.704734452538" InitialHeight="397.92347424289" TextblockHeight="20" backgrouund="#FF848484">
+      <Models ModelGuid="82f93249-d353-464b-9dfb-601b12192190" />
+      <Models ModelGuid="34728552-71b6-4b58-9b35-06a98966d85d" />
+      <Models ModelGuid="ddfe3ee1-bcbe-45ba-a4bb-41951236dccb" />
+      <Models ModelGuid="96a6c24d-5772-44a6-b672-f3e8e83484ff" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="690fe2e6-ddc3-413d-b0e2-abb49425b2f5" annotationText="INPUT" left="-215.433480063706" top="89.72430770212" width="208.815961918325" height="139.508863762269" fontSize="14" InitialTop="119.72430770212" InitialHeight="162.029950776809" TextblockHeight="20" backgrouund="#FFFFB8D8">
+      <Models ModelGuid="57c7eae4-d034-438e-9f45-99c6f7cb2040" />
+      <Models ModelGuid="0f6fcfdb-b626-4bae-b1b0-d51fd983f34c" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="26138d9b-1a01-479c-9430-8020a0a1f470" annotationText="INSTRUCTIONS" left="-264.684978910075" top="-35.749748882677" width="301" height="89" fontSize="14" InitialTop="-5.74974888267698" InitialHeight="89" TextblockHeight="20" backgrouund="#FFD4B6DB">
+      <Models ModelGuid="10531206-fa42-409b-bff7-9294d430b436" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>
