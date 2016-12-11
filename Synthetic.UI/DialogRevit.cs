@@ -27,7 +27,7 @@ using SynthColor = Synthetic.Revit.ColorWrapper;
 namespace Synthetic.UI
 {
     /// <summary>
-    /// Access additional input methods.
+    /// Handles Revit standard dialogs.
     /// </summary>
     public class DialogRevit
     {
@@ -40,7 +40,7 @@ namespace Synthetic.UI
         /// <param name="fileTypeFilter">A string that filters the file types to be selected.  Format should be as follows: display value|file type.  For example "Text (*.txt)|*.txt"</param>
         /// <param name="reset">Resets the node so the dialog will reopen.</param>
         /// <returns name="File Path">A string of the file path.</returns>
-        public static string DialogFileOpen(
+        public static string FileOpen(
             [DefaultArgument("\"Select a file\"")] string title,
             [DefaultArgument("\"All Files (*.*)|*.*\"")] string fileTypeFilter,
             [DefaultArgument("true")] bool reset
@@ -68,7 +68,7 @@ namespace Synthetic.UI
         /// <param name="fileTypeFilter">A string that filters the file types to be selected.  Format should be as follows: display value|file type.  For example "Text (*.txt)|*.txt"</param>
         /// <param name="reset">Resets the node so the dialog will reopen.</param>
         /// <returns name="File Path">A string of the file path.</returns>
-        public static string DialogFileSave(
+        public static string FileSave(
             [DefaultArgument("\"Select a file\"")] string title,
             [DefaultArgument("\"All Files (*.*)|*.*\"")] string fileTypeFilter,
             [DefaultArgument("true")] bool reset
@@ -95,7 +95,7 @@ namespace Synthetic.UI
         /// <param name="reset"></param>
         /// <returns></returns>
         [MultiReturn(new[] { "Filter Name", "Filter Id" })]
-        public static IDictionary DialogFilter(
+        public static IDictionary FilterDialog(
             [DefaultArgument("true")] bool reset
             )
         {

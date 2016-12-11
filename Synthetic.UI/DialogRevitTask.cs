@@ -15,7 +15,7 @@ using sEnum = Synthetic.Core.Enumeration;
 namespace Synthetic.UI
 {
     /// <summary>
-    /// 
+    /// Manages Revit standard Task Dialogs
     /// </summary>
     public class DialogRevitTask
     {
@@ -45,7 +45,6 @@ namespace Synthetic.UI
         /// Resets all the Task Dialogs properties and setings.
         /// </summary>
         /// <param name="taskDialog"></param>
-        /// <param name="newTitle"></param>
         /// <returns></returns>
         public static DialogRevitTask ResetDialog(DialogRevitTask taskDialog)
         {

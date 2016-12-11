@@ -68,10 +68,8 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DialogRevitTask.cs" />
     <Compile Include="Document.cs" />
     <Compile Include="Elements.cs" />
-    <Compile Include="DialogRevit.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="ViewTemplates.cs" />
     <Compile Include="Worksets.cs" />

@@ -71,7 +71,7 @@
     <Compile Include="Pick.cs" />
     <Compile Include="DialogRevit.cs" />
     <Compile Include="DialogRevitTask.cs" />
-    <Compile Include="DialogWindows.cs" />
+    <Compile Include="DialogOS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -11,7 +11,7 @@
     <CoreNodeModels.Input.BoolSelector guid="e0ec20bb-5b5c-4451-af79-04c7764ce186" type="CoreNodeModels.Input.BoolSelector" nickname="Boolean" x="56" y="333" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
       <System.Boolean>True</System.Boolean>
     </CoreNodeModels.Input.BoolSelector>
-    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="37c83df5-9925-4a78-96b5-d8f20dbdde64" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Input.DialogFileOpenByOS" x="255" y="256" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\bin\Synthetic.Revit.dll" function="Synthetic.Core.Input.DialogWindows.DialogFileOpenByOS@string,bool,bool">
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="37c83df5-9925-4a78-96b5-d8f20dbdde64" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="DialogOS.FileOpen" x="255" y="256" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\bin\Synthetic.UI.dll" function="Synthetic.UI.DialogOS.FileOpen@string,bool,bool">
       <PortInfo index="0" default="True" />
       <PortInfo index="1" default="True" />
       <PortInfo index="2" default="True" />
@@ -19,7 +19,7 @@
     <CoreNodeModels.Input.BoolSelector guid="6d29295d-19ed-4339-bb3e-f4c1a225de45" type="CoreNodeModels.Input.BoolSelector" nickname="Boolean" x="45" y="413" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
       <System.Boolean>True</System.Boolean>
     </CoreNodeModels.Input.BoolSelector>
-    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="c4d490a3-0689-4fd3-b075-a7e1f6be0fc8" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Input.DialogFileOpenByRevit" x="270.358301065923" y="536.572060531572" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\bin\Synthetic.Revit.dll" function="Synthetic.Core.Input.DialogWindows.DialogFileOpenByRevit@string,string,bool">
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="c4d490a3-0689-4fd3-b075-a7e1f6be0fc8" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="DialogRevit.FileOpen" x="270.358301065923" y="536.572060531572" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\bin\Synthetic.UI.dll" function="Synthetic.UI.DialogRevit.FileOpen@string,string,bool">
       <PortInfo index="0" default="True" />
       <PortInfo index="1" default="True" />
       <PortInfo index="2" default="True" />
@@ -52,7 +52,7 @@
       <System.String>Show a Test Title</System.String>
       <System.String value="Show a Test Title" />
     </CoreNodeModels.Input.StringInput>
-    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="da44b6d9-4b7d-47bf-97df-5270354c454a" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Input.DialogFileSaveByRevit" x="256.951917576931" y="791.294581824112" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\bin\Synthetic.Revit.dll" function="Synthetic.Core.Input.DialogWindows.DialogFileSaveByRevit@string,string,bool">
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="da44b6d9-4b7d-47bf-97df-5270354c454a" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="DialogRevit.FileSave" x="256.951917576931" y="791.294581824112" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\bin\Synthetic.UI.dll" function="Synthetic.UI.DialogRevit.FileSave@string,string,bool">
       <PortInfo index="0" default="True" />
       <PortInfo index="1" default="True" />
       <PortInfo index="2" default="True" />

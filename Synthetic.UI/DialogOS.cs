@@ -5,7 +5,10 @@ using Autodesk.DesignScript.Runtime;
 
 namespace Synthetic.UI
 {
-    class DialogWindows
+    /// <summary>
+    /// Handles OS Dialog boxes.
+    /// </summary>
+    public class DialogOS
     {
         /// <summary>
         /// Creates a Open File Dialog box with inputs for filtering the file type and whether the multiple files can be selected.
@@ -14,7 +17,7 @@ namespace Synthetic.UI
         /// <param name="multiSelect">True allows multiple files to be selected, false allows only a single file.</param>
         /// <param name="reset">Resets the node so the dialog will reopen.</param>
         /// <returns name="File Path">A string of the file path.</returns>
-        public static string[] DialogFileOpenByOS(
+        public static string[] FileOpen(
             [DefaultArgument("\"All Files (*.*)|*.*\"")] string fileTypeFilter,
             [DefaultArgument("true")] bool multiSelect,
             [DefaultArgument("true")] bool reset
