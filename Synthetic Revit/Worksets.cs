@@ -82,7 +82,7 @@ namespace Synthetic.Revit
             bool created = false;
 
             //Only create workset if it's name isn't an empty string
-            if (name != "")
+            if (name != null && name != "")
             {
                 //Verify that each workset isn't already in the document
                 //If the workset is unique, create it
