@@ -10,8 +10,8 @@ using RevitUi = Autodesk.Revit.UI;
 using RevitDoc = Autodesk.Revit.DB.Document;
 
 //Synthetic References
-using sEnum = Synthetic.Core.Enumeration;
-using sDict = Synthetic.Core.Dictionary;
+using SynthEnum = Synthetic.Core.Enumeration;
+using SynthDict = Synthetic.Core.Dictionary;
 
 namespace Synthetic.UI
 {
@@ -71,9 +71,9 @@ namespace Synthetic.UI
             [DefaultArgument("\"\"")] string Instructions,
             [DefaultArgument("\"\"")] string Content,
             [DefaultArgument("\"\"")] string FooterText,
-            [DefaultArgument("null")] sDict Buttons,
-            [DefaultArgument("null")] sDict CommandLinks,
-            [DefaultArgument("null")] sDict Results,
+            [DefaultArgument("null")] SynthDict Buttons,
+            [DefaultArgument("null")] SynthDict CommandLinks,
+            [DefaultArgument("null")] SynthDict Results,
             [DefaultArgument("true")] bool Toggle
             )
         {
@@ -123,7 +123,7 @@ namespace Synthetic.UI
         /// <param name="Retry">Include a Retry button.</param>
         /// <param name="Close">Include a Close button.</param>
         /// <returns name="Buttons">A dictionary for setting the common buttons.</returns>
-        public static sDict SpecifyButtons (
+        public static SynthDict SpecifyButtons (
             [DefaultArgument("true")] bool None,
             [DefaultArgument("false")] bool Ok,
             [DefaultArgument("false")] bool Yes,
@@ -136,7 +136,7 @@ namespace Synthetic.UI
             List<string> keys = new List<string> { "None", "Ok", "Cancel", "Retry", "Yes", "No", "Close" };
             List<object> values = new List<object> { None, Ok, Cancel, Retry, Yes, No, Close };
 
-            sDict dict = sDict.ByKeysValues(keys, values);
+            SynthDict dict = SynthDict.ByKeysValues(keys, values);
 
             return dict;
         }
@@ -149,7 +149,7 @@ namespace Synthetic.UI
         /// <param name="CommandLink3">The text to be included in the command link.</param>
         /// <param name="CommandLink4">The text to be included in the command link.</param>
         /// <returns name="CommandLinks">A dectionary for setting the Command Links.</returns>
-        public static sDict SpecifyCommandLinks(
+        public static SynthDict SpecifyCommandLinks(
             [DefaultArgument("null")] string CommandLink1,
             [DefaultArgument("null")] string CommandLink2,
             [DefaultArgument("null")] string CommandLink3,
@@ -183,7 +183,7 @@ namespace Synthetic.UI
                 values.Add(CommandLink4);
             }
 
-            sDict dict = sDict.ByKeysValues(keys, values);
+            SynthDict dict = SynthDict.ByKeysValues(keys, values);
 
             return dict;
         }
@@ -203,7 +203,7 @@ namespace Synthetic.UI
         /// <param name="CommandLink3">Result to be returned if this choice is chosen.</param>
         /// <param name="CommandLink4">Result to be returned if this choice is chosen.</param>
         /// <returns name="Results">A dictionary of possible results.</returns>
-        public static sDict SpecifyResults(
+        public static SynthDict SpecifyResults(
             [DefaultArgument("null")] object None,
             [DefaultArgument("null")] object Ok,
             [DefaultArgument("null")] object Cancel,
@@ -220,7 +220,7 @@ namespace Synthetic.UI
             List<string> keys = new List<string> { "None", "Ok", "Cancel", "Retry", "Yes", "No", "Close", "CommandLink1", "CommandLink2", "CommandLink3", "CommandLink4" };
             List<object> values = new List<object> { None, Ok, Cancel, Retry, Yes, No, Close, CommandLink1, CommandLink2, CommandLink3, CommandLink4 };
 
-            sDict dict = sDict.ByKeysValues(keys, values);
+            SynthDict dict = SynthDict.ByKeysValues(keys, values);
 
             return dict;
         }
@@ -232,7 +232,7 @@ namespace Synthetic.UI
         /// <param name="Buttons">A dictionary of specificed buttons.</param>
         /// <returns name="TaskDialog">The modified Task dialog.</returns>
         public static DialogRevitTask AddCommonButtons(DialogRevitTask TaskDialog,
-            [DefaultArgument("null")] sDict Buttons)
+            [DefaultArgument("null")] SynthDict Buttons)
         {
 
             RevitUi.TaskDialogCommonButtons commonButtons = RevitUi.TaskDialogCommonButtons.None;
@@ -241,7 +241,7 @@ namespace Synthetic.UI
             {
                 // Set common buttons and default button. If no CommonButton or CommandLink is added,
                 // task dialog will show a Close button by default
-                foreach (KeyValuePair<string, object> button in sDict.Unwrap(Buttons))
+                foreach (KeyValuePair<string, object> button in SynthDict.Unwrap(Buttons))
                 {
                     if ((bool)button.Value)
                     {
@@ -289,11 +289,11 @@ namespace Synthetic.UI
         /// <param name="TaskDialog">A Task dialog.</param>
         /// <param name="CommandLinks">A dictionary of specificed command links.</param>
         /// <returns name="TaskDialog">The modified Task dialog.</returns>
-        public static DialogRevitTask AddCommandLinks(DialogRevitTask TaskDialog, sDict CommandLinks)
+        public static DialogRevitTask AddCommandLinks(DialogRevitTask TaskDialog, SynthDict CommandLinks)
         {
             if (CommandLinks != null)
             {
-                foreach (KeyValuePair<string, object> cmdLink in sDict.Unwrap(CommandLinks))
+                foreach (KeyValuePair<string, object> cmdLink in SynthDict.Unwrap(CommandLinks))
                 {
                     if ((string)cmdLink.Value != "" || cmdLink.Value != null)
                     {
@@ -343,10 +343,10 @@ namespace Synthetic.UI
         /// <returns name="Result">The chosen result.</returns>
         public static object FilterResults(
             RevitUi.TaskDialogResult DialogResult,
-            sDict Results
+            SynthDict Results
             )
         {
-            return sDict.Value(Results, DialogResult.ToString());
+            return SynthDict.Value(Results, DialogResult.ToString());
         }
 
         #region Set Dialog Properties
@@ -476,7 +476,7 @@ namespace Synthetic.UI
         /// <returns name="TaskDialogResults">TaskDialogResults enumerations</returns>
         public static List<object> TaskDialogResults ()
         {
-            return sEnum.GetEnums("Autodesk.Revit.UI.TaskDialogResult");
+            return SynthEnum.GetEnums("Autodesk.Revit.UI.TaskDialogResult");
         }
 
         /// <summary>
@@ -485,7 +485,7 @@ namespace Synthetic.UI
         /// <returns name="TaskDialogCommonButtons">TaskDialogCommonButtons enumerations</returns>
         public static List<object> TaskDialogCommonButtons()
         {
-            return sEnum.GetEnums("Autodesk.Revit.UI.TaskDialogCommonButtons");
+            return SynthEnum.GetEnums("Autodesk.Revit.UI.TaskDialogCommonButtons");
         }
 
         /// <summary>
@@ -494,7 +494,7 @@ namespace Synthetic.UI
         /// <returns name="TaskDialogCommandLinkId">TaskDialogCommandLinkId enumerations</returns>
         public static List<object> TaskDialogCommandLinkId()
         {
-            return sEnum.GetEnums("Autodesk.Revit.UI.TaskDialogCommandLinkId");
+            return SynthEnum.GetEnums("Autodesk.Revit.UI.TaskDialogCommandLinkId");
         }
     }
 }
