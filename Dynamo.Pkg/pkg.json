@@ -3,7 +3,7 @@
   "file_hash": null,
   "name": "Synthetic",
   "version": "1.2.161211",
-  "description": "Synthetic provides Dynamo nodes for manipulating data, and accessing Revit API objects.  Includes nodes for documents, worksets, view templates, dictionary data types, and Enum (enumerations).\n\nUPDATED: Reorganized all the UI nodes into their own section.  This may break the past nodes.  Significantly updated the DialogRevitTask class.",
+  "description": "Synthetic provides Dynamo nodes for manipulating data, and accessing Revit API objects.  Includes nodes for documents, worksets, view templates, dictionary data types, and Enum (enumerations).  Please refer to the example definitions in the extra folder.  The examples show how to use many of the included nodes.\n\nUPDATED: Reorganized all the UI nodes into their own section.  This may break the past nodes.  Significantly updated the DialogRevitTask class.  My apologies for any nodes that break due to the changes.  The package organization should be settled now.",
   "group": "Synthetic",
   "keywords": [ "document", "workset", "view template", "dictionary", "enum", "enumeration", "dialog", "form", "color" ],
   "dependencies": [ ],
