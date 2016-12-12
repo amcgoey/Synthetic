@@ -20,13 +20,24 @@ namespace Synthetic.UI
     /// </summary>
     public class DialogRevitTask
     {
+        /// <summary>
+        /// Internal property that stores the Revit TaskDialog object.
+        /// </summary>
         internal RevitUi.TaskDialog dialog { get; private set; }
 
-        internal DialogRevitTask(RevitUi.TaskDialog taskDialog)
+        /// <summary>
+        /// Intneral constructor that takes a Revit TaskDialog object
+        /// </summary>
+        /// <param name="TaskDialog">A Revit TaskDialog object.</param>
+        internal DialogRevitTask(RevitUi.TaskDialog TaskDialog)
         {
-            dialog = taskDialog;
+            dialog = TaskDialog;
         }
 
+        /// <summary>
+        /// Internal constructor that takes a title.
+        /// </summary>
+        /// <param name="title">The title of the dialog</param>
         internal DialogRevitTask(string title)
         {
             dialog = new RevitUi.TaskDialog(title);
@@ -35,8 +46,8 @@ namespace Synthetic.UI
         /// <summary>
         /// Creates a Revit Task Dialog and sets it Title.  Otherwise, the dialog is empty.
         /// </summary>
-        /// <param name="Title"></param>
-        /// <returns name="TaskDialog"></returns>
+        /// <param name="Title">Title of the dialog.</param>
+        /// <returns name="TaskDialog">A new task dialog.</returns>
         public static DialogRevitTask ByTitle (string Title)
         {
             // Creates a Revit task dialog to communicate information to the user.
@@ -54,7 +65,7 @@ namespace Synthetic.UI
         /// <param name="CommandLinks">A dictionary of the desired CommandLinks and associated text.  Use the SpecifyCommandLinks to create the dictionary.</param>
         /// <param name="Results">A dictionary of the possible results of the dialog.  Use the SpecifyResults method to create the dictionary.</param>
         /// <param name="Toggle">Resets the node so the dialog will reopen.</param>
-        /// <returns name="Result">Returns the corresponding result based on the command link or button selected.  Will return null if no results are available.</returns>
+        /// <returns name="Result">Returns the corresponding result based on the command link or button selected.  Will return null if the chosen button or command link has no result.  If now Results are input, the TaskDialogResult from the choice will be returned.</returns>
         public static object ByAllProperties(
             [DefaultArgument("\"Title\"")] string Title,
             [DefaultArgument("\"\"")] string Instructions,
@@ -89,29 +100,29 @@ namespace Synthetic.UI
         }
 
         /// <summary>
-        /// Resets all the Task Dialogs properties and setings.
+        /// Resets all the Task Dialogs properties and settings.
         /// </summary>
-        /// <param name="taskDialog"></param>
-        /// <returns></returns>
-        public static DialogRevitTask ResetDialog(DialogRevitTask taskDialog, bool toggle)
+        /// <param name="TaskDialog">A task dialog.</param>
+        /// <returns name="TaskDialog">The task dialog with a new Revit dialog.</returns>
+        public static DialogRevitTask ResetDialog(DialogRevitTask TaskDialog, bool toggle)
         {
-            string title = taskDialog.dialog.Title;
-            taskDialog.dialog.Dispose();
-            taskDialog = new DialogRevitTask(new RevitUi.TaskDialog(title));
-            return taskDialog;
+            string title = TaskDialog.dialog.Title;
+            TaskDialog.dialog.Dispose();
+            TaskDialog = new DialogRevitTask(new RevitUi.TaskDialog(title));
+            return TaskDialog;
         }
 
         /// <summary>
-        /// 
+        /// Creates a dictionary for setting the common buttons in a task dialog.
         /// </summary>
-        /// <param name="None"></param>
-        /// <param name="Ok"></param>
-        /// <param name="Yes"></param>
-        /// <param name="No"></param>
-        /// <param name="Cancel"></param>
-        /// <param name="Retry"></param>
-        /// <param name="Close"></param>
-        /// <returns name="Buttons"></returns>
+        /// <param name="None">Set an empty button.  If you include any other buttons, this setting will be overriden.</param>
+        /// <param name="Ok">Include an Ok button.</param>
+        /// <param name="Yes">Include a Yes button.</param>
+        /// <param name="No">Include a No button.</param>
+        /// <param name="Cancel">Include a Cancel button.</param>
+        /// <param name="Retry">Include a Retry button.</param>
+        /// <param name="Close">Include a Close button.</param>
+        /// <returns name="Buttons">A dictionary for setting the common buttons.</returns>
         public static sDict SpecifyButtons (
             [DefaultArgument("true")] bool None,
             [DefaultArgument("false")] bool Ok,
@@ -131,13 +142,13 @@ namespace Synthetic.UI
         }
 
         /// <summary>
-        /// 
+        /// Creates a dictionary for setting the Command Links in a Task Dialog.  Up to four command links can be specified.
         /// </summary>
-        /// <param name="CommandLink1"></param>
-        /// <param name="CommandLink2"></param>
-        /// <param name="CommandLink3"></param>
-        /// <param name="CommandLink4"></param>
-        /// <returns name="CommandLinks"></returns>
+        /// <param name="CommandLink1">The text to be included in the command link.</param>
+        /// <param name="CommandLink2">The text to be included in the command link.</param>
+        /// <param name="CommandLink3">The text to be included in the command link.</param>
+        /// <param name="CommandLink4">The text to be included in the command link.</param>
+        /// <returns name="CommandLinks">A dectionary for setting the Command Links.</returns>
         public static sDict SpecifyCommandLinks(
             [DefaultArgument("null")] string CommandLink1,
             [DefaultArgument("null")] string CommandLink2,
@@ -178,19 +189,19 @@ namespace Synthetic.UI
         }
 
         /// <summary>
-        /// 
+        /// A dictionary of possible results that correspond to the possible buttons and command links used by the Task Dialog.  Be careful to proivde consistent results as any object can be passed as a result.  In addition, one can pass a function as evaluate the results after the choice is made.  This could save computation time in more complex definitions.
         /// </summary>
-        /// <param name="None"></param>
-        /// <param name="Ok"></param>
-        /// <param name="Cancel"></param>
-        /// <param name="Retry"></param>
-        /// <param name="Yes"></param>
-        /// <param name="No"></param>
-        /// <param name="Close"></param>
-        /// <param name="CommandLink1"></param>
-        /// <param name="CommandLink2"></param>
-        /// <param name="CommandLink3"></param>
-        /// <param name="CommandLink4"></param>
+        /// <param name="None">Result to be returned if this choice is chosen.</param>
+        /// <param name="Ok">Result to be returned if this choice is chosen.</param>
+        /// <param name="Cancel">Result to be returned if this choice is chosen.</param>
+        /// <param name="Retry">Result to be returned if this choice is chosen.</param>
+        /// <param name="Yes">Result to be returned if this choice is chosen.</param>
+        /// <param name="No">Result to be returned if this choice is chosen.</param>
+        /// <param name="Close">Result to be returned if this choice is chosen.</param>
+        /// <param name="CommandLink1">Result to be returned if this choice is chosen.</param>
+        /// <param name="CommandLink2">Result to be returned if this choice is chosen.</param>
+        /// <param name="CommandLink3">Result to be returned if this choice is chosen.</param>
+        /// <param name="CommandLink4">Result to be returned if this choice is chosen.</param>
         /// <returns name="Results">A dictionary of possible results.</returns>
         public static sDict SpecifyResults(
             [DefaultArgument("null")] object None,
@@ -215,12 +226,12 @@ namespace Synthetic.UI
         }
 
         /// <summary>
-        /// 
+        /// Adds commmon buttons to a Task Dialog given a dictionary specification.
         /// </summary>
-        /// <param name="taskDialog"></param>
-        /// <param name="Buttons"></param>
-        /// <returns></returns>
-        public static DialogRevitTask AddCommonButtons(DialogRevitTask taskDialog,
+        /// <param name="TaskDialog">A Task dialog.</param>
+        /// <param name="Buttons">A dictionary of specificed buttons.</param>
+        /// <returns name="TaskDialog">The modified Task dialog.</returns>
+        public static DialogRevitTask AddCommonButtons(DialogRevitTask TaskDialog,
             [DefaultArgument("null")] sDict Buttons)
         {
 
@@ -267,18 +278,18 @@ namespace Synthetic.UI
                 commonButtons = RevitUi.TaskDialogCommonButtons.Close;
             }
 
-            taskDialog.dialog.CommonButtons = commonButtons;
+            TaskDialog.dialog.CommonButtons = commonButtons;
 
-            return taskDialog;
+            return TaskDialog;
         }
 
         /// <summary>
-        /// 
+        /// Adds Command Links to a Task Dialog given a dictionary specification.
         /// </summary>
-        /// <param name="taskDialog"></param>
-        /// <param name="CommandLinks"></param>
-        /// <returns></returns>
-        public static DialogRevitTask AddCommandLinks(DialogRevitTask taskDialog, sDict CommandLinks)
+        /// <param name="TaskDialog">A Task dialog.</param>
+        /// <param name="CommandLinks">A dictionary of specificed command links.</param>
+        /// <returns name="TaskDialog">The modified Task dialog.</returns>
+        public static DialogRevitTask AddCommandLinks(DialogRevitTask TaskDialog, sDict CommandLinks)
         {
             if (CommandLinks != null)
             {
@@ -289,16 +300,16 @@ namespace Synthetic.UI
                         switch (cmdLink.Key)
                         {
                             case "CommandLink1":
-                                taskDialog.dialog.AddCommandLink(RevitUi.TaskDialogCommandLinkId.CommandLink1, (string)cmdLink.Value);
+                                TaskDialog.dialog.AddCommandLink(RevitUi.TaskDialogCommandLinkId.CommandLink1, (string)cmdLink.Value);
                                 break;
                             case "CommandLink2":
-                                taskDialog.dialog.AddCommandLink(RevitUi.TaskDialogCommandLinkId.CommandLink2, (string)cmdLink.Value);
+                                TaskDialog.dialog.AddCommandLink(RevitUi.TaskDialogCommandLinkId.CommandLink2, (string)cmdLink.Value);
                                 break;
                             case "CommandLink3":
-                                taskDialog.dialog.AddCommandLink(RevitUi.TaskDialogCommandLinkId.CommandLink3, (string)cmdLink.Value);
+                                TaskDialog.dialog.AddCommandLink(RevitUi.TaskDialogCommandLinkId.CommandLink3, (string)cmdLink.Value);
                                 break;
                             case "CommandLink4":
-                                taskDialog.dialog.AddCommandLink(RevitUi.TaskDialogCommandLinkId.CommandLink4, (string)cmdLink.Value);
+                                TaskDialog.dialog.AddCommandLink(RevitUi.TaskDialogCommandLinkId.CommandLink4, (string)cmdLink.Value);
                                 break;
                             default:
                                 break;
@@ -306,29 +317,29 @@ namespace Synthetic.UI
                     }
                 }
             }
-            return taskDialog;
+            return TaskDialog;
         }
 
         /// <summary>
-        /// Shows the task dialog box.  All properties of the dialog will be reset to allow for changes in future runs.
+        /// Displays the task dialog box.
         /// </summary>
-        /// <param name="taskDialog"></param>
-        /// <param name="ToggleReset"></param>
-        /// <returns></returns>
-        public static RevitUi.TaskDialogResult Show(DialogRevitTask taskDialog,
-            [DefaultArgument("true")] bool ToggleReset)
+        /// <param name="TaskDialog">A Task dialog.</param>
+        /// <param name="Toggle">A toggle used to re-display the Task Dialog.</param>
+        /// <returns name="DialogResult">A TaskDialogResult based on the button or command link that was chosen.</returns>
+        public static RevitUi.TaskDialogResult Show(DialogRevitTask TaskDialog,
+            [DefaultArgument("true")] bool Toggle)
         {
-            RevitUi.TaskDialogResult tResult = taskDialog.dialog.Show();
+            RevitUi.TaskDialogResult tResult = TaskDialog.dialog.Show();
 
-            taskDialog.dialog.Dispose();
+            TaskDialog.dialog.Dispose();
             return tResult;
         }
 
         /// <summary>
         /// Retrieve the a result from the possible results.  Will return null if the result does not have a corresponding choice.
         /// </summary>
-        /// <param name="DialogResult">The value from the Revit Task Dialog.</param>
-        /// <param name="Results">A dictionary of possible results.  One can pass values or functions.</param>
+        /// <param name="DialogResult">The value from the Task dialog.</param>
+        /// <param name="Results">A dictionary of possible results.</param>
         /// <returns name="Result">The chosen result.</returns>
         public static object FilterResults(
             RevitUi.TaskDialogResult DialogResult,
@@ -341,171 +352,114 @@ namespace Synthetic.UI
         #region Set Dialog Properties
 
         /// <summary>
-        /// 
+        /// Sets the content section of the task dialog.
         /// </summary>
-        /// <param name="taskDialog"></param>
-        /// <param name="content"></param>
-        /// <returns></returns>
-        public static DialogRevitTask SetContent (DialogRevitTask taskDialog, string content)
+        /// <param name="TaskDialog">A Task dialog.</param>
+        /// <param name="content">The content to be included</param>
+        /// <returns name="TaskDialog">The modified Task dialog.</returns>
+        public static DialogRevitTask SetContent (DialogRevitTask TaskDialog, string content)
         {
-            taskDialog.dialog.MainContent = content;
-            return taskDialog;
+            TaskDialog.dialog.MainContent = content;
+            return TaskDialog;
         }
 
         /// <summary>
-        /// 
+        /// Sets the instructions portion of the task dialog.
         /// </summary>
-        /// <param name="taskDialog"></param>
-        /// <param name="instructions"></param>
-        /// <returns></returns>
-        public static DialogRevitTask SetInstructions(DialogRevitTask taskDialog, string instructions)
+        /// <param name="TaskDialog">A Task dialog.</param>
+        /// <param name="instructions">The instructions to be included</param>
+        /// <returns name="TaskDialog">The modified Task dialog.</returns>
+        public static DialogRevitTask SetInstructions(DialogRevitTask TaskDialog, string instructions)
         {
-            taskDialog.dialog.MainInstruction = instructions;
-            return taskDialog;
+            TaskDialog.dialog.MainInstruction = instructions;
+            return TaskDialog;
         }
 
         /// <summary>
-        /// 
+        /// Sets the Title of the Task dialog.
         /// </summary>
-        /// <param name="taskDialog"></param>
-        /// <param name="title"></param>
-        /// <returns></returns>
-        public static DialogRevitTask SetTitle(DialogRevitTask taskDialog, string title)
+        /// <param name="TaskDialog">A Task dialog.</param>
+        /// <param name="title">The titl to be included.</param>
+        /// <returns name="TaskDialog">The modified Task dialog.</returns>
+        public static DialogRevitTask SetTitle(DialogRevitTask TaskDialog, string title)
         {
-            taskDialog.dialog.Title = title;
-            return taskDialog;
+            TaskDialog.dialog.Title = title;
+            return TaskDialog;
         }
 
         /// <summary>
-        /// 
+        /// Sets whether to include the name of the add-in as a prefix to the title.
         /// </summary>
-        /// <param name="taskDialog"></param>
-        /// <param name="prefix"></param>
-        /// <returns></returns>
-        public static DialogRevitTask SetTitleAutoPrefix(DialogRevitTask taskDialog, bool prefix)
+        /// <param name="TaskDialog">A Task dialog.</param>
+        /// <param name="prefix">If true, show the prefix, else do not.</param>
+        /// <returns name="TaskDialog">The modified Task dialog.</returns>
+        public static DialogRevitTask SetTitleAutoPrefix(DialogRevitTask TaskDialog, bool prefix)
         {
-            taskDialog.dialog.TitleAutoPrefix = prefix;
-            return taskDialog;
+            TaskDialog.dialog.TitleAutoPrefix = prefix;
+            return TaskDialog;
         }
 
         /// <summary>
-        /// 
+        /// Sets the Footer text of the Task dialog.
         /// </summary>
-        /// <param name="taskDialog"></param>
-        /// <param name="FooterText"></param>
-        /// <returns></returns>
-        public static DialogRevitTask SetFooterText(DialogRevitTask taskDialog, string FooterText)
+        /// <param name="TaskDialog">A Task dialog.</param>
+        /// <param name="FooterText">Footer text to be included.</param>
+        /// <returns name="TaskDialog">The modified Task dialog.</returns>
+        public static DialogRevitTask SetFooterText(DialogRevitTask TaskDialog, string FooterText)
         {
-            taskDialog.dialog.FooterText = FooterText;
-            return taskDialog;
+            TaskDialog.dialog.FooterText = FooterText;
+            return TaskDialog;
         }
 
         /// <summary>
-        /// 
+        /// Sets the Expanded Content of the Task dialog.  Expanded content is the portion at the bottom with an arrow to display more information.
         /// </summary>
-        /// <param name="taskDialog"></param>
-        /// <param name="ExpandedContent"></param>
-        /// <returns></returns>
-        public static DialogRevitTask SetExpandedContent(DialogRevitTask taskDialog, string ExpandedContent)
+        /// <param name="TaskDialog">A Task dialog.</param>
+        /// <param name="ExpandedContent">Expanded content to be included.</param>
+        /// <returns name="TaskDialog">The modified Task dialog.</returns>
+        public static DialogRevitTask SetExpandedContent(DialogRevitTask TaskDialog, string ExpandedContent)
         {
-            taskDialog.dialog.ExpandedContent = ExpandedContent;
-            return taskDialog;
+            TaskDialog.dialog.ExpandedContent = ExpandedContent;
+            return TaskDialog;
         }
 
         /// <summary>
-        /// 
+        /// Set the Verification text of the Task dialog.
         /// </summary>
-        /// <param name="taskDialog"></param>
-        /// <param name="VerificationText"></param>
-        /// <returns></returns>
-        public static DialogRevitTask SetVerificationText(DialogRevitTask taskDialog, string VerificationText)
+        /// <param name="TaskDialog">A Task dialog.</param>
+        /// <param name="VerificationText">The verification text to be included.</param>
+        /// <returns name="TaskDialog">The modified Task dialog.</returns>
+        public static DialogRevitTask SetVerificationText(DialogRevitTask TaskDialog, string VerificationText)
         {
-            taskDialog.dialog.VerificationText = VerificationText;
-            return taskDialog;
+            TaskDialog.dialog.VerificationText = VerificationText;
+            return TaskDialog;
         }
 
         /// <summary>
-        /// 
+        /// Sets whether the dialog box can be canceled or not.
         /// </summary>
-        /// <param name="taskDialog"></param>
-        /// <param name="AllowCancellation"></param>
-        /// <returns></returns>
-        public static DialogRevitTask AllowCancellation(DialogRevitTask taskDialog, bool AllowCancellation)
+        /// <param name="TaskDialog">A Task dialog.</param>
+        /// <param name="AllowCancellation">If true, the dialog can be canceled, else it can not.</param>
+        /// <returns name="TaskDialog">The modified Task dialog.</returns>
+        public static DialogRevitTask AllowCancellation(DialogRevitTask TaskDialog, bool AllowCancellation)
         {
-            taskDialog.dialog.AllowCancellation = AllowCancellation;
-            return taskDialog;
+            TaskDialog.dialog.AllowCancellation = AllowCancellation;
+            return TaskDialog;
         }
 
         /// <summary>
-        /// 
+        /// Sets the ExtraCheckBox text of the Task dialog.
         /// </summary>
-        /// <param name="taskDialog"></param>
-        /// <param name="ExtraCheckBoxText"></param>
-        /// <returns></returns>
-        public static DialogRevitTask SetExtraCheckBoxText(DialogRevitTask taskDialog, string ExtraCheckBoxText)
+        /// <param name="TaskDialog">A Task dialog.</param>
+        /// <param name="ExtraCheckBoxText">ExtraCheckBox text to be included.</param>
+        /// <returns name="TaskDialog">The modified Task dialog.</returns>
+        public static DialogRevitTask SetExtraCheckBoxText(DialogRevitTask TaskDialog, string ExtraCheckBoxText)
         {
-            taskDialog.dialog.ExtraCheckBoxText = ExtraCheckBoxText;
-            return taskDialog;
+            TaskDialog.dialog.ExtraCheckBoxText = ExtraCheckBoxText;
+            return TaskDialog;
         }
 
         #endregion
-
-        public static object ExecuteResults (RevitUi.TaskDialogResult DialogResult, List<string> ExecuteNames, List<object> Execute)
-        {
-            int i = 0;
-            object e = null;
-
-            foreach (string name in ExecuteNames)
-            {
-                RevitUi.TaskDialogResult executeType = (RevitUi.TaskDialogResult)sEnum.Parse("Autodesk.Revit.UI.TaskDialogResult", name);
-                if (executeType == DialogResult)
-                {
-                    if (i < Execute.Count)
-                    {
-                        e = Execute[i];
-                    }
-                }
-                i++;
-            }
-            return e;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ResultName"></param>
-        /// <returns></returns>
-        public static RevitUi.TaskDialogResult GetResultType (string ResultName)
-        {
-            return (RevitUi.TaskDialogResult)sEnum.Parse("Autodesk.Revit.UI.TaskDialogResult", ResultName);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static List<object> TaskDialogResults ()
-        {
-            return sEnum.GetEnums("Autodesk.Revit.UI.TaskDialogResult");
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static List<object> TaskDialogCommonButtons()
-        {
-            return sEnum.GetEnums("Autodesk.Revit.UI.TaskDialogCommonButtons");
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static List<object> TaskDialogCommandLinkId()
-        {
-            return sEnum.GetEnums("Autodesk.Revit.UI.TaskDialogCommandLinkId");
-        }
 
         /// <summary>
         /// Represents the Dialog box in a string format.
@@ -514,6 +468,33 @@ namespace Synthetic.UI
         public override string ToString()
         {
             return string.Format("Task Dialog {0}", this.dialog.Title);
+        }
+
+        /// <summary>
+        /// Retrieves all the TaskDialogResults enumerations.
+        /// </summary>
+        /// <returns name="TaskDialogResults">TaskDialogResults enumerations</returns>
+        public static List<object> TaskDialogResults ()
+        {
+            return sEnum.GetEnums("Autodesk.Revit.UI.TaskDialogResult");
+        }
+
+        /// <summary>
+        /// Retrieves all the TaskDialogCommonButtons enumerations.
+        /// </summary>
+        /// <returns name="TaskDialogCommonButtons">TaskDialogCommonButtons enumerations</returns>
+        public static List<object> TaskDialogCommonButtons()
+        {
+            return sEnum.GetEnums("Autodesk.Revit.UI.TaskDialogCommonButtons");
+        }
+
+        /// <summary>
+        /// Retrieves all the TaskDialogCommandLinkId enumerations.
+        /// </summary>
+        /// <returns name="TaskDialogCommandLinkId">TaskDialogCommandLinkId enumerations</returns>
+        public static List<object> TaskDialogCommandLinkId()
+        {
+            return sEnum.GetEnums("Autodesk.Revit.UI.TaskDialogCommandLinkId");
         }
     }
 }
