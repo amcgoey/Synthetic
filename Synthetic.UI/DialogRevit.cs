@@ -90,13 +90,14 @@ namespace Synthetic.UI
         }
 
         /// <summary>
-        /// 
+        /// Opens the Revit Filter dialog box for the editing and creation of view filters.  Note that if multiple filters are made or edited, only one will be returned.
         /// </summary>
-        /// <param name="reset"></param>
-        /// <returns></returns>
+        /// <param name="Toggle">Toggle to re-display the dialog.</param>
+        /// <returns name="Filter Name">The name of the primary filter created.  Note that if multiple filters are made or edited, only one will be returned.</returns>
+        /// <returns name="Filter Id">The element Id of the filter.</returns>
         [MultiReturn(new[] { "Filter Name", "Filter Id" })]
         public static IDictionary FilterDialog(
-            [DefaultArgument("true")] bool reset
+            [DefaultArgument("true")] bool Toggle
             )
         {
             string filterName = null;
