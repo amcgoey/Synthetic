@@ -14,7 +14,10 @@
   "site_url": "https://github.com/amcgoey/Synthetic",
   "repository_url": "https://github.com/amcgoey/Synthetic",
   "contains_binaries": true,
-  "node_libraries": [
+  "node_libraries": 
+  [
     "Synthetic.Revit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
-    "Synthetic.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"]
+    "Synthetic.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "Synthetic.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+  ]
 }
