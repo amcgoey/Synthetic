@@ -68,7 +68,7 @@ namespace Synthetic.Revit
         /// <param name="alias">If the alias already exists in the document, rename the alias to the workset instead of making it.  Provide an empty string "" to specify no alias.</param>
         /// <returns name="workset">A Revit Workset</returns>
         /// <returns name="created">True if the workset was created, false if the workset was already in the document</returns>
-        [MultiReturn(new[] { "workset", "created"})]
+        [MultiReturn(new[] { "workset", "created" })]
         public static IDictionary ByName(
             string name,
             [DefaultArgument("true")] bool visible,
@@ -131,23 +131,19 @@ namespace Synthetic.Revit
         /// <returns name="workset">Returns a workset.  Returns null if workset does not exist.</returns>
         public static Workset GetByName(string name)
         {
+            //Get Revit Document object
+            revitDoc doc = DocumentManager.Instance.CurrentDBDocument;
+            FilteredWorksetCollector fwCollector = new FilteredWorksetCollector(doc);
             Workset foundWorkset = null;
 
-            if (name != null)
+            foreach (revitWorkset workset in fwCollector)
             {
-                //Get Revit Document object
-                revitDoc doc = DocumentManager.Instance.CurrentDBDocument;
-                FilteredWorksetCollector fwCollector = new FilteredWorksetCollector(doc);
-
-                foreach (revitWorkset workset in fwCollector)
+                if (workset.Name == name)
                 {
-                    if (workset.Name == name)
-                    {
-                        foundWorkset = new Workset(doc, workset);
-                    }
+                    foundWorkset = new Workset(doc, workset);
                 }
-                fwCollector.Dispose();
             }
+            fwCollector.Dispose();
             return foundWorkset;
         }
 
@@ -208,29 +204,26 @@ namespace Synthetic.Revit
             Workset renamedWorkset = null;
             bool renamed = false;
 
-            if (name != null && workset != null)
+            //Verify that the existing workset is in the document.
+            //If the workset is unique, create it
+            if (WorksetTable.IsWorksetNameUnique(doc, workset.internalWorkset.Name) == false)
             {
-                //Verify that the existing workset is in the document.
-                //If the workset is unique, create it
-                if (WorksetTable.IsWorksetNameUnique(doc, workset.internalWorkset.Name) == false)
+                // Verify that the new name doesn't already exist
+                if (WorksetTable.IsWorksetNameUnique(doc, name) == true)
                 {
-                    // Verify that the new name doesn't already exist
-                    if (WorksetTable.IsWorksetNameUnique(doc, name) == true)
+                    //Only rename workset if it's name isn't an empty string
+                    if (name != "")
                     {
-                        //Only rename workset if it's name isn't an empty string
-                        if (name != "")
+                        using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(doc))
                         {
-                            using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(doc))
-                            {
-                                trans.Start("Rename Workset");
+                            trans.Start("Rename Workset");
 
-                                WorksetTable.RenameWorkset(doc, workset.internalId, name);
-                                workset.internalName = workset.internalWorkset.Name;
-                                renamedWorkset = workset;
-                                renamed = true;
+                            WorksetTable.RenameWorkset(doc, workset.internalId, name);
+                            workset.internalName = workset.internalWorkset.Name;
+                            renamedWorkset = workset;
+                            renamed = true;
 
-                                trans.Commit();
-                            }
+                            trans.Commit();
                         }
                     }
                 }
