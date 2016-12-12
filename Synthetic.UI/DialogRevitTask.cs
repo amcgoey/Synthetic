@@ -82,7 +82,10 @@ namespace Synthetic.UI
 
             RevitUi.TaskDialogResult tResult = DialogRevitTask.Show(dialog, true);
 
-            return FilterResults(tResult, Results);
+            if (Results != null)
+            { return FilterResults(tResult, Results); }
+            else
+            { return tResult;  }
         }
 
         /// <summary>
@@ -142,8 +145,32 @@ namespace Synthetic.UI
             [DefaultArgument("null")] string CommandLink4
             )
         {
-            List<string> keys = new List<string> { "CommandLink1", "CommandLink2", "CommandLink3", "CommandLink4" };
-            List<object> values = new List<object> { CommandLink1, CommandLink2, CommandLink3, CommandLink4 };
+            List<string> keys = new List<string> ();
+            List<object> values = new List<object> ();
+
+            if (CommandLink1 != null)
+            {
+                keys.Add("CommandLink1");
+                values.Add(CommandLink1);
+            }
+
+            if (CommandLink2 != null)
+            {
+                keys.Add("CommandLink2");
+                values.Add(CommandLink2);
+            }
+
+            if (CommandLink3 != null)
+            {
+                keys.Add("CommandLink3");
+                values.Add(CommandLink3);
+            }
+
+            if (CommandLink4 != null)
+            {
+                keys.Add("CommandLink4");
+                values.Add(CommandLink4);
+            }
 
             sDict dict = sDict.ByKeysValues(keys, values);
 
