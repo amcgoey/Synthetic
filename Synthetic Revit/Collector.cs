@@ -161,9 +161,9 @@ namespace Synthetic.Revit
         /// <param name="categoryId"></param>
         /// <param name="inverted"></param>
         /// <returns></returns>
-        public static revitDB.ElementFilter FilterElementCategory(revitDB.ElementId categoryId, [DefaultArgument("false")] bool inverted)
+        public static revitDB.ElementFilter FilterElementCategory(int categoryId, [DefaultArgument("false")] bool inverted)
         {
-            return new revitDB.ElementCategoryFilter(categoryId, inverted);
+            return new revitDB.ElementCategoryFilter(new revitDB.ElementId(categoryId), inverted);
         }
 
         /// <summary>
@@ -183,9 +183,9 @@ namespace Synthetic.Revit
         /// <param name="designOptionId"></param>
         /// <param name="inverted"></param>
         /// <returns></returns>
-        public static revitDB.ElementFilter FilterElementDesignOption(revitDB.ElementId designOptionId, [DefaultArgument("false")] bool inverted)
+        public static revitDB.ElementFilter FilterElementDesignOption(int designOptionId, [DefaultArgument("false")] bool inverted)
         {
-            return new revitDB.ElementDesignOptionFilter(designOptionId, inverted);
+            return new revitDB.ElementDesignOptionFilter(new revitDB.ElementId(designOptionId), inverted);
         }
 
         /// <summary>
@@ -203,9 +203,15 @@ namespace Synthetic.Revit
         /// <param name="categoryIds"></param>
         /// <param name="inverted"></param>
         /// <returns></returns>
-        public static revitDB.ElementFilter FilterElementMulticategory(ICollection<revitDB.ElementId> categoryIds, [DefaultArgument("false")] bool inverted)
+        public static revitDB.ElementFilter FilterElementMulticategory(ICollection<int> categoryIds, [DefaultArgument("false")] bool inverted)
         {
-            return new revitDB.ElementMulticategoryFilter(categoryIds, inverted);
+            IList<revitDB.ElementId> categoryElemIds = new List<revitDB.ElementId>();
+            foreach(int categoryId in categoryIds)
+            {
+                categoryElemIds.Add(new revitDB.ElementId(categoryId));
+            }
+
+            return new revitDB.ElementMulticategoryFilter(categoryElemIds, inverted);
         }
 
         /// <summary>
@@ -214,9 +220,9 @@ namespace Synthetic.Revit
         /// <param name="worksetId"></param>
         /// <param name="inverted"></param>
         /// <returns></returns>
-        public static revitDB.ElementFilter FilterElementWorkset(revitDB.WorksetId worksetId, [DefaultArgument("false")] bool inverted)
+        public static revitDB.ElementFilter FilterElementWorkset(int worksetId, [DefaultArgument("false")] bool inverted)
         {
-            return new revitDB.ElementWorksetFilter(worksetId, inverted);
+            return new revitDB.ElementWorksetFilter(new revitDB.WorksetId(worksetId), inverted);
         }
 
         /// <summary>
@@ -224,9 +230,15 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="elementIds"></param>
         /// <returns></returns>
-        public static revitDB.ElementFilter FilterExclusion(ICollection<revitDB.ElementId> elementIds)
+        public static revitDB.ElementFilter FilterExclusion(ICollection<int> elementIds)
         {
-            return new revitDB.ExclusionFilter(elementIds);
+            IList<revitDB.ElementId> elemIds = new List<revitDB.ElementId>();
+            foreach (int elemId in elementIds)
+            {
+                elemIds.Add(new revitDB.ElementId(elemId));
+            }
+
+            return new revitDB.ExclusionFilter(elemIds);
         }
 
         /// <summary>
