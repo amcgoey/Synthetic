@@ -15,7 +15,7 @@ namespace Synthetic.Revit
     /// </summary>
     public class Collector
     {
-        internal revitFECollector internalCollector { get; private set; };
+        internal revitFECollector internalCollector { get; private set; }
 
         internal Collector (revitDoc doc)
         {
