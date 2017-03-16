@@ -3,11 +3,10 @@ using System.Linq;
 using Autodesk.DesignScript.Runtime;
 
 using System.Collections;
-using c = System.Collections.Generic;
-
-using revitDoc = Autodesk.Revit.DB.Document;
+using cg = System.Collections.Generic;
 
 using revitDB = Autodesk.Revit.DB;
+using revitDoc = Autodesk.Revit.DB.Document;
 using revitCS = Autodesk.Revit.DB.CompoundStructure;
 using revitCSLayer = Autodesk.Revit.DB.CompoundStructureLayer;
 
@@ -85,16 +84,16 @@ namespace Synthetic.Revit
         /// <param name="layerFunction"></param>
         /// <param name="materialId"></param>
         /// <returns></returns>
-        public static CompoundStructure ByLayers(c.List<double> width, c.List<revitDB.MaterialFunctionAssignment> layerFunction, c.List<revitDB.ElementId> materialId)
+        public static CompoundStructure ByLayers(cg.List<double> width, cg.List<revitDB.MaterialFunctionAssignment> layerFunction, cg.List<revitDB.ElementId> materialId)
         {
-            c.List<int> lenList = new c.List<int>();
+            cg.List<int> lenList = new cg.List<int>();
             lenList.Add(layerFunction.Count);
             lenList.Add(width.Count);
             lenList.Add(materialId.Count);
 
             int l = lenList.Min();
 
-            c.List<revitCSLayer> layerList = new c.List<revitCSLayer>();
+            cg.List<revitCSLayer> layerList = new cg.List<revitCSLayer>();
 
             for (int i = 0; i < l; i++)
             {
@@ -132,7 +131,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="compoundStructure"></param>
         /// <returns></returns>
-        public static c.IList<revitCSLayer> GetLayers (CompoundStructure compoundStructure)
+        public static cg.IList<revitCSLayer> GetLayers (CompoundStructure compoundStructure)
         {
             return compoundStructure.internalCompoundStructure.GetLayers();
         }
@@ -143,7 +142,7 @@ namespace Synthetic.Revit
         /// <param name="compoundStructure"></param>
         /// <param name="layers"></param>
         /// <returns></returns>
-        public static CompoundStructure SetLayers(CompoundStructure compoundStructure, c.IList<revitCSLayer> layers)
+        public static CompoundStructure SetLayers(CompoundStructure compoundStructure, cg.IList<revitCSLayer> layers)
         {
             compoundStructure.internalCompoundStructure.SetLayers(layers);
             return compoundStructure;
@@ -160,7 +159,7 @@ namespace Synthetic.Revit
             double width = layer.Width;
             revitDB.MaterialFunctionAssignment layerFunction = layer.Function;
             revitDB.ElementId materialId = layer.MaterialId;
-            return new c.Dictionary<string, object>
+            return new cg.Dictionary<string, object>
             {
                 {"Width", width},
                 {"Layer Functions", layerFunction},
@@ -180,7 +179,7 @@ namespace Synthetic.Revit
         public override string ToString()
         {
             revitCS cs = this.internalCompoundStructure;
-            c.IList<revitCSLayer> csLayers = cs.GetLayers();
+            cg.IList<revitCSLayer> csLayers = cs.GetLayers();
             Type t = typeof(revitCS);
 
             string s = "";
