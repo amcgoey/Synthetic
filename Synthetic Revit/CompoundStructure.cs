@@ -98,6 +98,20 @@ namespace Synthetic.Revit
             return new CompoundStructure(revitCS.CreateSimpleCompoundStructure(layerList));
         }
 
+        public static revitCS SetNumberOfExteriorLayers (revitCS compoudStructure, int numLayers)
+        {
+            compoudStructure.SetNumberOfShellLayers(Autodesk.Revit.DB.ShellLayerType.Exterior, numLayers);
+
+            return compoudStructure;
+        }
+
+        public static revitCS SetNumberOfInteriorLayers(revitCS compoudStructure, int numLayers)
+        {
+            compoudStructure.SetNumberOfShellLayers(Autodesk.Revit.DB.ShellLayerType.Interior, numLayers);
+
+            return compoudStructure;
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -126,7 +140,7 @@ namespace Synthetic.Revit
         /// <param name="layer"></param>
         /// <returns></returns>
         [MultiReturn(new[] { "Width", "Layer Functions", "Material IDs" })]
-        public static IDictionary GetLayerProperties (revitCSLayer layer)
+        public static IDictionary LayerToList (revitCSLayer layer)
         {
             double width = layer.Width;
             revitDB.MaterialFunctionAssignment layerFunction = layer.Function;
@@ -137,6 +151,11 @@ namespace Synthetic.Revit
                 {"Layer Functions", layerFunction},
                 {"Material IDs", materialId }
             };
+        }
+
+        public static revitCSLayer LayerByList (double width, revitDB.MaterialFunctionAssignment layerFunction, revitDB.ElementId materialId)
+        {
+            return new revitCSLayer(width, layerFunction, materialId);
         }
 
         /// <summary>
