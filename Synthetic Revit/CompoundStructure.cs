@@ -5,6 +5,8 @@ using Autodesk.DesignScript.Runtime;
 using System.Collections;
 using c = System.Collections.Generic;
 
+using revitDoc = Autodesk.Revit.DB.Document;
+
 using revitDB = Autodesk.Revit.DB;
 using revitCS = Autodesk.Revit.DB.CompoundStructure;
 using revitCSLayer = Autodesk.Revit.DB.CompoundStructureLayer;
@@ -63,11 +65,16 @@ namespace Synthetic.Revit
         /// <param name="wallType"></param>
         /// <param name="compoundStructure"></param>
         /// <returns></returns>
-        public static dynamoElements.WallType ToWall(dynamoElements.WallType wallType, CompoundStructure compoundStructure)
+        public static dynamoElements.WallType ToWall(dynamoElements.WallType wallType, CompoundStructure compoundStructure, revitDoc doc)
         {
             revitDB.WallType revitWallType = (revitDB.WallType)wallType.InternalElement;
-            revitWallType.SetCompoundStructure(compoundStructure.internalCompoundStructure);
 
+            using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(doc))
+            {
+                trans.Start("Set Number of Exterior Layers");
+                revitWallType.SetCompoundStructure(compoundStructure.internalCompoundStructure);
+                trans.Commit();
+            }
             return wallType;
         }
 
@@ -98,17 +105,25 @@ namespace Synthetic.Revit
             return new CompoundStructure(revitCS.CreateSimpleCompoundStructure(layerList));
         }
 
-        public static revitCS SetNumberOfExteriorLayers (revitCS compoudStructure, int numLayers)
+        public static revitCS SetNumberOfExteriorLayers (revitCS compoudStructure, int numLayers, revitDoc doc)
         {
-            compoudStructure.SetNumberOfShellLayers(Autodesk.Revit.DB.ShellLayerType.Exterior, numLayers);
-
+            using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(doc))
+            {
+                trans.Start("Set Number of Exterior Layers");
+                compoudStructure.SetNumberOfShellLayers(Autodesk.Revit.DB.ShellLayerType.Exterior, numLayers);
+                trans.Commit();
+            }
             return compoudStructure;
         }
 
-        public static revitCS SetNumberOfInteriorLayers(revitCS compoudStructure, int numLayers)
+        public static revitCS SetNumberOfInteriorLayers(revitCS compoudStructure, int numLayers, revitDoc doc)
         {
-            compoudStructure.SetNumberOfShellLayers(Autodesk.Revit.DB.ShellLayerType.Interior, numLayers);
-
+            using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(doc))
+            {
+                trans.Start("Set Number of Interior Layers");
+                compoudStructure.SetNumberOfShellLayers(Autodesk.Revit.DB.ShellLayerType.Interior, numLayers);
+                trans.Commit();
+            }
             return compoudStructure;
         }
 
