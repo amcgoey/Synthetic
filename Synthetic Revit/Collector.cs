@@ -21,9 +21,20 @@ namespace Synthetic.Revit
     public class Collector
     {
         internal revitFECollector internalCollector { get; private set; }
+        internal revitDoc _document { get; private set; }
+        internal List<revitDB.ElementFilter> _filters { get; private set; }
 
         internal Collector (revitDoc doc)
         {
+            _document = doc;
+            _filters = new List<revitDB.ElementFilter>();
+            internalCollector = new revitFECollector(doc);
+        }
+
+        internal Collector(List<revitDB.ElementFilter> filters, revitDoc doc)
+        {
+            _document = doc;
+            _filters = filters;
             internalCollector = new revitFECollector(doc);
         }
 
@@ -36,7 +47,6 @@ namespace Synthetic.Revit
         /// 
         /// </summary>
         /// <param name="revitCollector"></param>
-        /// <param name="doc"></param>
         /// <returns></returns>
         public static Collector Wrap (revitFECollector revitCollector)
         {
@@ -50,7 +60,12 @@ namespace Synthetic.Revit
         /// <returns></returns>
         public static revitFECollector Unwrap (Collector collector)
         {
-            return collector.internalCollector;
+            revitFECollector rCollector = new revitFECollector(collector._document);
+            foreach (revitDB.ElementFilter filter in collector._filters)
+            {
+                rCollector.WherePasses(filter);
+            }
+            return rCollector;
         }
 
         /// <summary>
@@ -66,14 +81,19 @@ namespace Synthetic.Revit
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="filter"></param>
+        /// <param name="filters"></param>
         /// <param name="document"></param>
         /// <returns></returns>
-        public static Collector ByFilter (revitDB.ElementFilter filter,
+        public static Collector ByFilters (List<revitDB.ElementFilter> filters,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
-            Collector collector = new Collector(document);
-            collector.internalCollector.WherePasses(filter);
+            Collector collector = new Collector(filters, document);
+
+            foreach (revitDB.ElementFilter filter in collector._filters)
+            {
+                collector.internalCollector.WherePasses(filter);
+            }
+
             return collector;
         }
 
@@ -84,9 +104,13 @@ namespace Synthetic.Revit
         /// <returns></returns>
         public static IList<dynElem> ToElements (Collector collector)
         {
-            Collector collectTemp = new Collector(collector.internalCollector);
+            revitFECollector rCollector = new revitFECollector(collector._document);
+            foreach (revitDB.ElementFilter filter in collector._filters)
+            {
+                rCollector.WherePasses(filter);
+            }
 
-            IList<revitDB.Element> elements = collectTemp.internalCollector.ToElements();
+            IList<revitDB.Element> elements = rCollector.ToElements();
             IList<dynElem> dynamoElements = new List<dynElem>();
 
             foreach (revitDB.Element elem in elements)
@@ -111,7 +135,13 @@ namespace Synthetic.Revit
         /// <returns></returns>
         public static IList<revitDB.ElementId> ToElementIds(Collector collector)
         {
-            return (IList<revitDB.ElementId>)collector.internalCollector.ToElementIds();
+            revitFECollector rCollector = new revitFECollector(collector._document);
+            foreach (revitDB.ElementFilter filter in collector._filters)
+            {
+                rCollector.WherePasses(filter);
+            }
+
+            return (IList<revitDB.ElementId>)rCollector.ToElementIds();
         }
 
         /// <summary>
@@ -123,8 +153,18 @@ namespace Synthetic.Revit
         public static Collector WherePasses (Collector collector,
             revitDB.ElementFilter filter)
         {
+            collector._filters.Add(filter);
             collector.internalCollector.WherePasses(filter);
             return collector;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return base.ToString();
         }
 
         /// <summary>
@@ -265,15 +305,6 @@ namespace Synthetic.Revit
         public static revitDB.ElementFilter FilterElementLevel(revitDB.ElementId levelId, [DefaultArgument("false")] bool inverted)
         {
             return new revitDB.ElementLevelFilter(levelId, inverted);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return base.ToString();
         }
     }
 }
