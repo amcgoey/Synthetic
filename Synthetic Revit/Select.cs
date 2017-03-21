@@ -36,24 +36,27 @@ namespace Synthetic.Revit
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
             synthCollect collector = new synthCollect(document);
-            collector.internalCollector.WherePasses(new revitDB.ElementClassFilter(type, inverted));
 
-            IList<revitDB.Element> elements = collector.internalCollector.ToElements();
-            IList<dynElem> dynamoElements = new List<dynElem>();
+            //collector.internalCollector.WherePasses(new revitDB.ElementClassFilter(type, inverted));
+            synthCollect.WherePasses(collector, new revitDB.ElementClassFilter(type, inverted));
 
-            foreach (revitDB.Element elem in elements)
-            {
-                try
-                {
-                    dynamoElements.Add(document.GetElement(elem.Id).ToDSType(true));
-                }
-                catch
-                {
-                    dynamoElements.Add(null);
-                }
-            }
+            //IList<revitDB.Element> elements = collector.internalCollector.ToElements();
+            //IList<dynElem> dynamoElements = new List<dynElem>();
 
-            return dynamoElements;
+            //foreach (revitDB.Element elem in elements)
+            //{
+            //    try
+            //    {
+            //        dynamoElements.Add(document.GetElement(elem.Id).ToDSType(true));
+            //    }
+            //    catch
+            //    {
+            //        dynamoElements.Add(null);
+            //    }
+            //}
+
+            //return dynamoElements;
+            return synthCollect.ToElements(collector);
         }
     }
 }

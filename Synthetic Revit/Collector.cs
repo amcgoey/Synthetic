@@ -20,7 +20,7 @@ namespace Synthetic.Revit
     /// </summary>
     public class Collector
     {
-        internal revitFECollector internalCollector { get; private set; }
+        //internal revitFECollector internalCollector { get; private set; }
         internal revitDoc _document { get; private set; }
         internal List<revitDB.ElementFilter> _filters { get; private set; }
 
@@ -28,30 +28,30 @@ namespace Synthetic.Revit
         {
             _document = doc;
             _filters = new List<revitDB.ElementFilter>();
-            internalCollector = new revitFECollector(doc);
+            //internalCollector = new revitFECollector(doc);
         }
 
         internal Collector(List<revitDB.ElementFilter> filters, revitDoc doc)
         {
             _document = doc;
             _filters = filters;
-            internalCollector = new revitFECollector(doc);
+            //internalCollector = new revitFECollector(doc);
         }
 
-        internal Collector (revitFECollector collector)
-        {
-            internalCollector = collector;
-        }
+        //internal Collector (revitFECollector collector)
+        //{
+        //    internalCollector = collector;
+        //}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="revitCollector"></param>
-        /// <returns></returns>
-        public static Collector Wrap (revitFECollector revitCollector)
-        {
-            return new Collector(revitCollector);
-        }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="revitCollector"></param>
+        ///// <returns></returns>
+        //public static Collector Wrap (revitFECollector revitCollector)
+        //{
+        //    return new Collector(revitCollector);
+        //}
 
         /// <summary>
         /// 
@@ -89,10 +89,10 @@ namespace Synthetic.Revit
         {
             Collector collector = new Collector(filters, document);
 
-            foreach (revitDB.ElementFilter filter in collector._filters)
-            {
-                collector.internalCollector.WherePasses(filter);
-            }
+            //foreach (revitDB.ElementFilter filter in collector._filters)
+            //{
+            //    collector.internalCollector.WherePasses(filter);
+            //}
 
             return collector;
         }
@@ -154,7 +154,7 @@ namespace Synthetic.Revit
             revitDB.ElementFilter filter)
         {
             collector._filters.Add(filter);
-            collector.internalCollector.WherePasses(filter);
+            //collector.internalCollector.WherePasses(filter);
             return collector;
         }
 
