@@ -54,6 +54,7 @@
     <Compile Include="Dictionary.cs" />
     <Compile Include="Enum.cs" />
     <Compile Include="Json.cs" />
+    <Compile Include="Object.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
