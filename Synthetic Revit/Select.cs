@@ -31,31 +31,56 @@ namespace Synthetic.Revit
         /// <param name="inverted"></param>
         /// <param name="document"></param>
         /// <returns></returns>
-        public static IList<dynElem> AllElementsOfType (Type type,
+        public static IList<object> AllElementsOfType (Type type,
+            [DefaultArgument("false")] bool inverted,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        {
+            synthCollect collector = new synthCollect(document);
+            //synthCollect.WherePasses(collector, new revitDB.ElementClassFilter(type, inverted));
+            synthCollect.WherePasses(collector, synthCollect.FilterElementClass(type, inverted));
+
+            return synthCollect.ToElements(collector);
+        }
+
+        /// <summary>
+        /// Selects all instance elements in a category, excludes element types.
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <param name="inverted"></param>
+        /// <param name="document"></param>
+        /// <returns></returns>
+        public static IList<object> AllElementsOfCategory(int categoryId,
             [DefaultArgument("false")] bool inverted,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
             synthCollect collector = new synthCollect(document);
 
-            //collector.internalCollector.WherePasses(new revitDB.ElementClassFilter(type, inverted));
-            synthCollect.WherePasses(collector, new revitDB.ElementClassFilter(type, inverted));
+            // Select only elements that are NOT Types (the filter is inverted)
+            synthCollect.WherePasses(collector, synthCollect.FilterElementIsElementType(true));
 
-            //IList<revitDB.Element> elements = collector.internalCollector.ToElements();
-            //IList<dynElem> dynamoElements = new List<dynElem>();
+            synthCollect.WherePasses(collector, synthCollect.FilterElementCategory(categoryId, inverted));
 
-            //foreach (revitDB.Element elem in elements)
-            //{
-            //    try
-            //    {
-            //        dynamoElements.Add(document.GetElement(elem.Id).ToDSType(true));
-            //    }
-            //    catch
-            //    {
-            //        dynamoElements.Add(null);
-            //    }
-            //}
+            return synthCollect.ToElements(collector);
+        }
 
-            //return dynamoElements;
+        /// <summary>
+        /// Selects all element types in a category, but excludes instances of those elements.
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <param name="inverted"></param>
+        /// <param name="document"></param>
+        /// <returns></returns>
+        public static IList<object> AllFamilyTypesOfCategory(int categoryId,
+            [DefaultArgument("false")] bool inverted,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        {
+            synthCollect collector = new synthCollect(document);
+
+            // Select only elements that are Family Symbols
+            synthCollect.WherePasses(collector, synthCollect.FilterElementClass(typeof(revitDB.FamilySymbol), false));
+
+            synthCollect.WherePasses(collector, synthCollect.FilterElementCategory(categoryId, inverted));
+
             return synthCollect.ToElements(collector);
         }
     }

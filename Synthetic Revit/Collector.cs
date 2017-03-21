@@ -20,7 +20,6 @@ namespace Synthetic.Revit
     /// </summary>
     public class Collector
     {
-        //internal revitFECollector internalCollector { get; private set; }
         internal revitDoc _document { get; private set; }
         internal List<revitDB.ElementFilter> _filters { get; private set; }
 
@@ -28,30 +27,41 @@ namespace Synthetic.Revit
         {
             _document = doc;
             _filters = new List<revitDB.ElementFilter>();
-            //internalCollector = new revitFECollector(doc);
         }
 
         internal Collector(List<revitDB.ElementFilter> filters, revitDoc doc)
         {
             _document = doc;
             _filters = filters;
-            //internalCollector = new revitFECollector(doc);
         }
 
-        //internal Collector (revitFECollector collector)
-        //{
-        //    internalCollector = collector;
-        //}
+        internal revitFECollector ApplyFilters ()
+        {
+            revitFECollector rCollector = new revitFECollector(this._document);
+            foreach (revitDB.ElementFilter filter in this._filters)
+            {
+                rCollector.WherePasses(filter);
+            }
+            return rCollector;
+        }
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="revitCollector"></param>
-        ///// <returns></returns>
-        //public static Collector Wrap (revitFECollector revitCollector)
-        //{
-        //    return new Collector(revitCollector);
-        //}
+        internal IList<revitDB.Element> ToRevitElements (bool toggle)
+        {
+            IList<revitDB.Element> elements = new List<revitDB.Element>();
+            if (toggle == false)
+            {
+                revitFECollector rCollector = new revitFECollector(this._document);
+                foreach (revitDB.ElementFilter filter in this._filters)
+                {
+                    rCollector.WherePasses(filter);
+                }
+                elements = rCollector.ToElements();
+                rCollector.Dispose();
+            }
+            return elements;
+        }
+
+        
 
         /// <summary>
         /// 
@@ -60,12 +70,7 @@ namespace Synthetic.Revit
         /// <returns></returns>
         public static revitFECollector Unwrap (Collector collector)
         {
-            revitFECollector rCollector = new revitFECollector(collector._document);
-            foreach (revitDB.ElementFilter filter in collector._filters)
-            {
-                rCollector.WherePasses(filter);
-            }
-            return rCollector;
+            return collector.ApplyFilters();
         }
 
         /// <summary>
@@ -88,12 +93,6 @@ namespace Synthetic.Revit
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
             Collector collector = new Collector(filters, document);
-
-            //foreach (revitDB.ElementFilter filter in collector._filters)
-            //{
-            //    collector.internalCollector.WherePasses(filter);
-            //}
-
             return collector;
         }
 
@@ -101,17 +100,20 @@ namespace Synthetic.Revit
         /// 
         /// </summary>
         /// <param name="collector"></param>
+        /// <param name="toggle"></param>
         /// <returns></returns>
-        public static IList<dynElem> ToElements (Collector collector)
+        public static IList<object> ToElements (Collector collector,
+            [DefaultArgument("true")] bool toggle = true)
         {
-            revitFECollector rCollector = new revitFECollector(collector._document);
-            foreach (revitDB.ElementFilter filter in collector._filters)
-            {
-                rCollector.WherePasses(filter);
-            }
+            //IList<revitDB.Element> elements;
+            //using (revitFECollector rCollector = collector.ApplyFilters())
+            //{
+            //    elements = rCollector.ToElements();
+            //}
 
-            IList<revitDB.Element> elements = rCollector.ToElements();
-            IList<dynElem> dynamoElements = new List<dynElem>();
+            IList<revitDB.Element> elements = collector.ToRevitElements(toggle);
+
+            IList<object> dynamoElements = new List<object>();
 
             foreach (revitDB.Element elem in elements)
             {
@@ -121,7 +123,7 @@ namespace Synthetic.Revit
                 }
                 catch
                 {
-                    dynamoElements.Add(null);
+                    dynamoElements.Add(elem);
                 }
             }
             
@@ -135,13 +137,29 @@ namespace Synthetic.Revit
         /// <returns></returns>
         public static IList<revitDB.ElementId> ToElementIds(Collector collector)
         {
-            revitFECollector rCollector = new revitFECollector(collector._document);
-            foreach (revitDB.ElementFilter filter in collector._filters)
-            {
-                rCollector.WherePasses(filter);
-            }
+            return (IList<revitDB.ElementId>)collector.ApplyFilters().ToElementIds();
+        }
 
-            return (IList<revitDB.ElementId>)rCollector.ToElementIds();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="collector"></param>
+        /// <param name="filters"></param>
+        /// <returns></returns>
+        public static Collector SetFilters (Collector collector, List<revitDB.ElementFilter> filters)
+        {
+            collector._filters = filters;
+            return collector;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="collector"></param>
+        /// <returns></returns>
+        public static List<revitDB.ElementFilter> GetFilters(Collector collector)
+        {
+            return collector._filters;
         }
 
         /// <summary>
@@ -154,7 +172,6 @@ namespace Synthetic.Revit
             revitDB.ElementFilter filter)
         {
             collector._filters.Add(filter);
-            //collector.internalCollector.WherePasses(filter);
             return collector;
         }
 
