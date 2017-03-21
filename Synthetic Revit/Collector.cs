@@ -165,19 +165,6 @@ namespace Synthetic.Revit
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="collector"></param>
-        /// <param name="filter"></param>
-        /// <returns></returns>
-        public static Collector WherePasses (Collector collector,
-            revitDB.ElementFilter filter)
-        {
-            collector._filters.Add(filter);
-            return collector;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
         /// <returns></returns>
         public override string ToString()
         {
