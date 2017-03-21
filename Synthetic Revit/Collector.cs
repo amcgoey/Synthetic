@@ -45,19 +45,16 @@ namespace Synthetic.Revit
             return rCollector;
         }
 
-        internal IList<revitDB.Element> ToRevitElements (bool toggle)
+        internal IList<revitDB.Element> ToRevitElements ()
         {
             IList<revitDB.Element> elements = new List<revitDB.Element>();
-            if (toggle == false)
+            revitFECollector rCollector = new revitFECollector(this._document);
+            foreach (revitDB.ElementFilter filter in this._filters)
             {
-                revitFECollector rCollector = new revitFECollector(this._document);
-                foreach (revitDB.ElementFilter filter in this._filters)
-                {
-                    rCollector.WherePasses(filter);
-                }
-                elements = rCollector.ToElements();
-                rCollector.Dispose();
+                rCollector.WherePasses(filter);
             }
+            elements = rCollector.ToElements();
+            rCollector.Dispose();
             return elements;
         }
 
@@ -111,7 +108,7 @@ namespace Synthetic.Revit
             //    elements = rCollector.ToElements();
             //}
 
-            IList<revitDB.Element> elements = collector.ToRevitElements(toggle);
+            IList<revitDB.Element> elements = collector.ToRevitElements();
 
             IList<object> dynamoElements = new List<object>();
 
