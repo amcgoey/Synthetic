@@ -18,8 +18,8 @@ namespace Synthetic.Core
         /// Returns the type of the object.
         /// </summary>
         /// <param name="obj">A object</param>
-        /// <returns>Returns the type of the object</returns>
-        public static System.Type Type(System.Object obj)
+        /// <returns name="Type">Returns the type of the object</returns>
+        public static System.Type TypeOf(System.Object obj)
         {
             return obj.GetType();
         }

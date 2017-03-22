@@ -15,6 +15,7 @@ using RevitServices.Persistence;
 using dynElem = Revit.Elements.Element;
 using dynCat = Revit.Elements.Category;
 using dynFamilyType = Revit.Elements.FamilyType;
+using dynFamily = Revit.Elements.Family;
 using dynLevel = Revit.Elements.Level;
 
 
@@ -308,9 +309,9 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// Creates a ElementFilter that passes elements with the specified family type or family symbol.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.
+        /// Creates a ElementFilter that passes types with the specified family.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.
         /// </summary>
-        /// <param name="familyId">A family type or family symbol's Id as an integer.</param>
+        /// <param name="familyId">A family's Id as an integer.</param>
         /// <returns name="ElementFilter">An Element Filter.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
         public static revitDB.ElementFilter FilterFamilyTypeId(int familyId)
         {
@@ -318,13 +319,26 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// Creates a ElementFilter that passes elements with the specified family type or family symbol.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.
+        /// Creates a ElementFilter that passes types with the specified family.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.
         /// </summary>
-        /// <param name="familyType">A dynamo wrapped family type or family symbol</param>
+        /// <param name="family">A dynamo wrapped family</param>
         /// <returns name="ElementFilter">An Element Filter.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
-        public static revitDB.ElementFilter FilterFamilyType(dynFamilyType familyType)
+        public static revitDB.ElementFilter FilterFamilyType(dynFamily family)
         {
-            return new revitDB.FamilySymbolFilter(new revitDB.ElementId(familyType.Id));
+            return new revitDB.FamilySymbolFilter(new revitDB.ElementId(family.Id));
+        }
+
+        /// <summary>
+        /// Creates a ElementFilter that passes types with the specified family.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.
+        /// </summary>
+        /// <param name="familyType">A dynamo wrapped family type</param>
+        /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
+        /// <returns>A Synthetic Collector object</param>
+        /// <returns name="ElementFilter">An Element Filter.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
+        public static revitDB.ElementFilter FilterFamilyInstance(dynFamilyType familyType,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        {
+            return new revitDB.FamilyInstanceFilter(document, new revitDB.ElementId(familyType.Id));
         }
 
         /// <summary>
@@ -347,6 +361,11 @@ namespace Synthetic.Revit
         public static revitDB.ElementFilter FilterElementLevel(dynLevel level, [DefaultArgument("false")] bool inverted)
         {
             return new revitDB.ElementLevelFilter(new revitDB.ElementId(level.Id), inverted);
+        }
+
+        public static revitDB.ElementFilter FilterElementParameter(IList<revitDB.FilterRule> filterRules, bool inverted)
+        {
+            return new revitDB.ElementParameterFilter(filterRules, inverted);
         }
     }
 }
