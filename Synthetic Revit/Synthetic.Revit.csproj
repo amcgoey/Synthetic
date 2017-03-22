@@ -73,6 +73,7 @@
     <Compile Include="Elements.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Collector.cs" />
+    <Compile Include="FilterRules.cs" />
     <Compile Include="Select.cs" />
     <Compile Include="ViewTemplates.cs" />
     <Compile Include="Worksets.cs" />
