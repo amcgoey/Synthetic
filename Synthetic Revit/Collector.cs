@@ -16,7 +16,7 @@ using RevitServices.Persistence;
 namespace Synthetic.Revit
 {
     /// <summary>
-    /// 
+    /// Nodes for retrieving elements from a Revit project using filter criteria.  Refer to the RevitAPI documentation on FilteredElementCollectors and ElementFilters for optimizing the speed of the query.
     /// </summary>
     public class Collector
     {
@@ -45,47 +45,47 @@ namespace Synthetic.Revit
             return rCollector;
         }
 
-        internal IList<revitDB.Element> ToRevitElements ()
-        {
-            IList<revitDB.Element> elements = new List<revitDB.Element>();
-            revitFECollector rCollector = new revitFECollector(this._document);
-            foreach (revitDB.ElementFilter filter in this._filters)
-            {
-                rCollector.WherePasses(filter);
-            }
-            elements = rCollector.ToElements();
-            rCollector.Dispose();
-            return elements;
-        }
+        //internal IList<revitDB.Element> ToRevitElements ()
+        //{
+        //    IList<revitDB.Element> elements = new List<revitDB.Element>();
+        //    revitFECollector rCollector = new revitFECollector(this._document);
+        //    foreach (revitDB.ElementFilter filter in this._filters)
+        //    {
+        //        rCollector.WherePasses(filter);
+        //    }
+        //    elements = rCollector.ToElements();
+        //    rCollector.Dispose();
+        //    return elements;
+        //}
 
         
 
         /// <summary>
-        /// 
+        /// Provides access directly to Revit FilteredElementCollector object with all filters applied.
         /// </summary>
-        /// <param name="collector"></param>
-        /// <returns></returns>
+        /// <param name="collector">A Synthetic Collector object.</param>
+        /// <returns>A Revit FilteredElementCollector object.</returns>
         public static revitFECollector Unwrap (Collector collector)
         {
             return collector.ApplyFilters();
         }
 
         /// <summary>
-        /// 
+        /// Creates a Synthetic Collector for a project without any filters.  By default, the current project is used.  Without filters applied, the collector will retrieve all objects in the Revit project.
         /// </summary>
-        /// <param name="document"></param>
-        /// <returns></returns>
+        /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
+        /// <returns>A Synthetic Collector object without any filters.</returns>
         public static Collector ByDocument ([DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
             return new Collector(document);
         }
 
         /// <summary>
-        /// 
+        /// Creates a Synthetic Collector for a project with the inputed Element Filters.  By default, the current project is used.
         /// </summary>
-        /// <param name="filters"></param>
-        /// <param name="document"></param>
-        /// <returns></returns>
+        /// <param name="filters">A list of ElementFilter objects.</param>
+        /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
+        /// <returns>A Synthetic Collector object</returns>
         public static Collector ByFilters (List<revitDB.ElementFilter> filters,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
@@ -94,23 +94,17 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Retrieves the Elements that pass the Collector's filters
         /// </summary>
-        /// <param name="collector"></param>
-        /// <param name="toggle"></param>
-        /// <returns></returns>
-        public static IList<object> ToElements (Collector collector,
+        /// <param name="collector">A Synthetc Collector</param>
+        /// <param name="toggle">Toggle will reset the Dynamo graph and rerun the collector.</param>
+        /// <returns>A</returns>
+        public static IList<dynElem> ToElements (Collector collector,
             [DefaultArgument("true")] bool toggle = true)
         {
-            //IList<revitDB.Element> elements;
-            //using (revitFECollector rCollector = collector.ApplyFilters())
-            //{
-            //    elements = rCollector.ToElements();
-            //}
+            IList<revitDB.Element> elements = collector.ApplyFilters().ToElements();
 
-            IList<revitDB.Element> elements = collector.ToRevitElements();
-
-            IList<object> dynamoElements = new List<object>();
+            IList<dynElem> dynamoElements = new List<dynElem>();
 
             foreach (revitDB.Element elem in elements)
             {
@@ -118,31 +112,28 @@ namespace Synthetic.Revit
                 {
                     dynamoElements.Add(elem.ToDSType(true));
                 }
-                catch
-                {
-                    dynamoElements.Add(elem);
-                }
+                catch { }
             }
             
             return dynamoElements;
         }
 
         /// <summary>
-        /// 
+        /// Retrieves the ElementIds of elements that pass the Collector's filters.
         /// </summary>
-        /// <param name="collector"></param>
-        /// <returns></returns>
+        /// <param name="collector">A Syntehtic Collector</param>
+        /// <returns name="ElementIds">Returns the ElementIds of the elements that pass the collector's filters.</returns>
         public static IList<revitDB.ElementId> ToElementIds(Collector collector)
         {
             return (IList<revitDB.ElementId>)collector.ApplyFilters().ToElementIds();
         }
 
         /// <summary>
-        /// 
+        /// Sets the ElementFilters for the collector.
         /// </summary>
         /// <param name="collector"></param>
         /// <param name="filters"></param>
-        /// <returns></returns>
+        /// <returns name="collector">A Synthetic Collector with assigned ElementFilters.</returns>
         public static Collector SetFilters (Collector collector, List<revitDB.ElementFilter> filters)
         {
             collector._filters = filters;
@@ -150,29 +141,29 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Gets a list of the filters for a collector.
         /// </summary>
-        /// <param name="collector"></param>
-        /// <returns></returns>
+        /// <param name="collector">A Syntehtic Collector</param>
+        /// <returns name="ElementFilters"></returns>
         public static List<revitDB.ElementFilter> GetFilters(Collector collector)
         {
             return collector._filters;
         }
 
         /// <summary>
-        /// 
+        /// Converts the object to a string representation.
         /// </summary>
-        /// <returns></returns>
+        /// <returns name="String">A string representation of the object.</returns>
         public override string ToString()
         {
             return base.ToString();
         }
 
         /// <summary>
-        /// 
+        /// Tests whether a ElementFilter is inverted or not.
         /// </summary>
-        /// <param name="filter"></param>
-        /// <returns></returns>
+        /// <param name="filter">A ElementFilter.</param>
+        /// <returns>Returns true if inverted, false if not inverted.</returns>
         public static bool FilterIsInverted(revitDB.ElementFilter filter)
         {
             return filter.Inverted;

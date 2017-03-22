@@ -27,17 +27,19 @@ namespace Synthetic.Revit
         /// <summary>
         /// Selects all elements of a type.  Works with documents other than the active document.
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="inverted"></param>
-        /// <param name="document"></param>
-        /// <returns></returns>
-        public static IList<object> AllElementsOfType (Type type,
+        /// <param name="type">The element type of the object, such as WallTypes or Walls.</param>
+        /// <param name="inverted">If false, elements in the chosen category will be selected.  If true, elements NOT in the chosen category will be selected.</param>
+        /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
+        /// <returns name="Elements">A list of Dynamo elements that pass the filer.</returns>
+        public static IList<dynElem> AllElementsOfType (Type type,
             [DefaultArgument("false")] bool inverted,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
             synthCollect collector = new synthCollect(document);
-            //synthCollect.WherePasses(collector, new revitDB.ElementClassFilter(type, inverted));
-            synthCollect.WherePasses(collector, synthCollect.FilterElementClass(type, inverted));
+            List<revitDB.ElementFilter> filters = new List<Autodesk.Revit.DB.ElementFilter>();
+            filters.Add(synthCollect.FilterElementClass(type, inverted));
+
+            synthCollect.SetFilters(collector, filters);
 
             return synthCollect.ToElements(collector);
         }
@@ -45,41 +47,45 @@ namespace Synthetic.Revit
         /// <summary>
         /// Selects all instance elements in a category, excludes element types.
         /// </summary>
-        /// <param name="categoryId"></param>
-        /// <param name="inverted"></param>
-        /// <param name="document"></param>
-        /// <returns></returns>
-        public static IList<object> AllElementsOfCategory(int categoryId,
+        /// <param name="categoryId">The categoryId of the elements you wish to select.</param>
+        /// <param name="inverted">If false, elements in the chosen category will be selected.  If true, elements NOT in the chosen category will be selected.</param>
+        /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
+        /// <returns name="Elements">A list of Dynamo elements that pass the filer.</returns>
+        public static IList<dynElem> AllElementsOfCategory(int categoryId,
             [DefaultArgument("false")] bool inverted,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
             synthCollect collector = new synthCollect(document);
 
             // Select only elements that are NOT Types (the filter is inverted)
-            synthCollect.WherePasses(collector, synthCollect.FilterElementIsElementType(true));
+            List<revitDB.ElementFilter> filters = new List<Autodesk.Revit.DB.ElementFilter>();
+            filters.Add(synthCollect.FilterElementIsElementType(true));
+            filters.Add(synthCollect.FilterElementCategory(categoryId, inverted));
 
-            synthCollect.WherePasses(collector, synthCollect.FilterElementCategory(categoryId, inverted));
+            synthCollect.SetFilters(collector, filters);
 
             return synthCollect.ToElements(collector);
         }
 
         /// <summary>
-        /// Selects all element types in a category, but excludes instances of those elements.
+        /// Selects all Family Symbol types in a category, but excludes instances of those elements.  The node does not work with System familes because System Families do not have a Family Sybmol.
         /// </summary>
-        /// <param name="categoryId"></param>
-        /// <param name="inverted"></param>
-        /// <param name="document"></param>
-        /// <returns></returns>
-        public static IList<object> AllFamilyTypesOfCategory(int categoryId,
+        /// <param name="categoryId">The categoryId of the elements you wish to select.</param>
+        /// <param name="inverted">If false, elements in the chosen category will be selected.  If true, elements NOT in the chosen category will be selected.</param>
+        /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
+        /// <returns name="Elements">A list of Dynamo elements that pass the filer.</returns>
+        public static IList<dynElem> AllFamilyTypesOfCategory(int categoryId,
             [DefaultArgument("false")] bool inverted,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
             synthCollect collector = new synthCollect(document);
 
             // Select only elements that are Family Symbols
-            synthCollect.WherePasses(collector, synthCollect.FilterElementClass(typeof(revitDB.FamilySymbol), false));
+            List<revitDB.ElementFilter> filters = new List<Autodesk.Revit.DB.ElementFilter>();
+            filters.Add(synthCollect.FilterElementClass(typeof(revitDB.FamilySymbol), false));
+            filters.Add(synthCollect.FilterElementCategory(categoryId, inverted));
 
-            synthCollect.WherePasses(collector, synthCollect.FilterElementCategory(categoryId, inverted));
+            synthCollect.SetFilters(collector, filters);
 
             return synthCollect.ToElements(collector);
         }
