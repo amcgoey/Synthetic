@@ -61,22 +61,7 @@ namespace Synthetic.Revit
                 rCollector.WherePasses(filter);
             }
             return rCollector;
-        }
-
-        //internal IList<revitDB.Element> ToRevitElements ()
-        //{
-        //    IList<revitDB.Element> elements = new List<revitDB.Element>();
-        //    revitFECollector rCollector = new revitFECollector(this._document);
-        //    foreach (revitDB.ElementFilter filter in this._filters)
-        //    {
-        //        rCollector.WherePasses(filter);
-        //    }
-        //    elements = rCollector.ToElements();
-        //    rCollector.Dispose();
-        //    return elements;
-        //}
-
-        
+        }        
 
         /// <summary>
         /// Provides access directly to Revit FilteredElementCollector object with all filters applied.
