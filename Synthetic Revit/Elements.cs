@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Autodesk.DesignScript.Runtime;
-using dynamoElements = Revit.Elements;
 using RevitServices.Transactions;
 using Synthetic.Core;
 
+using dynamoElements = Revit.Elements;
 using dynamoElem = Revit.Elements.Element;
 using dynamoParam = Revit.Elements.Parameter;
 
+using revitDB = Autodesk.Revit.DB;
 using revitElemId = Autodesk.Revit.DB.ElementId;
 using revitDoc = Autodesk.Revit.DB.Document;
 
@@ -20,6 +21,8 @@ namespace Synthetic.Revit
     /// </summary>
     public class Elements
     {
+        internal Elements () { }
+
         /// <summary>
         /// 
         /// </summary>
