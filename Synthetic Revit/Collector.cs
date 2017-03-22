@@ -173,7 +173,7 @@ namespace Synthetic.Revit
         /// 
         /// </summary>
         /// <param name="filters"></param>
-        /// <returns>An Element Filter.  The filter is then passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
+        /// <returns name="ElementFilter">An Element Filter.  The filter is then passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
         public static revitDB.ElementFilter FilterLogicalAnd(IList<revitDB.ElementFilter> filters)
         {
             return new revitDB.LogicalAndFilter(filters);
@@ -183,7 +183,7 @@ namespace Synthetic.Revit
         /// 
         /// </summary>
         /// <param name="filters"></param>
-        /// <returns>An Element Filter.  The filter is then passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
+        /// <returns name="ElementFilter">An Element Filter.  The filter is then passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
         public static revitDB.ElementFilter FilterLogicalOr(IList<revitDB.ElementFilter> filters)
         {
             return new revitDB.LogicalOrFilter(filters);
@@ -194,7 +194,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="categoryId"></param>
         /// <param name="inverted">If true, the filter elements NOT matching the filter criteria are chosen.</param>
-        /// <returns>An Element Filter.  The filter is then passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
+        /// <returns name="ElementFilter">An Element Filter.  The filter is then passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
         public static revitDB.ElementFilter FilterElementCategory(int categoryId, [DefaultArgument("false")] bool inverted)
         {
             return new revitDB.ElementCategoryFilter(new revitDB.ElementId(categoryId), inverted);
@@ -205,7 +205,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="type"></param>
         /// <param name="inverted">If true, the filter elements NOT matching the filter criteria are chosen.</param>
-        /// <returns>An Element Filter.  The filter is then passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
+        /// <returns name="ElementFilter">An Element Filter.  The filter is then passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
         public static revitDB.ElementFilter FilterElementClass(Type type, [DefaultArgument("false")] bool inverted)
         {
             return new revitDB.ElementClassFilter(type, inverted);
@@ -216,7 +216,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="designOptionId"></param>
         /// <param name="inverted">If true, the filter elements NOT matching the filter criteria are chosen.</param>
-        /// <returns>An Element Filter.  The filter is then passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
+        /// <returns name="ElementFilter">An Element Filter.  The filter is then passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
         public static revitDB.ElementFilter FilterElementDesignOption(int designOptionId, [DefaultArgument("false")] bool inverted)
         {
             return new revitDB.ElementDesignOptionFilter(new revitDB.ElementId(designOptionId), inverted);
@@ -226,7 +226,7 @@ namespace Synthetic.Revit
         /// 
         /// </summary>
         /// <param name="inverted">If true, the filter elements NOT matching the filter criteria are chosen.</param>
-        /// <returns>An Element Filter.  The filter is then passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
+        /// <returns name="ElementFilter">An Element Filter.  The filter is then passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
         public static revitDB.ElementFilter FilterElementIsElementType([DefaultArgument("false")] bool inverted)
         {
             return new revitDB.ElementIsElementTypeFilter(inverted);
@@ -237,7 +237,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="categoryIds"></param>
         /// <param name="inverted">If true, the filter elements NOT matching the filter criteria are chosen.</param>
-        /// <returns>An Element Filter.  The filter is then passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
+        /// <returns name="ElementFilter">An Element Filter.  The filter is then passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
         public static revitDB.ElementFilter FilterElementMulticategory(ICollection<int> categoryIds, [DefaultArgument("false")] bool inverted)
         {
             IList<revitDB.ElementId> categoryElemIds = new List<revitDB.ElementId>();
@@ -254,7 +254,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="worksetId">The workset ID of the workset to filter.</param>
         /// <param name="inverted">If true, the filter elements NOT matching the filter criteria are chosen.</param>
-        /// <returns>An Element Filter.  The filter is then passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
+        /// <returns name="ElementFilter">An Element Filter.  The filter is then passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
         public static revitDB.ElementFilter FilterElementWorkset(int worksetId, [DefaultArgument("false")] bool inverted)
         {
             return new revitDB.ElementWorksetFilter(new revitDB.WorksetId(worksetId), inverted);
@@ -264,7 +264,7 @@ namespace Synthetic.Revit
         /// 
         /// </summary>
         /// <param name="elementIds"></param>
-        /// <returns>An Element Filter.  The filter is then passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
+        /// <returns name="ElementFilter">An Element Filter.  The filter is then passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
         public static revitDB.ElementFilter FilterExclusion(ICollection<int> elementIds)
         {
             IList<revitDB.ElementId> elemIds = new List<revitDB.ElementId>();
@@ -281,7 +281,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="familyId"></param>
         /// <param name="document"></param>
-        /// <returns>An Element Filter.  The filter is then passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
+        /// <returns name="ElementFilter">An Element Filter.  The filter is then passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
         public static revitDB.ElementFilter FilterFamilySymbol(revitDB.ElementId familyId,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
@@ -293,7 +293,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="levelId"></param>
         /// <param name="inverted"></param>
-        /// <returns>An Element Filter.  The filter is then passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
+        /// <returns name="ElementFilter">An Element Filter.  The filter is then passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
         public static revitDB.ElementFilter FilterElementLevel(revitDB.ElementId levelId, [DefaultArgument("false")] bool inverted)
         {
             return new revitDB.ElementLevelFilter(levelId, inverted);
