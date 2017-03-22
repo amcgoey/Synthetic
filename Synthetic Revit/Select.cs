@@ -10,6 +10,7 @@ using revitFECollector = Autodesk.Revit.DB.FilteredElementCollector;
 
 using Revit.Elements;
 using dynElem = Revit.Elements.Element;
+using dynCat = Revit.Elements.Category;
 using RevitServices.Transactions;
 using RevitServices.Persistence;
 
@@ -47,11 +48,11 @@ namespace Synthetic.Revit
         /// <summary>
         /// Selects all instance elements in a category, excludes element types.
         /// </summary>
-        /// <param name="categoryId">The categoryId of the elements you wish to select.</param>
+        /// <param name="category">The categoryId of the elements you wish to select.</param>
         /// <param name="inverted">If false, elements in the chosen category will be selected.  If true, elements NOT in the chosen category will be selected.</param>
         /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
         /// <returns name="Elements">A list of Dynamo elements that pass the filer.</returns>
-        public static IList<dynElem> AllElementsOfCategory(int categoryId,
+        public static IList<dynElem> AllElementsOfCategory(dynCat category,
             [DefaultArgument("false")] bool inverted,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
@@ -60,7 +61,7 @@ namespace Synthetic.Revit
             // Select only elements that are NOT Types (the filter is inverted)
             List<revitDB.ElementFilter> filters = new List<Autodesk.Revit.DB.ElementFilter>();
             filters.Add(synthCollect.FilterElementIsElementType(true));
-            filters.Add(synthCollect.FilterElementCategory(categoryId, inverted));
+            filters.Add(synthCollect.FilterElementCategory(category, inverted));
 
             synthCollect.SetFilters(collector, filters);
 
@@ -70,11 +71,11 @@ namespace Synthetic.Revit
         /// <summary>
         /// Selects all Family Symbol types in a category, but excludes instances of those elements.  The node does not work with System familes because System Families do not have a Family Sybmol.
         /// </summary>
-        /// <param name="categoryId">The categoryId of the elements you wish to select.</param>
+        /// <param name="category">The categoryId of the elements you wish to select.</param>
         /// <param name="inverted">If false, elements in the chosen category will be selected.  If true, elements NOT in the chosen category will be selected.</param>
         /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
         /// <returns name="Elements">A list of Dynamo elements that pass the filer.</returns>
-        public static IList<dynElem> AllFamilyTypesOfCategory(int categoryId,
+        public static IList<dynElem> AllFamilyTypesOfCategory(dynCat category,
             [DefaultArgument("false")] bool inverted,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
@@ -83,7 +84,7 @@ namespace Synthetic.Revit
             // Select only elements that are Family Symbols
             List<revitDB.ElementFilter> filters = new List<Autodesk.Revit.DB.ElementFilter>();
             filters.Add(synthCollect.FilterElementClass(typeof(revitDB.FamilySymbol), false));
-            filters.Add(synthCollect.FilterElementCategory(categoryId, inverted));
+            filters.Add(synthCollect.FilterElementCategory(category, inverted));
 
             synthCollect.SetFilters(collector, filters);
 
