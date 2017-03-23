@@ -77,7 +77,7 @@ namespace Synthetic.Revit
 
             using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
             {
-                trans.Start("Set Number of Exterior Layers");
+                trans.Start("Apply Structure to Wall Type");
                 revitWallType.SetCompoundStructure(compoundStructure.internalCompoundStructure);
                 trans.Commit();
             }
