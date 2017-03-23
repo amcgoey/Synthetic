@@ -113,12 +113,12 @@ namespace Synthetic.Revit
         /// <param name="numLayers"></param>
         /// <param name="doc"></param>
         /// <returns></returns>
-        public static revitCS SetNumberOfExteriorLayers (revitCS compoudStructure, int numLayers, revitDoc doc)
+        public static CompoundStructure SetNumberOfExteriorLayers (CompoundStructure compoudStructure, int numLayers, revitDoc doc)
         {
             using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(doc))
             {
                 trans.Start("Set Number of Exterior Layers");
-                compoudStructure.SetNumberOfShellLayers(Autodesk.Revit.DB.ShellLayerType.Exterior, numLayers);
+                compoudStructure.internalCompoundStructure.SetNumberOfShellLayers(Autodesk.Revit.DB.ShellLayerType.Exterior, numLayers);
                 trans.Commit();
             }
             return compoudStructure;
@@ -131,15 +131,25 @@ namespace Synthetic.Revit
         /// <param name="numLayers"></param>
         /// <param name="doc"></param>
         /// <returns></returns>
-        public static revitCS SetNumberOfInteriorLayers(revitCS compoudStructure, int numLayers, revitDoc doc)
+        public static CompoundStructure SetNumberOfInteriorLayers(CompoundStructure compoudStructure, int numLayers, revitDoc doc)
         {
             using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(doc))
             {
                 trans.Start("Set Number of Interior Layers");
-                compoudStructure.SetNumberOfShellLayers(Autodesk.Revit.DB.ShellLayerType.Interior, numLayers);
+                compoudStructure.internalCompoundStructure.SetNumberOfShellLayers(Autodesk.Revit.DB.ShellLayerType.Interior, numLayers);
                 trans.Commit();
             }
             return compoudStructure;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="compoundStructure"></param>
+        /// <returns></returns>
+        public static int GetFirstCoreLayerIndex(CompoundStructure compoundStructure)
+        {
+            return compoundStructure.internalCompoundStructure.GetFirstCoreLayerIndex();
         }
 
         /// <summary>
@@ -216,7 +226,7 @@ namespace Synthetic.Revit
             Type t = typeof(revitCS);
 
             string s = "";
-            s = string.Concat(s, string.Format("{1}.{2}, Core Layers {3} to {4}", t.Namespace, GetType().Name, cs.GetFirstCoreLayerIndex(), cs.GetLastCoreLayerIndex()));
+            s = string.Concat(s, string.Format("{1}.{2}: Core Layers {3} to {4}", t.Namespace, GetType().Name, cs.GetFirstCoreLayerIndex(), cs.GetLastCoreLayerIndex()));
             int i = 0;
 
             foreach (revitCSLayer layer in csLayers)
