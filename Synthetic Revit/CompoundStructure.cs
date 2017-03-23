@@ -22,10 +22,12 @@ namespace Synthetic.Revit
     public class CompoundStructure
     {
         internal revitCS internalCompoundStructure { get; private set; }
+        internal cg.IList<revitDB.CompoundStructureLayer> internalLayers { get; private set; }
 
         internal CompoundStructure (revitCS cs)
         {
             internalCompoundStructure = cs;
+            internalLayers = cs.GetLayers();
         }
 
         /// <summary>
@@ -65,12 +67,15 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="wallType"></param>
         /// <param name="compoundStructure"></param>
+        /// <param name="document"></param>
         /// <returns></returns>
-        public static dynamoElements.WallType ToWall(dynamoElements.WallType wallType, CompoundStructure compoundStructure, revitDoc doc)
+        public static dynamoElements.WallType ToWall(dynamoElements.WallType wallType,
+            CompoundStructure compoundStructure,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
             revitDB.WallType revitWallType = (revitDB.WallType)wallType.InternalElement;
 
-            using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(doc))
+            using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
             {
                 trans.Start("Set Number of Exterior Layers");
                 revitWallType.SetCompoundStructure(compoundStructure.internalCompoundStructure);
@@ -169,7 +174,7 @@ namespace Synthetic.Revit
         /// <returns></returns>
         public static cg.IList<revitCSLayer> GetLayers (CompoundStructure compoundStructure)
         {
-            return compoundStructure.internalCompoundStructure.GetLayers();
+            return compoundStructure.internalLayers;
         }
 
         /// <summary>
@@ -180,6 +185,7 @@ namespace Synthetic.Revit
         /// <returns></returns>
         public static CompoundStructure SetLayers(CompoundStructure compoundStructure, cg.IList<revitCSLayer> layers)
         {
+            compoundStructure.internalLayers = layers;
             compoundStructure.internalCompoundStructure.SetLayers(layers);
             return compoundStructure;
         }
@@ -232,14 +238,13 @@ namespace Synthetic.Revit
         public override string ToString()
         {
             revitCS cs = this.internalCompoundStructure;
-            cg.IList<revitCSLayer> csLayers = cs.GetLayers();
-            Type t = typeof(revitCS);
+            Type t = typeof(CompoundStructure);
 
             string s = "";
             s = string.Concat(s, string.Format("{1}.{2}: Core Layers {3} to {4}", t.Namespace, GetType().Name, cs.GetFirstCoreLayerIndex(), cs.GetLastCoreLayerIndex()));
             int i = 0;
 
-            foreach (revitCSLayer layer in csLayers)
+            foreach (revitCSLayer layer in this.internalLayers)
             {
                 s = string.Concat(s, string.Format("\n  Layer {0}: {1}, Width-> {2}, MaterialId-> {3}", i, layer.Function, layer.Width, layer.MaterialId));
                 i++;
