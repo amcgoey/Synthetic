@@ -216,7 +216,7 @@ namespace Synthetic.Revit
             Type t = typeof(revitCS);
 
             string s = "";
-            s = string.Concat(s, t.Namespace, ".", GetType().Name);
+            s = string.Concat(s, string.Format("{1}.{2}, Core Layers {3} to {4}", t.Namespace, GetType().Name, cs.GetFirstCoreLayerIndex(), cs.GetLastCoreLayerIndex()));
             int i = 0;
 
             foreach (revitCSLayer layer in csLayers)
