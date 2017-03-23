@@ -157,6 +157,16 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="compoundStructure"></param>
         /// <returns></returns>
+        public static int GetLastCoreLayerIndex(CompoundStructure compoundStructure)
+        {
+            return compoundStructure.internalCompoundStructure.GetLastCoreLayerIndex();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="compoundStructure"></param>
+        /// <returns></returns>
         public static cg.IList<revitCSLayer> GetLayers (CompoundStructure compoundStructure)
         {
             return compoundStructure.internalCompoundStructure.GetLayers();
