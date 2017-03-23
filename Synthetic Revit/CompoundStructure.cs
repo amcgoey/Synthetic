@@ -12,6 +12,8 @@ using revitCSLayer = Autodesk.Revit.DB.CompoundStructureLayer;
 
 using dynamoElements = Revit.Elements;
 
+using synthDict = Synthetic.Core.Dictionary;
+
 namespace Synthetic.Revit
 {
     /// <summary>
@@ -104,6 +106,13 @@ namespace Synthetic.Revit
             return new CompoundStructure(revitCS.CreateSimpleCompoundStructure(layerList));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="compoudStructure"></param>
+        /// <param name="numLayers"></param>
+        /// <param name="doc"></param>
+        /// <returns></returns>
         public static revitCS SetNumberOfExteriorLayers (revitCS compoudStructure, int numLayers, revitDoc doc)
         {
             using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(doc))
@@ -115,6 +124,13 @@ namespace Synthetic.Revit
             return compoudStructure;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="compoudStructure"></param>
+        /// <param name="numLayers"></param>
+        /// <param name="doc"></param>
+        /// <returns></returns>
         public static revitCS SetNumberOfInteriorLayers(revitCS compoudStructure, int numLayers, revitDoc doc)
         {
             using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(doc))
@@ -153,6 +169,16 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="layer"></param>
         /// <returns></returns>
+        public static synthDict LayerToDictionary(revitCSLayer layer)
+        {
+            return synthDict.Wrap((cg.Dictionary<string, object>)LayerToList(layer));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="layer"></param>
+        /// <returns></returns>
         [MultiReturn(new[] { "Width", "Layer Functions", "Material IDs" })]
         public static IDictionary LayerToList (revitCSLayer layer)
         {
@@ -167,6 +193,13 @@ namespace Synthetic.Revit
             };
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="layerFunction"></param>
+        /// <param name="materialId"></param>
+        /// <returns></returns>
         public static revitCSLayer LayerByList (double width, revitDB.MaterialFunctionAssignment layerFunction, revitDB.ElementId materialId)
         {
             return new revitCSLayer(width, layerFunction, materialId);
