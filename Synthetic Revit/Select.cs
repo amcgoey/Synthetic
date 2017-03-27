@@ -90,5 +90,25 @@ namespace Synthetic.Revit
 
             return synthCollect.ToElements(collector);
         }
+
+        public static IEnumerable<revitDB.Material> AllMaterials([DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        {
+            {
+                revitFECollector collector
+                  = new revitFECollector(document);
+
+                return collector
+                  .OfClass(typeof(revitDB.Material))
+                  .OfType<revitDB.Material>();
+            }
+        }
+
+        public static revitDB.Material GetMaterialByName(IEnumerable<revitDB.Material> materials, string materialName)
+        {
+            return materials
+                .OfType<revitDB.Material>()
+                .FirstOrDefault(
+                m => m.Name.Equals(materialName));
+        }
     }
 }
