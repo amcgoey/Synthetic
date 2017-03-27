@@ -22,12 +22,42 @@ namespace Synthetic.Revit
     public class CompoundStructure
     {
         internal revitCS internalCompoundStructure { get; private set; }
-        internal cg.IList<revitDB.CompoundStructureLayer> internalLayers { get; private set; }
+        //internal cg.IList<revitDB.CompoundStructureLayer> internalLayers { get; private set; }
+        internal cg.IList<cg.Dictionary<string, object>> internalLayers { get; private set; }
+        internal int internalFirstCoreLayerIndex { get; private set; }
+        internal int internalLastCoreLayerIndex { get; private set; }
 
         internal CompoundStructure (revitCS cs)
         {
             internalCompoundStructure = cs;
-            internalLayers = cs.GetLayers();
+            internalLayers = _GetRevitLayers(cs);
+            internalFirstCoreLayerIndex = cs.GetFirstCoreLayerIndex();
+            internalLastCoreLayerIndex = cs.GetLastCoreLayerIndex();
+        }
+
+        internal static cg.Dictionary<string, object> _RevitLayerToDictionary (revitCSLayer layer)
+        {
+            double width = layer.Width;
+            revitDB.MaterialFunctionAssignment layerFunction = layer.Function;
+            revitDB.ElementId materialId = layer.MaterialId;
+            return new cg.Dictionary<string, object>
+            {
+                {"Width", width},
+                {"Layer Function", layerFunction},
+                {"Material ID", materialId }
+            };
+        }
+
+        internal static cg.IList<cg.Dictionary<string, object>> _GetRevitLayers (revitCS cs)
+        {
+            cg.IList<cg.Dictionary<string, object>> layers = new cg.List<cg.Dictionary<string, object>>();
+
+            foreach (revitCSLayer layer in cs.GetLayers())
+            {
+                layers.Add(_RevitLayerToDictionary(layer));
+            }
+
+            return layers;
         }
 
         /// <summary>
