@@ -21,12 +21,31 @@ namespace Synthetic.Revit
     /// </summary>
     public class CompoundStructure
     {
+        #region Internal Properties
+
         internal revitCS internalCompoundStructure { get; private set; }
         //internal cg.IList<revitDB.CompoundStructureLayer> internalLayers { get; private set; }
-        internal cg.IList<cg.Dictionary<string, object>> internalLayers { get; private set; }
-        internal int internalFirstCoreLayerIndex { get; private set; }
-        internal int internalLastCoreLayerIndex { get; private set; }
+        internal cg.IList<cg.Dictionary<string, object>> internalLayers
+        {
+            get { return CompoundStructure._GetRevitLayers(this.internalCompoundStructure, this.internalDocument); }
+        }
+
+        internal int internalFirstCoreLayerIndex
+        {
+            get { return this.internalCompoundStructure.GetFirstCoreLayerIndex(); }
+            set { this.internalCompoundStructure.SetNumberOfShellLayers(Autodesk.Revit.DB.ShellLayerType.Exterior, value); }
+        }
+
+        internal int internalLastCoreLayerIndex
+        {
+            get { return this.internalCompoundStructure.GetLastCoreLayerIndex(); }
+            set { this.internalCompoundStructure.SetNumberOfShellLayers(Autodesk.Revit.DB.ShellLayerType.Exterior, value); }
+        }
+
         internal revitDoc internalDocument { get; private set; }
+
+        #endregion
+        #region Internal Constructors
 
         internal CompoundStructure (revitCS cs, revitDoc doc)
         {
@@ -35,10 +54,13 @@ namespace Synthetic.Revit
             internalCompoundStructure = cs;
 
             internalDocument = doc;
-            internalLayers = _GetRevitLayers(cs, doc);
+            //internalLayers = _GetRevitLayers(cs, doc);
             internalFirstCoreLayerIndex = cs.GetFirstCoreLayerIndex();
             internalLastCoreLayerIndex = cs.GetLastCoreLayerIndex();
         }
+
+        #endregion
+        #region Internal Methods
 
         internal static cg.Dictionary<string, object> _RevitLayerToDictionary (revitCSLayer layer, revitDoc doc)
         {
@@ -107,60 +129,8 @@ namespace Synthetic.Revit
             return destinationCS;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="compound"></param>
-        /// <param name="document"></param>
-        /// <returns></returns>
-        public static CompoundStructure Wrap(revitCS compound, [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
-        {
-            return new CompoundStructure(compound, document);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="compoundStructure"></param>
-        /// <returns></returns>
-        public static revitCS Unwrap (CompoundStructure compoundStructure)
-        {
-            return compoundStructure.internalCompoundStructure;
-        }
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="wallType"></param>
-        /// <returns></returns>
-        public static CompoundStructure FromWall(dynamoElements.WallType wallType)
-        {
-            revitDB.WallType unwrapped = (revitDB.WallType)wallType.InternalElement;
-
-            return new CompoundStructure(unwrapped.GetCompoundStructure());
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="wallType"></param>
-        /// <param name="compoundStructure"></param>
-        /// <param name="document"></param>
-        /// <returns></returns>
-        public static dynamoElements.WallType ToWall(dynamoElements.WallType wallType,
-            CompoundStructure compoundStructure,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
-        {
-            revitDB.WallType revitWallType = (revitDB.WallType)wallType.InternalElement;
-
-            using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
-            {
-                trans.Start("Apply Structure to Wall Type");
-                revitWallType.SetCompoundStructure(compoundStructure.internalCompoundStructure);
-                trans.Commit();
-            }
-            return wallType;
-        }
+        #endregion
+        #region Public Static Methods
 
         /// <summary>
         /// 
@@ -191,6 +161,64 @@ namespace Synthetic.Revit
             }
 
             return new CompoundStructure(revitCS.CreateSimpleCompoundStructure(layerList), document);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="compound"></param>
+        /// <param name="document"></param>
+        /// <returns></returns>
+        public static CompoundStructure Wrap(revitCS compound,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        {
+            return new CompoundStructure(compound, document);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="compoundStructure"></param>
+        /// <returns></returns>
+        public static revitCS Unwrap (CompoundStructure compoundStructure)
+        {
+            return compoundStructure.internalCompoundStructure;
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="wallType"></param>
+        /// <param name="document"></param>
+        /// <returns></returns>
+        public static CompoundStructure FromWall(dynamoElements.WallType wallType,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        {
+            revitDB.WallType unwrapped = (revitDB.WallType)wallType.InternalElement;
+
+            return new CompoundStructure(unwrapped.GetCompoundStructure(), document);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="wallType"></param>
+        /// <param name="compoundStructure"></param>
+        /// <param name="document"></param>
+        /// <returns></returns>
+        public static dynamoElements.WallType ToWall(dynamoElements.WallType wallType,
+            CompoundStructure compoundStructure,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        {
+            revitDB.WallType revitWallType = (revitDB.WallType)wallType.InternalElement;
+
+            using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+            {
+                trans.Start("Apply Structure to Wall Type");
+                revitWallType.SetCompoundStructure(compoundStructure.internalCompoundStructure);
+                trans.Commit();
+            }
+            return wallType;
         }
 
         /// <summary>
@@ -333,5 +361,6 @@ namespace Synthetic.Revit
             }
             return s;
         }
+        #endregion
     }
 }
