@@ -91,6 +91,11 @@ namespace Synthetic.Revit
             return synthCollect.ToElements(collector);
         }
 
+        /// <summary>
+        /// Retrieve all materials in the document.
+        /// </summary>
+        /// <param name="document">>A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
+        /// <returns name="Materials">A list of Auotdesk.Revit.DB.Materials</returns>
         public static IEnumerable<revitDB.Material> AllMaterials([DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
             {
@@ -103,6 +108,12 @@ namespace Synthetic.Revit
             }
         }
 
+        /// <summary>
+        /// Given a list of materials, returns the material that matches the given name.
+        /// </summary>
+        /// <param name="materials">A list of Autodesk.Revit.DB.Materials</param>
+        /// <param name="materialName">The name of the material</param>
+        /// <returns name="Material">A Autodesk.Revit.DB.Material that matches the given name.</returns>
         public static revitDB.Material GetMaterialByName(IEnumerable<revitDB.Material> materials, string materialName)
         {
             return materials
