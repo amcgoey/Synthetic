@@ -26,8 +26,9 @@ namespace Synthetic.Revit
         internal cg.IList<cg.Dictionary<string, object>> internalLayers { get; private set; }
         internal int internalFirstCoreLayerIndex { get; private set; }
         internal int internalLastCoreLayerIndex { get; private set; }
+        internal int internalDocument { get; private set; }
 
-        internal CompoundStructure (revitCS cs)
+        internal CompoundStructure (revitCS cs, revitDoc doc)
         {
             internalCompoundStructure = cs;
             internalLayers = _GetRevitLayers(cs);
@@ -35,16 +36,17 @@ namespace Synthetic.Revit
             internalLastCoreLayerIndex = cs.GetLastCoreLayerIndex();
         }
 
-        internal static cg.Dictionary<string, object> _RevitLayerToDictionary (revitCSLayer layer)
+        internal static cg.Dictionary<string, object> _RevitLayerToDictionary (revitCSLayer layer, revitDoc doc)
         {
             double width = layer.Width;
             revitDB.MaterialFunctionAssignment layerFunction = layer.Function;
-            revitDB.ElementId materialId = layer.MaterialId;
+            //revitDB.ElementId materialId = layer.MaterialId;
+            revitDB.Material material = doc.GetElement(layer.materialId);
             return new cg.Dictionary<string, object>
             {
                 {"Width", width},
                 {"Layer Function", layerFunction},
-                {"Material ID", materialId }
+                {"Material ID", material }
             };
         }
 
