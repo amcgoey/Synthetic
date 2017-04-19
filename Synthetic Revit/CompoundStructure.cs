@@ -92,35 +92,19 @@ namespace Synthetic.Revit
         {
             CompoundStructure destinationCS;
 
-            cg.List<double> destinationWidths = new cg.List<double>();
-            cg.List<revitDB.MaterialFunctionAssignment> destinationLayerFunctions = new cg.List<revitDB.MaterialFunctionAssignment>();
-            cg.List<revitDB.Material> destinationMaterials = new cg.List<revitDB.Material>();
+            cg.IList<cg.Dictionary<string, object>> destinationLayers = new cg.List<cg.Dictionary<string, object>>();
 
             foreach (cg.Dictionary<string, object> sourceLayer in compoundStructure.internalLayers)
             {
-                foreach (cg.KeyValuePair<string, object> layerProperty in sourceLayer)
-                {
-                    if (layerProperty.Key == "Material")
-                    {
-                        revitDB.Material sourceMaterial = (revitDB.Material)layerProperty.Value;
-                        revitDB.Material destinationMateiral = Select.GetMaterialByName(Select.AllMaterials(destinationDoc), sourceMaterial.Name);
+                revitDB.Material sourceMaterial = (revitDB.Material)layerProperty.Value;
+                revitDB.Material destinationMaterial = Select.GetMaterialByName(Select.AllMaterials(destinationDoc), sourceMaterial.Name);
 
-                        if (destinationMateiral == null)
-                        {
-                            Elements.CopyElementsBetweenDocs(compoundStructure.internalDocument, new cg.List<int>(sourceMaterial.Id.IntegerValue), destinationDoc);
-                            destinationMateiral = Select.GetMaterialByName(Select.AllMaterials(destinationDoc), sourceMaterial.Name);
-                        }
-                        destinationMaterials.Add(destinationMateiral);
-                    }
-                    else if (layerProperty.Key == "Width")
-                    {
-                        destinationWidths.Add((double)layerProperty.Value);
-                    }
-                    else if (layerProperty.Key == "Layer Function")
-                    {
-                        destinationLayerFunctions.Add((revitDB.MaterialFunctionAssignment)layerProperty.Value);
-                    }
+                if (destinationMaterial == null)
+                {
+                    Elements.CopyElementsBetweenDocs(compoundStructure.internalDocument, new cg.List<int>(sourceMaterial.Id.IntegerValue), destinationDoc);
+                    destinationMaterial = Select.GetMaterialByName(Select.AllMaterials(destinationDoc), sourceMaterial.Name);
                 }
+                destinationMaterials.Add(destinationMaterial);
             }
 
             destinationCS = CompoundStructure.ByLayerProperties(destinationWidths, destinationLayerFunctions, destinationMaterials, destinationDoc);
