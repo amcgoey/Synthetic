@@ -333,7 +333,6 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="familyType">A dynamo wrapped family type</param>
         /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
-        /// <returns>A Synthetic Collector object</param>
         /// <returns name="ElementFilter">An Element Filter.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
         public static revitDB.ElementFilter FilterFamilyInstance(dynFamilyType familyType,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
@@ -363,6 +362,12 @@ namespace Synthetic.Revit
             return new revitDB.ElementLevelFilter(new revitDB.ElementId(level.Id), inverted);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filterRules"></param>
+        /// <param name="inverted"></param>
+        /// <returns></returns>
         public static revitDB.ElementFilter FilterElementParameter(IList<revitDB.FilterRule> filterRules, bool inverted)
         {
             return new revitDB.ElementParameterFilter(filterRules, inverted);

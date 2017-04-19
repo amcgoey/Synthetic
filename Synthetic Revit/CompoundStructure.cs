@@ -96,7 +96,9 @@ namespace Synthetic.Revit
 
             foreach (cg.Dictionary<string, object> sourceLayer in compoundStructure.internalLayers)
             {
-                revitDB.Material sourceMaterial = (revitDB.Material)layerProperty.Value;
+                cg.Dictionary<string, object> destintationLayer = sourceLayer;
+
+                revitDB.Material sourceMaterial = (revitDB.Material)sourceLayer["Material"];
                 revitDB.Material destinationMaterial = Select.GetMaterialByName(Select.AllMaterials(destinationDoc), sourceMaterial.Name);
 
                 if (destinationMaterial == null)
@@ -104,10 +106,12 @@ namespace Synthetic.Revit
                     Elements.CopyElementsBetweenDocs(compoundStructure.internalDocument, new cg.List<int>(sourceMaterial.Id.IntegerValue), destinationDoc);
                     destinationMaterial = Select.GetMaterialByName(Select.AllMaterials(destinationDoc), sourceMaterial.Name);
                 }
-                destinationMaterials.Add(destinationMaterial);
+                destintationLayer["Material"] = destinationMaterial;
+
+                destinationLayers.Add(destintationLayer);
             }
 
-            destinationCS = CompoundStructure.ByLayerProperties(destinationWidths, destinationLayerFunctions, destinationMaterials, destinationDoc);
+            destinationCS = CompoundStructure.ByLayerDictionary(destinationLayers, destinationDoc);
 
             return destinationCS;
         }
