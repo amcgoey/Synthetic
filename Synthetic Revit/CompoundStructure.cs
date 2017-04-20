@@ -17,7 +17,7 @@ using synthDict = Synthetic.Core.Dictionary;
 namespace Synthetic.Revit
 {
     /// <summary>
-    /// 
+    /// Several Revit system families can be represnted as an assembly of layers called a CompoundStructure.
     /// </summary>
     public class CompoundStructure
     {
@@ -45,13 +45,13 @@ namespace Synthetic.Revit
 
         #endregion
         #region Internal Constructors
-        
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="cs"></param>
         /// <param name="doc"></param>
-        internal CompoundStructure (revitCS cs, revitDoc doc)
+        internal CompoundStructure(revitCS cs, revitDoc doc)
         {
             internalCompoundStructure = cs;
             internalDocument = doc;
@@ -60,7 +60,7 @@ namespace Synthetic.Revit
         #endregion
         #region Internal Methods
 
-        internal static cg.Dictionary<string, object> _RevitLayerToDictionary (revitCSLayer layer, revitDoc doc)
+        internal static cg.Dictionary<string, object> _RevitLayerToDictionary(revitCSLayer layer, revitDoc doc)
         {
             double width = layer.Width;
             revitDB.MaterialFunctionAssignment layerFunction = layer.Function;
@@ -73,7 +73,7 @@ namespace Synthetic.Revit
             };
         }
 
-        internal static cg.IList<cg.Dictionary<string, object>> _GetLayers (revitCS cs, revitDoc doc)
+        internal static cg.IList<cg.Dictionary<string, object>> _GetLayers(revitCS cs, revitDoc doc)
         {
             cg.IList<cg.Dictionary<string, object>> layers = new cg.List<cg.Dictionary<string, object>>();
 
@@ -85,9 +85,9 @@ namespace Synthetic.Revit
             return layers;
         }
 
-        
 
-        internal static CompoundStructure _CopyToDocument (CompoundStructure compoundStructure, revitDoc destinationDoc)
+
+        internal static CompoundStructure _CopyToDocument(CompoundStructure compoundStructure, revitDoc destinationDoc)
         {
             CompoundStructure destinationCS;
 
@@ -110,14 +110,13 @@ namespace Synthetic.Revit
                 destinationLayers.Add(destintationLayer);
             }
 
-            destinationCS = CompoundStructure.ByLayerDictionary( destinationLayers, destinationDoc);
+            destinationCS = CompoundStructure.ByLayerDictionary(destinationLayers, destinationDoc);
 
             return destinationCS;
         }
 
         #endregion
-        #region Public Static Methods
-
+        #region Public Constructors
         /// <summary>
         /// 
         /// </summary>
@@ -155,7 +154,7 @@ namespace Synthetic.Revit
         /// <param name="layers"></param>
         /// <param name="document"></param>
         /// <returns></returns>
-        public static CompoundStructure ByLayerDictionary (cg.IList<cg.Dictionary<string, object>> layers,
+        public static CompoundStructure ByLayerDictionary(cg.IList<cg.Dictionary<string, object>> layers,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
             cg.List<revitCSLayer> layerList = new cg.List<revitCSLayer>();
@@ -172,13 +171,21 @@ namespace Synthetic.Revit
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="compoundStructure"></param>
+        /// <param name="wallType"></param>
         /// <param name="document"></param>
         /// <returns></returns>
-        public static CompoundStructure ByCompoundStructure (revitCS compoundStructure,
+        public static CompoundStructure FromWallType(dynamoElements.WallType wallType,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
-            return new CompoundStructure(compoundStructure, document);
+            revitDB.WallType unwrappedWall = (revitDB.WallType)wallType.InternalElement;
+            revitCS compoundStructure = unwrappedWall.GetCompoundStructure();
+
+            if (compoundStructure != null)
+            {
+                return new CompoundStructure(compoundStructure, document);
+            }
+            else { return null; }
+
         }
 
         /// <summary>
@@ -198,27 +205,13 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="compoundStructure"></param>
         /// <returns></returns>
-        public static revitCS Unwrap (CompoundStructure compoundStructure)
+        public static revitCS Unwrap(CompoundStructure compoundStructure)
         {
             return compoundStructure.internalCompoundStructure;
         }
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="wallType"></param>
-        /// <param name="document"></param>
-        /// <returns></returns>
-        public static CompoundStructure FromWallType(dynamoElements.WallType wallType,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
-        {
-            revitDB.WallType unwrappedWall = (revitDB.WallType)wallType.InternalElement;
-            revitCS compoundStructure = unwrappedWall.GetCompoundStructure();
 
-            //return new CompoundStructure(unwrappedWall.GetCompoundStructure(), document);
-            return new CompoundStructure(compoundStructure, document);
-        }
-
+        #endregion
+        #region Public Static Methods
         /// <summary>
         /// 
         /// </summary>
@@ -246,7 +239,7 @@ namespace Synthetic.Revit
         /// <param name="numLayers"></param>
         /// <param name="doc"></param>
         /// <returns></returns>
-        public static CompoundStructure SetNumberOfExteriorLayers (CompoundStructure compoundStructure, int numLayers)
+        public static CompoundStructure SetNumberOfExteriorLayers(CompoundStructure compoundStructure, int numLayers)
         {
             using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(compoundStructure.internalDocument))
             {
@@ -313,7 +306,7 @@ namespace Synthetic.Revit
         /// <param name="compoundStructure"></param>
         /// <param name="destinationDocument"></param>
         /// <returns></returns>
-        public static CompoundStructure CopyToDocument (CompoundStructure compoundStructure, revitDoc destinationDocument)
+        public static CompoundStructure CopyToDocument(CompoundStructure compoundStructure, revitDoc destinationDocument)
         {
             return _CopyToDocument(compoundStructure, destinationDocument);
         }
@@ -383,31 +376,33 @@ namespace Synthetic.Revit
         /// <param name="layerFunction"></param>
         /// <param name="materialId"></param>
         /// <returns></returns>
-        public static revitCSLayer LayerByList (double width, revitDB.MaterialFunctionAssignment layerFunction, revitDB.ElementId materialId)
+        public static revitCSLayer LayerByList(double width, revitDB.MaterialFunctionAssignment layerFunction, revitDB.ElementId materialId)
         {
             return new revitCSLayer(width, layerFunction, materialId);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        //public override string ToString()
+        //{
+        //    revitCS cs = internalCompoundStructure;
+        //    Type t = typeof(CompoundStructure);
+
+        //    string s = "";
+        //    //s = string.Concat(s, string.Format("{1}.{2}: Core Layers {3} to {4}", t.Namespace, GetType().Name, cs.GetFirstCoreLayerIndex(), cs.GetLastCoreLayerIndex()));
+        //    s = string.Concat(s, string.Format("{1}.{2}: Core Layers 0 to 0", t.Namespace, this.GetType().Name));
+        //    int i = 0;
+
+        //    //foreach (cg.Dictionary<string, object> layer in this.internalLayers)
+        //    //{
+        //    //    s = string.Concat(s, string.Format("\n  Layer {0}: {1}, Width-> {2}, MaterialId-> {3}", i, layer["Width"], layer["Layer Function"], layer["Material"]));
+        //    //    i++;
+        //    //}
+        //    return s;
+        //}
         public override string ToString()
         {
-            revitCS cs = this.internalCompoundStructure;
-            Type t = typeof(CompoundStructure);
-
-            string s = "";
-            s = string.Concat(s, string.Format("{1}.{2}: Core Layers {3} to {4}", t.Namespace, GetType().Name, cs.GetFirstCoreLayerIndex(), cs.GetLastCoreLayerIndex()));
-            int i = 0;
-
-            foreach (cg.Dictionary<string, object> layer in this.internalLayers)
-            {
-                s = string.Concat(s, string.Format("\n  Layer {0}: {1}, Width-> {2}, MaterialId-> {3}", i, layer["Width"], layer["Layer Function"], layer["Material"]));
-                i++;
-            }
-            return s;
+            return base.ToString();
         }
+
         #endregion
     }
 }
