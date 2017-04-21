@@ -570,26 +570,22 @@ namespace Synthetic.Revit
 
         #region Utility Functions
 
-        //public override string ToString()
-        //{
-        //    revitCS cs = internalCompoundStructure;
-        //    Type t = typeof(CompoundStructure);
-
-        //    string s = "";
-        //    //s = string.Concat(s, string.Format("{1}.{2}: Core Layers {3} to {4}", t.Namespace, GetType().Name, cs.GetFirstCoreLayerIndex(), cs.GetLastCoreLayerIndex()));
-        //    s = string.Concat(s, string.Format("{1}.{2}: Core Layers 0 to 0", t.Namespace, this.GetType().Name));
-        //    int i = 0;
-
-        //    //foreach (cg.Dictionary<string, object> layer in this.internalLayers)
-        //    //{
-        //    //    s = string.Concat(s, string.Format("\n  Layer {0}: {1}, Width-> {2}, MaterialId-> {3}", i, layer["Width"], layer["Layer Function"], layer["Material"]));
-        //    //    i++;
-        //    //}
-        //    return s;
-        //}
+        /// <summary>
+        /// Creates a string representation of the object.
+        /// </summary>
+        /// <returns nampe="string">A string representation of the object.</returns>
         public override string ToString()
         {
-            return string.Format("{1}: Core Layers {2} to {3}", base.ToString(), internalFirstCoreLayerIndex.ToString(), internalLastCoreLayerIndex.ToString());
+            int i = 0;
+            string s = base.ToString() + ": Core Layers " + internalFirstCoreLayerIndex + "to " + internalLastCoreLayerIndex;
+            
+            foreach (cg.Dictionary<string, object> layer in this.internalLayers)
+            {
+                revitDB.Material material = (revitDB.Material)layer["Material"];
+                s = s + "\n  Layer " + i + ": " + layer["Layer Function"] + ", Width-> " + layer["Width"] + ", MaterialId-> " + material.Id.ToString();
+                i++;
+            }
+            return s;
         }
 
         #endregion
