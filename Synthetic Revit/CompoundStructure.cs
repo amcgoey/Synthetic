@@ -262,8 +262,9 @@ namespace Synthetic.Revit
            revitDB.MaterialFunctionAssignment layerFunction,
            revitDB.Material material)
         {
-            revitCSLayer layer = new revitCSLayer(width, layerFunction, material.Id);
-            compoundStructure.internalCompoundStructure.SetLayer(layerIndex, layer);
+            CompoundStructure.SetLayerWidth(compoundStructure, layerIndex, width);
+            CompoundStructure.SetLayerFunction(compoundStructure, layerIndex, layerFunction);
+            CompoundStructure.SetLayerMaterial(compoundStructure, layerIndex, material);
             return compoundStructure;
         }
 
