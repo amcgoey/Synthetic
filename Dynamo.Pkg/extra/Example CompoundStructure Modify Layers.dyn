@@ -1,4 +1,4 @@
-<Workspace Version="1.3.0.875" X="198.033200004328" Y="287.509241830694" zoom="0.178292344904441" ScaleFactor="1" Name="Home" Description="" RunType="Manual" RunPeriod="1000" HasRunWithoutCrash="True">
+<Workspace Version="1.3.0.875" X="-2846.89148423871" Y="-777.807605862122" zoom="0.874925295965316" ScaleFactor="1" Name="Home" Description="" RunType="Manual" RunPeriod="1000" HasRunWithoutCrash="True">
   <NamespaceResolutionMap>
     <ClassMap partialName="DSCore.List" resolvedName="DSCore.List" assemblyName="DSCoreNodes.dll" />
     <ClassMap partialName="Lists.Dictionary" resolvedName="Lists.Dictionary" assemblyName="LunchBox.dll" />
@@ -294,11 +294,11 @@
     <Dynamo.Graph.Notes.NoteModel guid="8f0e43d6-cbb2-4be5-ab0b-b113bdbe11f9" text="Set Number of Interior Layers to Core..." x="-131.819041426136" y="701.330847970729" />
     <Dynamo.Graph.Notes.NoteModel guid="39d9884b-4b2c-4a6a-991e-bd8bcd813113" text="PACKAGE: Synthetic" x="2778.90584546004" y="1338.10299469116" />
     <Dynamo.Graph.Notes.NoteModel guid="f747018c-c42b-4f38-85af-99b62357942c" text="PACKAGE: Synthetic" x="3191.82994717626" y="1440.19961324736" />
-    <Dynamo.Graph.Notes.NoteModel guid="ea90db59-d455-45b2-94b9-e4d913ee549b" text="PACKAGE: Synthetic" x="3799.87203102211" y="1381.21045585933" />
+    <Dynamo.Graph.Notes.NoteModel guid="ea90db59-d455-45b2-94b9-e4d913ee549b" text="PACKAGE: Synthetic" x="3798.72907629831" y="1362.92318027845" />
     <Dynamo.Graph.Notes.NoteModel guid="dc4a2ac9-ded2-4f4f-ba9e-2a320cd948fb" text="PACKAGE: Synthetic" x="3806.67847225919" y="1558.17792802342" />
   </Notes>
   <Annotations>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="817d2c17-49af-45ed-b450-4d6756640038" annotationText="INPUTS" left="-180.472751506207" top="-275.519489794306" width="327.831927616083" height="1078.1488025088" fontSize="30" InitialTop="-229.519489794306" InitialHeight="371.404805425634" TextblockHeight="36" backgrouund="#FFFFB8D8">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="817d2c17-49af-45ed-b450-4d6756640038" annotationText="INPUTS" left="-180.472751506207" top="-275.519489794306" width="327.831927616083" height="1078.14880250879" fontSize="30" InitialTop="-229.519489794306" InitialHeight="371.404805425634" TextblockHeight="36" backgrouund="#FFFFB8D8">
       <Models ModelGuid="a5f4dde5-6e9e-455d-a0c7-dbeced339a0b" />
       <Models ModelGuid="da6b20c5-6089-4023-bc5d-a11d645923ac" />
       <Models ModelGuid="3ca7c17e-5b48-49dd-81cd-a0475f43d442" />
@@ -316,7 +316,7 @@
       <Models ModelGuid="299a4aab-f94c-473e-a090-4d6030fb294d" />
       <Models ModelGuid="659e4a01-aff4-4c42-91e7-7859a6c551b5" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="04b55fb0-098a-4d41-9dd7-59df22f26262" annotationText="OPERATIONS: SET LAYER WIDTH" left="557.780726309313" top="232.915996941883" width="918.480699454617" height="224.41043768689" fontSize="30" InitialTop="278.915996941883" InitialHeight="317.712524354671" TextblockHeight="36" backgrouund="#FF848484">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="04b55fb0-098a-4d41-9dd7-59df22f26262" annotationText="OPERATIONS: SET LAYER WIDTH" left="557.780726309313" top="232.915996941883" width="916.480699454617" height="224.41043768689" fontSize="30" InitialTop="278.915996941883" InitialHeight="317.712524354671" TextblockHeight="36" backgrouund="#FF848484">
       <Models ModelGuid="9b679d9d-2e53-4efe-a551-dec107e5e680" />
       <Models ModelGuid="e1df4188-907c-4243-9a33-1dd30d439456" />
       <Models ModelGuid="0c9f1ee9-9bb1-4483-adb7-5281044441b8" />
@@ -328,7 +328,7 @@
     <Dynamo.Graph.Annotations.AnnotationModel guid="6fbf58a9-93e6-41de-9a57-6baa93c62c52" annotationText="MONITOR" left="1169.66484053153" top="-347.481081848338" width="310" height="197" fontSize="30" InitialTop="-301.481081848338" InitialHeight="181" TextblockHeight="36" backgrouund="#FFA4E1FF">
       <Models ModelGuid="13390c8e-b53a-4938-b9a2-77ebc94d2923" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="29ef775e-e8db-40f4-b7cd-2f20dbabf461" annotationText="OPERTIONS: SET LAYER MATERIAL" left="550.606663235313" top="867.834824246471" width="1946.18379210454" height="368.654112716909" fontSize="30" InitialTop="913.834824246471" InitialHeight="202.907516996537" TextblockHeight="36" backgrouund="#FF848484">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="29ef775e-e8db-40f4-b7cd-2f20dbabf461" annotationText="OPERTIONS: SET LAYER MATERIAL" left="550.606663235313" top="867.834824246471" width="1944.18379210454" height="368.654112716909" fontSize="30" InitialTop="913.834824246471" InitialHeight="202.907516996537" TextblockHeight="36" backgrouund="#FF848484">
       <Models ModelGuid="9954571a-7bba-4ca0-8d76-b2da88e4d584" />
       <Models ModelGuid="d2b8fb32-9196-4027-966b-77a7e41661d1" />
       <Models ModelGuid="e6f30709-7e42-4ae6-9204-c2cb0c3608a0" />
@@ -337,7 +337,7 @@
       <Models ModelGuid="7cb0b1d8-f97f-4197-afc0-ac5c5810b874" />
       <Models ModelGuid="33af026e-6312-476e-a68c-12fb984d1800" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="66a1a6fe-7e63-4c77-9009-f3caaa7c55f8" annotationText="OPERATIONS: SET LAYER MATERIAL FUNCTION" left="546.319877175893" top="485.42902347462" width="1475.61982062749" height="332.603346911123" fontSize="30" InitialTop="531.42902347462" InitialHeight="250.243917587503" TextblockHeight="36" backgrouund="#FF848484">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="66a1a6fe-7e63-4c77-9009-f3caaa7c55f8" annotationText="OPERATIONS: SET LAYER MATERIAL FUNCTION" left="546.319877175893" top="485.42902347462" width="1473.61982062749" height="332.603346911123" fontSize="30" InitialTop="531.42902347462" InitialHeight="250.243917587503" TextblockHeight="36" backgrouund="#FF848484">
       <Models ModelGuid="913c7c8d-38a9-4062-8652-b1d81f71864d" />
       <Models ModelGuid="4b4f1726-0cc5-4ce5-b6a8-c8cbcaa93e10" />
       <Models ModelGuid="bfb35c33-bc13-47e1-9318-1bfa0aa7d5c6" />
@@ -348,7 +348,7 @@
     <Dynamo.Graph.Annotations.AnnotationModel guid="1ab95374-ca40-4264-8887-db67ad848fc9" annotationText="MONITOR" left="2113.06603455208" top="654.563338420043" width="144.866666666667" height="155" fontSize="30" InitialTop="700.563338420043" InitialHeight="124" TextblockHeight="36" backgrouund="#FFA4E1FF">
       <Models ModelGuid="1a5e8d98-e1cd-4724-98f2-e29a90c22efc" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="56cb462d-e1fd-415c-8687-5820a802de8b" annotationText="OPERATIONS: GET COMPOUND STRUCTURE AND MODIFY WALL TYPE" left="551.430662723825" top="-134.445958723479" width="3593.06704071646" height="328.330074869805" fontSize="30" InitialTop="-88.4459587234791" InitialHeight="149" TextblockHeight="36" backgrouund="#FF848484">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="56cb462d-e1fd-415c-8687-5820a802de8b" annotationText="OPERATIONS: GET COMPOUND STRUCTURE AND MODIFY WALL TYPE" left="551.430662723825" top="-134.445958723479" width="3591.06704071646" height="328.330074869805" fontSize="30" InitialTop="-88.4459587234791" InitialHeight="149" TextblockHeight="36" backgrouund="#FF848484">
       <Models ModelGuid="89a5522e-7a9d-4855-ae63-2650af5b3391" />
       <Models ModelGuid="a00a2c6c-3a5a-4931-b161-9b003a87052f" />
       <Models ModelGuid="45b8df3d-64dc-488f-8f11-4111912b1a62" />
@@ -357,7 +357,7 @@
       <Models ModelGuid="dfa5baa4-cf02-46ca-b94e-75f8e2f876f2" />
       <Models ModelGuid="8ce0d9a9-0931-49de-accd-261a95926bfd" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="becc80e4-405f-44ec-8113-292e489f0a3c" annotationText="MONITOR" left="4204.10965019742" top="-85.8078685652383" width="310" height="161" fontSize="30" InitialTop="-39.8078685652383" InitialHeight="124" TextblockHeight="36" backgrouund="#FFA4E1FF">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="becc80e4-405f-44ec-8113-292e489f0a3c" annotationText="MONITOR" left="4204.10965019742" top="-85.8078685652383" width="144.866666666667" height="155" fontSize="30" InitialTop="-39.8078685652383" InitialHeight="124" TextblockHeight="36" backgrouund="#FFA4E1FF">
       <Models ModelGuid="53e86565-3e4e-4366-82a5-ba1a497251a8" />
     </Dynamo.Graph.Annotations.AnnotationModel>
     <Dynamo.Graph.Annotations.AnnotationModel guid="9377e874-7c4f-4d9f-b3b8-eaee9c5549f8" annotationText="INPUTS" left="-160.772275403144" top="2086.08757267822" width="319.80100751164" height="881.10017583429" fontSize="30" InitialTop="2132.08757267822" InitialHeight="682.55464724032" TextblockHeight="36" backgrouund="#FFFFB8D8">
@@ -377,7 +377,7 @@
     <Dynamo.Graph.Annotations.AnnotationModel guid="c4edeaa1-f8a0-4590-aa11-c5b7fb775693" annotationText="MONITOR" left="2797.43141393889" top="2318.38900624638" width="144.866666666667" height="155" fontSize="30" InitialTop="2364.38900624638" InitialHeight="124" TextblockHeight="36" backgrouund="#FFA4E1FF">
       <Models ModelGuid="8c791d02-f5c9-4ec5-9b49-2251f98b9b71" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="e7743d05-e47f-4dbe-a1bd-0c0050a31516" annotationText="OPERATIONS: ALTERNATE METHOD FOR MODIFYING WALL LAYERS" left="579.174112328081" top="2155.09442296808" width="2159.69066678816" height="827.69266679497" fontSize="30" InitialTop="2201.09442296808" InitialHeight="682.759607050496" TextblockHeight="36" backgrouund="#FF848484">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="e7743d05-e47f-4dbe-a1bd-0c0050a31516" annotationText="OPERATIONS: ALTERNATE METHOD FOR MODIFYING WALL LAYERS" left="579.174112328081" top="2155.09442296808" width="2157.69066678816" height="827.69266679497" fontSize="30" InitialTop="2201.09442296808" InitialHeight="682.759607050496" TextblockHeight="36" backgrouund="#FF848484">
       <Models ModelGuid="c305f558-dd1c-40d8-a97e-676b9023d538" />
       <Models ModelGuid="2ac297d7-64af-4658-9182-9e8489b885a0" />
       <Models ModelGuid="789bbcb7-8452-456f-92e2-ca2da241961d" />
@@ -399,7 +399,7 @@
     <Dynamo.Graph.Annotations.AnnotationModel guid="843eea64-9563-42e4-af50-dc5532dc7f8c" annotationText="MONITOR" left="1399.90254037901" top="1923.37300862712" width="310" height="225" fontSize="30" InitialTop="1969.37300862712" InitialHeight="124" TextblockHeight="36" backgrouund="#FFA4E1FF">
       <Models ModelGuid="75cc084c-6442-4d5c-826c-7a3052eb3349" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="49ae29bf-e15b-4e37-ab87-658e0fbe0f41" annotationText="OPERATIONS: SET CORE BOUNDARIES" left="573.338245944996" top="1292.10299469116" width="3442.66940595792" height="408.180866321998" fontSize="30" InitialTop="1338.10299469116" InitialHeight="310.216514711373" TextblockHeight="36" backgrouund="#FF848484">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="49ae29bf-e15b-4e37-ab87-658e0fbe0f41" annotationText="OPERATIONS: SET CORE BOUNDARIES" left="573.338245944996" top="1292.10299469116" width="3442.66940595792" height="408.18086632199" fontSize="30" InitialTop="1338.10299469116" InitialHeight="310.216514711373" TextblockHeight="36" backgrouund="#FF848484">
       <Models ModelGuid="cff5b63c-4357-4f89-a3f3-b9465033b90a" />
       <Models ModelGuid="55b44405-34cb-43f1-89b8-cb4f3990f4f8" />
       <Models ModelGuid="c797c4cf-a038-49be-8901-2a1813d9f1cf" />

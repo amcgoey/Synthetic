@@ -219,7 +219,7 @@ namespace Synthetic.Revit
         public static CompoundStructure Wrap(revitCS compoundStructure,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
-            return new CompoundStructure(compound, document);
+            return new CompoundStructure(compoundStructure, document);
         }
 
         /// <summary>
@@ -486,10 +486,7 @@ namespace Synthetic.Revit
         {
             using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(compoundStructure.internalDocument))
             {
-                trans.Start("Set Number of Exterior Layers");
-                //compoundStructure.internalCompoundStructure.SetNumberOfShellLayers(Autodesk.Revit.DB.ShellLayerType.Exterior, numLayers);
                 compoundStructure.internalFirstCoreLayerIndex = numLayers;
-                trans.Commit();
             }
             return compoundStructure;
         }
@@ -504,10 +501,7 @@ namespace Synthetic.Revit
         {
             using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(compoundStructure.internalDocument))
             {
-                trans.Start("Set Number of Interior Layers");
-                //compoundStructure.internalCompoundStructure.SetNumberOfShellLayers(Autodesk.Revit.DB.ShellLayerType.Interior, numLayers);
                 compoundStructure.internalLastCoreLayerIndex = numLayers;
-                trans.Commit();
             }
             return compoundStructure;
         }
