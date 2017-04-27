@@ -540,19 +540,10 @@ namespace Synthetic.Revit
         /// <param name="compoundStructureLayer"></param>
         /// <param name="document"></param>
         /// <returns></returns>
-        [MultiReturn(new[] { "Width", "Layer Functions", "Material IDs" })]
+        [MultiReturn(new[] { "Width", "Layer Function", "Material" })]
         public static IDictionary CompoundStructureLayerToList(revitCSLayer compoundStructureLayer,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
-            //double width = compoundStructureLayer.Width;
-            //revitDB.MaterialFunctionAssignment layerFunction = compoundStructureLayer.Function;
-            //revitDB.ElementId materialId = compoundStructureLayer.MaterialId;
-            //return new cg.Dictionary<string, object>
-            //{
-            //    {"Width", width},
-            //    {"Layer Functions", layerFunction},
-            //    {"Material IDs", materialId }
-            //};
             return _RevitLayerToDictionary(compoundStructureLayer, document);
         }
 
