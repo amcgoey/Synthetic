@@ -166,6 +166,7 @@ namespace Synthetic.Revit
             {
                 revitDB.Material material = (revitDB.Material)layerDict["Material"];
                 revitCSLayer layer = new revitCSLayer((double)layerDict["Width"], (revitDB.MaterialFunctionAssignment)layerDict["Layer Function"], material.Id);
+                layerList.Add(layer);
             }
 
             return new CompoundStructure(revitCS.CreateSimpleCompoundStructure(layerList), document);
