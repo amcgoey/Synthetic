@@ -423,12 +423,12 @@ namespace Synthetic.Revit
         #region Set Compound Structure Methods
 
         /// <summary>
-        /// 
+        /// Sets the width of the layer at the specified index.
         /// </summary>
-        /// <param name="compoundStructure"></param>
-        /// <param name="layerIndex"></param>
-        /// <param name="width"></param>
-        /// <returns></returns>
+        /// <param name="compoundStructure">A CompoundStructure</param>
+        /// <param name="layerIndex">Index of the layer</param>
+        /// <param name="width">Width of the layer</param>
+        /// <returns name="compoundStructure">The modifed CompoundStructure</returns>
         public static CompoundStructure SetLayerWidth(CompoundStructure compoundStructure, int layerIndex, double width)
         {
             compoundStructure.internalCompoundStructure.SetLayerWidth(layerIndex, width);
@@ -436,12 +436,12 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Sets the Autodesk.Revit.DB.MaterialFunctionAssignment of the layer at the specified index.
         /// </summary>
-        /// <param name="compoundStructure"></param>
-        /// <param name="layerIndex"></param>
-        /// <param name="layerFunction"></param>
-        /// <returns></returns>
+        /// <param name="compoundStructure">A CompoundStructure</param>
+        /// <param name="layerIndex">Index of the layer</param>
+        /// <param name="layerFunction">The material function of the layer</param>
+        /// <returns name="compoundStructure">The modifed CompoundStructure</returns>
         public static CompoundStructure SetLayerFunction(CompoundStructure compoundStructure,
             int layerIndex,
             revitDB.MaterialFunctionAssignment layerFunction)
@@ -451,12 +451,12 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Sets the material of the layer at the specified index.
         /// </summary>
-        /// <param name="compoundStructure"></param>
-        /// <param name="layerIndex"></param>
-        /// <param name="material"></param>
-        /// <returns></returns>
+        /// <param name="compoundStructure">A CompoundStructure</param>
+        /// <param name="layerIndex">Index of the layer</param>
+        /// <param name="material">A Autodesk.Revit.DB.Material element for the layer.  A Dynamo wrapped Revit.Material element will not work.</param>
+        /// <returns name="compoundStructure">The modifed CompoundStructure</returns>
         public static CompoundStructure SetLayerMaterial(CompoundStructure compoundStructure, int layerIndex, revitDB.Material material)
         {
             compoundStructure.internalCompoundStructure.SetMaterialId(layerIndex, material.Id);
@@ -464,12 +464,12 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Sets the material of the layer at the specified index.
         /// </summary>
-        /// <param name="compoundStructure"></param>
-        /// <param name="layerIndex"></param>
-        /// <param name="materialId"></param>
-        /// <returns></returns>
+        /// <param name="compoundStructure">A CompoundStructure</param>
+        /// <param name="layerIndex">Index of the layer</param>
+        /// <param name="materialId">The Element ID of the material of the layer.</param>
+        /// <returns name="compoundStructure">The modifed CompoundStructure</returns>
         public static CompoundStructure SetLayerMaterialId(CompoundStructure compoundStructure, int layerIndex, int materialId)
         {
             compoundStructure.internalCompoundStructure.SetMaterialId(layerIndex, new revitDB.ElementId(materialId));
@@ -477,12 +477,11 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Sets the number of layers that will be exterior of the core.
         /// </summary>
-        /// <param name="compoundStructure"></param>
-        /// <param name="numLayers"></param>
-        /// <param name="doc"></param>
-        /// <returns></returns>
+        /// <param name="compoundStructure">A CompoundStructure</param>
+        /// <param name="numLayers">Number of exterior layers</param>
+        /// <returns name="compoundStructure">The modifed CompoundStructure</returns>
         public static CompoundStructure SetNumberOfExteriorLayers(CompoundStructure compoundStructure, int numLayers)
         {
             using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(compoundStructure.internalDocument))
@@ -496,12 +495,11 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Sets the number of layers that will be exterior of the core.
         /// </summary>
-        /// <param name="compoundStructure"></param>
-        /// <param name="numLayers"></param>
-        /// <param name="doc"></param>
-        /// <returns></returns>
+        /// <param name="compoundStructure">A CompoundStructure</param>
+        /// <param name="numLayers">Number of interior layers</param>
+        /// <returns name="compoundStructure">The modifed CompoundStructure</returns>
         public static CompoundStructure SetNumberOfInteriorLayers(CompoundStructure compoundStructure, int numLayers)
         {
             using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(compoundStructure.internalDocument))
