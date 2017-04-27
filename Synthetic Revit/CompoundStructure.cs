@@ -579,7 +579,7 @@ namespace Synthetic.Revit
         public override string ToString()
         {
             int i = 0;
-            string s = base.ToString() + ": Core Layers " + internalFirstCoreLayerIndex + "to " + internalLastCoreLayerIndex;
+            string s = base.ToString() + ": Core Layers " + internalFirstCoreLayerIndex + " to " + internalLastCoreLayerIndex;
             
             foreach (cg.Dictionary<string, object> layer in this.internalLayers)
             {
