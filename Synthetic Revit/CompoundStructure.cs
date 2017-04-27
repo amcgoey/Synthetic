@@ -360,11 +360,11 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Retrieves the Autodesk.Revit.DB.MaterialFunctionAssignment of the layer at the specified index.
         /// </summary>
-        /// <param name="compoundStructure"></param>
-        /// <param name="layerIndex"></param>
-        /// <returns></returns>
+        /// <param name="compoundStructure">A CompoundStructure</param>
+        /// <param name="layerIndex">Index of the layer</param>
+        /// <returns name="layerFunction">The material function of the layer</returns>
         public static revitDB.MaterialFunctionAssignment GetLayerFunction(CompoundStructure compoundStructure,
             int layerIndex)
         {
@@ -372,11 +372,11 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Retrieves the Autodesk.Revit.DB.Material of the layer at the specified index.
         /// </summary>
-        /// <param name="compoundStructure"></param>
-        /// <param name="layerIndex"></param>
-        /// <returns></returns>
+        /// <param name="compoundStructure">A CompoundStructure</param>
+        /// <param name="layerIndex">Index of the layer</param>
+        /// <returns name="material">The material of the layer as a Autodesk.Revit.DB.Material, not a Dynamo wrapped Revit.Material.</returns>
         public static revitDB.Material GetLayerMaterial(CompoundStructure compoundStructure, int layerIndex)
         {
             revitDoc doc = compoundStructure.internalDocument;
@@ -386,31 +386,31 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Retrieves the material ID of the material for the layer at the specified index.
         /// </summary>
-        /// <param name="compoundStructure"></param>
-        /// <param name="layerIndex"></param>
-        /// <returns></returns>
+        /// <param name="compoundStructure">A CompoundStructure</param>
+        /// <param name="layerIndex">Index of the layer</param>
+        /// <returns name="materialId">The Element ID of the material for the layer.</returns>
         public static int GetLayerMaterialId(CompoundStructure compoundStructure, int layerIndex)
         {
             return compoundStructure.internalCompoundStructure.GetMaterialId(layerIndex).IntegerValue;
         }
 
         /// <summary>
-        /// 
+        /// Retrieves the index value of the most exterior core layer.
         /// </summary>
-        /// <param name="compoundStructure"></param>
-        /// <returns></returns>
+        /// <param name="compoundStructure">A CompoundStructure</param>
+        /// <returns name="index">List index</returns>
         public static int GetFirstCoreLayerIndex(CompoundStructure compoundStructure)
         {
             return compoundStructure.internalFirstCoreLayerIndex;
         }
 
         /// <summary>
-        /// 
+        /// Retrieves the index value of the most interior core layer.
         /// </summary>
-        /// <param name="compoundStructure"></param>
-        /// <returns></returns>
+        /// <param name="compoundStructure">A CompoundStructure</param>
+        /// <returns name="index">List index</returns>
         public static int GetLastCoreLayerIndex(CompoundStructure compoundStructure)
         {
             return compoundStructure.internalLastCoreLayerIndex;
