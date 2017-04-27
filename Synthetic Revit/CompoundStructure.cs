@@ -516,21 +516,21 @@ namespace Synthetic.Revit
         #region CompoundStructureLayer Modification Methods
 
         /// <summary>
-        /// 
+        /// Retrieves the Autodesk.Revit.DB.CompoundStructureLayer elements from the CompoundStructure.  For use with python or other methods for using the Revit API directly.
         /// </summary>
-        /// <param name="compoundStructure"></param>
-        /// <returns name="CompoundStructureLayers"></returns>
+        /// <param name="compoundStructure">A CompoundStructure</param>
+        /// <returns name="CompoundStructureLayers">A list of CompoundStructureLayer elements</returns>
         public static cg.IList<revitCSLayer> GetCompoundStructureLayers(CompoundStructure compoundStructure)
         {
             return compoundStructure.internalCompoundStructure.GetLayers();
         }
 
         /// <summary>
-        /// 
+        /// Sets the layers for the CompoundStructure with a list of Autodesk.Revit.DB.CompoundStructureLayer elements from the CompoundStructure.  For use with python or other methods for using the Revit API directly.
         /// </summary>
-        /// <param name="compoundStructure"></param>
-        /// <param name="compoundStructureLayers"></param>
-        /// <returns></returns>
+        /// <param name="compoundStructure">A CompoundStructure</param>
+        /// <param name="compoundStructureLayers">A list of Autodesk.Revit.DB.CompoundStructureLayer elements</param>
+        /// <returns name="compoundStructure">The modified CompoundStructure</returns>
         public static CompoundStructure SetCompoundStructureLayers(CompoundStructure compoundStructure, cg.IList<revitCSLayer> compoundStructureLayers)
         {
             compoundStructure.internalCompoundStructure.SetLayers(compoundStructureLayers);
@@ -538,11 +538,11 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Retrives the properties of a Autodesk.Revit.DB.CompoundStructureLayer element.
         /// </summary>
-        /// <param name="compoundStructureLayer"></param>
-        /// <param name="document"></param>
-        /// <returns></returns>
+        /// <param name="compoundStructureLayer">A CompoundStructureLayer</param>
+        /// <param name="document">An unwrapped document associated with the CompoundStructure.</param>
+        /// <returns name="dict">A dictionary element containing the layer properties.  Note that the layers are dictionaries and properties can be retrieved using the keys "Width", "Layer Function", and "Material".</returns>
         public static synthDict CompoundStructureLayerToDictionary(revitCSLayer compoundStructureLayer,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
@@ -550,11 +550,13 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Retrives the properties of a Autodesk.Revit.DB.CompoundStructureLayer element.
         /// </summary>
-        /// <param name="compoundStructureLayer"></param>
-        /// <param name="document"></param>
-        /// <returns></returns>
+        /// <param name="compoundStructureLayer">A CompoundStructureLayer</param>
+        /// <param name="document">An unwrapped document associated with the CompoundStructure.</param>
+        /// <returns name="Width">Width of the layer.</returns>
+        /// <returns name="Layer Function">Autodesk.Revit.DB.MaterialFunctionAssignment enumeration of the layer.</returns>
+        /// <returns name="Material">Autodesk.Revit.DB.Material of the layer.</returns>
         [MultiReturn(new[] { "Width", "Layer Function", "Material" })]
         public static IDictionary CompoundStructureLayerToList(revitCSLayer compoundStructureLayer,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
@@ -563,12 +565,12 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Creates a CompoundStructureLayer from properties of the layer.
         /// </summary>
-        /// <param name="width"></param>
-        /// <param name="layerFunction"></param>
-        /// <param name="materialId"></param>
-        /// <returns></returns>
+        /// <param name="width">Width of the layer.</param>
+        /// <param name="layerFunction">Autodesk.Revit.DB.MaterialFunctionAssignment enumeration of the layer.</param>
+        /// <param name="materialId">The Element ID of the material for the layer.</param>
+        /// <returns name="layer">A CompoundStructureLayer element.</returns>
         public static revitCSLayer CompoundStructureLayerByList(double width, revitDB.MaterialFunctionAssignment layerFunction, revitDB.ElementId materialId)
         {
             return new revitCSLayer(width, layerFunction, materialId);
