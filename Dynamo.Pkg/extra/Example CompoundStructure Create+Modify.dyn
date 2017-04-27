@@ -1,4 +1,4 @@
-<Workspace Version="1.3.0.875" X="214.676668153663" Y="6.51598570340087" zoom="0.185402628548551" ScaleFactor="1" Name="Home" Description="" RunType="Manual" RunPeriod="1000" HasRunWithoutCrash="True">
+<Workspace Version="1.3.0.875" X="-1441.33644097249" Y="-2789.15863661433" zoom="0.850065970963842" ScaleFactor="1" Name="Home" Description="" RunType="Manual" RunPeriod="1000" HasRunWithoutCrash="True">
   <NamespaceResolutionMap>
     <ClassMap partialName="DSCore.List" resolvedName="DSCore.List" assemblyName="DSCoreNodes.dll" />
     <ClassMap partialName="Lists.Dictionary" resolvedName="Lists.Dictionary" assemblyName="LunchBox.dll" />
@@ -7,15 +7,15 @@
     <ClassMap partialName="Revit.Application.Document" resolvedName="Revit.Application.Document" assemblyName="RevitNodes.dll" />
   </NamespaceResolutionMap>
   <Elements>
-    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="5377c12c-fb39-4fb9-b354-d567a6ef3c75" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="CompoundStructure.ByLayerDictionary" x="2337.91579534175" y="3915.15712143242" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.CompoundStructure.ByLayerDictionary@var[]..[],var">
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="5377c12c-fb39-4fb9-b354-d567a6ef3c75" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="CompoundStructure.ByLayerDictionary" x="2337.91579534175" y="3912.61605811574" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.CompoundStructure.ByLayerDictionary@var[]..[],var">
       <PortInfo index="0" default="False" />
       <PortInfo index="1" default="True" />
     </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
-    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="a5e081dc-e20c-4cb8-bb91-4007d1a1c23e" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Dictionary.ByKeysValues" x="1696.81175612054" y="3915.23997660928" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="true" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Core.dll" function="Synthetic.Core.Dictionary.ByKeysValues@string[],var[]">
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="a5e081dc-e20c-4cb8-bb91-4007d1a1c23e" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Dictionary.ByKeysValues" x="1696.81175612054" y="3912.6989132926" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="true" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Core.dll" function="Synthetic.Core.Dictionary.ByKeysValues@string[],var[]">
       <PortInfo index="0" default="False" />
       <PortInfo index="1" default="False" />
     </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
-    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="3ae16f2e-e48c-47ab-8afe-f01ed5b993ba" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="1193.79720057337" y="3916.05961493291" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="{&quot;Width&quot;, &quot;Layer Function&quot;, &quot;Material&quot;};&#xA;{width, layerFunction, layerMaterial};" ShouldFocus="false">
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="3ae16f2e-e48c-47ab-8afe-f01ed5b993ba" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="1193.79720057337" y="3913.51855161623" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="{&quot;Width&quot;, &quot;Layer Function&quot;, &quot;Material&quot;};&#xA;{width, layerFunction, layerMaterial};" ShouldFocus="false">
       <PortInfo index="0" default="False" />
       <PortInfo index="1" default="False" />
       <PortInfo index="2" default="False" />
@@ -49,7 +49,7 @@
     <CoreNodeModels.Watch guid="7eaed318-ee5e-4324-8081-752e89bad995" type="CoreNodeModels.Watch" nickname="Watch" x="2780.21732522941" y="3929.12329509885" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
       <PortInfo index="0" default="False" />
     </CoreNodeModels.Watch>
-    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="d70cfb43-0f21-4bae-bfbd-e913f8ed5bcd" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Dictionary.Unwrap" x="1998.83238881714" y="3915.01806768276" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="true" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Core.dll" function="Synthetic.Core.Dictionary.Unwrap@Synthetic.Core.Dictionary">
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="d70cfb43-0f21-4bae-bfbd-e913f8ed5bcd" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Dictionary.Unwrap" x="1998.83238881714" y="3912.47700436608" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="true" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Core.dll" function="Synthetic.Core.Dictionary.Unwrap@Synthetic.Core.Dictionary">
       <PortInfo index="0" default="False" />
     </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
     <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="8874ec82-af20-4e71-9a85-e5120846f59e" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="CompoundStructure.ByLayerProperties" x="1938.76203756866" y="435.503059565007" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.CompoundStructure.ByLayerProperties@double[],var[],var[],var">
@@ -117,19 +117,19 @@
     <CoreNodeModels.Watch guid="de468959-1274-4950-b372-2ea2e62a8189" type="CoreNodeModels.Watch" nickname="Watch" x="1787.18884074496" y="1486.53911543142" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
       <PortInfo index="0" default="False" />
     </CoreNodeModels.Watch>
-    <CoreNodeModels.Input.StringInput guid="155628ce-5b4a-4921-87bb-fd927be58578" type="CoreNodeModels.Input.StringInput" nickname="String" x="557.766690148703" y="4013.9274567638" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+    <CoreNodeModels.Input.StringInput guid="155628ce-5b4a-4921-87bb-fd927be58578" type="CoreNodeModels.Input.StringInput" nickname="String" x="557.766690148703" y="4011.38639344712" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
       <System.String>Autodesk.Revit.DB.MaterialFunctionAssignment</System.String>
       <System.String value="Autodesk.Revit.DB.MaterialFunctionAssignment" />
     </CoreNodeModels.Input.StringInput>
-    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="c946edee-ccf1-40cf-931a-faa248a751b3" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Enumeration.Parse" x="821.411222616308" y="4035.57129517729" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Core.dll" function="Synthetic.Core.Enumeration.Parse@string,string">
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="c946edee-ccf1-40cf-931a-faa248a751b3" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Enumeration.Parse" x="821.411222616308" y="4033.03023186061" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Core.dll" function="Synthetic.Core.Enumeration.Parse@string,string">
       <PortInfo index="0" default="False" />
       <PortInfo index="1" default="False" />
     </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
-    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="20b925d0-d7da-457c-b0ea-e62afc542d94" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Select.GetMaterialByName" x="819.9484240493" y="4200.05137761375" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Select.GetMaterialByName@var[],string">
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="20b925d0-d7da-457c-b0ea-e62afc542d94" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Select.GetMaterialByName" x="819.9484240493" y="4197.51031429707" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Select.GetMaterialByName@var[],string">
       <PortInfo index="0" default="False" />
       <PortInfo index="1" default="False" />
     </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
-    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="c833e329-6c53-408a-8a09-c8697ec7d4f9" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Select.AllMaterials" x="523.764736037818" y="4161.22490681941" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Select.AllMaterials@var">
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="c833e329-6c53-408a-8a09-c8697ec7d4f9" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Select.AllMaterials" x="523.764736037818" y="4158.68384350273" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Select.AllMaterials@var">
       <PortInfo index="0" default="True" />
     </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
     <UnitsUI.LengthFromString guid="a5ac2148-138f-424c-a3b2-8792497c320e" type="UnitsUI.LengthFromString" nickname="Number From Feet and Inches" x="-131.553837893898" y="3907.87851950799" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
@@ -240,7 +240,6 @@
   </Elements>
   <Connectors>
     <Dynamo.Graph.Connectors.ConnectorModel start="5377c12c-fb39-4fb9-b354-d567a6ef3c75" start_index="0" end="7eaed318-ee5e-4324-8081-752e89bad995" end_index="0" portType="0" />
-    <Dynamo.Graph.Connectors.ConnectorModel start="a5e081dc-e20c-4cb8-bb91-4007d1a1c23e" start_index="0" end="d70cfb43-0f21-4bae-bfbd-e913f8ed5bcd" end_index="0" portType="0" />
     <Dynamo.Graph.Connectors.ConnectorModel start="3ae16f2e-e48c-47ab-8afe-f01ed5b993ba" start_index="0" end="a5e081dc-e20c-4cb8-bb91-4007d1a1c23e" end_index="0" portType="0" />
     <Dynamo.Graph.Connectors.ConnectorModel start="3ae16f2e-e48c-47ab-8afe-f01ed5b993ba" start_index="1" end="a5e081dc-e20c-4cb8-bb91-4007d1a1c23e" end_index="1" portType="0" />
     <Dynamo.Graph.Connectors.ConnectorModel start="56966623-b70d-430e-94d9-7ea6fd894c7d" start_index="0" end="efaa3ce4-86ff-48b3-ba10-bbd5590d5bde" end_index="0" portType="0" />
@@ -308,6 +307,7 @@
     <Dynamo.Graph.Connectors.ConnectorModel start="4660d2e1-b3b3-4b89-801d-60a13c9b4b1a" start_index="0" end="f6669763-6e6a-49d0-83c6-ef9466e04be7" end_index="0" portType="0" />
     <Dynamo.Graph.Connectors.ConnectorModel start="f6669763-6e6a-49d0-83c6-ef9466e04be7" start_index="0" end="e719dc7b-3e40-4194-b511-3bee8abbff53" end_index="0" portType="0" />
     <Dynamo.Graph.Connectors.ConnectorModel start="7c4a91f1-0a69-4e91-b66b-a1eedec91b3d" start_index="0" end="4fbfdba7-adbb-40c3-8167-ccb1a0719ab5" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="7c4a91f1-0a69-4e91-b66b-a1eedec91b3d" start_index="0" end="d70cfb43-0f21-4bae-bfbd-e913f8ed5bcd" end_index="0" portType="0" />
   </Connectors>
   <Notes>
     <Dynamo.Graph.Notes.NoteModel guid="9621d698-d2c5-4719-b98b-ad857f9eb09a" text="Change Width of layer to..." x="-64.9258491296962" y="402.349788804672" />
@@ -322,21 +322,21 @@
     <Dynamo.Graph.Notes.NoteModel guid="b5c3f79e-b9f6-4251-aa8b-a748a05cb501" text="PACKAGE: Synthetic" x="680.596190715635" y="1622.76282643869" />
     <Dynamo.Graph.Notes.NoteModel guid="fd7872ff-6650-4aab-99b7-386c7a1ab180" text="PACKAGE: Synthetic" x="968.111436749075" y="1819.13132714301" />
     <Dynamo.Graph.Notes.NoteModel guid="fb45f875-0b2e-4fba-8dd3-4446aebfbf0e" text="PACKAGE: Synthetic" x="667.558738363213" y="1777.44866296132" />
-    <Dynamo.Graph.Notes.NoteModel guid="33ff212f-6bd7-4228-997e-a2f3d5e9817f" text="PACKAGE: Synthetic" x="597.360433343496" y="3974.50069612014" />
-    <Dynamo.Graph.Notes.NoteModel guid="be25cfe4-37ec-4d6a-bbd3-80e851dfcdf8" text="PACKAGE: Synthetic" x="875.86611831981" y="4166.3644162959" />
-    <Dynamo.Graph.Notes.NoteModel guid="6182ff93-3fa1-4b7a-b2eb-0680e9c87859" text="PACKAGE: Synthetic" x="575.313419933948" y="4124.68175211421" />
+    <Dynamo.Graph.Notes.NoteModel guid="33ff212f-6bd7-4228-997e-a2f3d5e9817f" text="PACKAGE: Synthetic" x="597.360433343496" y="3971.95963280346" />
+    <Dynamo.Graph.Notes.NoteModel guid="be25cfe4-37ec-4d6a-bbd3-80e851dfcdf8" text="PACKAGE: Synthetic" x="875.86611831981" y="4163.82335297922" />
+    <Dynamo.Graph.Notes.NoteModel guid="6182ff93-3fa1-4b7a-b2eb-0680e9c87859" text="PACKAGE: Synthetic" x="575.313419933948" y="4122.14068879753" />
     <Dynamo.Graph.Notes.NoteModel guid="0e10cf2c-b905-46e0-8b9a-a8def757e5c6" text="Change Width of layer to..." x="-123.041301429842" y="3869.46984884828" />
     <Dynamo.Graph.Notes.NoteModel guid="af74492e-c993-4c42-88b0-b56b66bd9c74" text="Name of Layer Function to set layer to..." x="-161.560836353934" y="4018.19797965513" />
     <Dynamo.Graph.Notes.NoteModel guid="1ec0f748-6cc6-45e3-97a3-c333076e9156" text="Change Material of layer to..." x="-99.4494260000793" y="4177.06210172716" />
-    <Dynamo.Graph.Notes.NoteModel guid="7d6a2412-a387-4bba-8a2c-8a00ac2cd6e7" text="PACKAGE: Synthetic" x="878.647812987867" y="3997.05116115492" />
+    <Dynamo.Graph.Notes.NoteModel guid="7d6a2412-a387-4bba-8a2c-8a00ac2cd6e7" text="PACKAGE: Synthetic" x="878.647812987867" y="3994.51009783824" />
     <Dynamo.Graph.Notes.NoteModel guid="2662c009-fd61-453a-a110-23568e7c2e8c" text="PACKAGE: Synthetic" x="958.950452703479" y="527.789047436347" />
     <Dynamo.Graph.Notes.NoteModel guid="9d73a7a3-07fc-4398-b715-07000e62ca74" text="PACKAGE: Synthetic" x="961.418589226035" y="1643.3108068175" />
     <Dynamo.Graph.Notes.NoteModel guid="8c26ebd0-a153-46e2-aaab-4b18013b46be" text="PACKAGE: Synthetic" x="2038.02838257974" y="401.728541609681" />
     <Dynamo.Graph.Notes.NoteModel guid="3d82bbf3-d8f4-41be-beca-b57d73916aa8" text="PACKAGE: Synthetic&#xD;&#xA;Example showing how to expose the Autodesk.Revit.DB.CompoundStructure object directly to Dynamo.  Unwrap to use with other Revit API scripts." x="2308.83472325652" y="493.82144560378" />
     <Dynamo.Graph.Notes.NoteModel guid="cf78af84-2f00-44c5-976c-54507d545b13" text="PACKAGE: Synthetic&#xD;&#xA;Example showing hot to convert the Autodesk.Revit.DB.CompoundStructure object into a Synthetic.Revit.CompoundStructure object." x="2622.63714925153" y="649.354565774908" />
-    <Dynamo.Graph.Notes.NoteModel guid="0b5cbeb2-ada5-43e2-b3b1-317cd223c28d" text="PACKAGE: Synthetic" x="1738.36405596978" y="3875.15543519688" />
-    <Dynamo.Graph.Notes.NoteModel guid="0eed2124-c462-4ce2-96b6-99e2fdc973c8" text="PACKAGE: Synthetic" x="2064.81488828461" y="3875.15543519688" />
-    <Dynamo.Graph.Notes.NoteModel guid="e7334124-824a-44b5-a91d-564ed532993b" text="PACKAGE: Synthetic&#xD;&#xA;KNOWN ISSUE: Node currently does not work." x="2364.37025618195" y="3856.45008746148" />
+    <Dynamo.Graph.Notes.NoteModel guid="0b5cbeb2-ada5-43e2-b3b1-317cd223c28d" text="PACKAGE: Synthetic" x="1738.36405596978" y="3872.6143718802" />
+    <Dynamo.Graph.Notes.NoteModel guid="0eed2124-c462-4ce2-96b6-99e2fdc973c8" text="PACKAGE: Synthetic" x="2064.81488828461" y="3872.6143718802" />
+    <Dynamo.Graph.Notes.NoteModel guid="e7334124-824a-44b5-a91d-564ed532993b" text="PACKAGE: Synthetic&#xD;&#xA;KNOWN ISSUE: Node currently does not work." x="2359.66473903783" y="3839.79247271246" />
     <Dynamo.Graph.Notes.NoteModel guid="c2f231e6-3771-4ce8-a560-b27349e923e6" text="PACKAGE: Synthetic" x="844.074324807475" y="1071.59080272911" />
     <Dynamo.Graph.Notes.NoteModel guid="3305f47c-ca0b-43da-bd6f-38ce12f61842" text="PACKAGE: Synthetic" x="1427.8654648459" y="1454.07613129912" />
     <Dynamo.Graph.Notes.NoteModel guid="b0dd2770-b1d8-4866-bd66-3c1840d75b83" text="Index of Layer to insert" x="2.98939341701008" y="1396.63827124896" />
@@ -355,7 +355,7 @@
       <Models ModelGuid="1b1d929c-0eb3-493a-a609-96cca6baec89" />
       <Models ModelGuid="1d9f0782-fc6a-4e76-ae02-b6773ef55ce4" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="51f24095-692d-4d2b-b853-f4208bb953e8" annotationText="OPERATIONS: CREATE COMPOUND STRUCTURE BY DICTIONARY" left="513.764736037818" top="3810.45008746148" width="2139.15105930393" height="508.60129015227" fontSize="30" InitialTop="3856.45008746148" InitialHeight="152.041547250151" TextblockHeight="36" backgrouund="#FF848484">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="51f24095-692d-4d2b-b853-f4208bb953e8" annotationText="OPERATIONS: CREATE COMPOUND STRUCTURE BY DICTIONARY" left="513.764736037818" top="3793.79247271246" width="2139.15105930393" height="522.717841584619" fontSize="30" InitialTop="3839.79247271246" InitialHeight="152.041547250151" TextblockHeight="36" backgrouund="#FF848484">
       <Models ModelGuid="a5e081dc-e20c-4cb8-bb91-4007d1a1c23e" />
       <Models ModelGuid="3ae16f2e-e48c-47ab-8afe-f01ed5b993ba" />
       <Models ModelGuid="d70cfb43-0f21-4bae-bfbd-e913f8ed5bcd" />

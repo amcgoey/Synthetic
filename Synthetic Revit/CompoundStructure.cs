@@ -169,26 +169,26 @@ namespace Synthetic.Revit
         }
 
         // NOT CURRENTLY WORKING
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="layers"></param>
-        ///// <param name="document"></param>
-        ///// <returns></returns>
-        //public static CompoundStructure ByLayerDictionary(cg.IList<cg.Dictionary<string, object>> layers,
-        //    [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
-        //{
-        //    cg.List<revitCSLayer> layerList = new cg.List<revitCSLayer>();
+        /// <summary>
+        /// Creates a compound structure from a list of dictionary layer properties.
+        /// </summary>
+        /// <param name="layers">A list of dictionary objects with layer properties.</param>
+        /// <param name="document">An unwrapped document associated with the CompoundStructure.</param>
+        /// <returns name="compoundStructure">A Compound Structure.</returns>
+        public static CompoundStructure ByLayerDictionary(cg.IList<cg.Dictionary<string, object>> layers,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        {
+            cg.List<revitCSLayer> layerList = new cg.List<revitCSLayer>();
 
-        //    foreach (cg.Dictionary<string, object> layerDict in layers)
-        //    {
-        //        revitDB.Material material = (revitDB.Material)layerDict["Material"];
-        //        revitCSLayer layer = new revitCSLayer((double)layerDict["Width"], (revitDB.MaterialFunctionAssignment)layerDict["Layer Function"], material.Id);
-        //        layerList.Add(layer);
-        //    }
+            foreach (cg.Dictionary<string, object> layerDict in layers)
+            {
+                revitDB.Material material = (revitDB.Material)layerDict["Material"];
+                revitCSLayer layer = new revitCSLayer((double)layerDict["Width"], (revitDB.MaterialFunctionAssignment)layerDict["Layer Function"], material.Id);
+                layerList.Add(layer);
+            }
 
-        //    return new CompoundStructure(revitCS.CreateSimpleCompoundStructure(layerList), document);
-        //}
+            return new CompoundStructure(revitCS.CreateSimpleCompoundStructure(layerList), document);
+        }
 
         /// <summary>
         /// Creates a compound structure from a wall type.
