@@ -24,6 +24,7 @@ namespace Synthetic.Revit
         #region Internal Properties
 
         internal revitCS internalCompoundStructure { get; private set; }
+
         internal revitDoc internalDocument { get; private set; }
 
         internal cg.IList<cg.Dictionary<string, object>> internalLayers
@@ -48,10 +49,10 @@ namespace Synthetic.Revit
         #region Internal Constructors
 
         /// <summary>
-        /// 
+        /// Constructs a CompoundStructure given a Autodesk.Revit.DB.CompoundStructure and a Autodesk.Revit.DB.Document
         /// </summary>
-        /// <param name="cs"></param>
-        /// <param name="doc"></param>
+        /// <param name="cs">Autodesk.Revit.DB.CompoundStructure</param>
+        /// <param name="doc">Autodesk.Revit.DB.Document</param>
         internal CompoundStructure(revitCS cs, revitDoc doc)
         {
             internalCompoundStructure = cs;
@@ -62,6 +63,12 @@ namespace Synthetic.Revit
 
         #region Internal Methods
 
+        /// <summary>
+        /// Returns the properties of a Autodesk.Revit.DB.CompoundStructureLayer as a dictionary.
+        /// </summary>
+        /// <param name="layer">Autodesk.Revit.DB.CompoundStructureLayer</param>
+        /// <param name="doc">Autodesk.Revit.DB.Document</param>
+        /// <returns></returns>
         internal static cg.Dictionary<string, object> _RevitLayerToDictionary(revitCSLayer layer, revitDoc doc)
         {
             double width = layer.Width;
@@ -75,6 +82,12 @@ namespace Synthetic.Revit
             };
         }
 
+        /// <summary>
+        /// Returns a list of dictionaries with Autodesk.Revit.DB.CompoundStructureLayer properties.
+        /// </summary>
+        /// <param name="cs">Autodesk.Revit.DB.CompoundStructure</param>
+        /// <param name="doc">Autodesk.Revit.DB.Document</param>
+        /// <returns></returns>
         internal static cg.IList<cg.Dictionary<string, object>> _GetLayers(revitCS cs, revitDoc doc)
         {
             cg.IList<cg.Dictionary<string, object>> layers = new cg.List<cg.Dictionary<string, object>>();
@@ -87,8 +100,12 @@ namespace Synthetic.Revit
             return layers;
         }
 
-
-
+        /// <summary>
+        /// Creates Synthetic.Revit.CompoundStructure in a destination document by changing the material ids to correspond to materials in the destination document.  Materials not in the destination document are copied into the document.
+        /// </summary>
+        /// <param name="compoundStructure">A Synthetic.Revit.CompoundStructure from the source document</param>
+        /// <param name="destinationDoc">The document to copy the CompoundStructure into.</param>
+        /// <returns name="compoundStructure">A Synthetic.Revit.CompoundStructure in the destination document.</returns>
         internal static CompoundStructure _CopyToDocument(CompoundStructure compoundStructure, revitDoc destinationDoc)
         {
             CompoundStructure destinationCS;
@@ -121,13 +138,13 @@ namespace Synthetic.Revit
 
         #region Public Constructors
         /// <summary>
-        /// 
+        /// Creates a Synthetic.Revit.CompoundStructure given lists of layer properties.  Please note that layers will only be made with the shortest number of complete layer properties.  For example if five widths and layer functions are provided but only four materials, only four layers will be created.
         /// </summary>
-        /// <param name="width"></param>
-        /// <param name="layerFunction"></param>
-        /// <param name="material"></param>
-        /// <param name="document"></param>
-        /// <returns></returns>
+        /// <param name="width">List with the width of each layer.</param>
+        /// <param name="layerFunction">List with the Autodesk.Revit.DB.MaterialFunctionAssignment enumerations for each layer.</param>
+        /// <param name="material">List of Autodesk.Revit.DB.Materials for each layer.  Dynamo wrapped Revit.Material objects will not work.</param>
+        /// <param name="document">An unwrapped document associated with the CompoundStructure.</param>
+        /// <returns name="compoundStructure">A Compound Structure.</returns>
         public static CompoundStructure ByLayerProperties(cg.IList<double> width,
             cg.IList<revitDB.MaterialFunctionAssignment> layerFunction,
             cg.IList<revitDB.Material> material,
@@ -151,33 +168,34 @@ namespace Synthetic.Revit
             return new CompoundStructure(revitCS.CreateSimpleCompoundStructure(layerList), document);
         }
 
+        // NOT CURRENTLY WORKING
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="layers"></param>
+        ///// <param name="document"></param>
+        ///// <returns></returns>
+        //public static CompoundStructure ByLayerDictionary(cg.IList<cg.Dictionary<string, object>> layers,
+        //    [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        //{
+        //    cg.List<revitCSLayer> layerList = new cg.List<revitCSLayer>();
+
+        //    foreach (cg.Dictionary<string, object> layerDict in layers)
+        //    {
+        //        revitDB.Material material = (revitDB.Material)layerDict["Material"];
+        //        revitCSLayer layer = new revitCSLayer((double)layerDict["Width"], (revitDB.MaterialFunctionAssignment)layerDict["Layer Function"], material.Id);
+        //        layerList.Add(layer);
+        //    }
+
+        //    return new CompoundStructure(revitCS.CreateSimpleCompoundStructure(layerList), document);
+        //}
+
         /// <summary>
-        /// 
+        /// Creates a compound structure from a wall type.
         /// </summary>
-        /// <param name="layers"></param>
-        /// <param name="document"></param>
-        /// <returns></returns>
-        public static CompoundStructure ByLayerDictionary(cg.IList<cg.Dictionary<string, object>> layers,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
-        {
-            cg.List<revitCSLayer> layerList = new cg.List<revitCSLayer>();
-
-            foreach (cg.Dictionary<string, object> layerDict in layers)
-            {
-                revitDB.Material material = (revitDB.Material)layerDict["Material"];
-                revitCSLayer layer = new revitCSLayer((double)layerDict["Width"], (revitDB.MaterialFunctionAssignment)layerDict["Layer Function"], material.Id);
-                layerList.Add(layer);
-            }
-
-            return new CompoundStructure(revitCS.CreateSimpleCompoundStructure(layerList), document);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="wallType"></param>
-        /// <param name="document"></param>
-        /// <returns></returns>
+        /// <param name="wallType">A Dynamo wrapped Revit.WallType.</param>
+        /// <param name="document">An unwrapped document associated with the CompoundStructure.</param>
+        /// <returns name="compoundStructure">A Compound Structure.</returns>
         public static CompoundStructure FromWallType(dynamoElements.WallType wallType,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
@@ -193,22 +211,22 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Given a Autodesk.Revit.DB.CompoundStructure, creates a Synthetic.Revit.CompoundStructure.
         /// </summary>
-        /// <param name="compound"></param>
-        /// <param name="document"></param>
-        /// <returns></returns>
-        public static CompoundStructure Wrap(revitCS compound,
+        /// <param name="compoundStructure">A Autodesk.Revit.DB.CompoundStructure</param>
+        /// <param name="document">An unwrapped document associated with the CompoundStructure.</param>
+        /// <returns name="compoundStructure">A Compound Structure.</returns>
+        public static CompoundStructure Wrap(revitCS compoundStructure,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
             return new CompoundStructure(compound, document);
         }
 
         /// <summary>
-        /// 
+        /// Retrieves the Autodesk.Revit.DB.CompoundStructure from a Synthetic.Revit.CompoundStructure object.  This is useful for using CompoundStructures in python scripts or other methods of accessing the Revit API directly.
         /// </summary>
-        /// <param name="compoundStructure"></param>
-        /// <returns></returns>
+        /// <param name="compoundStructure">An Synthetic.Revit.CompoundStructure</param>
+        /// <returns name="Unwrapped">Autodesk.Revit.DB.CompoundStructure</returns>
         public static revitCS Unwrap(CompoundStructure compoundStructure)
         {
             return compoundStructure.internalCompoundStructure;
@@ -218,12 +236,11 @@ namespace Synthetic.Revit
 
         #region Element Modification Methods
         /// <summary>
-        /// 
+        /// Replaces a Wall Type's compound structure with the given one.  Please note that the compound structure's materials and the wall type must be in the same document or unexpected results may occur.
         /// </summary>
-        /// <param name="wallType"></param>
-        /// <param name="compoundStructure"></param>
-        /// <param name="document"></param>
-        /// <returns></returns>
+        /// <param name="wallType">The wall type to be modified.</param>
+        /// <param name="compoundStructure">A compound structure</param>
+        /// <returns name="wallType">The modified wall type.</returns>
         public static dynamoElements.WallType ToWallType(dynamoElements.WallType wallType, CompoundStructure compoundStructure)
         {
             revitDB.WallType revitWallType = (revitDB.WallType)wallType.InternalElement;
@@ -249,14 +266,14 @@ namespace Synthetic.Revit
         #region Compound Structure Modification Methods
 
         /// <summary>
-        /// 
+        /// Sets the properties of a layer at the specified index in the CompoundStructure.
         /// </summary>
-        /// <param name="compoundStructure"></param>
-        /// <param name="layerIndex"></param>
-        /// <param name="width"></param>
-        /// <param name="layerFunction"></param>
-        /// <param name="material"></param>
-        /// <returns></returns>
+        /// <param name="compoundStructure">The CompoundStructure to modify.</param>
+        /// <param name="layerIndex">Index of the layer to be modified.</param>
+        /// <param name="width">Width of the layer.</param>
+        /// <param name="layerFunction">Autodesk.Revit.DB.MaterialFunctionAssignment enumeration of the layer.</param>
+        /// <param name="material">Autodesk.Revit.DB.Materials of the layer.  Dynamo wrapped Revit.Material objects will not work.</param>
+        /// <returns name="compoundStructure">The modified CompoundStructure.</returns>
         public static CompoundStructure SetLayer(CompoundStructure compoundStructure,
            int layerIndex,
            double width,
@@ -270,14 +287,14 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Creates a new layer at the specified index in the CompoundStructure.
         /// </summary>
-        /// <param name="compoundStructure"></param>
-        /// <param name="layerIndex"></param>
-        /// <param name="width"></param>
-        /// <param name="layerFunction"></param>
-        /// <param name="material"></param>
-        /// <returns></returns>
+        /// <param name="compoundStructure">The CompoundStructure to modify.</param>
+        /// <param name="layerIndex">Index of the layer to be inserted.</param>
+        /// <param name="width">Width of the layer.</param>
+        /// <param name="layerFunction">Autodesk.Revit.DB.MaterialFunctionAssignment enumeration of the layer.</param>
+        /// <param name="material">Autodesk.Revit.DB.Materials of the layer.  Dynamo wrapped Revit.Material objects will not work.</param>
+        /// <returns name="compoundStructure">The modified CompoundStructure.</returns>
         public static CompoundStructure InsertLayerAtIndex(CompoundStructure compoundStructure,
            int layerIndex,
            double width,
@@ -294,11 +311,11 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Removes a layer at the specified index in the CompoudStructure.
         /// </summary>
-        /// <param name="compoundStructure"></param>
-        /// <param name="layerIndex"></param>
-        /// <returns></returns>
+        /// <param name="compoundStructure">The CompoundStructure to modify.</param>
+        /// <param name="layerIndex">Index of the layer to be deleted.</param>
+        /// <returns name="compoundStructure">The modified CompoundStructure.</returns>
         public static CompoundStructure DeleteLayer(CompoundStructure compoundStructure, int layerIndex)
         {
             bool result = compoundStructure.internalCompoundStructure.DeleteLayer(layerIndex);
@@ -307,11 +324,11 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Creates Synthetic.Revit.CompoundStructure in a destination document by changing the material ids to correspond to materials in the destination document.  Materials not in the destination document are copied into the document.
         /// </summary>
-        /// <param name="compoundStructure"></param>
-        /// <param name="destinationDocument"></param>
-        /// <returns></returns>
+        /// <param name="compoundStructure">A Synthetic.Revit.CompoundStructure from the source document</param>
+        /// <param name="destinationDocument">The document to copy the CompoundStructure into.</param>
+        /// <returns name="compoundStructure">A Synthetic.Revit.CompoundStructure in the destination document.</returns>
         public static CompoundStructure CopyToDocument(CompoundStructure compoundStructure, revitDoc destinationDocument)
         {
             return _CopyToDocument(compoundStructure, destinationDocument);
@@ -322,21 +339,21 @@ namespace Synthetic.Revit
         #region Get CompoundStructure Methods
 
         /// <summary>
-        /// 
+        /// Retrieves a list of the properties of the layers in the CompoundStructure.
         /// </summary>
-        /// <param name="compoundStructure"></param>
-        /// <returns></returns>
+        /// <param name="compoundStructure">A CompoundStructure</param>
+        /// <returns name="layers">A list of properties for each layer.  Note that the layers are dictionaries and properties can be retrieved using the keys "Width", "Layer Function", and "Material".</returns>
         public static cg.IList<cg.Dictionary<string, object>> GetLayers(CompoundStructure compoundStructure)
         {
             return compoundStructure.internalLayers;
         }
 
         /// <summary>
-        /// 
+        /// Retrieves the width of a layer at the specified index.
         /// </summary>
-        /// <param name="compoundStructure"></param>
-        /// <param name="layerIndex"></param>
-        /// <returns></returns>
+        /// <param name="compoundStructure">A CompoundStructure</param>
+        /// <param name="layerIndex">Index of the layer</param>
+        /// <returns name="Width">Width of the layer</returns>
         public static double GetLayerWidth(CompoundStructure compoundStructure, int layerIndex)
         {
             return compoundStructure.internalCompoundStructure.GetLayerWidth(layerIndex);
