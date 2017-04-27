@@ -97,11 +97,16 @@ namespace Synthetic.Revit
 
             using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(destinationDoc))
             {
-                trans.Start("Copy Elements from document " + sourceDoc.Title);
-
-                copiedElemsIds = (List<revitElemId>)Autodesk.Revit.DB.ElementTransformUtils.CopyElements(sourceDoc, revitElemIds, destinationDoc, null, cpo);
-
-                trans.Commit();
+                try
+                {
+                    trans.Start("Copy Elements from document " + sourceDoc.Title);
+                    copiedElemsIds = (List<revitElemId>)Autodesk.Revit.DB.ElementTransformUtils.CopyElements(sourceDoc, revitElemIds, destinationDoc, null, cpo);
+                    trans.Commit();
+                }
+                catch
+                {
+                    copiedElemsIds = (List<revitElemId>)Autodesk.Revit.DB.ElementTransformUtils.CopyElements(sourceDoc, revitElemIds, destinationDoc, null, cpo);
+                }
             }
 
             return copiedElemsIds;
