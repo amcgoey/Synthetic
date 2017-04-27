@@ -59,6 +59,18 @@ namespace Synthetic.Revit
             internalDocument = doc;
         }
 
+        /// <summary>
+        /// Creates a Autodesk.Revit.DB.CompoundStructure given a list of Autodesk.Revit.DB.CompoundStructureLayer elements
+        /// </summary>
+        /// <param name="layers">A list of CompoundStructureLayer elements</param>
+        /// <param name="doc">Autodesk.Revit.DB.Document</param>
+        /// <returns name="RevitCompoundStructure">A Autodesk.Revit.DB.CompoundStructure</returns>
+        internal CompoundStructure(cg.List<revitCSLayer> layers, revitDoc doc)
+        {
+            internalCompoundStructure = revitCS.CreateSimpleCompoundStructure(layers);
+            internalDocument = doc;
+        }
+
         #endregion
 
         #region Internal Methods
@@ -108,15 +120,15 @@ namespace Synthetic.Revit
         /// <returns name="compoundStructure">A Synthetic.Revit.CompoundStructure in the destination document.</returns>
         internal static CompoundStructure _CopyToDocument(CompoundStructure compoundStructure, revitDoc destinationDoc)
         {
-            CompoundStructure destinationCS;
+            revitDoc doc = compoundStructure.internalDocument;
 
-            cg.IList<cg.Dictionary<string, object>> destinationLayers = new cg.List<cg.Dictionary<string, object>>();
+            cg.List<revitCSLayer> destinationLayers = new cg.List<revitCSLayer>();
 
-            foreach (cg.Dictionary<string, object> sourceLayer in compoundStructure.internalLayers)
+            foreach (revitCSLayer sourceLayer in compoundStructure.internalCompoundStructure.GetLayers())
             {
-                cg.Dictionary<string, object> destintationLayer = sourceLayer;
+                revitCSLayer destintationLayer = sourceLayer;
 
-                revitDB.Material sourceMaterial = (revitDB.Material)sourceLayer["Material"];
+                revitDB.Material sourceMaterial = (revitDB.Material)doc.GetElement(sourceLayer.MaterialId);
                 revitDB.Material destinationMaterial = Select.GetMaterialByName(Select.AllMaterials(destinationDoc), sourceMaterial.Name);
 
                 if (destinationMaterial == null)
@@ -124,14 +136,12 @@ namespace Synthetic.Revit
                     Elements.CopyElementsBetweenDocs(compoundStructure.internalDocument, new cg.List<int>(sourceMaterial.Id.IntegerValue), destinationDoc);
                     destinationMaterial = Select.GetMaterialByName(Select.AllMaterials(destinationDoc), sourceMaterial.Name);
                 }
-                destintationLayer["Material"] = destinationMaterial;
+                destintationLayer.MaterialId = destinationMaterial.Id;
 
                 destinationLayers.Add(destintationLayer);
             }
 
-            destinationCS = CompoundStructure.ByLayerDictionary(destinationLayers, destinationDoc);
-
-            return destinationCS;
+            return new CompoundStructure(destinationLayers, destinationDoc);
         }
 
         #endregion
@@ -165,10 +175,10 @@ namespace Synthetic.Revit
                 layerList.Add(layer);
             }
 
-            return new CompoundStructure(revitCS.CreateSimpleCompoundStructure(layerList), document);
+            //return new CompoundStructure(revitCS.CreateSimpleCompoundStructure(layerList), document);
+            return new CompoundStructure(layerList, document);
         }
 
-        // NOT CURRENTLY WORKING
         /// <summary>
         /// Creates a compound structure from a list of dictionary layer properties.
         /// </summary>
@@ -187,7 +197,21 @@ namespace Synthetic.Revit
                 layerList.Add(layer);
             }
 
-            return new CompoundStructure(revitCS.CreateSimpleCompoundStructure(layerList), document);
+            //return new CompoundStructure(revitCS.CreateSimpleCompoundStructure(layerList), document);
+            return new CompoundStructure(layerList, document);
+        }
+
+        /// <summary>
+        /// Creates a CompoundStructure from a list of Autodesk.Revit.DB.CompoundStructureLayer elements.
+        /// </summary>
+        /// <param name="layers">A list of Autodesk.Revit.DB.CompoundStructureLayer elements.</param>
+        /// <param name="document">An unwrapped document associated with the CompoundStructure.</param>
+        /// <returns name="compoundStructure">A Compound Structure.</returns>
+        public static CompoundStructure ByCompoundStructureLayers(cg.List<revitCSLayer> layers,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        {
+            //return new CompoundStructure(revitCS.CreateSimpleCompoundStructure(layers), document);
+            return new CompoundStructure(layers, document);
         }
 
         /// <summary>
