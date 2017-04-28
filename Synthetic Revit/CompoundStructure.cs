@@ -133,10 +133,16 @@ namespace Synthetic.Revit
 
                 if (destinationMaterial == null)
                 {
-                    Elements.CopyElementsBetweenDocs(compoundStructure.internalDocument, new cg.List<int>(sourceMaterial.Id.IntegerValue), destinationDoc);
-                    destinationMaterial = Select.GetMaterialByName(Select.AllMaterials(destinationDoc), sourceMaterial.Name);
+                    cg.List<int> sourceMaterialIds = new cg.List<int>();
+                    sourceMaterialIds.Add(sourceMaterial.Id.IntegerValue);
+                    cg.List<revitDB.ElementId> destinationElemIds = Elements.CopyElementsBetweenDocs(compoundStructure.internalDocument, sourceMaterialIds, destinationDoc);
+                    //destinationMaterial = Select.GetMaterialByName(Select.AllMaterials(destinationDoc), sourceMaterial.Name);
+                    destintationLayer.MaterialId = destinationElemIds[0];
                 }
-                destintationLayer.MaterialId = destinationMaterial.Id;
+                else
+                {
+                    destintationLayer.MaterialId = destinationMaterial.Id;
+                }
 
                 destinationLayers.Add(destintationLayer);
             }
