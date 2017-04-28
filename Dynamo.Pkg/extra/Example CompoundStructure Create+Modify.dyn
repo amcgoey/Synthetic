@@ -1,4 +1,4 @@
-<Workspace Version="1.3.0.875" X="201.282848764908" Y="329.304739117517" zoom="0.172114112791456" ScaleFactor="1" Name="Home" Description="" RunType="Manual" RunPeriod="1000" HasRunWithoutCrash="True">
+<Workspace Version="1.3.0.875" X="139.847122559833" Y="116.821255897493" zoom="0.188701435950479" ScaleFactor="1" Name="Home" Description="" RunType="Manual" RunPeriod="1000" HasRunWithoutCrash="True">
   <NamespaceResolutionMap>
     <ClassMap partialName="DSCore.List" resolvedName="DSCore.List" assemblyName="DSCoreNodes.dll" />
     <ClassMap partialName="Lists.Dictionary" resolvedName="Lists.Dictionary" assemblyName="LunchBox.dll" />
@@ -63,7 +63,7 @@
       <PortInfo index="1" default="False" />
       <PortInfo index="2" default="False" />
     </Dynamo.Graph.Nodes.CodeBlockNodeModel>
-    <CoreNodeModels.Watch guid="c93fd2c5-7fc3-4658-b3cd-f53999f20dcb" type="CoreNodeModels.Watch" nickname="Watch" x="2983.07068065655" y="412.106266520699" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+    <CoreNodeModels.Watch guid="c93fd2c5-7fc3-4658-b3cd-f53999f20dcb" type="CoreNodeModels.Watch" nickname="Watch" x="3146.20871876014" y="413.993440204532" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
       <PortInfo index="0" default="False" />
     </CoreNodeModels.Watch>
     <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="c8673409-2c6c-40ca-89fd-766453e7f9e2" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="CompoundStructure.DeleteLayer" x="722.276795100139" y="1109.21148668142" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.CompoundStructure.DeleteLayer@var,int">
@@ -149,17 +149,17 @@
     <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="c877fb88-9f7d-4dda-a093-dd0cf5f39ebd" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="583.725834745887" y="1398.31718472956" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="cs;" ShouldFocus="false">
       <PortInfo index="0" default="False" />
     </Dynamo.Graph.Nodes.CodeBlockNodeModel>
-    <CoreNodeModels.Watch guid="1b1d929c-0eb3-493a-a609-96cca6baec89" type="CoreNodeModels.Watch" nickname="Watch" x="2993.46102901129" y="577.623640473261" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+    <CoreNodeModels.Watch guid="1b1d929c-0eb3-493a-a609-96cca6baec89" type="CoreNodeModels.Watch" nickname="Watch" x="3145.20314869231" y="578.877707578063" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
       <PortInfo index="0" default="False" />
     </CoreNodeModels.Watch>
     <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="71066a7a-446d-4234-842e-486bc0c5a7aa" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="CompoundStructure.Unwrap" x="2318.72579035833" y="590.57443185117" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.CompoundStructure.Unwrap@var">
       <PortInfo index="0" default="False" />
     </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
-    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="97dd6b74-d40a-41fd-abd1-ef97b72f73a1" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="CompoundStructure.Wrap" x="2617.1696631395" y="735.709395855379" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.CompoundStructure.Wrap@var,var">
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="97dd6b74-d40a-41fd-abd1-ef97b72f73a1" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="CompoundStructure.Wrap" x="2667.33234733157" y="739.471597169784" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.CompoundStructure.Wrap@var,var">
       <PortInfo index="0" default="False" />
       <PortInfo index="1" default="True" />
     </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
-    <CoreNodeModels.Watch guid="1d9f0782-fc6a-4e76-ae02-b6773ef55ce4" type="CoreNodeModels.Watch" nickname="Watch" x="2992.18064738939" y="735.467605595225" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+    <CoreNodeModels.Watch guid="1d9f0782-fc6a-4e76-ae02-b6773ef55ce4" type="CoreNodeModels.Watch" nickname="Watch" x="3143.92276707041" y="736.721672700027" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
       <PortInfo index="0" default="False" />
     </CoreNodeModels.Watch>
     <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="779c4129-793e-4075-8c22-2685a2129ce1" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="CompoundStructure.GetLayers" x="1294.05889789209" y="2202.60640781187" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.CompoundStructure.GetLayers@var">
@@ -172,7 +172,7 @@
     <CoreNodeModels.Watch guid="b603e0db-cd64-4b01-8777-9b451c2f29c1" type="CoreNodeModels.Watch" nickname="Watch" x="2002.05205029457" y="2205.32292520231" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
       <PortInfo index="0" default="False" />
     </CoreNodeModels.Watch>
-    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="cff95970-98ef-4150-a026-805980b902d4" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="CompoundStructure.GetLayerFunction" x="1307.76171110719" y="2323.36114928021" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.CompoundStructure.GetLayerFunction@var,int">
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="cff95970-98ef-4150-a026-805980b902d4" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="CompoundStructure.GetLayerFunction" x="1271.67151568268" y="2318.98658013785" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.CompoundStructure.GetLayerFunction@var,int">
       <PortInfo index="0" default="False" />
       <PortInfo index="1" default="False" />
     </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
@@ -337,7 +337,7 @@
     <Dynamo.Graph.Notes.NoteModel guid="9d73a7a3-07fc-4398-b715-07000e62ca74" text="PACKAGE: Synthetic" x="961.418589226035" y="1643.3108068175" />
     <Dynamo.Graph.Notes.NoteModel guid="8c26ebd0-a153-46e2-aaab-4b18013b46be" text="PACKAGE: Synthetic" x="2038.02838257974" y="401.728541609681" />
     <Dynamo.Graph.Notes.NoteModel guid="3d82bbf3-d8f4-41be-beca-b57d73916aa8" text="PACKAGE: Synthetic&#xD;&#xA;Example showing how to expose the Autodesk.Revit.DB.CompoundStructure object directly to Dynamo.  Unwrap to use with other Revit API scripts." x="2308.83472325652" y="493.82144560378" />
-    <Dynamo.Graph.Notes.NoteModel guid="cf78af84-2f00-44c5-976c-54507d545b13" text="PACKAGE: Synthetic&#xD;&#xA;Example showing hot to convert the Autodesk.Revit.DB.CompoundStructure object into a Synthetic.Revit.CompoundStructure object." x="2622.63714925153" y="649.354565774908" />
+    <Dynamo.Graph.Notes.NoteModel guid="cf78af84-2f00-44c5-976c-54507d545b13" text="PACKAGE: Synthetic&#xD;&#xA;Example showing hot to convert the Autodesk.Revit.DB.CompoundStructure object into a Synthetic.Revit.CompoundStructure object." x="2685.34050449162" y="656.878968403719" />
     <Dynamo.Graph.Notes.NoteModel guid="0b5cbeb2-ada5-43e2-b3b1-317cd223c28d" text="PACKAGE: Synthetic" x="1813.72755838355" y="-215.855634066813" />
     <Dynamo.Graph.Notes.NoteModel guid="0eed2124-c462-4ce2-96b6-99e2fdc973c8" text="PACKAGE: Synthetic" x="2139.77961407069" y="-215.115116660397" />
     <Dynamo.Graph.Notes.NoteModel guid="e7334124-824a-44b5-a91d-564ed532993b" text="PACKAGE: Synthetic" x="2645.24835383664" y="-219.211521276921" />
@@ -354,12 +354,12 @@
     <Dynamo.Graph.Annotations.AnnotationModel guid="dc120c06-e1b4-4210-bb08-d7a5a5185bb4" annotationText="MONITOR" left="2971.64102432731" top="-222.872684426731" width="310" height="169" fontSize="30" InitialTop="-176.872684426731" InitialHeight="124" TextblockHeight="36" backgrouund="#FFA4E1FF">
       <Models ModelGuid="7eaed318-ee5e-4324-8081-752e89bad995" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="233a6009-056b-47da-8c38-9d49f8e648d7" annotationText="MONITOR" left="2973.07068065655" top="366.106266520699" width="319.10996673284" height="520.361339074526" fontSize="30" InitialTop="412.106266520699" InitialHeight="124" TextblockHeight="36" backgrouund="#FFA4E1FF">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="233a6009-056b-47da-8c38-9d49f8e648d7" annotationText="MONITOR" left="3133.92276707041" top="367.993440204532" width="312.285951689729" height="519.728232495494" fontSize="30" InitialTop="413.993440204532" InitialHeight="124" TextblockHeight="36" backgrouund="#FFA4E1FF">
       <Models ModelGuid="c93fd2c5-7fc3-4658-b3cd-f53999f20dcb" />
       <Models ModelGuid="1b1d929c-0eb3-493a-a609-96cca6baec89" />
       <Models ModelGuid="1d9f0782-fc6a-4e76-ae02-b6773ef55ce4" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="51f24095-692d-4d2b-b853-f4208bb953e8" annotationText="OPERATIONS: CREATE COMPOUND STRUCTURE BY DICTIONARY" left="589.128238451587" top="-265.211521276921" width="2300.20823644603" height="493.251829626979" fontSize="30" InitialTop="-219.211521276921" InitialHeight="152.041547250151" TextblockHeight="36" backgrouund="#FF848484">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="51f24095-692d-4d2b-b853-f4208bb953e8" annotationText="OPERATIONS: CREATE COMPOUND STRUCTURE BY DICTIONARY" left="589.128238451587" top="-265.211521276921" width="2300.20823644602" height="493.251829626978" fontSize="30" InitialTop="-219.211521276921" InitialHeight="152.041547250151" TextblockHeight="36" backgrouund="#FF848484">
       <Models ModelGuid="a5e081dc-e20c-4cb8-bb91-4007d1a1c23e" />
       <Models ModelGuid="3ae16f2e-e48c-47ab-8afe-f01ed5b993ba" />
       <Models ModelGuid="d70cfb43-0f21-4bae-bfbd-e913f8ed5bcd" />
@@ -376,7 +376,7 @@
       <Models ModelGuid="0eed2124-c462-4ce2-96b6-99e2fdc973c8" />
       <Models ModelGuid="0b5cbeb2-ada5-43e2-b3b1-317cd223c28d" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="455b82dc-c700-42d9-9987-64bac036483d" annotationText="OPERATIONS: CREATE COMPOUND STRUCTURE BY PROPERTIES" left="589.328304830842" top="355.728541609681" width="2400.84135830866" height="498.980854245698" fontSize="30" InitialTop="401.728541609681" InitialHeight="201" TextblockHeight="36" backgrouund="#FF848484">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="455b82dc-c700-42d9-9987-64bac036483d" annotationText="OPERATIONS: CREATE COMPOUND STRUCTURE BY PROPERTIES" left="589.328304830842" top="355.728541609681" width="2451.00404250073" height="502.743055560103" fontSize="30" InitialTop="401.728541609681" InitialHeight="201" TextblockHeight="36" backgrouund="#FF848484">
       <Models ModelGuid="8874ec82-af20-4e71-9a85-e5120846f59e" />
       <Models ModelGuid="efaa3ce4-86ff-48b3-ba10-bbd5590d5bde" />
       <Models ModelGuid="9af82370-986f-4960-88f3-5b66bbf45036" />
@@ -458,7 +458,7 @@
       <Models ModelGuid="9484419e-5cb4-4203-860c-5d25e9bdcb92" />
       <Models ModelGuid="82b84216-63c3-4473-a919-4384be37001f" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="db0d7c25-d63b-464f-8878-573b03659326" annotationText="OPERATIONS: GET LAYER PROPERTIES" left="551.887608446639" top="2155.71469109746" width="1088.87410266055" height="693.66066176753" fontSize="30" InitialTop="2201.71469109746" InitialHeight="677.66066176753" TextblockHeight="36" backgrouund="#FF848484">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="db0d7c25-d63b-464f-8878-573b03659326" annotationText="OPERATIONS: GET LAYER PROPERTIES" left="551.887608446639" top="2155.71469109746" width="1069.98616332608" height="693.66066176753" fontSize="30" InitialTop="2201.71469109746" InitialHeight="677.66066176753" TextblockHeight="36" backgrouund="#FF848484">
       <Models ModelGuid="779c4129-793e-4075-8c22-2685a2129ce1" />
       <Models ModelGuid="a2d0a6d3-e43b-4c35-9add-20515fe87dc0" />
       <Models ModelGuid="cff95970-98ef-4150-a026-805980b902d4" />
