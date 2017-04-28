@@ -103,6 +103,7 @@ namespace Synthetic.UI
         /// Resets all the Task Dialogs properties and settings.
         /// </summary>
         /// <param name="TaskDialog">A task dialog.</param>
+        /// <param name="toggle">Resets the node.</param>
         /// <returns name="TaskDialog">The task dialog with a new Revit dialog.</returns>
         public static DialogRevitTask ResetDialog(DialogRevitTask TaskDialog, bool toggle)
         {

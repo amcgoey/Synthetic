@@ -32,15 +32,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DSCoreNodes">
-      <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Core\1.2\DSCoreNodes.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Core\1.3\DSCoreNodes.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DynamoCore">
-      <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Core\1.2\DynamoCore.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Core\1.3\DynamoCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DynamoServices">
-      <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Core\1.2\DynamoServices.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Core\1.3\DynamoServices.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPI">
@@ -52,25 +52,29 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitNodes">
-      <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Revit\1.2\Revit_2017\RevitNodes.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Revit\1.3\Revit_2017\RevitNodes.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitServices">
-      <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Revit\1.2\Revit_2017\RevitServices.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Revit\1.3\Revit_2017\RevitServices.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Synthetic.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Package\Synthetic\bin\Synthetic.Core.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompoundStructure.cs" />
     <Compile Include="Document.cs" />
     <Compile Include="Elements.cs" />
     <Compile Include="Color.cs" />
+    <Compile Include="Collector.cs" />
+    <Compile Include="Select.cs" />
     <Compile Include="ViewTemplates.cs" />
     <Compile Include="Worksets.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

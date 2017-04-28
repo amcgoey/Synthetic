@@ -145,8 +145,9 @@ namespace Synthetic.Revit
         /// Opens a document from disk.  The document will not be visible to the user.
         /// </summary>
         /// <param name="modelPath">Path to the document.</param>
+        /// <param name="reset">Resets the node to reopen the document.</param>
         /// <returns name="document">The opened revit document.</returns>
-        public static revitDoc Open (string modelPath)
+        public static revitDoc Open (string modelPath, bool reset)
         {
             Autodesk.Revit.UI.UIApplication uiapp = DocumentManager.Instance.CurrentUIApplication;
             Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
@@ -157,15 +158,16 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// Closes a document if it isn't the active document.
+        /// Closes a document if it isn't the active document.  By default, the document will NOT be saved when closed.
         /// </summary>
         /// <param name="document">A revit document.  Cannot be the active document.</param>
-        /// <returns name="bool">Returns true is the document was closed, false otherwise.</returns>
-        public static bool Close (revitDoc document)
+        /// <param name="save">If true, the document will be saved.  If false, the document will not be saved.</param>
+        /// <returns name="bool">Returns true is the document was closed, false otherwise.  Returns false if saving was requested but failed</returns>
+        public static bool Close (revitDoc document, [DefaultArgument("false")] bool save)
         {
             if (DocumentManager.Instance.ActiveDocumentHashCode != document.GetHashCode())
             {
-                document.Close ();
+                document.Close(save);
                 return true;
             }
             else { return false; }

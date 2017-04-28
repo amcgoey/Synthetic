@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using Autodesk.DesignScript.Runtime;
-using dynamoElements = Revit.Elements;
-using RevitServices.Transactions;
+
 using Synthetic.Core;
 
+using Autodesk.DesignScript.Runtime;
+
+using Revit.Elements;
+using RevitServices.Transactions;
 using dynamoElem = Revit.Elements.Element;
 using dynamoParam = Revit.Elements.Parameter;
 
+using revitDB = Autodesk.Revit.DB;
+using revitElem = Autodesk.Revit.DB.Element;
 using revitElemId = Autodesk.Revit.DB.ElementId;
 using revitDoc = Autodesk.Revit.DB.Document;
 
@@ -20,6 +24,8 @@ namespace Synthetic.Revit
     /// </summary>
     public class Elements
     {
+        internal Elements () { }
+
         /// <summary>
         /// 
         /// </summary>
@@ -91,11 +97,16 @@ namespace Synthetic.Revit
 
             using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(destinationDoc))
             {
-                trans.Start("Copy Elements from document " + sourceDoc.Title);
-
-                copiedElemsIds = (List<revitElemId>)Autodesk.Revit.DB.ElementTransformUtils.CopyElements(sourceDoc, revitElemIds, destinationDoc, null, cpo);
-
-                trans.Commit();
+                try
+                {
+                    trans.Start("Copy Elements from document " + sourceDoc.Title);
+                    copiedElemsIds = (List<revitElemId>)Autodesk.Revit.DB.ElementTransformUtils.CopyElements(sourceDoc, revitElemIds, destinationDoc, null, cpo);
+                    trans.Commit();
+                }
+                catch
+                {
+                    copiedElemsIds = (List<revitElemId>)Autodesk.Revit.DB.ElementTransformUtils.CopyElements(sourceDoc, revitElemIds, destinationDoc, null, cpo);
+                }
             }
 
             return copiedElemsIds;
@@ -159,6 +170,43 @@ namespace Synthetic.Revit
             //    { "Debug",  debug}
             //};
             return filter;
+        }
+
+        /// <summary>
+        /// Converts a Autodesk.Revit.DB.Element into its equivalent Dynamo element if possible.
+        /// </summary>
+        /// <param name="element">A Autodesk.Revit.DB.Element</param>
+        /// <returns name="Dynamo Element">If successful, returns a dynamo element, otherwise returns null.</returns>
+        public static dynamoElem WrapRevitElement ( revitElem element)
+        {
+            dynamoElem dElem = null;
+
+            try
+            {
+                dElem = element.ToDSType(true);
+            }
+            catch { }
+
+            return dElem;
+        }
+
+        /// <summary>
+        /// Converts a Dynamo element into its equivalent Autodesk.Revit.DB.Element if possible.
+        /// </summary>
+        /// <param name="element">A Dynamo representation of a revit element</param>
+        /// <returns name="Revit Element">If successful, returns a Autodesk.Revit.DB.Element, otherwise returns null.</returns>
+        public static revitElem UnwrapDynamoElement (dynamoElem element)
+        {
+            revitElem rElem = null;
+
+            try
+            {
+                rElem = element.InternalElement;
+            }
+
+            catch { }
+
+            return rElem;
         }
     }
 }
