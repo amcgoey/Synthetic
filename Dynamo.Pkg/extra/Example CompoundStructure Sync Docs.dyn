@@ -1,32 +1,32 @@
-<Workspace Version="1.3.0.875" X="-231.437672019174" Y="-944.099579617579" zoom="0.704583034622005" ScaleFactor="1" Name="Home" Description="" RunType="Manual" RunPeriod="1000" HasRunWithoutCrash="True">
+<Workspace Version="1.3.0.875" X="253.699867095719" Y="65.8326889508868" zoom="0.222359721137567" ScaleFactor="1" Name="Home" Description="" RunType="Manual" RunPeriod="1000" HasRunWithoutCrash="True">
   <NamespaceResolutionMap>
     <ClassMap partialName="ListUtilities" resolvedName="Archilab.Grimshaw.Utilities.ListUtilities" assemblyName="Archi-lab_Grimshaw.dll" />
     <ClassMap partialName="DSCore.List" resolvedName="DSCore.List" assemblyName="DSCoreNodes.dll" />
   </NamespaceResolutionMap>
   <Elements>
-    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="4bb18e9e-8b76-4003-bc55-443c468d9c12" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Document.Current" x="-760.568556556022" y="1103.95941500018" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\..\..\Output\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Document.Current" />
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="4bb18e9e-8b76-4003-bc55-443c468d9c12" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Document.Current" x="-760.568556556022" y="1103.95941500018" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Document.Current" />
     <CoreNodeModels.Input.Filename guid="527fa938-bbd5-45d3-be4b-2147f38ac836" type="CoreNodeModels.Input.Filename" nickname="File Path" x="-771.420306169726" y="941.107891060538" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
       <System.String>..\..\..\Testing\Sync Wall Types\Test Sync Wall Types Source.rvt</System.String>
-      <HintPath>C:\Dropbox\Projects\Revit Dynamo Synthetic R2\Testing\Sync Wall Types\Test Sync Wall Types Source.rvt</HintPath>
+      <HintPath>C:\Users\arthur\Revit Dynamo Synthetic R2\Testing\Sync Wall Types\Test Sync Wall Types Source.rvt</HintPath>
     </CoreNodeModels.Input.Filename>
-    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="55fb8904-e10d-4cad-b9e4-da50c295cca2" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Document.Open" x="-313.066511464516" y="915.816849087566" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\..\..\Output\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Document.Open@string,bool">
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="55fb8904-e10d-4cad-b9e4-da50c295cca2" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Document.Open" x="-313.066511464516" y="915.816849087566" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Document.Open@string,bool">
       <PortInfo index="0" default="False" />
       <PortInfo index="1" default="False" />
     </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
-    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="b54e6520-2078-48a2-aefe-4f20d393ad55" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Collector.ByFilters" x="966.703443529294" y="930.887859280487" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\..\..\Output\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Collector.ByFilters@var[],var">
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="b54e6520-2078-48a2-aefe-4f20d393ad55" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Collector.ByFilters" x="966.703443529294" y="930.887859280487" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Collector.ByFilters@var[],var">
       <PortInfo index="0" default="False" />
       <PortInfo index="1" default="True" />
     </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
-    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="2e5f0cb6-962f-4bb8-b741-6c6f009ecb17" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Collector.FilterElementClass" x="660.758719769664" y="878.462103813331" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\..\..\Output\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Collector.FilterElementClass@var,bool">
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="2e5f0cb6-962f-4bb8-b741-6c6f009ecb17" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Collector.FilterElementClass" x="660.758719769664" y="878.462103813331" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Collector.FilterElementClass@var,bool">
       <PortInfo index="0" default="False" />
       <PortInfo index="1" default="True" />
     </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
     <DSRevitNodesUI.ElementTypes guid="b684dd28-6924-4346-8065-215123fee0fc" type="DSRevitNodesUI.ElementTypes" nickname="Element Types" x="475.80688011694" y="878.816093372556" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false" index="336:WallType" />
-    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="88302947-b07c-4c22-88ad-7958d3b1bf47" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Collector.ToElements" x="1240.83637287559" y="932.023755985828" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\..\..\Output\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Collector.ToElements@var,bool">
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="88302947-b07c-4c22-88ad-7958d3b1bf47" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Collector.ToElements" x="1240.83637287559" y="932.023755985828" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Collector.ToElements@var,bool">
       <PortInfo index="0" default="False" />
       <PortInfo index="1" default="True" />
     </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
-    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="115a1828-1afa-4192-8933-d5e162c29e76" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Elements.FilterByParameterValue" x="1715.35835624137" y="1018.42820984036" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\..\..\Output\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Elements.FilterByParameterValue@Revit.Elements.Element,string[],string">
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="115a1828-1afa-4192-8933-d5e162c29e76" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Elements.FilterByParameterValue" x="1715.35835624137" y="1018.42820984036" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Elements.FilterByParameterValue@Revit.Elements.Element,string[],string">
       <PortInfo index="0" default="False" />
       <PortInfo index="1" default="False" />
       <PortInfo index="2" default="False" />
@@ -56,7 +56,7 @@
     <CoreNodeModels.Watch guid="a0ef515d-8333-4797-ab29-07a6e9a20e23" type="CoreNodeModels.Watch" nickname="Watch" x="2598.86113166435" y="1998.48006057952" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
       <PortInfo index="0" default="False" />
     </CoreNodeModels.Watch>
-    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="19d1b377-dca8-49a7-b57a-8b876d00330b" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Document.Close" x="1254.40657018254" y="2189.09219980406" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\..\..\Output\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Document.Close@var,bool">
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="19d1b377-dca8-49a7-b57a-8b876d00330b" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Document.Close" x="1254.40657018254" y="2189.09219980406" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Document.Close@var,bool">
       <PortInfo index="0" default="False" />
       <PortInfo index="1" default="True" />
     </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
@@ -79,18 +79,18 @@
     <CoreNodeModels.Input.BoolSelector guid="5246bb70-b13c-40e6-b0c2-2962288bf9b3" type="CoreNodeModels.Input.BoolSelector" nickname="Boolean" x="-512.503551416311" y="750.402645774346" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
       <System.Boolean>False</System.Boolean>
     </CoreNodeModels.Input.BoolSelector>
-    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="4ff1b614-eebd-4b10-942e-8db16bd34e8d" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="CompoundStructure.FromWallType" x="854.045003408996" y="1722.5984565221" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\..\..\Output\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.CompoundStructure.FromWallType@Revit.Elements.WallType,var">
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="4ff1b614-eebd-4b10-942e-8db16bd34e8d" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="CompoundStructure.FromWallType" x="854.045003408996" y="1722.5984565221" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.CompoundStructure.FromWallType@Revit.Elements.WallType,var">
       <PortInfo index="0" default="False" />
       <PortInfo index="1" default="True" />
     </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
-    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="795a7068-d577-46aa-ac74-61510d252236" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="CompoundStructure.FromWallType" x="2190.13372428543" y="1999.53073510892" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\..\..\Output\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.CompoundStructure.FromWallType@Revit.Elements.WallType,var">
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="795a7068-d577-46aa-ac74-61510d252236" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="CompoundStructure.FromWallType" x="2190.13372428543" y="1999.53073510892" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.CompoundStructure.FromWallType@Revit.Elements.WallType,var">
       <PortInfo index="0" default="False" />
       <PortInfo index="1" default="True" />
     </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
     <CoreNodeModels.Watch guid="7c5cefc1-9241-4fe4-8028-92977536aefa" type="CoreNodeModels.Watch" nickname="Watch" x="1103.40913539807" y="1374.35211419862" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
       <PortInfo index="0" default="False" />
     </CoreNodeModels.Watch>
-    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="5432e23d-edf6-49bf-b841-719304bd5c9e" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="CompoundStructure.ToWallType" x="1802.68505037671" y="1783.8167027789" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\..\..\Output\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.CompoundStructure.ToWallType@Revit.Elements.WallType,var">
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="5432e23d-edf6-49bf-b841-719304bd5c9e" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="CompoundStructure.ToWallType" x="1802.68505037671" y="1783.8167027789" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.CompoundStructure.ToWallType@Revit.Elements.WallType,var">
       <PortInfo index="0" default="False" />
       <PortInfo index="1" default="False" />
     </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
@@ -103,10 +103,13 @@
     <CoreNodeModels.Input.BoolSelector guid="3e410004-a86a-462c-b02c-a85b7f9026ec" type="CoreNodeModels.Input.BoolSelector" nickname="Boolean" x="-762.411273957743" y="1921.1399112268" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
       <System.Boolean>True</System.Boolean>
     </CoreNodeModels.Input.BoolSelector>
-    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="58b9154c-a0c2-4645-bd77-86c45e12fe1a" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="CompoundStructure.CopyToDocument" x="1217.99509306043" y="1778.28665617366" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\..\..\Output\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.CompoundStructure.CopyToDocument@var,var">
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="58b9154c-a0c2-4645-bd77-86c45e12fe1a" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="CompoundStructure.CopyToDocument" x="1217.99509306043" y="1778.28665617366" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="M:\!SMPC Labs!\App Revit\Dynamo\Packages Experiment\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.CompoundStructure.CopyToDocument@var,var">
       <PortInfo index="0" default="False" />
       <PortInfo index="1" default="False" />
     </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <CoreNodeModels.Input.BoolSelector guid="a050df5b-21fd-4ed5-980f-c282d3278e3b" type="CoreNodeModels.Input.BoolSelector" nickname="Boolean" x="1150.81989243695" y="2390.9091268612" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.Boolean>False</System.Boolean>
+    </CoreNodeModels.Input.BoolSelector>
   </Elements>
   <Connectors>
     <Dynamo.Graph.Connectors.ConnectorModel start="4bb18e9e-8b76-4003-bc55-443c468d9c12" start_index="0" end="78af0bc0-4306-4240-b1f0-e11dbb00e09d" end_index="1" portType="0" />
@@ -128,9 +131,9 @@
     <Dynamo.Graph.Connectors.ConnectorModel start="089112f7-9f82-43fe-b398-50a95ce75f64" start_index="0" end="4f067607-c093-4062-86f3-b71b6feb0d1d" end_index="0" portType="0" />
     <Dynamo.Graph.Connectors.ConnectorModel start="4f067607-c093-4062-86f3-b71b6feb0d1d" start_index="0" end="115a1828-1afa-4192-8933-d5e162c29e76" end_index="2" portType="0" />
     <Dynamo.Graph.Connectors.ConnectorModel start="0f463ec4-f841-446b-bb8c-0f204d13bb80" start_index="0" end="06b60c2e-3e1f-4e6d-a976-1a389b9a49ad" end_index="0" portType="0" />
-    <Dynamo.Graph.Connectors.ConnectorModel start="0f463ec4-f841-446b-bb8c-0f204d13bb80" start_index="1" end="f3882220-48f4-4bef-9f24-db179cf3e482" end_index="1" portType="0" />
     <Dynamo.Graph.Connectors.ConnectorModel start="0f463ec4-f841-446b-bb8c-0f204d13bb80" start_index="1" end="4ff1b614-eebd-4b10-942e-8db16bd34e8d" end_index="0" portType="0" />
     <Dynamo.Graph.Connectors.ConnectorModel start="0f463ec4-f841-446b-bb8c-0f204d13bb80" start_index="2" end="4ff1b614-eebd-4b10-942e-8db16bd34e8d" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="0f463ec4-f841-446b-bb8c-0f204d13bb80" start_index="2" end="f3882220-48f4-4bef-9f24-db179cf3e482" end_index="1" portType="0" />
     <Dynamo.Graph.Connectors.ConnectorModel start="0f463ec4-f841-446b-bb8c-0f204d13bb80" start_index="3" end="06b60c2e-3e1f-4e6d-a976-1a389b9a49ad" end_index="1" portType="0" />
     <Dynamo.Graph.Connectors.ConnectorModel start="0f463ec4-f841-446b-bb8c-0f204d13bb80" start_index="4" end="795a7068-d577-46aa-ac74-61510d252236" end_index="1" portType="0" />
     <Dynamo.Graph.Connectors.ConnectorModel start="0f463ec4-f841-446b-bb8c-0f204d13bb80" start_index="4" end="58b9154c-a0c2-4645-bd77-86c45e12fe1a" end_index="1" portType="0" />
@@ -148,6 +151,7 @@
     <Dynamo.Graph.Connectors.ConnectorModel start="393549f0-506f-40dc-8919-3ee8c2f49d41" start_index="0" end="06b60c2e-3e1f-4e6d-a976-1a389b9a49ad" end_index="2" portType="0" />
     <Dynamo.Graph.Connectors.ConnectorModel start="3e410004-a86a-462c-b02c-a85b7f9026ec" start_index="0" end="0f463ec4-f841-446b-bb8c-0f204d13bb80" end_index="0" portType="0" />
     <Dynamo.Graph.Connectors.ConnectorModel start="58b9154c-a0c2-4645-bd77-86c45e12fe1a" start_index="0" end="5432e23d-edf6-49bf-b841-719304bd5c9e" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="a050df5b-21fd-4ed5-980f-c282d3278e3b" start_index="0" end="19d1b377-dca8-49a7-b57a-8b876d00330b" end_index="1" portType="0" />
   </Connectors>
   <Notes>
     <Dynamo.Graph.Notes.NoteModel guid="082e9cc7-bf84-4937-9dd8-2d0b72f74969" text="Source document" x="-763.931314880973" y="902.541104555351" />
@@ -173,7 +177,7 @@
       <Models ModelGuid="55fb8904-e10d-4cad-b9e4-da50c295cca2" />
       <Models ModelGuid="78af0bc0-4306-4240-b1f0-e11dbb00e09d" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="1b6ef7af-39b8-4aee-8199-6ef2222b1f7b" annotationText="&lt;Click here to edit the group title&gt;" left="-781.420306169726" top="872.541104555351" width="384" height="1337.81209562136" fontSize="14" InitialTop="902.541104555351" InitialHeight="997.860089431517" TextblockHeight="20" backgrouund="#FFFFB8D8">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="1b6ef7af-39b8-4aee-8199-6ef2222b1f7b" annotationText="&lt;Click here to edit the group title&gt;" left="-781.420306169726" top="872.541104555351" width="375" height="1337.81209562136" fontSize="14" InitialTop="902.541104555351" InitialHeight="997.860089431517" TextblockHeight="20" backgrouund="#FFFFB8D8">
       <Models ModelGuid="4bb18e9e-8b76-4003-bc55-443c468d9c12" />
       <Models ModelGuid="527fa938-bbd5-45d3-be4b-2147f38ac836" />
       <Models ModelGuid="089112f7-9f82-43fe-b398-50a95ce75f64" />
