@@ -176,7 +176,7 @@ namespace Synthetic.Core
         /// <returns name="dictionary">The modified dictionary.  Returns null if no key is found.</returns>
         public static Dictionary SetValueAtKey(Dictionary dictionary, string key, System.Object value)
         {
-            c.Dictionary<string, System.Object> unwrapped = Dictionary.Unwrap(dictionary);
+            c.Dictionary<string, System.Object> unwrapped = Dictionary.UnwrapDictionary(dictionary);
             if (dictionary.internalDictionary.ContainsKey(key))
             {
                 dictionary.internalDictionary.Remove(key);
@@ -191,7 +191,7 @@ namespace Synthetic.Core
         /// </summary>
         /// <param name="dictionary">A Synthetic.Core.Dictionary object.</param>
         /// <returns name="dotNetDictionary">Returns a .Net Dictionary object.</returns>
-        public static c.Dictionary<string, System.Object> Unwrap(Dictionary dictionary)
+        public static c.Dictionary<string, System.Object> UnwrapDictionary(Dictionary dictionary)
         {
             return dictionary.internalDictionary;
         }

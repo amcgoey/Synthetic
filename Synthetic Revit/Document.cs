@@ -67,7 +67,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="document">A Dynamo wrapped Revit Document</param>
         /// <returns name="Revit Document">A unwrapped Revit document.  Document needs to be open in the application, otherwise return null.</returns>
-        public static revitDoc Unwrap (dynamoDoc document)
+        public static revitDoc UnwrapDocument (dynamoDoc document)
         {
             string filePath = document.FilePath;
 

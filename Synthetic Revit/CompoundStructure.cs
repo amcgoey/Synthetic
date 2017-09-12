@@ -257,7 +257,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="compoundStructure">An Synthetic.Revit.CompoundStructure</param>
         /// <returns name="Unwrapped">Autodesk.Revit.DB.CompoundStructure</returns>
-        public static revitCS Unwrap(CompoundStructure compoundStructure)
+        public static revitCS UnwrapCompoundStructure(CompoundStructure compoundStructure)
         {
             return compoundStructure.internalCompoundStructure;
         }

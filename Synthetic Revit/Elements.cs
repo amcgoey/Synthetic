@@ -41,7 +41,7 @@ namespace Synthetic.Revit
             //{
             //    trans.Start("Set Parameters");
 
-                foreach (KeyValuePair<string, object> keyValue in synthDict.Unwrap(dictionary))
+                foreach (KeyValuePair<string, object> keyValue in synthDict.UnwrapDictionary(dictionary))
                 {
                     element.SetParameterByName(keyValue.Key, keyValue.Value);
                 }
