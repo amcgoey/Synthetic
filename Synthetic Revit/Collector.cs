@@ -69,7 +69,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="collector">A Synthetic Collector object.</param>
         /// <returns>A Revit FilteredElementCollector object.</returns>
-        public static revitFECollector Unwrap (Collector collector)
+        public static revitFECollector UnwrapCollector (Collector collector)
         {
             return collector.ApplyFilters();
         }

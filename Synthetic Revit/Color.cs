@@ -83,7 +83,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="color">A wrapped Revit color.</param>
         /// <returns name="Revit color">A Revit color.</returns>
-        public static RevitColor Unwrap (ColorWrapper color)
+        public static RevitColor UnwrapColor (ColorWrapper color)
         {
             return color.revitColor;
         }

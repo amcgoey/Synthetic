@@ -149,7 +149,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="viewTemplate">A Autodesk.Revit.DB.View view template.  Returns null if the view is not a template.</param>
         /// <returns name="View Template">A view template.</returns>
-        public static revitView Unwrap(ViewTemplate viewTemplate)
+        public static revitView UnwrapViewTemplate(ViewTemplate viewTemplate)
         {
             return viewTemplate.InternalViewTemplate;
         }

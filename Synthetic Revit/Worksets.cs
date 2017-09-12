@@ -433,7 +433,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="workset">A workset.</param>
         /// <returns name="unwrapped">A Autodesk.Revit.DB.Workset object.</returns>
-        public static revitWorkset Unwrap (Workset workset)
+        public static revitWorkset UnwrapWorkset (Workset workset)
         {
             return workset.internalWorkset;
         }
