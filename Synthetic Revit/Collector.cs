@@ -395,5 +395,20 @@ namespace Synthetic.Revit
         {
             return new revitDB.ElementParameterFilter(filterRules, inverted);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <param name="value"></param>
+        /// <param name="inverted"></param>
+        /// <returns></returns>
+        public static revitDB.ElementFilter FilterElementParameterStringEquals(revitDB.Parameter parameter, string value, bool inverted)
+        {
+            revitDB.ParameterValueProvider provider = new revitDB.ParameterValueProvider(parameter.Id);
+            revitDB.FilterStringRuleEvaluator evaluator = new revitDB.FilterStringEquals();
+            revitDB.FilterRule filterRule = new revitDB.FilterStringRule(provider, evaluator, value, false);
+            return new revitDB.ElementParameterFilter(filterRule, inverted);
+        }
     }
 }
