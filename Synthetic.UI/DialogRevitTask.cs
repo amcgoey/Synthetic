@@ -242,7 +242,7 @@ namespace Synthetic.UI
             {
                 // Set common buttons and default button. If no CommonButton or CommandLink is added,
                 // task dialog will show a Close button by default
-                foreach (KeyValuePair<string, object> button in SynthDict.Unwrap(Buttons))
+                foreach (KeyValuePair<string, object> button in SynthDict.UnwrapDictionary(Buttons))
                 {
                     if ((bool)button.Value)
                     {
@@ -294,7 +294,7 @@ namespace Synthetic.UI
         {
             if (CommandLinks != null)
             {
-                foreach (KeyValuePair<string, object> cmdLink in SynthDict.Unwrap(CommandLinks))
+                foreach (KeyValuePair<string, object> cmdLink in SynthDict.UnwrapDictionary(CommandLinks))
                 {
                     if ((string)cmdLink.Value != "" || cmdLink.Value != null)
                     {

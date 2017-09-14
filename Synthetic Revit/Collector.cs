@@ -17,6 +17,7 @@ using dynCat = Revit.Elements.Category;
 using dynFamilyType = Revit.Elements.FamilyType;
 using dynFamily = Revit.Elements.Family;
 using dynLevel = Revit.Elements.Level;
+using dynView = Revit.Elements.Views.View;
 
 
 namespace Synthetic.Revit
@@ -69,7 +70,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="collector">A Synthetic Collector object.</param>
         /// <returns>A Revit FilteredElementCollector object.</returns>
-        public static revitFECollector Unwrap (Collector collector)
+        public static revitFECollector UnwrapCollector (Collector collector)
         {
             return collector.ApplyFilters();
         }
@@ -360,6 +361,28 @@ namespace Synthetic.Revit
         public static revitDB.ElementFilter FilterElementLevel(dynLevel level, [DefaultArgument("false")] bool inverted)
         {
             return new revitDB.ElementLevelFilter(new revitDB.ElementId(level.Id), inverted);
+        }
+
+        /// <summary>
+        /// Creates a ElementFilter that passes elements owned by the given view.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.
+        /// </summary>
+        /// <param name="viewId">The Element Id of the view as an integer</param>
+        /// <param name="inverted">If true, the filter elements NOT matching the filter criteria are chosen.</param>
+        /// <returns name="ElementFilter">An Element Filter.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
+        public static revitDB.ElementFilter FilterElementOwnerViewById(int viewId, [DefaultArgument("false")] bool inverted)
+        {
+            return new revitDB.ElementOwnerViewFilter(new revitDB.ElementId(viewId), inverted);
+        }
+
+        /// <summary>
+        /// Creates a ElementFilter that passes elements owned by the given view.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.
+        /// </summary>
+        /// <param name="view">The Element Id of the view as an integer</param>
+        /// <param name="inverted">If true, the filter elements NOT matching the filter criteria are chosen.</param>
+        /// <returns name="ElementFilter">An Element Filter.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
+        public static revitDB.ElementFilter FilterElementOwnerView(dynView view, [DefaultArgument("false")] bool inverted)
+        {
+            return new revitDB.ElementOwnerViewFilter(new revitDB.ElementId(view.Id), inverted);
         }
 
         /// <summary>
