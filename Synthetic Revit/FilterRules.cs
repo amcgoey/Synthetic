@@ -54,10 +54,10 @@ namespace Synthetic.Revit
             return new FilterRule(new revitDB.ElementId(parameterId), evaluator, value);
         }
 
-        public static revitDB.FilterRule GetFilterRule(FilterRule)
-        {
+        //public static revitDB.FilterRule GetFilterRule(FilterRule)
+        //{
             
-        }
+        //}
 
         #region Enumeration EvaluatorType
         /// <summary>
