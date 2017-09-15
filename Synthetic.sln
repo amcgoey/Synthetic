@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Synthetic.Core", "Synthetic Core\Synthetic.Core.csproj", "{5D72B274-2496-4CC8-B39E-AB4F517D39A4}"
 EndProject
@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Synthetic.UI", "Synthetic.UI\Synthetic.UI.csproj", "{9DE0F913-AFC3-41B1-B266-6E248CB6E984}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Synthetic.Pulldowns", "Synthetic.Pulldowns\Synthetic.Pulldowns.csproj", "{58E24E04-01F6-43EC-B2D7-07A96BD5D1B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{9DE0F913-AFC3-41B1-B266-6E248CB6E984}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DE0F913-AFC3-41B1-B266-6E248CB6E984}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DE0F913-AFC3-41B1-B266-6E248CB6E984}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58E24E04-01F6-43EC-B2D7-07A96BD5D1B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58E24E04-01F6-43EC-B2D7-07A96BD5D1B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58E24E04-01F6-43EC-B2D7-07A96BD5D1B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58E24E04-01F6-43EC-B2D7-07A96BD5D1B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
