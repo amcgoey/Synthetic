@@ -13,8 +13,13 @@ namespace Synthetic.Revit.Parameters
     /// <summary>
     /// 
     /// </summary>
-    [NodeName("Parameters.BuiltIn")]
+    [NodeName("Parameters.SelectBuiltIn")]
     [NodeDescription("Select Built-in parameters")]
+
+    [OutPortNames("ParameterId")]
+    [OutPortTypes("int")]
+    [OutPortDescriptions("Element Id of the parameter as an integer")]
+
     [IsDesignScriptCompatible]
     public class DropDownBuiltInParameters : DSDropDownBase
     {
@@ -23,13 +28,11 @@ namespace Synthetic.Revit.Parameters
         /// </summary>
         public DropDownBuiltInParameters() : base("item")
         {
-            OutPortData[0] = new PortData("ParameterId", "Element Id of the parameter as an integer"));
-
             RegisterAllPorts();
         }
 
         /// <summary>
-        /// 
+        /// Adds items to the pulldown list.
         /// </summary>
         /// <param name="currentSelection"></param>
         /// <returns></returns>
@@ -57,7 +60,8 @@ namespace Synthetic.Revit.Parameters
             // than -1, the default, so that your list
             // has a pre-selection.
 
-            SelectedIndex = 0;
+            //SelectedIndex = 0;
+
             return SelectionState.Done;
         }
 
