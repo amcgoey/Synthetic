@@ -17,6 +17,7 @@ using dynCat = Revit.Elements.Category;
 using dynFamilyType = Revit.Elements.FamilyType;
 using dynFamily = Revit.Elements.Family;
 using dynLevel = Revit.Elements.Level;
+using dynView = Revit.Elements.Views.View;
 
 
 namespace Synthetic.Revit
@@ -28,6 +29,7 @@ namespace Synthetic.Revit
     {
         internal revitDoc _document { get; private set; }
         internal List<revitDB.ElementFilter> _filters { get; private set; }
+        internal revitDB.ElementId _viewId { get; private set; }
 
         /// <summary>
         /// Constructor that takes a Revit Document as input.  Does not include filters.
@@ -37,6 +39,7 @@ namespace Synthetic.Revit
         {
             _document = doc;
             _filters = new List<revitDB.ElementFilter>();
+            _viewId = null;
         }
 
         /// <summary>
@@ -48,6 +51,20 @@ namespace Synthetic.Revit
         {
             _document = doc;
             _filters = filters;
+            _viewId = null;
+        }
+
+        /// <summary>
+        /// Constructor that takes a list of ElementFilters and a Revit document as inputs.
+        /// </summary>
+        /// <param name="filters">A list of ElementFilters</param>
+        /// <param name="viewId">The Element Id of the view</param>
+        /// <param name="doc">A Revit Document</param>
+        internal Collector(List<revitDB.ElementFilter> filters, revitDB.ElementId viewId, revitDoc doc)
+        {
+            _document = doc;
+            _filters = filters;
+            _viewId = viewId;
         }
 
         /// <summary>
@@ -56,7 +73,17 @@ namespace Synthetic.Revit
         /// <returns>A FilteredElementCollector with filters applied</returns>
         internal revitFECollector ApplyFilters ()
         {
-            revitFECollector rCollector = new revitFECollector(this._document);
+            revitFECollector rCollector;
+
+            if (_viewId == null)
+            {
+                rCollector = new revitFECollector(this._document);
+            }
+            else
+            {
+                rCollector = new revitFECollector(this._document, _viewId);
+            }
+
             foreach (revitDB.ElementFilter filter in this._filters)
             {
                 rCollector.WherePasses(filter);
@@ -94,6 +121,21 @@ namespace Synthetic.Revit
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
             Collector collector = new Collector(filters, document);
+            return collector;
+        }
+
+        /// <summary>
+        /// Creates a Synthetic Collector for a project with the inputed Element Filters.  By default, the current project is used.
+        /// </summary>
+        /// <param name="filters">A list of ElementFilter objects.</param>
+        /// <param name="viewId">The view's ElementId as an integer</param>
+        /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
+        /// <returns>A Synthetic Collector object</returns>
+        public static Collector ByFiltersViewId(List<revitDB.ElementFilter> filters,
+            int viewId,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        {
+            Collector collector = new Collector(filters, new revitDB.ElementId(viewId), document);
             return collector;
         }
 
@@ -360,6 +402,28 @@ namespace Synthetic.Revit
         public static revitDB.ElementFilter FilterElementLevel(dynLevel level, [DefaultArgument("false")] bool inverted)
         {
             return new revitDB.ElementLevelFilter(new revitDB.ElementId(level.Id), inverted);
+        }
+
+        /// <summary>
+        /// Creates a ElementFilter that passes elements owned by the given view.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.
+        /// </summary>
+        /// <param name="viewId">The Element Id of the view as an integer</param>
+        /// <param name="inverted">If true, the filter elements NOT matching the filter criteria are chosen.</param>
+        /// <returns name="ElementFilter">An Element Filter.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
+        public static revitDB.ElementFilter FilterElementOwnerViewById(int viewId, [DefaultArgument("false")] bool inverted)
+        {
+            return new revitDB.ElementOwnerViewFilter(new revitDB.ElementId(viewId), inverted);
+        }
+
+        /// <summary>
+        /// Creates a ElementFilter that passes elements owned by the given view.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.
+        /// </summary>
+        /// <param name="view">The Element Id of the view as an integer</param>
+        /// <param name="inverted">If true, the filter elements NOT matching the filter criteria are chosen.</param>
+        /// <returns name="ElementFilter">An Element Filter.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
+        public static revitDB.ElementFilter FilterElementOwnerView(dynView view, [DefaultArgument("false")] bool inverted)
+        {
+            return new revitDB.ElementOwnerViewFilter(new revitDB.ElementId(view.Id), inverted);
         }
 
         /// <summary>
