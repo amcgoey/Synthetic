@@ -8,29 +8,31 @@ using ProtoCore.AST.AssociativeAST;
 
 using revitDB = Autodesk.Revit.DB;
 
-namespace Synthetic.Revit.Collector
+namespace Synthetic.Revit.Parameters
 {
     /// <summary>
     /// 
     /// </summary>
-    [NodeName("FilterEvaluators")]
-    [NodeDescription("Create a Filter Evaluator")]
+    [NodeName("Parameters.SelectBuiltIn")]
+    [NodeDescription("Select Built-in parameters")]
+
+    [OutPortNames("ParameterId")]
+    [OutPortTypes("int")]
+    [OutPortDescriptions("Element Id of the parameter as an integer")]
+
     [IsDesignScriptCompatible]
-    public class DropDownFilterEvaluators : DSDropDownBase
+    public class DropDownBuiltInParameters : DSDropDownBase
     {
         /// <summary>
         /// 
         /// </summary>
-        public DropDownFilterEvaluators() : base("item")
+        public DropDownBuiltInParameters() : base("item")
         {
-            InPortData.Add(new PortData("parameterId", "The Element Id of the parameter as an integer"));
-            OutPortData[0] = new PortData("FilterRule", "Filter rule");
-
             RegisterAllPorts();
         }
 
         /// <summary>
-        /// 
+        /// Adds items to the pulldown list.
         /// </summary>
         /// <param name="currentSelection"></param>
         /// <returns></returns>
@@ -44,23 +46,22 @@ namespace Synthetic.Revit.Collector
 
             Items.Clear();
 
-            // Create a number of DynamoDropDownItem objects 
-            // to store the items that we want to appear in our list.
-
-            var newItems = new List<DynamoDropDownItem>()
+            //gets each item from the ParameterTypes as a string
+            foreach (var constant in Enum.GetValues(typeof(revitDB.BuiltInParameter)))
             {
-                new DynamoDropDownItem("String Begins With", new revitDB.FilterStringBeginsWith()),
-                new DynamoDropDownItem("String Contains", new revitDB.FilterStringContains()),
-                new DynamoDropDownItem("String EndsWith", new revitDB.FilterStringEndsWith())
-            };
+                Items.Add(new DynamoDropDownItem(constant.ToString(), constant));
+            }
 
-            Items.AddRange(newItems);
+            //Adds items to the dropdown list
+            Items = Items.OrderBy(x => x.Name).ToObservableCollection();
+
 
             // Set the selected index to something other
             // than -1, the default, so that your list
             // has a pre-selection.
 
-            SelectedIndex = 0;
+            //SelectedIndex = 0;
+
             return SelectionState.Done;
         }
 
@@ -75,7 +76,6 @@ namespace Synthetic.Revit.Collector
 
             var intNode = AstFactory.BuildIntNode((int)Items[SelectedIndex].Item);
             var assign = AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), intNode);
-            AstFactory.
 
             return new List<AssociativeNode> { assign };
         }
