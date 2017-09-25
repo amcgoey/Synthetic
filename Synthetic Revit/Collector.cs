@@ -442,6 +442,59 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="parameterId"></param>
         /// <param name="value"></param>
+        /// <param name="filterStringRule"></param>
+        /// <param name="inverted"></param>
+        /// <returns></returns>
+        public static revitDB.ElementFilter FilterElementStringParameter(int parameterId, string value, string filterStringRule, [DefaultArgument("false")] bool inverted)
+        {
+            revitDB.ParameterValueProvider provider = new revitDB.ParameterValueProvider(new revitDB.ElementId(parameterId));
+            revitDB.FilterStringRuleEvaluator evaluator;
+
+            FilterRules.FilterStringRules rule = (FilterRules.FilterStringRules) Enum.Parse(typeof(FilterRules.FilterStringRules), filterStringRule);
+
+            switch(rule)
+            {
+                case FilterRules.FilterStringRules.FilterStringBeginsWith:
+                    evaluator = new revitDB.FilterStringBeginsWith();
+                    break;
+                case FilterRules.FilterStringRules.FilterStringContains:
+                    evaluator = new revitDB.FilterStringContains();
+                    break;
+                case FilterRules.FilterStringRules.FilterStringEndsWith:
+                    evaluator = new revitDB.FilterStringEndsWith();
+                    break;
+                case FilterRules.FilterStringRules.FilterStringEquals:
+                    evaluator = new revitDB.FilterStringEquals();
+                    break;
+                case FilterRules.FilterStringRules.FilterStringGreater:
+                    evaluator = new revitDB.FilterStringGreater();
+                    break;
+                case FilterRules.FilterStringRules.FilterStringGreaterOrEqual:
+                    evaluator = new revitDB.FilterStringGreaterOrEqual();
+                    break;
+                case FilterRules.FilterStringRules.FilterStringLess:
+                    evaluator = new revitDB.FilterStringLess();
+                    break;
+                case FilterRules.FilterStringRules.FilterStringLessOrEqual:
+                    evaluator = new revitDB.FilterStringLessOrEqual();
+                    break;
+                default:
+                    evaluator = null;
+                    break;
+            }
+            if (evaluator != null)
+            {
+                revitDB.FilterRule filterRule = new revitDB.FilterStringRule(provider, evaluator, value, false);
+                return new revitDB.ElementParameterFilter(filterRule, inverted);
+            }
+            else return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parameterId"></param>
+        /// <param name="value"></param>
         /// <param name="inverted"></param>
         /// <returns></returns>
         public static revitDB.ElementFilter FilterElementParameterStringEquals(int parameterId, string value, bool inverted)
@@ -451,7 +504,47 @@ namespace Synthetic.Revit
             revitDB.FilterRule filterRule = new revitDB.FilterStringRule(provider, evaluator, value, false);
             return new revitDB.ElementParameterFilter(filterRule, inverted);
         }
-
-        
     }
+}
+
+namespace Synthetic.Revit.FilterRules
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public enum FilterStringRules
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        FilterStringBeginsWith,
+        /// <summary>
+        /// 
+        /// </summary>
+        FilterStringContains,
+        /// <summary>
+        /// 
+        /// </summary>
+        FilterStringEndsWith,
+        /// <summary>
+        /// 
+        /// </summary>
+        FilterStringEquals,
+        /// <summary>
+        /// 
+        /// </summary>
+        FilterStringGreater,
+        /// <summary>
+        /// 
+        /// </summary>
+        FilterStringGreaterOrEqual,
+        /// <summary>
+        /// 
+        /// </summary>
+        FilterStringLess,
+        /// <summary>
+        /// 
+        /// </summary>
+        FilterStringLessOrEqual
+    };
 }
