@@ -27,7 +27,7 @@ namespace Synthetic.Revit.FilterRules
         /// <summary>
         /// 
         /// </summary>
-        public FilterStringRulesDropDown() : base("FilterStringRule", typeof(FilterStringRules)) { }
+        public FilterStringRulesDropDown() : base("StringRules", typeof(CollectorFilterRules.StringRules)) { }
     }
 }
 

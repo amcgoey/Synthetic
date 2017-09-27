@@ -37,6 +37,7 @@
     </Reference>
     <Reference Include="DSRevitNodesUI">
       <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Revit\1.3\Revit_2018\nodes\DSRevitNodesUI.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="DynamoCore">
       <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Core\1.3\DynamoCore.dll</HintPath>
