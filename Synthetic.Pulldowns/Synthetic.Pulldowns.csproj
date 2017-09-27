@@ -35,6 +35,9 @@
       <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Core\1.3\nodes\CoreNodeModels.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="DSRevitNodesUI">
+      <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Revit\1.3\Revit_2018\nodes\DSRevitNodesUI.dll</HintPath>
+    </Reference>
     <Reference Include="DynamoCore">
       <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Core\1.3\DynamoCore.dll</HintPath>
       <Private>False</Private>
@@ -55,8 +58,10 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GenericEnumerationDropDown.cs" />
     <Compile Include="SelectBuiltInParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SelectStringEvaluator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Synthetic.Pulldowns_DynamoCustomization.xml">
