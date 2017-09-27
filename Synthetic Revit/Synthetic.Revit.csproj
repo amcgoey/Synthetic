@@ -79,6 +79,7 @@
     <Compile Include="Elements.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Collector.cs" />
+    <Compile Include="CollectorElementFilter.cs" />
     <Compile Include="Select.cs" />
     <Compile Include="ViewTemplates.cs" />
     <Compile Include="Worksets.cs" />
@@ -86,6 +87,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Synthetic.Revit_DynamoCustomization.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Synthetic.Revit.Migrations.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
