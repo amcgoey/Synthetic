@@ -15,6 +15,7 @@ using RevitServices.Transactions;
 using RevitServices.Persistence;
 
 using synthCollect = Synthetic.Revit.Collector;
+using synthCollectFilter = Synthetic.Revit.CollectorElementFilter;
 
 namespace Synthetic.Revit
 {
@@ -38,7 +39,7 @@ namespace Synthetic.Revit
         {
             synthCollect collector = new synthCollect(document);
             List<revitDB.ElementFilter> filters = new List<Autodesk.Revit.DB.ElementFilter>();
-            filters.Add(synthCollect.FilterElementClass(type, inverted));
+            filters.Add(synthCollectFilter.FilterElementClass(type, inverted));
 
             synthCollect.SetFilters(collector, filters);
 
@@ -60,8 +61,8 @@ namespace Synthetic.Revit
 
             // Select only elements that are NOT Types (the filter is inverted)
             List<revitDB.ElementFilter> filters = new List<Autodesk.Revit.DB.ElementFilter>();
-            filters.Add(synthCollect.FilterElementIsElementType(true));
-            filters.Add(synthCollect.FilterElementCategory(category, inverted));
+            filters.Add(synthCollectFilter.FilterElementIsElementType(true));
+            filters.Add(synthCollectFilter.FilterElementCategory(category, inverted));
 
             synthCollect.SetFilters(collector, filters);
 
@@ -83,8 +84,8 @@ namespace Synthetic.Revit
 
             // Select only elements that are Family Symbols
             List<revitDB.ElementFilter> filters = new List<Autodesk.Revit.DB.ElementFilter>();
-            filters.Add(synthCollect.FilterElementClass(typeof(revitDB.FamilySymbol), false));
-            filters.Add(synthCollect.FilterElementCategory(category, inverted));
+            filters.Add(synthCollectFilter.FilterElementClass(typeof(revitDB.FamilySymbol), false));
+            filters.Add(synthCollectFilter.FilterElementCategory(category, inverted));
 
             synthCollect.SetFilters(collector, filters);
 

@@ -19,5 +19,6 @@
     "Synthetic.Revit, Version=1.0.0.1, Culture=neutral, PublicKeyToken=null",
     "Synthetic.Core, Version=1.0.0.1, Culture=neutral, PublicKeyToken=null",
     "Synthetic.UI, Version=1.0.0.1, Culture=neutral, PublicKeyToken=null"
+    "Synthetic.Pulldowns, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
   ]
 }

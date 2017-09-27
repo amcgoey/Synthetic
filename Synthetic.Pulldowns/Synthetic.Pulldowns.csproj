@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E4B1863B-67EC-40F7-8E63-2917B4485E71}</ProjectGuid>
+    <ProjectGuid>{58E24E04-01F6-43EC-B2D7-07A96BD5D1B9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Synthetic.Revit</RootNamespace>
-    <AssemblyName>Synthetic.Revit</AssemblyName>
+    <RootNamespace>Synthetic.Pulldowns</RootNamespace>
+    <AssemblyName>Synthetic.Pulldowns</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -20,7 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\output\Synthetic\bin\Synthetic.Revit.xml</DocumentationFile>
+    <DocumentationFile>..\..\output\Synthetic\bin\Synthetic.Pulldowns.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,67 +31,44 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CoreNodeModels, Version=1.3.1.1736, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="CoreNodeModels">
       <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Core\1.3\nodes\CoreNodeModels.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DSCoreNodes">
-      <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Core\1.3\DSCoreNodes.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DynamoCore">
       <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Core\1.3\DynamoCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DynamoServices">
-      <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Core\1.3\DynamoServices.dll</HintPath>
+    <Reference Include="DynamoUtilities">
+      <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Core\1.3\DynamoUtilities.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ProtoCore">
+      <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Core\1.3\ProtoCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPI">
       <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2017\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="RevitAPIUI">
-      <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2017\RevitAPIUI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitNodes">
-      <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Revit\1.3\Revit_2017\RevitNodes.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitServices">
-      <HintPath>..\..\..\..\..\Program Files\Dynamo\Dynamo Revit\1.3\Revit_2017\RevitServices.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Synthetic.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Package\Synthetic\bin\Synthetic.Core.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CompoundStructure.cs" />
-    <Compile Include="Document.cs" />
-    <Compile Include="Elements.cs" />
-    <Compile Include="Color.cs" />
-    <Compile Include="Collector.cs" />
-    <Compile Include="CollectorElementFilter.cs" />
-    <Compile Include="Select.cs" />
-    <Compile Include="ViewTemplates.cs" />
-    <Compile Include="Worksets.cs" />
+    <Compile Include="SelectBuiltInParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Synthetic.Revit_DynamoCustomization.xml">
+    <Content Include="Synthetic.Pulldowns_DynamoCustomization.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Synthetic.Revit.Migrations.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Synthetic Revit\Synthetic.Revit.csproj">
+      <Project>{e4b1863b-67ec-40f7-8e63-2917b4485e71}</Project>
+      <Name>Synthetic.Revit</Name>
+      <Private>False</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
