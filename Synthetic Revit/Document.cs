@@ -147,7 +147,7 @@ namespace Synthetic.Revit
         /// <param name="modelPath">Path to the document.</param>
         /// <param name="reset">Resets the node to reopen the document.</param>
         /// <returns name="document">The opened revit document.</returns>
-        public static revitDoc Open (string modelPath, bool reset)
+        public static revitDoc Open (string modelPath, [DefaultArgument("true")] bool reset)
         {
             Autodesk.Revit.UI.UIApplication uiapp = DocumentManager.Instance.CurrentUIApplication;
             Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
