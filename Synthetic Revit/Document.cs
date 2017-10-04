@@ -145,9 +145,10 @@ namespace Synthetic.Revit
         /// Opens a document from disk.  The document will not be visible to the user.
         /// </summary>
         /// <param name="modelPath">Path to the document.</param>
+        /// <param name="worksetConfiguration">An object that describes what worksets to open when the project is open.</param>
         /// <param name="reset">Resets the node to reopen the document.</param>
         /// <returns name="document">The opened revit document.</returns>
-        public static revitDoc Open (string modelPath, bool reset)
+        public static revitDoc Open (string modelPath, [DefaultArgument("Synthetic.Revit.WorksetConfigurationOpenAll()")] Autodesk.Revit.DB.WorksetConfiguration worksetConfiguration, [DefaultArgument("true")] bool reset)
         {
             Autodesk.Revit.UI.UIApplication uiapp = DocumentManager.Instance.CurrentUIApplication;
             Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
@@ -202,6 +203,24 @@ namespace Synthetic.Revit
                 {"Documents", linkDocs},
                 {"Titles", linkNames}
             };
+        }
+
+        /// <summary>
+        /// Returns a WorksetConfiguration that opens all worksets by default.
+        /// </summary>
+        /// <returns name="WorksetConfiguration">A WorksetConfiguration that opens all worksets</returns>
+        public static Autodesk.Revit.DB.WorksetConfiguration WorksetConfigurationOpenAll()
+        {
+            return new Autodesk.Revit.DB.WorksetConfiguration();
+        }
+
+        /// <summary>
+        /// Returns a WorksetConfiguration that closes all worksets by default.
+        /// </summary>
+        /// <returns name="WorksetConfiguration">A WorksetConfiguration that closes all worksets</returns>
+        public static Autodesk.Revit.DB.WorksetConfiguration WorksetConfigurationCloseAll()
+        {
+            return new Autodesk.Revit.DB.WorksetConfiguration(Autodesk.Revit.DB.WorksetConfigurationOption.CloseAllWorksets);
         }
     }
 }
