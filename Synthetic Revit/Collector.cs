@@ -30,6 +30,7 @@ namespace Synthetic.Revit
         internal revitDoc _document { get; private set; }
         internal List<revitDB.ElementFilter> _filters { get; private set; }
         internal revitDB.ElementId _viewId { get; private set; }
+        internal List<revitDB.ElementId> _elemIds { get; private set; }
 
         /// <summary>
         /// Constructor that takes a Revit Document as input.  Does not include filters.
@@ -40,6 +41,7 @@ namespace Synthetic.Revit
             _document = doc;
             _filters = new List<revitDB.ElementFilter>();
             _viewId = null;
+            _elemIds = null;
         }
 
         /// <summary>
@@ -52,6 +54,7 @@ namespace Synthetic.Revit
             _document = doc;
             _filters = filters;
             _viewId = null;
+            _elemIds = null;
         }
 
         /// <summary>
@@ -65,6 +68,21 @@ namespace Synthetic.Revit
             _document = doc;
             _filters = filters;
             _viewId = viewId;
+            _elemIds = null;
+        }
+
+        /// <summary>
+        /// Constructor that takes a list of ElementFilters. ElementIds and a Revit document as inputs.
+        /// </summary>
+        /// <param name="filters">A list of ElementFilters</param>
+        /// <param name="elemIds">The Element Id of the view</param>
+        /// <param name="doc">A Revit Document</param>
+        internal Collector(List<revitDB.ElementFilter> filters, List<revitDB.ElementId> elemIds, revitDoc doc)
+        {
+            _document = doc;
+            _filters = filters;
+            _viewId = null;
+            _elemIds = elemIds;
         }
 
         /// <summary>
@@ -75,13 +93,17 @@ namespace Synthetic.Revit
         {
             revitFECollector rCollector;
 
-            if (_viewId == null)
+            if (_viewId != null)
             {
-                rCollector = new revitFECollector(this._document);
+                rCollector = new revitFECollector(this._document, _viewId);
+            }
+            else if (_elemIds != null)
+            {
+                rCollector = new revitFECollector(this._document, _elemIds);
             }
             else
             {
-                rCollector = new revitFECollector(this._document, _viewId);
+                rCollector = new revitFECollector(this._document);
             }
 
             foreach (revitDB.ElementFilter filter in this._filters)
@@ -140,6 +162,21 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
+        /// Creates a Synthetic Collector for a project with the inputed Element Filters.  By default, the current project is used.
+        /// </summary>
+        /// <param name="filters">A list of ElementFilter objects.</param>
+        /// <param name="elementIds">The view's ElementId as an integer</param>
+        /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
+        /// <returns>A Synthetic Collector object</returns>
+        public static Collector ByFiltersElemIds(List<revitDB.ElementFilter> filters,
+            List<revitDB.ElementId> elementIds,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        {
+            Collector collector = new Collector(filters, elementIds, document);
+            return collector;
+        }
+
+        /// <summary>
         /// Retrieves the Elements that pass the Collector's filters
         /// </summary>
         /// <param name="collector">A Synthetc Collector</param>
@@ -162,6 +199,20 @@ namespace Synthetic.Revit
             }
             
             return dynamoElements;
+        }
+
+        /// <summary>
+        /// Retrieves the Elements that pass the Collector's filters
+        /// </summary>
+        /// <param name="collector">A Synthetc Collector</param>
+        /// <param name="toggle">Toggle will reset the Dynamo graph and rerun the collector.</param>
+        /// <returns name="Elements">Autodesk.Revit.DB.Elements</returns>
+        public static IList<revitDB.Element> ToRevitElements(Collector collector,
+            [DefaultArgument("true")] bool toggle = true)
+        {
+            IList<revitDB.Element> elements = collector.ApplyFilters().ToElements();
+
+            return elements;
         }
 
         /// <summary>
