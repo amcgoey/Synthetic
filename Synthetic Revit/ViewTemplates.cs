@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Autodesk.Revit.DB;
 using RevitServices.Persistence;
 using Autodesk.DesignScript.Runtime;
 
+
+using revitDB = Autodesk.Revit.DB;
 using revitView = Autodesk.Revit.DB.View;
 
 using dynamoElem = Revit.Elements.Element;
@@ -58,14 +59,14 @@ namespace Synthetic.Revit
 
             IList<ViewTemplate> templates = new List<ViewTemplate>();
             IList<string> templateNames = new List<string>();
-            IList<ElementId> templateIds = new List<ElementId>();
+            IList<revitDB.ElementId> templateIds = new List<revitDB.ElementId>();
 
             if (doc != null)
             {
-                FilteredElementCollector collector = new FilteredElementCollector(doc);
-                ICollection<Element> views = collector.OfClass(typeof(View)).ToElements();
+                revitDB.FilteredElementCollector collector = new revitDB.FilteredElementCollector(doc);
+                ICollection<revitDB.Element> views = collector.OfClass(typeof(revitDB.View)).ToElements();
 
-                foreach (View view in views)
+                foreach (revitDB.View view in views)
                 {
                     if (view.IsTemplate)
                     {
@@ -101,10 +102,10 @@ namespace Synthetic.Revit
 
             if (doc != null)
             {
-                FilteredElementCollector collector = new FilteredElementCollector(doc);
-                ICollection<Element> views = collector.OfClass(typeof(View)).ToElements();
+                revitDB.FilteredElementCollector collector = new revitDB.FilteredElementCollector(doc);
+                ICollection<revitDB.Element> views = collector.OfClass(typeof(revitDB.View)).ToElements();
 
-                foreach (View view in views)
+                foreach (revitDB.View view in views)
                 {
                     if (view.IsTemplate)
                     {
