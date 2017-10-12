@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Autodesk.Revit.DB;
 using RevitServices.Persistence;
 using Autodesk.DesignScript.Runtime;
+
+using revitDB = Autodesk.Revit.DB;
 
 /// Class Aliases
 using revitDoc = Autodesk.Revit.DB.Document;
@@ -42,7 +43,7 @@ namespace Synthetic.Revit
         {
             Autodesk.Revit.UI.UIApplication uiapp = DocumentManager.Instance.CurrentUIApplication;
             Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
-            DocumentSet docSet = app.Documents;
+            revitDB.DocumentSet docSet = app.Documents;
 
             List<revitDoc> docs = new List<revitDoc>();
             List<string> names = new List<string>();
@@ -73,7 +74,7 @@ namespace Synthetic.Revit
 
             Autodesk.Revit.UI.UIApplication uiapp = DocumentManager.Instance.CurrentUIApplication;
             Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
-            DocumentSet docSet = app.Documents;
+            revitDB.DocumentSet docSet = app.Documents;
 
             List<revitDoc> docs = new List<revitDoc>();
             foreach (revitDoc doc in docSet)
@@ -148,7 +149,7 @@ namespace Synthetic.Revit
         /// <param name="worksetConfiguration">An object that describes what worksets to open when the project is open.</param>
         /// <param name="reset">Resets the node to reopen the document.</param>
         /// <returns name="document">The opened revit document.</returns>
-        public static revitDoc Open (string modelPath, [DefaultArgument("Synthetic.Revit.WorksetConfigurationOpenAll()")] Autodesk.Revit.DB.WorksetConfiguration worksetConfiguration, [DefaultArgument("true")] bool reset)
+        public static revitDoc Open (string modelPath, [DefaultArgument("Synthetic.Revit.WorksetConfigurationOpenAll()")] revitDB.WorksetConfiguration worksetConfiguration, [DefaultArgument("true")] bool reset)
         {
             Autodesk.Revit.UI.UIApplication uiapp = DocumentManager.Instance.CurrentUIApplication;
             Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
@@ -183,19 +184,19 @@ namespace Synthetic.Revit
         [MultiReturn(new[] { "Documents", "Titles" })]
         public static IDictionary GetLinkedRevit (revitDoc document)
         {
-            FilteredElementCollector links = new FilteredElementCollector(document);
-            links.OfClass(typeof(RevitLinkInstance));
+            revitDB.FilteredElementCollector links = new revitDB.FilteredElementCollector(document);
+            links.OfClass(typeof(revitDB.RevitLinkInstance));
 
             List<revitDoc> linkDocs = new List<revitDoc>();
             List<string> linkNames = new List<string>();
 
 
-            foreach (RevitLinkInstance link in links)
+            foreach (revitDB.RevitLinkInstance link in links)
             {
                 revitDoc linkDoc = link.GetLinkDocument();
 
                 linkDocs.Add(link.GetLinkDocument());
-                document.GetElement(link.GetTypeId());
+                //document.GetElement(link.GetTypeId());
                 linkNames.Add(linkDoc.Title);
             }
             return new Dictionary<string, object>
@@ -206,21 +207,51 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
+        /// Gets the ElementId of the current starting view for the document.  If InvalidElementId is returned, then no view is specified and the last view opened will be used.
+        /// </summary>
+        /// <param name="document">A Autodesk.Revit.DB.Document object</param>
+        /// <returns name="ViewId">The ElementId of the view or sheet</returns>
+        public static revitDB.ElementId GetStartViewId (revitDoc document)
+        {
+            revitDB.StartingViewSettings startViewSettings = revitDB.StartingViewSettings.GetStartingViewSettings(document);
+            return startViewSettings.ViewId;
+        }
+
+        /// <summary>
+        /// Sets the starting view for the document using the view's ElementId.  If InvalidElementId is set, then no view is specified and the last view opened will be used.
+        /// </summary>
+        /// <param name="document">A Autodesk.Revit.DB.Document object</param>
+        /// <param name="viewId">The ElementId of the view or sheet</param>
+        /// <returns name="ViewId">The ElementId of the view currently set as the starting view.  If null, then the view could not be set.</returns>
+        public static revitDB.ElementId SetStartViewId(revitDoc document, revitDB.ElementId viewId)
+        {
+            revitDB.StartingViewSettings startViewSettings = revitDB.StartingViewSettings.GetStartingViewSettings(document);
+            if (startViewSettings.IsAcceptableStartingView(viewId))
+            {
+                return startViewSettings.ViewId = viewId;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Returns a WorksetConfiguration that opens all worksets by default.
         /// </summary>
         /// <returns name="WorksetConfiguration">A WorksetConfiguration that opens all worksets</returns>
-        public static Autodesk.Revit.DB.WorksetConfiguration WorksetConfigurationOpenAll()
+        public static revitDB.WorksetConfiguration WorksetConfigurationOpenAll()
         {
-            return new Autodesk.Revit.DB.WorksetConfiguration();
+            return new revitDB.WorksetConfiguration();
         }
 
         /// <summary>
         /// Returns a WorksetConfiguration that closes all worksets by default.
         /// </summary>
         /// <returns name="WorksetConfiguration">A WorksetConfiguration that closes all worksets</returns>
-        public static Autodesk.Revit.DB.WorksetConfiguration WorksetConfigurationCloseAll()
+        public static revitDB.WorksetConfiguration WorksetConfigurationCloseAll()
         {
-            return new Autodesk.Revit.DB.WorksetConfiguration(Autodesk.Revit.DB.WorksetConfigurationOption.CloseAllWorksets);
+            return new revitDB.WorksetConfiguration(revitDB.WorksetConfigurationOption.CloseAllWorksets);
         }
     }
 }

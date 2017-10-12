@@ -77,6 +77,7 @@
     <Compile Include="CollectorFilterRules.cs" />
     <Compile Include="CompoundStructure.cs" />
     <Compile Include="Document.cs" />
+    <Compile Include="ElementId.cs" />
     <Compile Include="Elements.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Collector.cs" />
