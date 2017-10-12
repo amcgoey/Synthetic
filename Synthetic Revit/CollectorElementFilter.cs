@@ -327,5 +327,138 @@ namespace Synthetic.Revit
             }
             else return null;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parameterId"></param>
+        /// <param name="value"></param>
+        /// <param name="tolerance"></param>
+        /// <param name="filterNumberRule"></param>
+        /// <param name="inverted"></param>
+        /// <returns></returns>
+        public static revitDB.ElementFilter FilterElementNumberParameter (int parameterId, double value, [DefaultArgument("0.0001")] double tolerance, string filterNumberRule, [DefaultArgument("false")] bool inverted)
+        {
+            revitDB.ParameterValueProvider provider = new revitDB.ParameterValueProvider(new revitDB.ElementId(parameterId));
+            revitDB.FilterNumericRuleEvaluator evaluator;
+
+            CollectorFilterRules.NumericRules rule = (CollectorFilterRules.NumericRules)Enum.Parse(typeof(CollectorFilterRules.NumericRules), filterNumberRule);
+
+            switch (rule)
+            {
+                case CollectorFilterRules.NumericRules.FilterNumericEquals:
+                    evaluator = new revitDB.FilterNumericEquals();
+                    break;
+                case CollectorFilterRules.NumericRules.FilterNumericGreater:
+                    evaluator = new revitDB.FilterNumericGreater();
+                    break;
+                case CollectorFilterRules.NumericRules.FilterNumericGreaterOrEqual:
+                    evaluator = new revitDB.FilterNumericGreaterOrEqual();
+                    break;
+                case CollectorFilterRules.NumericRules.FilterNumericLess:
+                    evaluator = new revitDB.FilterNumericLess();
+                    break;
+                case CollectorFilterRules.NumericRules.FilterNumericLessOrEqual:
+                    evaluator = new revitDB.FilterNumericLessOrEqual();
+                    break;
+                default:
+                    evaluator = null;
+                    break;
+            }
+            if (evaluator != null)
+            {
+                revitDB.FilterRule filterRule = new revitDB.FilterDoubleRule(provider, evaluator, value, tolerance);
+                return new revitDB.ElementParameterFilter(filterRule, inverted);
+            }
+            else return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parameterId"></param>
+        /// <param name="value"></param>
+        /// <param name="filterNumberRule"></param>
+        /// <param name="inverted"></param>
+        /// <returns></returns>
+        public static revitDB.ElementFilter FilterElementIntegerParameter(int parameterId, int value, string filterNumberRule, [DefaultArgument("false")] bool inverted)
+        {
+            revitDB.ParameterValueProvider provider = new revitDB.ParameterValueProvider(new revitDB.ElementId(parameterId));
+            revitDB.FilterNumericRuleEvaluator evaluator;
+
+            CollectorFilterRules.NumericRules rule = (CollectorFilterRules.NumericRules)Enum.Parse(typeof(CollectorFilterRules.NumericRules), filterNumberRule);
+
+            switch (rule)
+            {
+                case CollectorFilterRules.NumericRules.FilterNumericEquals:
+                    evaluator = new revitDB.FilterNumericEquals();
+                    break;
+                case CollectorFilterRules.NumericRules.FilterNumericGreater:
+                    evaluator = new revitDB.FilterNumericGreater();
+                    break;
+                case CollectorFilterRules.NumericRules.FilterNumericGreaterOrEqual:
+                    evaluator = new revitDB.FilterNumericGreaterOrEqual();
+                    break;
+                case CollectorFilterRules.NumericRules.FilterNumericLess:
+                    evaluator = new revitDB.FilterNumericLess();
+                    break;
+                case CollectorFilterRules.NumericRules.FilterNumericLessOrEqual:
+                    evaluator = new revitDB.FilterNumericLessOrEqual();
+                    break;
+                default:
+                    evaluator = null;
+                    break;
+            }
+            if (evaluator != null)
+            {
+                revitDB.FilterRule filterRule = new revitDB.FilterIntegerRule(provider, evaluator, value);
+                return new revitDB.ElementParameterFilter(filterRule, inverted);
+            }
+            else return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parameterId"></param>
+        /// <param name="value"></param>
+        /// <param name="filterNumberRule"></param>
+        /// <param name="inverted"></param>
+        /// <returns></returns>
+        public static revitDB.ElementFilter FilterElementIdParameter(int parameterId, int value, string filterNumberRule, [DefaultArgument("false")] bool inverted)
+        {
+            revitDB.ParameterValueProvider provider = new revitDB.ParameterValueProvider(new revitDB.ElementId(parameterId));
+            revitDB.FilterNumericRuleEvaluator evaluator;
+
+            CollectorFilterRules.NumericRules rule = (CollectorFilterRules.NumericRules)Enum.Parse(typeof(CollectorFilterRules.NumericRules), filterNumberRule);
+
+            switch (rule)
+            {
+                case CollectorFilterRules.NumericRules.FilterNumericEquals:
+                    evaluator = new revitDB.FilterNumericEquals();
+                    break;
+                case CollectorFilterRules.NumericRules.FilterNumericGreater:
+                    evaluator = new revitDB.FilterNumericGreater();
+                    break;
+                case CollectorFilterRules.NumericRules.FilterNumericGreaterOrEqual:
+                    evaluator = new revitDB.FilterNumericGreaterOrEqual();
+                    break;
+                case CollectorFilterRules.NumericRules.FilterNumericLess:
+                    evaluator = new revitDB.FilterNumericLess();
+                    break;
+                case CollectorFilterRules.NumericRules.FilterNumericLessOrEqual:
+                    evaluator = new revitDB.FilterNumericLessOrEqual();
+                    break;
+                default:
+                    evaluator = null;
+                    break;
+            }
+            if (evaluator != null)
+            {
+                revitDB.FilterRule filterRule = new revitDB.FilterElementIdRule(provider, evaluator, new revitDB.ElementId(value));
+                return new revitDB.ElementParameterFilter(filterRule, inverted);
+            }
+            else return null;
+        }
     }
 }
