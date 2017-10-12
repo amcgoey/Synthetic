@@ -44,4 +44,31 @@ namespace Synthetic.Revit.CollectorFilterRules
         /// </summary>
         FilterStringLessOrEqual
     };
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public enum NumericRules
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        FilterNumericEquals,
+        /// <summary>
+        /// 
+        /// </summary>
+        FilterNumericGreater,
+        /// <summary>
+        /// 
+        /// </summary>
+        FilterNumericGreaterOrEqual,
+        /// <summary>
+        /// 
+        /// </summary>
+        FilterNumericLess,
+        /// <summary>
+        /// 
+        /// </summary>
+        FilterNumericLessOrEqual
+    };
 }
