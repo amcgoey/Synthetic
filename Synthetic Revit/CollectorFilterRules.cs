@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using Autodesk.DesignScript.Runtime;
 
 namespace Synthetic.Revit.CollectorFilterRules
 {
     /// <summary>
     /// 
     /// </summary>
+    [SupressImportIntoVM]
     public enum StringRules
     {
         /// <summary>
@@ -43,5 +43,33 @@ namespace Synthetic.Revit.CollectorFilterRules
         /// 
         /// </summary>
         FilterStringLessOrEqual
+    };
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [SupressImportIntoVM]
+    public enum NumericRules
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        FilterNumericEquals,
+        /// <summary>
+        /// 
+        /// </summary>
+        FilterNumericGreater,
+        /// <summary>
+        /// 
+        /// </summary>
+        FilterNumericGreaterOrEqual,
+        /// <summary>
+        /// 
+        /// </summary>
+        FilterNumericLess,
+        /// <summary>
+        /// 
+        /// </summary>
+        FilterNumericLessOrEqual
     };
 }

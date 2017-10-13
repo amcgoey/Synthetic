@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Synthetic.Core;
 
 using Autodesk.DesignScript.Runtime;
+using Dynamo.Graph.Nodes;
 
 using Revit.Elements;
 using RevitServices.Transactions;
@@ -22,6 +23,7 @@ namespace Synthetic.Revit
     /// <summary>
     /// Manipulation and modification of Dynamo wrapped Revit elements.
     /// </summary>
+    [IsDesignScriptCompatible]
     public class Elements
     {
         internal Elements () { }
@@ -170,6 +172,28 @@ namespace Synthetic.Revit
             //    { "Debug",  debug}
             //};
             return filter;
+        }
+
+        /// <summary>
+        /// Gets an element given the ElementId
+        /// </summary>
+        /// <param name="elementId">A Autodesk.Revit.DB.ElementId</param>
+        /// <param name="document">Document that the element is in.</param>
+        /// <returns name="Element">Returns a unwrapped Autodesk.Revit.DB.Element</returns>
+        public static revitElem GetByElementId (revitElemId elementId, revitDoc document)
+        {
+            return document.GetElement(elementId);
+        }
+
+        /// <summary>
+        /// Gets an element given its UniqueId
+        /// </summary>
+        /// <param name="UniqueId">A UniqueId as a string</param>
+        /// <param name="document">Document that the element is in.</param>
+        /// <returns name="Element">Returns a unwrapped Autodesk.Revit.DB.Element</returns>
+        public static revitElem GetByUniqueId(string UniqueId, revitDoc document)
+        {
+            return document.GetElement(UniqueId);
         }
 
         /// <summary>

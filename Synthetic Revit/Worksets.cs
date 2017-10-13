@@ -20,6 +20,7 @@ namespace Synthetic.Revit
     /// <summary>
     /// Workset Class
     /// </summary>
+    [IsDesignScriptCompatible]
     public class Workset
     {
         private revitWorkset _workset;
