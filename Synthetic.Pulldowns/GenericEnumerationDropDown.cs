@@ -6,6 +6,8 @@ using DSRevitNodesUI;
 using ProtoCore.AST.AssociativeAST;
 using Dynamo.Utilities;
 
+using Synthetic.Core;
+
 namespace Synthetic.Pulldowns
 {
     /// <summary>
@@ -75,10 +77,21 @@ namespace Synthetic.Pulldowns
             // get the selected items name
             //var node = AstFactory.BuildIntNode((int)Items[SelectedIndex].Item);
 
-            var node = AstFactory.BuildStringNode((string)Items[SelectedIndex].Name);
+            var args = new List<AssociativeNode>
+             {
+                AstFactory.BuildStringNode(this.EnumerationType.ToString()),
+                AstFactory.BuildStringNode(((System.Object) Items[SelectedIndex].Item).ToString())
+             };
+
+            var func = new Func<string, string, object>(Enumeration.Parse);
+
+            var functionCall = AstFactory.BuildFunctionCall( func, args);
+            var assign = AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), functionCall);
+
+            ///var node = AstFactory.BuildStringNode((string)Items[SelectedIndex].Name);
 
             // assign the selected name to an actual enumeration value
-            var assign = AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), node);
+            //var assign = AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), node);
 
             // return the enumeration value
             return new List<AssociativeNode> { assign };
