@@ -6,6 +6,7 @@ using Autodesk.DesignScript.Runtime;
 using Dynamo.Graph.Nodes;
 
 using revitDB = Autodesk.Revit.DB;
+using revitExcept = Autodesk.Revit.Exceptions;
 
 /// Class Aliases
 using revitDoc = Autodesk.Revit.DB.Document;
@@ -148,6 +149,22 @@ namespace Synthetic.Revit
         /// Opens a document from disk.  The document will not be visible to the user.
         /// </summary>
         /// <param name="modelPath">Path to the document.</param>
+        /// <param name="reset">Resets the node to reopen the document.</param>
+        /// <returns name="document">The opened revit document.</returns>
+        public static revitDoc Open (string modelPath, [DefaultArgument("true")] bool reset)
+        {
+            Autodesk.Revit.UI.UIApplication uiapp = DocumentManager.Instance.CurrentUIApplication;
+            Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
+
+            revitDoc doc = app.OpenDocumentFile(modelPath);
+            
+            return doc;
+        }
+
+        /// <summary>
+        /// Opens a document from disk.  The document will not be visible to the user.  This version allows for opening or closing of worksets while opening the file.
+        /// </summary>
+        /// <param name="modelPath">Path to the document.</param>
         /// <param name="worksetConfiguration">An object that describes what worksets to open when the project is open.</param>
         /// <param name="reset">Resets the node to reopen the document.</param>
         /// <returns name="document">The opened revit document.</returns>
@@ -155,9 +172,15 @@ namespace Synthetic.Revit
         {
             Autodesk.Revit.UI.UIApplication uiapp = DocumentManager.Instance.CurrentUIApplication;
             Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
+            revitDoc doc = null;
 
-            revitDoc doc = app.OpenDocumentFile(modelPath);
-            
+            revitDB.ModelPath path = revitDB.ModelPathUtils.ConvertUserVisiblePathToModelPath(modelPath); 
+
+            revitDB.OpenOptions openOptions = new revitDB.OpenOptions();
+            openOptions.SetOpenWorksetsConfiguration(worksetConfiguration);
+
+            doc = app.OpenDocumentFile(path, openOptions);
+
             return doc;
         }
 
@@ -171,10 +194,23 @@ namespace Synthetic.Revit
         {
             if (DocumentManager.Instance.ActiveDocumentHashCode != document.GetHashCode())
             {
-                document.Close(save);
-                return true;
+                bool results = document.Close(save);
+                return results;
             }
             else { return false; }
+        }
+
+        /// <summary>
+        /// Opens a document with all user worksets closed, , upgrading the document in the process, then closes and saves the file.  With all worksets closed, none of the links will open, improving the speed of the process.
+        /// </summary>
+        /// <param name="modelPath">Path to the document.</param>
+        /// <param name="reset">Resets the node to reopen the document.</param>
+        /// <returns name="bool">Returns true is the document was closed, false otherwise.  Returns false if saving was requested but failed</returns>
+        public static bool Upgrade (string modelPath, [DefaultArgument("true")] bool reset)
+        {
+            revitDoc doc = Open(modelPath, WorksetConfigurationCloseAll(), true);
+            bool results = doc.Close(true);
+            return results;
         }
 
         /// <summary>
