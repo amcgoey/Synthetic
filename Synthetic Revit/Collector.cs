@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Autodesk.DesignScript.Runtime;
+using Dynamo.Graph.Nodes;
 
 using revitDB = Autodesk.Revit.DB;
 using revitDoc = Autodesk.Revit.DB.Document;
@@ -25,6 +26,7 @@ namespace Synthetic.Revit
     /// <summary>
     /// Nodes for retrieving elements from a Revit project using filter criteria.  Refer to the RevitAPI documentation on FilteredElementCollectors and ElementFilters for optimizing the speed of the query.
     /// </summary>
+    [IsDesignScriptCompatible]
     public class Collector
     {
         internal revitDoc _document { get; private set; }

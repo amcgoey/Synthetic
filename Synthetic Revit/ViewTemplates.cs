@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using RevitServices.Persistence;
 using Autodesk.DesignScript.Runtime;
+using Dynamo.Graph.Nodes;
 
 
 using revitDB = Autodesk.Revit.DB;
@@ -16,6 +17,7 @@ namespace Synthetic.Revit
     /// <summary>
     /// View Template Class
     /// </summary>
+    [IsDesignScriptCompatible]
     public class ViewTemplate : dynamoView
     {
         /// <summary>

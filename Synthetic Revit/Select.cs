@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Autodesk.DesignScript.Runtime;
+using Dynamo.Graph.Nodes;
 
 using revitDB = Autodesk.Revit.DB;
 using revitDoc = Autodesk.Revit.DB.Document;
@@ -22,6 +23,7 @@ namespace Synthetic.Revit
     /// <summary>
     /// Nodes that certain sets of elements using pre-configured Collectors and filters.
     /// </summary>
+    [IsDesignScriptCompatible]
     public class Select
     {
         internal Select () { }

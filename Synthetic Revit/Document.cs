@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using RevitServices.Persistence;
 using Autodesk.DesignScript.Runtime;
+using Dynamo.Graph.Nodes;
 
 using revitDB = Autodesk.Revit.DB;
 
@@ -15,6 +16,7 @@ namespace Synthetic.Revit
     /// <summary>
     /// Document utilities for managing Autodesk.DB.Document's for use with the Revit API.
     /// </summary>
+    [IsDesignScriptCompatible]
     public class Document
     {
         internal revitDoc _revitDoc { get; private set; }
