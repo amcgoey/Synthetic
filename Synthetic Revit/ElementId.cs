@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Dynamo.Graph.Nodes;
+
 using revitDB = Autodesk.Revit.DB;
 using revitElem = Autodesk.Revit.DB.Element;
 using revitElemId = Autodesk.Revit.DB.ElementId;
@@ -14,6 +16,7 @@ namespace Synthetic.Revit
     /// <summary>
     /// Nodes for managing Autodesk.Revit.DB.ElementId objects.
     /// </summary>
+    [IsDesignScriptCompatible]
     public class ElementId
     {
         internal ElementId () { }
