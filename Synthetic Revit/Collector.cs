@@ -91,7 +91,7 @@ namespace Synthetic.Revit
         /// Creates a Revit FilteredElementCollector and passes filters to it.  Returns the Collector.
         /// </summary>
         /// <returns>A FilteredElementCollector with filters applied</returns>
-        internal revitFECollector ApplyFilters ()
+        internal revitFECollector _ApplyFilters ()
         {
             revitFECollector rCollector;
 
@@ -116,13 +116,13 @@ namespace Synthetic.Revit
         }        
 
         /// <summary>
-        /// Provides access directly to Revit FilteredElementCollector object with all filters applied.
+        /// Applies filters and returns the Revit FilteredElementCollector object.  This object gives quick access to the elements in the collector.
         /// </summary>
         /// <param name="collector">A Synthetic Collector object.</param>
-        /// <returns>A Revit FilteredElementCollector object.</returns>
-        public static revitFECollector UnwrapCollector (Collector collector)
+        /// <returns name="Revit Collector">A Revit FilteredElementCollector object.</returns>
+        public static revitFECollector ApplyFilters (Collector collector)
         {
-            return collector.ApplyFilters();
+            return collector._ApplyFilters();
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace Synthetic.Revit
         public static IList<dynElem> ToElements (Collector collector,
             [DefaultArgument("true")] bool toggle = true)
         {
-            IList<revitDB.Element> elements = collector.ApplyFilters().ToElements();
+            IList<revitDB.Element> elements = collector._ApplyFilters().ToElements();
 
             IList<dynElem> dynamoElements = new List<dynElem>();
 
@@ -212,7 +212,7 @@ namespace Synthetic.Revit
         public static IList<revitDB.Element> ToRevitElements(Collector collector,
             [DefaultArgument("true")] bool toggle = true)
         {
-            IList<revitDB.Element> elements = collector.ApplyFilters().ToElements();
+            IList<revitDB.Element> elements = collector._ApplyFilters().ToElements();
 
             return elements;
         }
@@ -224,7 +224,7 @@ namespace Synthetic.Revit
         /// <returns name="ElementIds">Returns the ElementIds of the elements that pass the collector's filters.</returns>
         public static IList<revitDB.ElementId> ToElementIds(Collector collector)
         {
-            return (IList<revitDB.ElementId>)collector.ApplyFilters().ToElementIds();
+            return (IList<revitDB.ElementId>)collector._ApplyFilters().ToElementIds();
         }
 
         /// <summary>
