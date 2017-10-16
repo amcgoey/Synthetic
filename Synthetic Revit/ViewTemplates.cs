@@ -65,17 +65,17 @@ namespace Synthetic.Revit
             {
                 revitDB.FilteredElementCollector collector = new revitDB.FilteredElementCollector(doc);
 
-                var views = collector.OfClass(typeof(revitDB.View))
+                List<revitDB.View> views = collector.OfClass(typeof(revitDB.View))
                     .Cast<revitDB.View>()
                     .Where(view => view.IsTemplate)
-                    .Select(view => view);
-
-                foreach (revitDB.View view in (List<revitDB.View>)views)
-                {
-                    templates.Add(new ViewTemplate(view));
-                    templateNames.Add(view.Name);
-                    templateIds.Add(view.Id);
-                }
+                    .Select(view =>
+                    {
+                        templates.Add(new ViewTemplate(view));
+                        templateNames.Add(view.Name);
+                        templateIds.Add(view.Id);
+                        return view;
+                    })
+                    .ToList<revitDB.View>();
             }
             return new Dictionary<string, object>
             {

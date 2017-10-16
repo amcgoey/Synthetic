@@ -49,6 +49,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="extra\Example Collector QueryName.dyn" />
     <None Include="extra\Example FilterElementParameterNumeric.dyn">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
