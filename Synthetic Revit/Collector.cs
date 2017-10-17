@@ -312,6 +312,33 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="collector"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static IList<dynElem> QueryGroupByName(Collector collector)
+        {
+            revitFECollector rCollector = collector._ApplyFilters();
+            var query = rCollector
+                .Cast<revitDB.Element>()
+                .GroupBy(elem => elem.Name);
+
+            IList<dynElem> dynamoElements = new List<dynElem>();
+
+            foreach (revitDB.Element elem in query)
+            {
+                try
+                {
+                    dynamoElements.Add(elem.ToDSType(true));
+                }
+                catch { }
+            }
+
+            return dynamoElements;
+        }
+
+        /// <summary>
         /// Sets the ElementFilters for the collector.
         /// </summary>
         /// <param name="collector">A Synthetic Collector</param>
