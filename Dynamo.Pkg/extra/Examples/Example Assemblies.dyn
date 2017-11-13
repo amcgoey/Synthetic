@@ -1,4 +1,4 @@
-<Workspace Version="1.3.2.2480" X="-2042.95662689536" Y="282.600914976322" zoom="0.727219395364164" ScaleFactor="1" Name="Home" Description="" RunType="Manual" RunPeriod="1000" HasRunWithoutCrash="True">
+<Workspace Version="1.3.2.2480" X="362.968322424603" Y="217.319049549747" zoom="0.424763270198563" ScaleFactor="1" Name="Home" Description="" RunType="Manual" RunPeriod="1000" HasRunWithoutCrash="False">
   <NamespaceResolutionMap>
     <ClassMap partialName="List" resolvedName="DSCore.List" assemblyName="DSCoreNodes.dll" />
   </NamespaceResolutionMap>
@@ -196,11 +196,11 @@
     <Dynamo.Graph.Notes.NoteModel guid="89f3f1d6-28ac-478c-9862-8a20c63f6a60" text="Copy files" x="3854.95660583865" y="-120.745827897607" />
   </Notes>
   <Annotations>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="644129f1-be34-45d6-954c-82d546d03265" annotationText="MONITOR" left="318.28665240602" top="708.670273538926" width="541.696136712332" height="256.2" fontSize="30" InitialTop="754.670273538926" InitialHeight="246.6" TextblockHeight="36" backgrouund="#FFA4E1FF">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="644129f1-be34-45d6-954c-82d546d03265" annotationText="MONITOR" left="318.28665240602" top="708.670273538926" width="330.496136712332" height="139.237766595576" fontSize="30" InitialTop="754.670273538926" InitialHeight="246.6" TextblockHeight="36" backgrouund="#FFA4E1FF">
       <Models ModelGuid="3dc6d005-11e6-46e0-86d8-83bae682aec7" />
       <Models ModelGuid="a879d1a0-a2ab-4518-9ed9-d78ae91a5129" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="2a33138d-2acc-494f-b038-bbcffc68dda8" annotationText="OPERATION: Get Methods" left="339.348899187341" top="448.432644289303" width="946.970211622957" height="141.159554604085" fontSize="30" InitialTop="494.432644289303" InitialHeight="124.850763170043" TextblockHeight="36" backgrouund="#FF848484">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="2a33138d-2acc-494f-b038-bbcffc68dda8" annotationText="OPERATION: Get Methods" left="339.348899187341" top="448.432644289303" width="946.970211622959" height="141.159554604085" fontSize="30" InitialTop="494.432644289303" InitialHeight="124.850763170043" TextblockHeight="36" backgrouund="#FF848484">
       <Models ModelGuid="8c372791-149c-4ec2-be26-513c97e6e15d" />
       <Models ModelGuid="9d312348-950c-4585-8d13-0922e7a87c96" />
       <Models ModelGuid="092356a8-c856-47d3-ae99-321d6a0e2739" />
@@ -232,10 +232,10 @@
       <Models ModelGuid="79c4a3dd-cfec-4da8-bb46-0678a2e5cc73" />
       <Models ModelGuid="c7ac15a6-ee75-499f-a927-c286d2b75fc3" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="e076970d-1b3f-467f-befd-882780d59586" annotationText="MONITOR" left="1456.29163122463" top="749.278007828089" width="309.6" height="422.6" fontSize="30" InitialTop="795.278007828089" InitialHeight="406.6" TextblockHeight="36" backgrouund="#FFA4E1FF">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="e076970d-1b3f-467f-befd-882780d59586" annotationText="MONITOR" left="1456.29163122463" top="749.278007828089" width="144.866666666667" height="137.8" fontSize="30" InitialTop="795.278007828089" InitialHeight="406.6" TextblockHeight="36" backgrouund="#FFA4E1FF">
       <Models ModelGuid="76aa43b9-649d-4fd7-adba-8cb924187c83" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="688c128d-6617-470c-96dd-05e589f0c4cc" annotationText="MONITOR" left="2946.13048708654" top="284.658625531158" width="309.6" height="422.6" fontSize="30" InitialTop="330.658625531158" InitialHeight="406.6" TextblockHeight="36" backgrouund="#FFA4E1FF">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="688c128d-6617-470c-96dd-05e589f0c4cc" annotationText="MONITOR" left="2946.13048708654" top="284.658625531158" width="144.866666666667" height="137.8" fontSize="30" InitialTop="330.658625531158" InitialHeight="406.6" TextblockHeight="36" backgrouund="#FFA4E1FF">
       <Models ModelGuid="fb782f18-a888-4228-be1e-893acbe95cb9" />
     </Dynamo.Graph.Annotations.AnnotationModel>
     <Dynamo.Graph.Annotations.AnnotationModel guid="f9fe2d24-e2da-4bbe-b1d0-f613370041fa" annotationText="OPERATION: Get File Extensions of Default Icons" left="418.502452215345" top="271.539216554976" width="864.902459127775" height="148.494169383643" fontSize="30" InitialTop="317.539216554976" InitialHeight="132.494169383644" TextblockHeight="36" backgrouund="#FF848484">
@@ -249,7 +249,7 @@
       <Models ModelGuid="40c4fa47-a49a-4129-9979-0bc66a4fda90" />
       <Models ModelGuid="684b4bb7-a2a3-4ebd-9e78-c58c5f7a5947" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="2d5f1d97-bf0a-480d-a8c9-e495fa7c5452" annotationText="OPERATION: Copy Icon files" left="2978.22786494207" top="-269.657836994194" width="1061.02209586557" height="381.585661838961" fontSize="30" InitialTop="-223.657836994194" InitialHeight="236.812819666698" TextblockHeight="36" backgrouund="#FF848484">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="2d5f1d97-bf0a-480d-a8c9-e495fa7c5452" annotationText="OPERATION: Copy Icon files" left="2978.22786494207" top="-269.657836994194" width="1061.02209586557" height="381.585661838962" fontSize="30" InitialTop="-223.657836994194" InitialHeight="236.812819666698" TextblockHeight="36" backgrouund="#FF848484">
       <Models ModelGuid="a1aee14b-7522-41fd-9d78-573f218163a7" />
       <Models ModelGuid="b27a4f54-4cc7-42f7-b9d6-bbaf3cd6102e" />
       <Models ModelGuid="a88a3e93-8dbd-4ac0-b68c-28609f8cea39" />
@@ -260,7 +260,7 @@
       <Models ModelGuid="791357ac-57d2-4202-bc38-4d2349024bf2" />
       <Models ModelGuid="13e21a41-0987-4385-aceb-cabb575cf1f4" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="52a9b5c8-9f17-4482-812d-aca90b1c8643" annotationText="MONITOR" left="4114.49408786459" top="-121.298218806978" width="164" height="422.6" fontSize="30" InitialTop="-75.2982188069777" InitialHeight="121.8" TextblockHeight="36" backgrouund="#FFA4E1FF">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="52a9b5c8-9f17-4482-812d-aca90b1c8643" annotationText="MONITOR" left="4114.49408786459" top="-121.298218806978" width="144.866666666667" height="137.8" fontSize="30" InitialTop="-75.2982188069777" InitialHeight="121.8" TextblockHeight="36" backgrouund="#FFA4E1FF">
       <Models ModelGuid="27bb9d16-1320-45db-a5f1-b0e5413c50fb" />
     </Dynamo.Graph.Annotations.AnnotationModel>
   </Annotations>
