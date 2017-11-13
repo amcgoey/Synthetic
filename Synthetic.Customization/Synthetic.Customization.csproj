@@ -48,6 +48,7 @@
   <ItemGroup>
     <EmbeddedResource Include="PackageImages.resx" />
     <EmbeddedResource Include="SyntheticCoreImages.resx" />
+    <EmbeddedResource Include="SyntheticPulldownsImages.resx" />
     <EmbeddedResource Include="SyntheticUIImages.resx" />
     <EmbeddedResource Include="SyntheticRevitImages.resx" />
   </ItemGroup>
@@ -63,6 +64,12 @@
     <AL TargetType="library" EmbedResources="$(ProjectDir)PackageImages.resources" OutputAssembly="$(OutDir)Package.Customization.dll" />
     <GenerateResource UseSourcePath="true" Sources="$(ProjectDir)SyntheticRevitImages.resx" OutputResources="$(ProjectDir)SyntheticRevitImages.resources" References="$(FrameworkAssembliesPath)System.Drawing.dll" />
     <AL TargetType="library" EmbedResources="$(ProjectDir)SyntheticRevitImages.resources" OutputAssembly="$(OutDir)Synthetic.Revit.Customization.dll" />
+    <GenerateResource UseSourcePath="true" Sources="$(ProjectDir)SyntheticCoreImages.resx" OutputResources="$(ProjectDir)SyntheticCoreImages.resources" References="$(FrameworkAssembliesPath)System.Drawing.dll" />
+    <AL TargetType="library" EmbedResources="$(ProjectDir)SyntheticCoreImages.resources" OutputAssembly="$(OutDir)Synthetic.Core.Customization.dll" />
+    <GenerateResource UseSourcePath="true" Sources="$(ProjectDir)SyntheticPulldownsImages.resx" OutputResources="$(ProjectDir)SyntheticPulldownsImages.resources" References="$(FrameworkAssembliesPath)System.Drawing.dll" />
+    <AL TargetType="library" EmbedResources="$(ProjectDir)SyntheticPulldownsImages.resources" OutputAssembly="$(OutDir)Synthetic.Pulldowns.Customization.dll" />
+    <GenerateResource UseSourcePath="true" Sources="$(ProjectDir)SyntheticUiImages.resx" OutputResources="$(ProjectDir)SyntheticUiImages.resources" References="$(FrameworkAssembliesPath)System.Drawing.dll" />
+    <AL TargetType="library" EmbedResources="$(ProjectDir)SyntheticUiImages.resources" OutputAssembly="$(OutDir)Synthetic.Ui.Customization.dll" />
   </Target>
   <Target Name="AfterBuild">
     <ItemGroup>
