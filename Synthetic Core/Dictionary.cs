@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using c = System.Collections.Generic;
 
 
@@ -111,6 +112,18 @@ namespace Synthetic.Core
             }
             else { value = null; }
             return value;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dictionary"></param>
+        /// <param name="keyContains"></param>
+        /// <returns></returns>
+        public static c.List<System.Object> KeyContains (Dictionary dictionary, string keyContains)
+        {
+            c.List<string> keys = dictionary.internalDictionary.Keys.Where(key => key.Contains(keyContains)).ToList();
+            return keys.Where(k => dictionary.internalDictionary.ContainsKey(k)).Select(k => dictionary.internalDictionary[k]).ToList();
         }
 
         /// <summary>
