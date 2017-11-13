@@ -72,26 +72,60 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="extra\Examples\Example Change Levels Workset Filtered.dyn" />
-    <None Include="extra\Examples\Example Change Levels Workset.dyn" />
-    <None Include="extra\Examples\Example Collector QueryName.dyn" />
-    <None Include="extra\Examples\Example Collector Views with ViewTemplate Names.dyn" />
-    <None Include="extra\Examples\Example Collector.dyn" />
-    <None Include="extra\Examples\Example CompoundStructure Create+Modify.dyn" />
-    <None Include="extra\Examples\Example CompoundStructure Modify Layers.dyn" />
-    <None Include="extra\Examples\Example CompoundStructure Sync Docs.dyn" />
-    <None Include="extra\Examples\Example CopyElementsBetweenDocs.dyn" />
-    <None Include="extra\Examples\Example Dictionary.dyn" />
-    <None Include="extra\Examples\Example Enumeration.dyn" />
-    <None Include="extra\Examples\Example FilterElementParameterNumeric.dyn">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="extra\Examples\Example Change Levels Workset Filtered.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="extra\Examples\Example Pick.Elements.dyn" />
-    <None Include="extra\Examples\Example RevitDocuments.dyn" />
-    <None Include="extra\Examples\Example RoundInches.dyn" />
-    <None Include="extra\Examples\Example UI.Dialogs.dyn" />
-    <None Include="extra\Examples\Example UI.TaskDialog.dyn" />
-    <None Include="extra\Examples\Example Workset Unwrap.dyn" />
+    <None Include="extra\Examples\Example Change Levels Workset.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example Collector QueryName.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example Collector Views with ViewTemplate Names.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example Collector.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example CompoundStructure Create+Modify.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example CompoundStructure Modify Layers.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example CompoundStructure Sync Docs.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example CopyElementsBetweenDocs.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example Dictionary.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example Enumeration.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example FilterElementParameterNumeric.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example Pick.Elements.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example RevitDocuments.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example RoundInches.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example UI.Dialogs.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example UI.TaskDialog.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example Workset Unwrap.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="extra\Images\" />

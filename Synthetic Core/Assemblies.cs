@@ -5,6 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+using synthDict = Synthetic.Core.Dictionary;
+
 namespace Synthetic.Core
 {
     /// <summary>
@@ -12,39 +14,94 @@ namespace Synthetic.Core
     /// </summary>
     public class Assemblies
     {
+        internal Assemblies() { }
+
+        /// <summary>
+        /// Gets all loaded assemblies
+        /// </summary>
+        /// <returns name="Assemblies">Returns a dictionary of assemblies with assembly full name as key.</returns>
+        public static synthDict GetAssemblies()
+        {
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+            //var assems = assemblies.Select((value, index) => new { value, index });
+            //Dictionary<string, System.Object> dict = assems.ToDictionary(pair => pair.value.FullName, pair => (System.Object)pair.value);
+
+            Dictionary<string, System.Object> dict = new Dictionary<string, System.Object>();
+            synthDict sDict = null;
+            foreach ( Assembly assembly in assemblies)
+            {
+                string assemblyName = assembly.FullName;
+                if (!dict.ContainsKey(assemblyName))
+                {
+                    dict.Add(assemblyName, assembly);
+                }
+            }
+
+            sDict = new synthDict(dict);
+            return sDict;
+        }
+
+        /// <summary>
+        /// Gets all loaded assemblies
+        /// </summary>
+        /// <returns name="Assemblies">Returns a dictionary of assemblies with assembly full name as key.</returns>
+        public static List<Assembly> GetAssembliesAsList()
+        {
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            return assemblies.ToList();
+        }
+
+        /// <summary>
+        /// Returns the full name of a DLL assembly
+        /// </summary>
+        /// <param name="assembly">A DLL assembly</param>
+        /// <returns name="Name">Returns the full name of the assembly</returns>
+        public static string FullName (Assembly assembly)
+        {
+            return assembly.FullName;
+        }
+
+        /// <summary>
+        /// Given a DLL assembly, returns the types
+        /// </summary>
+        /// <param name="assembly">A DLL assembly</param>
+        /// <returns name="Types">Returns the types within an assembly</returns>
+        public static Type[] GetTypes (Assembly assembly)
+        {
+            return assembly.GetTypes();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static Assembly LoadByName (string name)
+        {
+            return Assembly.Load(name);
+        }
+
         /// <summary>
         /// Returns all classes and methods in an assembly.  Modified from version found at http://venkateswarlu.net/DotNet/Get_all_methods_from_a_class.aspx.
         /// </summary>
-        /// <param name="assemblyName"></param>
+        /// <param name="assembly"></param>
         /// <returns></returns>
-        public List<string> GetPublicClassesAndMethodsOfAssembly(string assemblyName)
+        public static List<string> GetPublicClassesAndMethods(Assembly assembly)
         {
             List<string> assemblyInfo = new List<string>();
 
             //Code to load Assembly
-            Assembly assem1 = Assembly.Load(AssemblyName.GetAssemblyName(assemblyName));
+            //Assembly assembly = Assembly.Load(AssemblyName.GetAssemblyName(assemblyName));
 
             //Get List of Class Name
-            Type[] types = assem1.GetTypes();
+            Type[] types = assembly.GetTypes();
 
             foreach (Type type in types)
             {
-                string typeName = "";
-                string typeNamespace = type.Namespace;
-                List<string> methodsPublic = new List<string>();
-                List<string> methodsNotPublic = new List<string>();
-
                 if (type.IsPublic)
                 {
-                   assemblyInfo.Concat(GetPublicMethods(type));
-                }
-                else if (type.IsAbstract)
-                {
-                    //assemblyInfo.Concat(GetPublicMethods(tc));
-                }
-                else if (type.IsSealed)
-                {
-                    //assemblyInfo.Concat(GetPublicMethods(tc));
+                   assemblyInfo.Concat(GetPublicStaticMethods(type));
                 }
             }
 
@@ -56,30 +113,27 @@ namespace Synthetic.Core
         /// </summary>
         /// <param name="type"></param>
         /// <returns name="Methods">List of the names of methods including Namespace, Type and Method.</returns>
-        public List<string> GetPublicMethods(Type type)
+        public static List<string> GetPublicStaticMethods(Type type)
         {
             string typeName = type.Name;
             string typeNamespace = type.Namespace;
             List<string> methodsPublic = new List<string>();
-            List<string> methodsNotPublic = new List<string>();
 
             //Get List of Method Names of Class
             MemberInfo[] methodName = type.GetMethods();
 
-            foreach (MemberInfo method in methodName)
+            foreach (MethodInfo method in methodName)
             {
                 if (method.ReflectedType.IsPublic)
                 {
-                    methodsPublic.Add(typeNamespace + typeName + method.Name.ToString());
-                }
-                else
-                {
-                    methodsNotPublic.Add(typeNamespace + typeName + method.Name.ToString());
+                    if (method.IsStatic)
+                    {
+                        methodsPublic.Add(typeNamespace + "." + typeName + "." + method.Name.ToString());
+                    }
                 }
             }
 
             return methodsPublic;
         }
     }
-}
 }
