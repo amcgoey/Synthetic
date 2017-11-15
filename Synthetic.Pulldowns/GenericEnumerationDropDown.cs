@@ -74,9 +74,6 @@ namespace Synthetic.Pulldowns
                 }
             }
 
-            // get the selected items name
-            //var node = AstFactory.BuildIntNode((int)Items[SelectedIndex].Item);
-
             var args = new List<AssociativeNode>
              {
                 AstFactory.BuildStringNode(this.EnumerationType.ToString()),
@@ -87,11 +84,6 @@ namespace Synthetic.Pulldowns
 
             var functionCall = AstFactory.BuildFunctionCall( func, args);
             var assign = AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), functionCall);
-
-            ///var node = AstFactory.BuildStringNode((string)Items[SelectedIndex].Name);
-
-            // assign the selected name to an actual enumeration value
-            //var assign = AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), node);
 
             // return the enumeration value
             return new List<AssociativeNode> { assign };
