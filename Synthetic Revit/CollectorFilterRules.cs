@@ -17,26 +17,26 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="ruleName"></param>
         /// <returns name="StringRule"></returns>
-        [SupressImportIntoVM]
-        public revitDB.FilterStringRuleEvaluator FilterStringRules (string ruleName)
+        //[SupressImportIntoVM]
+        public static revitDB.FilterStringRuleEvaluator FilterStringRules (string ruleName)
         {
             switch (ruleName)
             {
-                case "FilterStringBeginsWith":
+                case "Autodesk.Revit.DB.FilterStringBeginsWith":
                     return new revitDB.FilterStringBeginsWith();
-                case "FilterStringContains":
+                case "Autodesk.Revit.DB.FilterStringContains":
                     return new revitDB.FilterStringContains();
-                case "FilterStringEndsWith":
+                case "Autodesk.Revit.DB.FilterStringEndsWith":
                     return new revitDB.FilterStringEndsWith();
-                case "FilterStringEquals":
+                case "Autodesk.Revit.DB.FilterStringEquals":
                     return new revitDB.FilterStringEquals();
-                case "FilterStringGreater":
+                case "Autodesk.Revit.DB.FilterStringGreater":
                     return new revitDB.FilterStringGreater();
-                case "FilterStringGreaterOrEqual":
+                case "Autodesk.Revit.DB.FilterStringGreaterOrEqual":
                     return new revitDB.FilterStringGreaterOrEqual();
-                case "FilterStringLess":
+                case "Autodesk.Revit.DB.FilterStringLess":
                     return new revitDB.FilterStringLess();
-                case "FilterStringLessOrEqual":
+                case "Autodesk.Revit.DB.FilterStringLessOrEqual":
                     return new revitDB.FilterStringLessOrEqual();
                 default:
                     return null;
@@ -48,20 +48,20 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="ruleName"></param>
         /// <returns name="NumericRule"></returns>
-        [SupressImportIntoVM]
-        public revitDB.FilterNumericRuleEvaluator FilterNumericRules(string ruleName)
+        //[SupressImportIntoVM]
+        public static revitDB.FilterNumericRuleEvaluator FilterNumericRules(string ruleName)
         {
             switch (ruleName)
             {
-                case "FilterNumericEquals":
+                case "Autodesk.Revit.DB.FilterNumericEquals":
                     return new revitDB.FilterNumericEquals();
-                case "FilterNumericGreater":
+                case "Autodesk.Revit.DB.FilterNumericGreater":
                     return new revitDB.FilterNumericGreater();
-                case "FilterNumericGreaterOrEqual":
+                case "Autodesk.Revit.DB.FilterNumericGreaterOrEqual":
                     return new revitDB.FilterNumericGreaterOrEqual();
-                case "FilterNumericLess":
+                case "Autodesk.Revit.DB.FilterNumericLess":
                     return new revitDB.FilterNumericLess();
-                case "FilterNumericLessOrEqual":
+                case "Autodesk.Revit.DB.FilterNumericLessOrEqual":
                     return new revitDB.FilterNumericLessOrEqual();
                 default:
                     return null;

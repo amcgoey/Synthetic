@@ -9,7 +9,7 @@ using revitDB = Autodesk.Revit.DB;
 
 using Synthetic.Pulldowns;
 
-namespace Synthetic.Revit.CollectorFilterRules
+namespace Synthetic.Revit.CollectorFilterRulesSelect
 {
     /// <summary>
     /// 
@@ -18,12 +18,14 @@ namespace Synthetic.Revit.CollectorFilterRules
     [NodeDescription("Choose how a to evaluate a filter of a string parameter.")]
 
     [IsDesignScriptCompatible]
-    public class FilterStringRulesDropDown : GenericEnumerationDropDown
+    public class FilterStringRulesDropDown : GenericInheritedClassesPulldown
     {
         /// <summary>
         /// 
         /// </summary>
-        public FilterStringRulesDropDown() : base("StringRule", typeof(CollectorFilterRules.StringRules)) { }
+        public FilterStringRulesDropDown() : base("StringRule",
+            typeof(revitDB.FilterStringRuleEvaluator),
+            Synthetic.Revit.CollectorFilterRules.FilterStringRules) { }
     }
 
     /// <summary>
@@ -33,12 +35,14 @@ namespace Synthetic.Revit.CollectorFilterRules
     [NodeDescription("Choose how a to evaluate a filter of a numeric parameter.")]
 
     [IsDesignScriptCompatible]
-    public class FilterNumericRulesDropDown : GenericEnumerationDropDown
+    public class FilterNumericRulesDropDown : GenericInheritedClassesPulldown
     {
         /// <summary>
         /// 
         /// </summary>
-        public FilterNumericRulesDropDown() : base("NumericRule", typeof(CollectorFilterRules.NumericRules)) { }
+        public FilterNumericRulesDropDown() : base("NumericRule",
+            typeof(revitDB.FilterNumericRuleEvaluator),
+            Synthetic.Revit.CollectorFilterRules.FilterNumericRules) { }
     }
 }
 
