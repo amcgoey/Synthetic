@@ -12,12 +12,13 @@ namespace Synthetic.Revit
     /// </summary>
     public class CollectorFilterRules
     {
+        internal CollectorFilterRules () { }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="ruleName"></param>
         /// <returns name="StringRule"></returns>
-        //[SupressImportIntoVM]
         public static revitDB.FilterStringRuleEvaluator FilterStringRules (string ruleName)
         {
             switch (ruleName)
@@ -48,7 +49,6 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="ruleName"></param>
         /// <returns name="NumericRule"></returns>
-        //[SupressImportIntoVM]
         public static revitDB.FilterNumericRuleEvaluator FilterNumericRules(string ruleName)
         {
             switch (ruleName)
