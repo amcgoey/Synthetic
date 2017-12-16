@@ -69,6 +69,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GenericCreateObjectPulldown.cs" />
     <Compile Include="GenericEnumerationDropDown.cs" />
     <Compile Include="SelectBuiltInParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
