@@ -135,5 +135,24 @@ namespace Synthetic.Core
 
             return methodsPublic;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="objectType"></param>
+        /// <returns name="Types"></returns>
+        public static List<Type> GetEnumerableOfType(Type objectType)
+        {
+            List<Type> objects = new List<Type>();
+            foreach (Type type in
+                Assembly.GetAssembly(objectType).GetTypes()
+                .Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(objectType)))
+            {
+                //objects.Add((T)Activator.CreateInstance(type, constructorArgs));
+                objects.Add(type);
+            }
+            //objects.Sort();
+            return objects;
+        }
     }
 }
