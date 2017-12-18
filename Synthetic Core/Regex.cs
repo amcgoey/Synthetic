@@ -42,8 +42,11 @@ namespace Synthetic.Core
             int index = match.Index;
             bool isMatch = match.Success;
             
-            string[] subStrings = new string[match.Captures.Count];
-            match.Captures.CopyTo(subStrings,0);
+            List<string> subStrings = new List<string>();
+            foreach (Capture capture in match.Captures)
+            {
+                subStrings.Add(capture.Value);
+            }
 
             return new Dictionary<string, object>
             {
@@ -63,7 +66,7 @@ namespace Synthetic.Core
         /// <returns name="Index">The index location where the pattern was matched.</returns>
         /// <returns name="IsMatch">True if a match was found.</returns>
         /// <returns name="subStrings">A list of substrings that match the capture groups of the pattern.</returns>
-        [MultiReturn(new[] { "Value", "Index", "Success", "subStrings" })]
+        [MultiReturn(new[] { "Value", "Index", "IsMatch", "subStrings" })]
         public static IDictionary Matches(string input, string pattern)
         {
             MatchCollection matches = Regex.Matches(Regex.Escape(input), pattern);
@@ -71,7 +74,7 @@ namespace Synthetic.Core
             List<string> values = new List<string>();
             List<int> indices = new List<int>();
             List<bool> isMatch = new List<bool>();
-            List<string[]> subStrings = new List<string[]>();
+            List<List<string>> subStrings = new List<List<string>>();
 
             foreach (Match match in matches)
             {
@@ -79,8 +82,11 @@ namespace Synthetic.Core
                 indices.Add(match.Index);
                 isMatch.Add(match.Success);
 
-                string[] s = new string[match.Captures.Count];
-                match.Captures.CopyTo(s, 0);
+                List<string> s = new List<string>();
+                foreach (Capture capture in match.Captures)
+                {
+                    s.Add(capture.Value);
+                }
                 subStrings.Add(s);
             }
 
