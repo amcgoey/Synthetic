@@ -251,12 +251,12 @@ namespace Synthetic.Revit
             return new revitDB.ElementOwnerViewFilter(new revitDB.ElementId(view.Id), inverted);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="filterRules"></param>
-        /// <param name="inverted"></param>
-        /// <returns></returns>
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="filterRules"></param>
+        ///// <param name="inverted"></param>
+        ///// <returns></returns>
         //public static revitDB.ElementFilter FilterElementParameter(IList<revitDB.FilterRule> filterRules, bool inverted)
         //{
         //    return new revitDB.ElementParameterFilter(filterRules, inverted);
