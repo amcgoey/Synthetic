@@ -214,6 +214,29 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
+        /// Synchronize a document with central
+        /// </summary>
+        /// <param name="document">A Autodesk.Revit.DB.Document object</param>
+        /// <param name="syncOptions">A Autodesk.Revit.DB.SynchronizeWithCentralOptions object.  Creates a default object by default.</param>
+        /// <param name="commment">Syncrhonization comments.</param>
+        /// <param name="execute">If True synchoronize with central.</param>
+        public static void SynchronizeWithCentral (
+            revitDoc document,
+            [DefaultArgument("Synthetic.Revit.Document.SynchronizeWithCentralOptions()")] revitDB.SynchronizeWithCentralOptions syncOptions,
+            string commment,
+            bool execute
+            )
+        {
+            if (execute)
+            {
+                revitDB.TransactWithCentralOptions transOptions = new revitDB.TransactWithCentralOptions();
+                syncOptions.Comment = commment;
+
+                document.SynchronizeWithCentral(transOptions, syncOptions);
+            }
+        }
+
+        /// <summary>
         /// Get all the linked Revit documents in a document.
         /// </summary>
         /// <param name="document">A revit document.</param>
@@ -290,6 +313,15 @@ namespace Synthetic.Revit
         public static revitDB.WorksetConfiguration WorksetConfigurationCloseAll()
         {
             return new revitDB.WorksetConfiguration(revitDB.WorksetConfigurationOption.CloseAllWorksets);
+        }
+
+        /// <summary>
+        /// Creates a default SynchronizeWithCentralOptions object.
+        /// </summary>
+        /// <returns name="SyncOptions">A default SynchronizeWithCentralOptions object</returns>
+        public static revitDB.SynchronizeWithCentralOptions SynchronizeWithCentralOptions()
+        {
+            return new revitDB.SynchronizeWithCentralOptions();
         }
     }
 }

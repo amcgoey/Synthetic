@@ -72,6 +72,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="extra\Examples\Example Assemblies.dyn" />
     <None Include="extra\Examples\Example Change Levels Workset Filtered.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -117,6 +118,7 @@
     <None Include="extra\Examples\Example RoundInches.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="extra\Examples\Example SyncWithCentral.dyn" />
     <None Include="extra\Examples\Example UI.Dialogs.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
