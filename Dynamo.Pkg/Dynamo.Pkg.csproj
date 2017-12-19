@@ -34,11 +34,34 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Pkg.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="extra\**">
+    <Content Include="extra\Examples\backup\Example CompoundStructure.dyn.0.backup">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="extra\Examples\backup\Example CompoundStructure.dyn.1.backup">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="extra\Examples\backup\Example Enumeration.dyn.0.backup">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="extra\Examples\backup\Example Enumerations.dyn.0.backup">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="extra\Examples\backup\Example Enumerations.dyn.1.backup">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="extra\Examples\backup\Example Enumerations.dyn.2.backup">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="extra\Examples\backup\Example Enumerations.dyn.3.backup">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="extra\Examples\backup\Example Enumerations.dyn.4.backup">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="extra\Examples\backup\Example RoundInches.dyn.0.backup">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="dyf\**">
@@ -48,6 +71,67 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="extra\Examples\Example Assemblies.dyn" />
+    <None Include="extra\Examples\Example Change Levels Workset Filtered.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example Change Levels Workset.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example Collector QueryName.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example Collector Views with ViewTemplate Names.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example Collector.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example CompoundStructure Create+Modify.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example CompoundStructure Modify Layers.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example CompoundStructure Sync Docs.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example CopyElementsBetweenDocs.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example Dictionary.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example Enumeration.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example FilterElementParameterNumeric.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example Pick.Elements.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example RevitDocuments.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example RoundInches.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example SyncWithCentral.dyn" />
+    <None Include="extra\Examples\Example UI.Dialogs.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example UI.TaskDialog.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example Workset Unwrap.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="extra\Images\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>del "$(TargetDir)$(TargetName).*"</PostBuildEvent>
@@ -55,7 +139,15 @@
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
-  </Target>
+<GetReferenceAssemblyPaths TargetFrameworkMoniker=".NETFramework, Version=v2.0">
+<Output TaskParameter="FullFrameworkReferenceAssemblyPaths" PropertyName="FrameworkAssembliesPath" />
+</GetReferenceAssemblyPaths>
+<GenerateResource UseSourcePath="true" Sources="$(ProjectDir)PackageImages.resx" 
+  OutputResources="$(ProjectDir)PackageImages.resources" 
+  References="$(FrameworkAssembliesPath)System.Drawing.dll" />
+<AL TargetType="library" EmbedResources="$(ProjectDir)PackageImages.resources"
+OutputAssembly="$(OutDir)Package.customization.dll" />
+</Target>
   <Target Name="AfterBuild">
   </Target>
   -->

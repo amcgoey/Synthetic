@@ -7,28 +7,41 @@ using ProtoCore.AST.AssociativeAST;
 using Dynamo.Utilities;
 
 using Synthetic.Core;
+using Synthetic.Revit;
 
 namespace Synthetic.Pulldowns
 {
     /// <summary>
-    /// Generic UI Dropdown node baseclass for Enumerations.
-    /// This class populates a dropdown with all enumeration values of the specified type.
-    /// Written by Konrad Sobon in post on Dynamo Forum.
-    /// https://forum.dynamobim.com/t/c-dynamo-nodes-dropdown-input-node/10225/4
+    /// 
     /// </summary>
-    public abstract class GenericEnumerationDropDown : RevitDropDownBase
+    public abstract class GenericInheritedClassesPulldown : RevitDropDownBase
     {
         /// <summary>
-        /// Generic Enumeration Dropdown
+        /// Generic Dropdown that creates an instance of a type from a list of classes that inherit from a base class.
         /// </summary>
         /// <param name="name">Node Name</param>
-        /// <param name="enumerationType">Type of Enumeration to Display</param>
-        public GenericEnumerationDropDown(string name, Type enumerationType) : base(name) { this.EnumerationType = enumerationType; PopulateDropDownItems(); }
+        /// <param name="objectType">Type of Enumeration to Display</param>
+        /// <param name="function"></param>
+        public GenericInheritedClassesPulldown(string name, Type objectType, Func<string, object> function) : base(name)
+        {
+            this.ObjectType = objectType;
+            this.Function = function;
+            PopulateDropDownItems();
+        }
 
         /// <summary>
-        /// Type of Enumeration
+        /// 
         /// </summary>
-        private Type EnumerationType
+        private Type ObjectType
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private Func<string, object> Function
         {
             get;
             set;
@@ -50,15 +63,15 @@ namespace Synthetic.Pulldowns
         /// </summary>
         public void PopulateDropDownItems()
         {
-            if (this.EnumerationType != null)
+            if (this.ObjectType != null)
             {
                 // Clear the dropdown list
                 Items.Clear();
 
                 // Get all enumeration names and add them to the dropdown menu
-                foreach (string name in Enum.GetNames(EnumerationType))
+                foreach (Type type in Assemblies.GetEnumerableOfType(this.ObjectType))
                 {
-                    Items.Add(new CoreNodeModels.DynamoDropDownItem(name, Enum.Parse(EnumerationType, name)));
+                    Items.Add(new CoreNodeModels.DynamoDropDownItem(type.ToString(), type));
                 }
 
                 Items = Items.OrderBy(x => x.Name).ToObservableCollection();
@@ -73,7 +86,7 @@ namespace Synthetic.Pulldowns
             // If the dropdown is still empty try to populate it again          
             if (Items.Count == 0 || Items.Count == -1)
             {
-                if (this.EnumerationType != null && Enum.GetNames(this.EnumerationType).Length > 0)
+                if (this.ObjectType != null && Assemblies.GetEnumerableOfType(this.ObjectType).Count > 0)
                 {
                     PopulateItems();
                 }
@@ -81,13 +94,12 @@ namespace Synthetic.Pulldowns
 
             var args = new List<AssociativeNode>
              {
-                AstFactory.BuildStringNode(this.EnumerationType.ToString()),
                 AstFactory.BuildStringNode(((System.Object) Items[SelectedIndex].Item).ToString())
              };
 
-            var func = new Func<string, string, object>(Enumeration.Parse);
+            var func = Function;
 
-            var functionCall = AstFactory.BuildFunctionCall( func, args);
+            var functionCall = AstFactory.BuildFunctionCall(func, args);
             var assign = AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), functionCall);
 
             // return the enumeration value

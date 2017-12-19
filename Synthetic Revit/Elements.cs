@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Synthetic.Core;
 
 using Autodesk.DesignScript.Runtime;
+using Dynamo.Graph.Nodes;
 
 using Revit.Elements;
 using RevitServices.Transactions;
@@ -22,6 +23,7 @@ namespace Synthetic.Revit
     /// <summary>
     /// Manipulation and modification of Dynamo wrapped Revit elements.
     /// </summary>
+    [IsDesignScriptCompatible]
     public class Elements
     {
         internal Elements () { }

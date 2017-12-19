@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Autodesk.DesignScript.Runtime;
+using Dynamo.Graph.Nodes;
 
 using revitDB = Autodesk.Revit.DB;
 using revitDoc = Autodesk.Revit.DB.Document;
@@ -24,6 +25,7 @@ namespace Synthetic.Revit
     /// <summary>
     /// Nodes that create ElementFilters to be used with Collectors.
     /// </summary>
+    [IsDesignScriptCompatible]
     public class CollectorElementFilter
     {
         internal CollectorElementFilter() { }
@@ -249,12 +251,12 @@ namespace Synthetic.Revit
             return new revitDB.ElementOwnerViewFilter(new revitDB.ElementId(view.Id), inverted);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="filterRules"></param>
-        /// <param name="inverted"></param>
-        /// <returns></returns>
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="filterRules"></param>
+        ///// <param name="inverted"></param>
+        ///// <returns></returns>
         //public static revitDB.ElementFilter FilterElementParameter(IList<revitDB.FilterRule> filterRules, bool inverted)
         //{
         //    return new revitDB.ElementParameterFilter(filterRules, inverted);
@@ -283,46 +285,91 @@ namespace Synthetic.Revit
         /// <param name="filterStringRule"></param>
         /// <param name="inverted"></param>
         /// <returns></returns>
-        public static revitDB.ElementFilter FilterElementStringParameter(int parameterId, string value, string filterStringRule, [DefaultArgument("false")] bool inverted)
+        public static revitDB.ElementFilter FilterElementStringParameter(
+            int parameterId,
+            string value,
+            revitDB.FilterStringRuleEvaluator filterStringRule,
+            [DefaultArgument("false")] bool inverted)
         {
             revitDB.ParameterValueProvider provider = new revitDB.ParameterValueProvider(new revitDB.ElementId(parameterId));
-            revitDB.FilterStringRuleEvaluator evaluator;
 
-            CollectorFilterRules.StringRules rule = (CollectorFilterRules.StringRules)Enum.Parse(typeof(CollectorFilterRules.StringRules), filterStringRule);
-
-            switch (rule)
+            if (filterStringRule != null)
             {
-                case CollectorFilterRules.StringRules.FilterStringBeginsWith:
-                    evaluator = new revitDB.FilterStringBeginsWith();
-                    break;
-                case CollectorFilterRules.StringRules.FilterStringContains:
-                    evaluator = new revitDB.FilterStringContains();
-                    break;
-                case CollectorFilterRules.StringRules.FilterStringEndsWith:
-                    evaluator = new revitDB.FilterStringEndsWith();
-                    break;
-                case CollectorFilterRules.StringRules.FilterStringEquals:
-                    evaluator = new revitDB.FilterStringEquals();
-                    break;
-                case CollectorFilterRules.StringRules.FilterStringGreater:
-                    evaluator = new revitDB.FilterStringGreater();
-                    break;
-                case CollectorFilterRules.StringRules.FilterStringGreaterOrEqual:
-                    evaluator = new revitDB.FilterStringGreaterOrEqual();
-                    break;
-                case CollectorFilterRules.StringRules.FilterStringLess:
-                    evaluator = new revitDB.FilterStringLess();
-                    break;
-                case CollectorFilterRules.StringRules.FilterStringLessOrEqual:
-                    evaluator = new revitDB.FilterStringLessOrEqual();
-                    break;
-                default:
-                    evaluator = null;
-                    break;
+                revitDB.FilterRule filterRule = new revitDB.FilterStringRule(provider, filterStringRule, value, false);
+                return new revitDB.ElementParameterFilter(filterRule, inverted);
             }
-            if (evaluator != null)
+            else return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parameterId"></param>
+        /// <param name="value"></param>
+        /// <param name="tolerance"></param>
+        /// <param name="filterNumberRule"></param>
+        /// <param name="inverted"></param>
+        /// <returns></returns>
+        public static revitDB.ElementFilter FilterElementNumberParameter (
+            int parameterId,
+            double value,
+            [DefaultArgument("0.0001")] double tolerance,
+            revitDB.FilterNumericRuleEvaluator filterNumberRule,
+            [DefaultArgument("false")] bool inverted)
+        {
+            revitDB.ParameterValueProvider provider = new revitDB.ParameterValueProvider(new revitDB.ElementId(parameterId));
+            
+            if (filterNumberRule != null)
             {
-                revitDB.FilterRule filterRule = new revitDB.FilterStringRule(provider, evaluator, value, false);
+                revitDB.FilterRule filterRule = new revitDB.FilterDoubleRule(provider, filterNumberRule, value, tolerance);
+                return new revitDB.ElementParameterFilter(filterRule, inverted);
+            }
+            else return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parameterId"></param>
+        /// <param name="value"></param>
+        /// <param name="filterNumberRule"></param>
+        /// <param name="inverted"></param>
+        /// <returns></returns>
+        public static revitDB.ElementFilter FilterElementIntegerParameter(
+            int parameterId,
+            int value,
+            revitDB.FilterNumericRuleEvaluator filterNumberRule,
+            [DefaultArgument("false")] bool inverted)
+        {
+            revitDB.ParameterValueProvider provider = new revitDB.ParameterValueProvider(new revitDB.ElementId(parameterId));
+           
+            if (filterNumberRule != null)
+            {
+                revitDB.FilterRule filterRule = new revitDB.FilterIntegerRule(provider, filterNumberRule, value);
+                return new revitDB.ElementParameterFilter(filterRule, inverted);
+            }
+            else return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parameterId"></param>
+        /// <param name="value"></param>
+        /// <param name="filterNumberRule"></param>
+        /// <param name="inverted"></param>
+        /// <returns></returns>
+        public static revitDB.ElementFilter FilterElementIdParameter(
+            int parameterId,
+            int value,
+            revitDB.FilterNumericRuleEvaluator filterNumberRule,
+            [DefaultArgument("false")] bool inverted)
+        {
+            revitDB.ParameterValueProvider provider = new revitDB.ParameterValueProvider(new revitDB.ElementId(parameterId));
+            
+            if (filterNumberRule != null)
+            {
+                revitDB.FilterRule filterRule = new revitDB.FilterElementIdRule(provider, filterNumberRule, new revitDB.ElementId(value));
                 return new revitDB.ElementParameterFilter(filterRule, inverted);
             }
             else return null;

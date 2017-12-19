@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Autodesk.DesignScript.Runtime;
+using Dynamo.Graph.Nodes;
 
 using revitDB = Autodesk.Revit.DB;
 using revitDoc = Autodesk.Revit.DB.Document;
@@ -12,6 +13,7 @@ using Revit.Elements;
 using RevitServices.Transactions;
 using RevitServices.Persistence;
 
+//Need all these types so the Collectors can return these types of objects.
 using dynElem = Revit.Elements.Element;
 using dynCat = Revit.Elements.Category;
 using dynFamilyType = Revit.Elements.FamilyType;
@@ -25,6 +27,7 @@ namespace Synthetic.Revit
     /// <summary>
     /// Nodes for retrieving elements from a Revit project using filter criteria.  Refer to the RevitAPI documentation on FilteredElementCollectors and ElementFilters for optimizing the speed of the query.
     /// </summary>
+    [IsDesignScriptCompatible]
     public class Collector
     {
         internal revitDoc _document { get; private set; }
@@ -89,7 +92,7 @@ namespace Synthetic.Revit
         /// Creates a Revit FilteredElementCollector and passes filters to it.  Returns the Collector.
         /// </summary>
         /// <returns>A FilteredElementCollector with filters applied</returns>
-        internal revitFECollector ApplyFilters ()
+        internal revitFECollector _ApplyFilters ()
         {
             revitFECollector rCollector;
 
@@ -114,13 +117,13 @@ namespace Synthetic.Revit
         }        
 
         /// <summary>
-        /// Provides access directly to Revit FilteredElementCollector object with all filters applied.
+        /// Applies filters and returns the Revit FilteredElementCollector object.  This object gives quick access to the elements in the collector.
         /// </summary>
         /// <param name="collector">A Synthetic Collector object.</param>
-        /// <returns>A Revit FilteredElementCollector object.</returns>
-        public static revitFECollector UnwrapCollector (Collector collector)
+        /// <returns name="Revit Collector">A Revit FilteredElementCollector object.</returns>
+        public static revitFECollector ApplyFilters (Collector collector)
         {
-            return collector.ApplyFilters();
+            return collector._ApplyFilters();
         }
 
         /// <summary>
@@ -185,7 +188,7 @@ namespace Synthetic.Revit
         public static IList<dynElem> ToElements (Collector collector,
             [DefaultArgument("true")] bool toggle = true)
         {
-            IList<revitDB.Element> elements = collector.ApplyFilters().ToElements();
+            IList<revitDB.Element> elements = collector._ApplyFilters().ToElements();
 
             IList<dynElem> dynamoElements = new List<dynElem>();
 
@@ -210,9 +213,7 @@ namespace Synthetic.Revit
         public static IList<revitDB.Element> ToRevitElements(Collector collector,
             [DefaultArgument("true")] bool toggle = true)
         {
-            IList<revitDB.Element> elements = collector.ApplyFilters().ToElements();
-
-            return elements;
+            return collector._ApplyFilters().ToElements();
         }
 
         /// <summary>
@@ -222,7 +223,91 @@ namespace Synthetic.Revit
         /// <returns name="ElementIds">Returns the ElementIds of the elements that pass the collector's filters.</returns>
         public static IList<revitDB.ElementId> ToElementIds(Collector collector)
         {
-            return (IList<revitDB.ElementId>)collector.ApplyFilters().ToElementIds();
+            return (IList<revitDB.ElementId>)collector._ApplyFilters().ToElementIds();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="collector"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static IList<dynElem> QueryNameEquals(Collector collector, string name)
+        {
+            revitFECollector rCollector = collector._ApplyFilters();
+
+            IList<dynElem> dynamoElements = rCollector
+                .Cast<revitDB.Element>()
+                .Where(elem => elem.Name == name)
+                .Select(elem =>
+                {
+                    return elem.ToDSType(true);
+                })
+                .ToList();
+
+            return dynamoElements;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="collector"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static IList<dynElem> QueryNameContains(Collector collector, string name)
+        {
+            revitFECollector rCollector = collector._ApplyFilters();
+
+            IList<dynElem> dynamoElements = rCollector
+                .Cast<revitDB.Element>()
+                .Where(elem => elem.Name.Contains(name))
+                .Select(elem =>
+                {
+                    return elem.ToDSType(true);
+                })
+                .ToList();
+
+            return dynamoElements;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="collector"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static IList<dynElem> QueryNameDoesNotContain(Collector collector, string name)
+        {
+            revitFECollector rCollector = collector._ApplyFilters();
+
+            IList<dynElem> dynamoElements = rCollector
+                .Cast<revitDB.Element>()
+                .Where(elem => !elem.Name.Contains(name))
+                .Select(elem =>
+                {
+                    return elem.ToDSType(true);
+                })
+                .ToList();
+
+            return dynamoElements;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="collector"></param>
+        /// <returns></returns>
+        public static List<List<dynElem>> QueryGroupByName(Collector collector)
+        {
+            revitFECollector rCollector = collector._ApplyFilters();
+
+            List<List<dynElem>> dynamoElements = rCollector
+                .Cast<revitDB.Element>()
+                .GroupBy(elem => elem.Name)
+                .Select(grp => grp.Select( elem => elem.ToDSType(true)).ToList())
+                .ToList();
+
+            return dynamoElements;
         }
 
         /// <summary>
