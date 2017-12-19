@@ -13,6 +13,7 @@ using Revit.Elements;
 using RevitServices.Transactions;
 using RevitServices.Persistence;
 
+//Need all these types so the Collectors can return these types of objects.
 using dynElem = Revit.Elements.Element;
 using dynCat = Revit.Elements.Category;
 using dynFamilyType = Revit.Elements.FamilyType;
