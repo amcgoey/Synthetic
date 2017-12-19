@@ -13,6 +13,7 @@ using Revit.Elements;
 using RevitServices.Transactions;
 using RevitServices.Persistence;
 
+//Need all these types so the Collectors can return these types of objects.
 using dynElem = Revit.Elements.Element;
 using dynCat = Revit.Elements.Category;
 using dynFamilyType = Revit.Elements.FamilyType;
@@ -212,9 +213,7 @@ namespace Synthetic.Revit
         public static IList<revitDB.Element> ToRevitElements(Collector collector,
             [DefaultArgument("true")] bool toggle = true)
         {
-            IList<revitDB.Element> elements = collector._ApplyFilters().ToElements();
-
-            return elements;
+            return collector._ApplyFilters().ToElements();
         }
 
         /// <summary>
@@ -236,21 +235,15 @@ namespace Synthetic.Revit
         public static IList<dynElem> QueryNameEquals(Collector collector, string name)
         {
             revitFECollector rCollector = collector._ApplyFilters();
-            var query = rCollector
+
+            IList<dynElem> dynamoElements = rCollector
                 .Cast<revitDB.Element>()
                 .Where(elem => elem.Name == name)
-                .Select(elem => elem);
-
-            IList<dynElem> dynamoElements = new List<dynElem>();
-
-            foreach (revitDB.Element elem in query)
-            {
-                try
+                .Select(elem =>
                 {
-                    dynamoElements.Add(elem.ToDSType(true));
-                }
-                catch { }
-            }
+                    return elem.ToDSType(true);
+                })
+                .ToList();
 
             return dynamoElements;
         }
@@ -264,21 +257,15 @@ namespace Synthetic.Revit
         public static IList<dynElem> QueryNameContains(Collector collector, string name)
         {
             revitFECollector rCollector = collector._ApplyFilters();
-            var query = rCollector
+
+            IList<dynElem> dynamoElements = rCollector
                 .Cast<revitDB.Element>()
                 .Where(elem => elem.Name.Contains(name))
-                .Select(elem => elem);
-
-            IList<dynElem> dynamoElements = new List<dynElem>();
-
-            foreach (revitDB.Element elem in query)
-            {
-                try
+                .Select(elem =>
                 {
-                    dynamoElements.Add(elem.ToDSType(true));
-                }
-                catch { }
-            }
+                    return elem.ToDSType(true);
+                })
+                .ToList();
 
             return dynamoElements;
         }
@@ -292,21 +279,33 @@ namespace Synthetic.Revit
         public static IList<dynElem> QueryNameDoesNotContain(Collector collector, string name)
         {
             revitFECollector rCollector = collector._ApplyFilters();
-            var query = rCollector
+
+            IList<dynElem> dynamoElements = rCollector
                 .Cast<revitDB.Element>()
                 .Where(elem => !elem.Name.Contains(name))
-                .Select(elem => elem);
-
-            IList<dynElem> dynamoElements = new List<dynElem>();
-
-            foreach (revitDB.Element elem in query)
-            {
-                try
+                .Select(elem =>
                 {
-                    dynamoElements.Add(elem.ToDSType(true));
-                }
-                catch { }
-            }
+                    return elem.ToDSType(true);
+                })
+                .ToList();
+
+            return dynamoElements;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="collector"></param>
+        /// <returns></returns>
+        public static List<List<dynElem>> QueryGroupByName(Collector collector)
+        {
+            revitFECollector rCollector = collector._ApplyFilters();
+
+            List<List<dynElem>> dynamoElements = rCollector
+                .Cast<revitDB.Element>()
+                .GroupBy(elem => elem.Name)
+                .Select(grp => grp.Select( elem => elem.ToDSType(true)).ToList())
+                .ToList();
 
             return dynamoElements;
         }
