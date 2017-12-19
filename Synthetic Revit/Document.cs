@@ -219,16 +219,21 @@ namespace Synthetic.Revit
         /// <param name="document">A Autodesk.Revit.DB.Document object</param>
         /// <param name="syncOptions">A Autodesk.Revit.DB.SynchronizeWithCentralOptions object.  Creates a default object by default.</param>
         /// <param name="commment">Syncrhonization comments.</param>
+        /// <param name="execute">If True synchoronize with central.</param>
         public static void SynchronizeWithCentral (
             revitDoc document,
-            [DefaultArgument("SynchronizeWithCentralOptions()")] revitDB.SynchronizeWithCentralOptions syncOptions,
-            string commment
+            [DefaultArgument("Synthetic.Revit.Document.SynchronizeWithCentralOptions()")] revitDB.SynchronizeWithCentralOptions syncOptions,
+            string commment,
+            bool execute
             )
         {
-            revitDB.TransactWithCentralOptions transOptions = new revitDB.TransactWithCentralOptions();
-            syncOptions.Comment = commment;
+            if (execute)
+            {
+                revitDB.TransactWithCentralOptions transOptions = new revitDB.TransactWithCentralOptions();
+                syncOptions.Comment = commment;
 
-            document.SynchronizeWithCentral(transOptions, syncOptions);
+                document.SynchronizeWithCentral(transOptions, syncOptions);
+            }
         }
 
         /// <summary>
