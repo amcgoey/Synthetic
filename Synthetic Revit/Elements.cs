@@ -77,12 +77,12 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Overwrite an elements parameters with the parameter values from a source element.
         /// </summary>
-        /// <param name="SourceElement"></param>
-        /// <param name="DestinationElement"></param>
-        /// <returns name="DestinationElement"></returns>
-        public static dynamoElem TransferParameters(dynamoElem SourceElement, dynamoElem DestinationElement)
+        /// <param name="Element">Destination element</param>
+        /// <param name="SourceElement">Source element for the parameter values</param>
+        /// <returns name="Element">The destination element</returns>
+        public static dynamoElem TransferParameters(dynamoElem Element, dynamoElem SourceElement)
         {
             Action<dynamoElem, dynamoElem> transfer = (sElem, dElem) =>
             {
@@ -93,7 +93,7 @@ namespace Synthetic.Revit
                     if (sourceParam.IsReadOnly == false)
                     {
                         revitDB.Definition def = sourceParam.Definition;
-                        revitDB.Parameter destinationParam = DestinationElement.InternalElement.get_Parameter(def);
+                        revitDB.Parameter destinationParam = Element.InternalElement.get_Parameter(def);
 
                         revitDB.StorageType st = sourceParam.StorageType;
                         switch (st)
@@ -115,12 +115,12 @@ namespace Synthetic.Revit
                 }
             };
 
-            revitDoc document = DestinationElement.InternalElement.Document;
+            revitDoc document = Element.InternalElement.Document;
 
             if (document.IsModifiable)
             {
                 TransactionManager.Instance.EnsureInTransaction(document);
-                transfer(SourceElement, DestinationElement);
+                transfer(SourceElement, Element);
                 TransactionManager.Instance.TransactionTaskDone();
             }
             else
@@ -128,12 +128,12 @@ namespace Synthetic.Revit
                 using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
                 {
                     trans.Start("Transfer Parameter Between Elements");
-                    transfer(SourceElement, DestinationElement);
+                    transfer(SourceElement, Element);
                     trans.Commit();
                 }
             }
 
-            return DestinationElement;
+            return Element;
         }
 
         /// <summary>
