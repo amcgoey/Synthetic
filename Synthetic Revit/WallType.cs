@@ -23,10 +23,10 @@ namespace Synthetic.Revit
         internal WallType () {  }
 
         /// <summary>
-        /// 
+        /// Get the document that the wall type belongs too.
         /// </summary>
         /// <param name="WallType">A Dynamo wrapped Revit.WallType</param>
-        /// <returns></returns>
+        /// <returns name="Document">The Autodesk.Revit.DB.Document that the wall type belongs too.</returns>
         public static revitDoc Document (dynaWallType WallType)
         {
             return WallType.InternalElement.Document;
