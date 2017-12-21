@@ -83,6 +83,7 @@
     <Compile Include="Collector.cs" />
     <Compile Include="CollectorElementFilter.cs" />
     <Compile Include="Select.cs" />
+    <Compile Include="View.cs" />
     <Compile Include="ViewTemplates.cs" />
     <Compile Include="WallType.cs" />
     <Compile Include="Worksets.cs" />
