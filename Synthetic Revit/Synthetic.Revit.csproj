@@ -84,6 +84,7 @@
     <Compile Include="CollectorElementFilter.cs" />
     <Compile Include="Select.cs" />
     <Compile Include="ViewTemplates.cs" />
+    <Compile Include="WallType.cs" />
     <Compile Include="Worksets.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
