@@ -49,6 +49,17 @@ namespace Synthetic.Core
             return e;
         }
 
+        /// <summary> 
+        /// Retrieves the name as a string of the enumeration. 
+        /// </summary> 
+        /// <param name="enumeration">A enum</param> 
+        /// <returns name="name">Returns the name of the enum as a string</returns> 
+        public static string GetName(Enum enumeration)
+        {
+            var enumType = enumeration.GetType();
+            return Enum.GetName(enumType, enumeration);
+        }
+
         /// <summary>
         /// Retrieves all enums of a given type.
         /// </summary>
