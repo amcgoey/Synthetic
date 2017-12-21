@@ -66,6 +66,27 @@ namespace Synthetic.Revit
             };
         }
 
+        /// <summary> 
+        /// If the document is currently open, returns the doucment object given the file path. 
+        /// </summary> 
+        /// <param name="filePath"></param> 
+        /// <returns></returns> 
+        public static revitDoc DocumentFromPath(string filePath)
+        {
+            Autodesk.Revit.UI.UIApplication uiapp = DocumentManager.Instance.CurrentUIApplication;
+            Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
+            revitDB.DocumentSet docSet = app.Documents;
+
+            foreach (revitDoc doc in docSet)
+            {
+                if (doc.PathName == filePath)
+                {
+                    return doc;
+                }
+            }
+            return null;
+        }
+
         /// <summary>
         /// Unwraps a dynamo Revit document.  Document needs to be open in the applications, otherwise return null.
         /// </summary>

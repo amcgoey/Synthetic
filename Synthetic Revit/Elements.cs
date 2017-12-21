@@ -39,18 +39,15 @@ namespace Synthetic.Revit
             revitDoc doc = element.InternalElement.Document;
 
             TransactionManager.Instance.EnsureInTransaction(doc);
-            //using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(doc))
-            //{
-            //    trans.Start("Set Parameters");
 
-                foreach (KeyValuePair<string, object> keyValue in synthDict.UnwrapDictionary(dictionary))
+            foreach (KeyValuePair<string, object> keyValue in synthDict.UnwrapDictionary(dictionary))
+            {
+                if (element.InternalElement.GetParameters(keyValue.Key)[0].IsReadOnly == false)
                 {
                     element.SetParameterByName(keyValue.Key, keyValue.Value);
                 }
-            //    trans.Commit();
-            //}
+            }
 
-            //End Transaction
             TransactionManager.Instance.TransactionTaskDone();
 
             return element;
@@ -77,6 +74,66 @@ namespace Synthetic.Revit
             }
 
             return dict;
+        }
+
+        /// <summary>
+        /// Overwrite an elements parameters with the parameter values from a source element.
+        /// </summary>
+        /// <param name="Element">Destination element</param>
+        /// <param name="SourceElement">Source element for the parameter values</param>
+        /// <returns name="Element">The destination element</returns>
+        public static dynamoElem TransferParameters(dynamoElem Element, dynamoElem SourceElement)
+        {
+            Action<dynamoElem, dynamoElem> transfer = (sElem, dElem) =>
+            {
+                revitDB.ParameterSet sourceParameters = SourceElement.InternalElement.Parameters;
+
+                foreach (revitDB.Parameter sourceParam in sourceParameters)
+                {
+                    if (sourceParam.IsReadOnly == false)
+                    {
+                        revitDB.Definition def = sourceParam.Definition;
+                        revitDB.Parameter destinationParam = Element.InternalElement.get_Parameter(def);
+
+                        revitDB.StorageType st = sourceParam.StorageType;
+                        switch (st)
+                        {
+                            case revitDB.StorageType.Double:
+                                destinationParam.Set(sourceParam.AsDouble());
+                                break;
+                            case revitDB.StorageType.ElementId:
+                                destinationParam.Set(sourceParam.AsElementId());
+                                break;
+                            case revitDB.StorageType.Integer:
+                                destinationParam.Set(sourceParam.AsInteger());
+                                break;
+                            case revitDB.StorageType.String:
+                                destinationParam.Set(sourceParam.AsString());
+                                break;
+                        }
+                    }
+                }
+            };
+
+            revitDoc document = Element.InternalElement.Document;
+
+            if (document.IsModifiable)
+            {
+                TransactionManager.Instance.EnsureInTransaction(document);
+                transfer(SourceElement, Element);
+                TransactionManager.Instance.TransactionTaskDone();
+            }
+            else
+            {
+                using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                {
+                    trans.Start("Transfer Parameter Between Elements");
+                    transfer(SourceElement, Element);
+                    trans.Commit();
+                }
+            }
+
+            return Element;
         }
 
         /// <summary>

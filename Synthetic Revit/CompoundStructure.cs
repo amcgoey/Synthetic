@@ -268,12 +268,12 @@ namespace Synthetic.Revit
         /// <summary>
         /// Replaces a Wall Type's compound structure with the given one.  Please note that the compound structure's materials and the wall type must be in the same document or unexpected results may occur.
         /// </summary>
-        /// <param name="wallType">The wall type to be modified.</param>
+        /// <param name="WallType">The wall type to be modified.</param>
         /// <param name="compoundStructure">A compound structure</param>
         /// <returns name="wallType">The modified wall type.</returns>
-        public static dynamoElements.WallType ToWallType(dynamoElements.WallType wallType, CompoundStructure compoundStructure)
+        public static dynamoElements.WallType ToWallType(dynamoElements.WallType WallType, CompoundStructure compoundStructure)
         {
-            revitDB.WallType revitWallType = (revitDB.WallType)wallType.InternalElement;
+            revitDB.WallType revitWallType = (revitDB.WallType)WallType.InternalElement;
 
             using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(compoundStructure.internalDocument))
             {
@@ -288,7 +288,7 @@ namespace Synthetic.Revit
                     revitWallType.SetCompoundStructure(compoundStructure.internalCompoundStructure);
                 }
             }
-            return wallType;
+            return WallType;
         }
 
         #endregion
