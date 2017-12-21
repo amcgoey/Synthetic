@@ -77,11 +77,11 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Overwrites the parameters and compound structure of the destintation wall type with the source wall type.
         /// </summary>
-        /// <param name="SourceWallType"></param>
-        /// <param name="DestinationWallType"></param>
-        /// <returns name="DestinationWallType"></returns>
+        /// <param name="SourceWallType">A dynamo wrapped WallType to use as the source</param>
+        /// <param name="DestinationWallType">A dynamo wrappped WallType to overwrite</param>
+        /// <returns name="DestinationWallType">The destinatio WallType</returns>
         public static dynaWallType TransferWallTypeProperties (dynaWallType SourceWallType, dynaWallType DestinationWallType)
         {
             Elements.TransferParameters(SourceWallType, DestinationWallType);
