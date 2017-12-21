@@ -59,18 +59,21 @@ namespace Synthetic.Revit
         public static dynaWallType SetCompoundStructure (dynaWallType WallType, CompoundStructure compoundStructure)
         {
             revitDB.WallType revitWallType = (revitDB.WallType)WallType.InternalElement;
+            revitDoc document = compoundStructure.internalDocument;
 
-            using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(compoundStructure.internalDocument))
+            if (document.IsModifiable)
             {
-                try
+                TransactionManager.Instance.EnsureInTransaction(document);
+                revitWallType.SetCompoundStructure(compoundStructure.internalCompoundStructure);
+                TransactionManager.Instance.TransactionTaskDone();
+            }
+            else
+            {
+                using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
                 {
                     trans.Start("Apply Structure to Wall Type");
                     revitWallType.SetCompoundStructure(compoundStructure.internalCompoundStructure);
                     trans.Commit();
-                }
-                catch
-                {
-                    revitWallType.SetCompoundStructure(compoundStructure.internalCompoundStructure);
                 }
             }
             return WallType;
