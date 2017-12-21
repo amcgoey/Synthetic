@@ -115,17 +115,21 @@ namespace Synthetic.Revit
                 }
             };
 
-            using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(DestinationElement.InternalElement.Document))
+            revitDoc document = DestinationElement.InternalElement.Document;
+
+            if (document.IsModifiable)
             {
-                try
+                TransactionManager.Instance.EnsureInTransaction(document);
+                transfer(SourceElement, DestinationElement);
+                TransactionManager.Instance.TransactionTaskDone();
+            }
+            else
+            {
+                using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
                 {
-                    trans.Start("Transfer Parameter-=[23ws Between Elements");
+                    trans.Start("Transfer Parameter Between Elements");
                     transfer(SourceElement, DestinationElement);
                     trans.Commit();
-                }
-                catch
-                {
-                    transfer(SourceElement, DestinationElement);
                 }
             }
 
