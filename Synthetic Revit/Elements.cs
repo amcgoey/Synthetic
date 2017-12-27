@@ -84,35 +84,11 @@ namespace Synthetic.Revit
         /// <returns name="Element">The destination element</returns>
         public static dynamoElem TransferParameters(dynamoElem Element, dynamoElem SourceElement)
         {
+            string transactionName = "Transfer Parameter Between Elements";
+
             Action<dynamoElem, dynamoElem> transfer = (sElem, dElem) =>
             {
-                revitDB.ParameterSet sourceParameters = SourceElement.InternalElement.Parameters;
-
-                foreach (revitDB.Parameter sourceParam in sourceParameters)
-                {
-                    if (sourceParam.IsReadOnly == false)
-                    {
-                        revitDB.Definition def = sourceParam.Definition;
-                        revitDB.Parameter destinationParam = Element.InternalElement.get_Parameter(def);
-
-                        revitDB.StorageType st = sourceParam.StorageType;
-                        switch (st)
-                        {
-                            case revitDB.StorageType.Double:
-                                destinationParam.Set(sourceParam.AsDouble());
-                                break;
-                            case revitDB.StorageType.ElementId:
-                                destinationParam.Set(sourceParam.AsElementId());
-                                break;
-                            case revitDB.StorageType.Integer:
-                                destinationParam.Set(sourceParam.AsInteger());
-                                break;
-                            case revitDB.StorageType.String:
-                                destinationParam.Set(sourceParam.AsString());
-                                break;
-                        }
-                    }
-                }
+                _transferParameters(sElem.InternalElement, dElem.InternalElement);
             };
 
             revitDoc document = Element.InternalElement.Document;
@@ -127,12 +103,11 @@ namespace Synthetic.Revit
             {
                 using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
                 {
-                    trans.Start("Transfer Parameter Between Elements");
+                    trans.Start(transactionName);
                     transfer(SourceElement, Element);
                     trans.Commit();
                 }
             }
-
             return Element;
         }
 
@@ -143,32 +118,92 @@ namespace Synthetic.Revit
         /// <param name="elementIds">List of Element Ids of elements to be copied.</param>
         /// <param name="destinationDoc">The destination document.</param>
         /// <returns></returns>
-        public static List<revitElemId> CopyElementsBetweenDocs (revitDoc sourceDoc, List<int> elementIds, revitDoc destinationDoc)
+        public static List<revitElemId> CopyElements (revitDoc sourceDoc, List<int> elementIds, revitDoc destinationDoc)
         {
+            string transactionName = "Copy Elements from document " + sourceDoc.Title;
             List<revitElemId> copiedElemsIds;
             List<revitElemId> revitElemIds = new List<revitElemId>();
-            Autodesk.Revit.DB.CopyPasteOptions cpo = new Autodesk.Revit.DB.CopyPasteOptions();
+            
+            Func<revitDoc, List<revitElemId>, revitDoc, List<revitElemId>> copy = (sDoc, elemIds, dDoc) =>
+            {
+                Autodesk.Revit.DB.CopyPasteOptions cpo = new Autodesk.Revit.DB.CopyPasteOptions();
+                return (List<revitElemId>)Autodesk.Revit.DB.ElementTransformUtils.CopyElements(sDoc, elemIds, dDoc, null, cpo);
+            };
 
             foreach (int id in elementIds)
             {
                 revitElemIds.Add(new revitElemId(id));
             }
 
-            using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(destinationDoc))
+            if (destinationDoc.IsModifiable)
             {
-                try
+                TransactionManager.Instance.EnsureInTransaction(destinationDoc);
+                copiedElemsIds = copy(sourceDoc, revitElemIds, destinationDoc);
+                TransactionManager.Instance.TransactionTaskDone();
+            }
+            else
+            {
+                using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(destinationDoc))
                 {
-                    trans.Start("Copy Elements from document " + sourceDoc.Title);
-                    copiedElemsIds = (List<revitElemId>)Autodesk.Revit.DB.ElementTransformUtils.CopyElements(sourceDoc, revitElemIds, destinationDoc, null, cpo);
+                    trans.Start(transactionName);
+                    copiedElemsIds = copy(sourceDoc, revitElemIds, destinationDoc);
                     trans.Commit();
-                }
-                catch
-                {
-                    copiedElemsIds = (List<revitElemId>)Autodesk.Revit.DB.ElementTransformUtils.CopyElements(sourceDoc, revitElemIds, destinationDoc, null, cpo);
                 }
             }
 
             return copiedElemsIds;
+        }
+
+        /// <summary>
+        /// Transfers the parameters between two elements in different documents.  Associated elements such as materials may be duplicated in the document.
+        /// </summary>
+        /// <param name="Element"></param>
+        /// <param name="SourceElement"></param>
+        /// <returns></returns>
+        public static revitElem TransferElements(
+            revitElem Element,
+            revitElem SourceElement)
+        {
+            revitDoc destinationDoc = Element.Document;
+            revitDoc sourceDoc = SourceElement.Document;
+
+            string transactionName = "Element transfered from " + sourceDoc.Title;
+
+            revitElem returnElem;
+            
+            Func<revitElem, revitDoc, revitElem, revitDoc, revitElem> transfer = (sElem, sDoc, dElem, dDoc) =>
+            {
+                List<revitElemId> revitElemIds = new List<revitElemId>();
+                revitElemIds.Add(sElem.Id);
+
+                Autodesk.Revit.DB.CopyPasteOptions cpo = new Autodesk.Revit.DB.CopyPasteOptions();
+                List<revitElemId> ids = (List<revitElemId>)Autodesk.Revit.DB.ElementTransformUtils.CopyElements(sourceDoc, revitElemIds, destinationDoc, null, cpo);
+
+                revitElem tempElem = dDoc.GetElement(ids[0]);
+
+                _transferParameters(tempElem, dElem);
+                destinationDoc.Delete(tempElem.Id);
+
+                return dElem;
+            };
+
+            if (destinationDoc.IsModifiable)
+            {
+                TransactionManager.Instance.EnsureInTransaction(destinationDoc);
+                returnElem = transfer(Element, destinationDoc, SourceElement, sourceDoc);
+                TransactionManager.Instance.TransactionTaskDone();
+            }
+            else
+            {
+                using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(destinationDoc))
+                {
+                    trans.Start(transactionName);
+                    returnElem = transfer(Element, destinationDoc, SourceElement, sourceDoc);
+                    trans.Commit();
+                }
+            }
+
+            return returnElem;
         }
 
         /// <summary>
@@ -289,5 +324,40 @@ namespace Synthetic.Revit
 
             return rElem;
         }
+
+#region Helper Functions
+
+        private static void _transferParameters(revitElem SourceElement, revitElem DestinationElement)
+        {
+            revitDB.ParameterSet sourceParameters = SourceElement.Parameters;
+
+            foreach (revitDB.Parameter sourceParam in sourceParameters)
+            {
+                if (sourceParam.IsReadOnly == false)
+                {
+                    revitDB.Definition def = sourceParam.Definition;
+                    revitDB.Parameter destinationParam = DestinationElement.get_Parameter(def);
+
+                    revitDB.StorageType st = sourceParam.StorageType;
+                    switch (st)
+                    {
+                        case revitDB.StorageType.Double:
+                            destinationParam.Set(sourceParam.AsDouble());
+                            break;
+                        case revitDB.StorageType.ElementId:
+                            destinationParam.Set(sourceParam.AsElementId());
+                            break;
+                        case revitDB.StorageType.Integer:
+                            destinationParam.Set(sourceParam.AsInteger());
+                            break;
+                        case revitDB.StorageType.String:
+                            destinationParam.Set(sourceParam.AsString());
+                            break;
+                    }
+                }
+            }
+        }
+#endregion
+
     }
 }
