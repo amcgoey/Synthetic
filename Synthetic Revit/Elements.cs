@@ -180,7 +180,6 @@ namespace Synthetic.Revit
                 List<revitElemId> ids = (List<revitElemId>)Autodesk.Revit.DB.ElementTransformUtils.CopyElements(sourceDoc, revitElemIds, destinationDoc, null, cpo);
 
                 revitElem tempElem = dDoc.GetElement(ids[0]);
-
                 _transferParameters(tempElem, dElem);
                 destinationDoc.Delete(tempElem.Id);
 
