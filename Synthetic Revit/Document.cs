@@ -242,7 +242,7 @@ namespace Synthetic.Revit
         [IsDesignScriptCompatible]
         public static bool Upgrade (string modelPath, [DefaultArgument("true")] bool reset)
         {
-            revitDoc doc = Open(modelPath, WorksetConfigurationCloseAll(), true);
+            revitDoc doc = OpenWithOptions(modelPath, WorksetConfigurationCloseAll(), true);
             bool results = doc.Close(true);
             return results;
         }
