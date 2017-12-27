@@ -611,13 +611,26 @@ namespace Synthetic.Revit
         public override string ToString()
         {
             int i = 0;
-            string s = base.ToString() + ": Core Layers " + internalFirstCoreLayerIndex + " to " + internalLastCoreLayerIndex;
-            
-            foreach (cg.Dictionary<string, object> layer in this.internalLayers)
+            string s = base.ToString();
+
+            if (this.internalLayers.Count != 0)
             {
-                revitDB.Material material = (revitDB.Material)layer["Material"];
-                s = s + "\n  Layer " + i + ": " + layer["Layer Function"] + ", Width-> " + layer["Width"] + ", MaterialId-> " + material.Id.ToString();
-                i++;
+                s = s + ": Core Layers " + internalFirstCoreLayerIndex + " to " + internalLastCoreLayerIndex;
+
+                foreach (cg.Dictionary<string, object> layer in this.internalLayers)
+                {
+                    string materialName = "<By Category>";
+                    string functionName = "None";
+                    string widthName = "None";
+
+                    revitDB.Material material = (revitDB.Material)layer["Material"];
+                    if (material != null) { materialName = material.Id.ToString(); }
+                    if (layer["Layer Function"] != null) { functionName = layer["Layer Function"].ToString(); }
+                    if (layer["Width"] != null) { widthName = layer["Width"].ToString(); }
+
+                    s = s + "\n  Layer " + i + ": " + layer["Layer Function"] + ", Width-> " + layer["Width"] + ", MaterialId-> " + materialName;
+                    i++;
+                }
             }
             return s;
         }
