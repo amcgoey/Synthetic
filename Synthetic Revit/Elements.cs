@@ -29,6 +29,16 @@ namespace Synthetic.Revit
         internal Elements () { }
 
         /// <summary>
+        /// Gets an elements document
+        /// </summary>
+        /// <param name="Element">A dynamo wrapped element</param>
+        /// <returns name="Document">A Autodesk.Revit.DB.Document</returns>
+        public static revitDoc Document (dynamoElem Element)
+        {
+            return Element.InternalElement.Document;
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="element"></param>
@@ -155,7 +165,7 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// Transfers the parameters between two elements in different documents.  Associated elements such as materials may be duplicated in the document.
+        /// Overwrites the parameters of an element with the parameters of an element from a different document.  Associated elements such as materials may be duplicated in the document.
         /// </summary>
         /// <param name="Element"></param>
         /// <param name="SourceElement"></param>
@@ -167,17 +177,17 @@ namespace Synthetic.Revit
             revitDoc destinationDoc = Element.Document;
             revitDoc sourceDoc = SourceElement.Document;
 
-            string transactionName = "Element transfered from " + sourceDoc.Title;
+            string transactionName = "Element overwritten from " + sourceDoc.Title;
 
             revitElem returnElem;
             
-            Func<revitElem, revitDoc, revitElem, revitDoc, revitElem> transfer = (sElem, sDoc, dElem, dDoc) =>
+            Func<revitElem, revitDoc, revitElem, revitDoc, revitElem> transfer = (dElem, dDoc, sElem, sDoc) =>
             {
                 List<revitElemId> revitElemIds = new List<revitElemId>();
                 revitElemIds.Add(sElem.Id);
 
                 Autodesk.Revit.DB.CopyPasteOptions cpo = new Autodesk.Revit.DB.CopyPasteOptions();
-                List<revitElemId> ids = (List<revitElemId>)Autodesk.Revit.DB.ElementTransformUtils.CopyElements(sourceDoc, revitElemIds, destinationDoc, null, cpo);
+                List<revitElemId> ids = (List<revitElemId>)Autodesk.Revit.DB.ElementTransformUtils.CopyElements(sDoc, revitElemIds, dDoc, null, cpo);
 
                 revitElem tempElem = dDoc.GetElement(ids[0]);
                 _transferParameters(tempElem, dElem);
