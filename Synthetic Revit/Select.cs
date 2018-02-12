@@ -101,14 +101,12 @@ namespace Synthetic.Revit
         /// <returns name="Materials">A list of Auotdesk.Revit.DB.Materials</returns>
         public static IEnumerable<revitDB.Material> AllMaterials([DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
-            {
-                revitFECollector collector
-                  = new revitFECollector(document);
+            revitFECollector collector
+                = new revitFECollector(document);
 
-                return collector
-                  .OfClass(typeof(revitDB.Material))
-                  .OfType<revitDB.Material>();
-            }
+            return collector
+                .OfClass(typeof(revitDB.Material))
+                .OfType<revitDB.Material>();
         }
 
         /// <summary>

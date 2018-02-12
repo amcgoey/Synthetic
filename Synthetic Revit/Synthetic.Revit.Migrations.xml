@@ -84,4 +84,8 @@
     <oldName>Synthetic.Revit.Collector.FilterElementParameter</oldName>
     <newName>Synthetic.Revit.CollectorElementFilter.FilterElementParameter</newName>
   </priorNameHint>
+  <priorNameHint>
+    <oldName>Synthetic.Revit.Elements.CopyElementsBetweenDocs</oldName>
+    <newName>Synthetic.Revit.Elements.CopyElements</newName>
+  </priorNameHint>
 </migrations>
