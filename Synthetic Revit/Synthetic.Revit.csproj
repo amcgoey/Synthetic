@@ -48,6 +48,9 @@
       <HintPath>C:\Program Files\Dynamo\Dynamo Core\1.3\DynamoServices.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="ProtoGeometry">
+      <HintPath>C:\Program Files\Dynamo\Dynamo Core\1.3\ProtoGeometry.dll</HintPath>
+    </Reference>
     <Reference Include="RevitAPI">
       <HintPath>C:\Program Files\Autodesk\Revit 2018\RevitAPI.dll</HintPath>
       <Private>False</Private>
@@ -88,6 +91,7 @@
     <Compile Include="WallType.cs" />
     <Compile Include="Worksets.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XYZ.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Synthetic.Revit_DynamoCustomization.xml">
