@@ -28,9 +28,9 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="View3D">The 3D view to change orientation and crop</param>
         /// <param name="SourceView">The source orthogonal view to acquire orientation and cropbox</param>
-        /// <param name="eyePosition">The location of the camera</param>
+        /// <param name="Offset">Offset of the camera from the view direction of the source view</param>
         /// <returns name="View3D"></returns>
-        public static dynaView3D View3dOrientToggleIsometric (dynaView3D View3D, dynaView SourceView, dynaPoint eyePosition)
+        public static dynaView3D View3dOrientToggleIsometric (dynaView3D View3D, dynaView SourceView, double Offset)
         {
             string transactionName = "View3dOrientToggleIsometric";
 
@@ -39,15 +39,16 @@ namespace Synthetic.Revit
 
             revitDoc document = rView.Document;
 
+            // Cropbox
+            revitBB cropbox = rSourceView.CropBox;
+            revitXYZ origin = cropbox.Transform.Origin;
+
             // View Orientation
-            revitXYZ rEyePosition = new revitXYZ(eyePosition.X, eyePosition.Y, eyePosition.Z);
+            revitXYZ rEyePosition = origin.Add(rSourceView.ViewDirection.Normalize().Multiply(Offset));
             revitXYZ rUpDirection = rSourceView.UpDirection;
             revitXYZ rForwardDirection = rSourceView.ViewDirection.Negate();
 
             revitViewOrientation viewOrient = new revitViewOrientation(rEyePosition, rUpDirection, rForwardDirection);
-
-            // Cropbox
-            revitBB cropbox = rSourceView.CropBox;
 
             Action<revitView3D, revitViewOrientation, revitBB> orientView = (view, orient, cropbb) =>
             {
