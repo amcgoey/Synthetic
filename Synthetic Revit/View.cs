@@ -52,7 +52,6 @@ namespace Synthetic.Revit
                     trans.Commit();
                 }
             }
-
             return View;
         }
 
@@ -125,12 +124,7 @@ namespace Synthetic.Revit
                     trans.Commit();
                 }
             }
-
-            if (rView.CropBox == CropBox)
-            {
-                return View;
-            }
-            else { return null; }
+            return View;
         }
 
         /// <summary>
@@ -173,7 +167,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="View3D"></param>
         /// <param name="ViewOrient"></param>
-        /// <returns></returns>
+        /// <returns name="View3D"></returns>
         public static dynaView3D SetViewOrientation(dynaView3D View3D, revitViewOrientation ViewOrient)
         {
             revitView3D rView = (revitView3D)View3D.InternalElement;
@@ -194,19 +188,14 @@ namespace Synthetic.Revit
                     trans.Commit();
                 }
             }
-
-            if (rView.GetOrientation() == ViewOrient)
-            {
-                return View3D;
-            }
-            else { return null; }
+            return View3D;
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="View3D"></param>
-        /// <returns></returns>
+        /// <returns name="View3D"></returns>
         public static dynaView3D ToggleToIsometric (dynaView3D View3D)
         {
             revitView3D rView = (revitView3D)View3D.InternalElement;
@@ -227,7 +216,6 @@ namespace Synthetic.Revit
                     trans.Commit();
                 }
             }
-            
             return View3D;
         }
 
@@ -235,7 +223,7 @@ namespace Synthetic.Revit
         /// 
         /// </summary>
         /// <param name="View3D"></param>
-        /// <returns></returns>
+        /// <returns name="View3D"></returns>
         public static dynaView3D ToggleToPerspective(dynaView3D View3D)
         {
             revitView3D rView = (revitView3D)View3D.InternalElement;
@@ -256,7 +244,6 @@ namespace Synthetic.Revit
                     trans.Commit();
                 }
             }
-
             return View3D;
         }
     }
