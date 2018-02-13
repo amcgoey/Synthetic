@@ -91,6 +91,7 @@
     <None Include="extra\Examples\Example CompoundStructure Create+Modify.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="extra\Examples\Example CompoundStructure FromWallTypes.dyn" />
     <None Include="extra\Examples\Example CompoundStructure Modify Layers.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -112,6 +113,7 @@
     <None Include="extra\Examples\Example Pick.Elements.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="extra\Examples\Example Regular Expressions.dyn" />
     <None Include="extra\Examples\Example RevitDocuments.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -119,12 +121,16 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="extra\Examples\Example SyncWithCentral.dyn" />
+    <None Include="extra\Examples\Example TransferElementBetweenDocs.dyn" />
+    <None Include="extra\Examples\Example TransferWallTypeProperties.dyn" />
     <None Include="extra\Examples\Example UI.Dialogs.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="extra\Examples\Example UI.TaskDialog.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="extra\Examples\Example View ApplyParameters.dyn" />
+    <None Include="extra\Examples\Example View View3dOrientToggleIsometric.dyn" />
     <None Include="extra\Examples\Example Workset Unwrap.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

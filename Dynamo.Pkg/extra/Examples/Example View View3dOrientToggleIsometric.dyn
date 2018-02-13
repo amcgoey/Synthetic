@@ -1,0 +1,51 @@
+<Workspace Version="1.3.2.2480" X="-105.115185133201" Y="-126.193733936202" zoom="0.921091684435556" ScaleFactor="1" Name="Home" Description="" RunType="Automatic" RunPeriod="1000" HasRunWithoutCrash="True">
+  <NamespaceResolutionMap />
+  <Elements>
+    <DSRevitNodesUI.Views guid="c5d2c632-5de3-4de8-82e8-11a8e16f3dd8" type="DSRevitNodesUI.Views" nickname="Views" x="276" y="347" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false" index="49:3D View 4" />
+    <DSRevitNodesUI.Views guid="c7b68beb-a6b9-454e-8d15-e6a98793ae1e" type="DSRevitNodesUI.Views" nickname="Views" x="285.951400726242" y="499.674859706795" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false" index="46:Plan Base" />
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="49dac0dd-6257-481f-b79c-a3781e7684b3" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Tools.View3dOrientToggleIsometric" x="890.288069510612" y="354.685118850391" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="Revit Dynamo Synthetic R2\Output\Synthetic\bin\Synthetic.Revit.dll" function="Synthetic.Revit.Tools.View3dOrientToggleIsometric@Revit.Elements.Views.View3D,Revit.Elements.Views.View,double">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <CoreNodeModels.Watch guid="1c158d4b-fa3c-4218-92f3-c80d675fbe8a" type="CoreNodeModels.Watch" nickname="Watch" x="1284.14096113965" y="353.685118850391" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+    </CoreNodeModels.Watch>
+    <CoreNodeModels.Input.DoubleInput guid="d301924f-4482-4956-bbff-501837385963" type="CoreNodeModels.Input.DoubleInput" nickname="Number" x="336.68221130803" y="657.039623918724" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.Double value="6" />
+    </CoreNodeModels.Input.DoubleInput>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="c5d2c632-5de3-4de8-82e8-11a8e16f3dd8" start_index="0" end="49dac0dd-6257-481f-b79c-a3781e7684b3" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c7b68beb-a6b9-454e-8d15-e6a98793ae1e" start_index="0" end="49dac0dd-6257-481f-b79c-a3781e7684b3" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="49dac0dd-6257-481f-b79c-a3781e7684b3" start_index="0" end="1c158d4b-fa3c-4218-92f3-c80d675fbe8a" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="d301924f-4482-4956-bbff-501837385963" start_index="0" end="49dac0dd-6257-481f-b79c-a3781e7684b3" end_index="2" portType="0" />
+  </Connectors>
+  <Notes>
+    <Dynamo.Graph.Notes.NoteModel guid="1fb0d0e5-dea3-4c7a-ae96-67540f47be92" text="Sets the Orientation and cropbox of a 3D view to match an orthagonal view.  Aslo sets the 3D view to Isometric." x="851.551352357306" y="279.974377351298" />
+    <Dynamo.Graph.Notes.NoteModel guid="26729878-fc25-4de9-bf18-c8fc3fcbbb52" text="3D view to modify" x="296.363617367513" y="303.638728858699" />
+    <Dynamo.Graph.Notes.NoteModel guid="86f73b62-8b0b-44f9-8470-f0fee1762da3" text="Source view to acquire orientation and cropbox from." x="222.739049449026" y="445.272737403993" />
+    <Dynamo.Graph.Notes.NoteModel guid="55262e4d-8f02-4f4e-bfaa-ba15ae476d31" text="Offset from view origin in direction of viewer" x="229.128941354394" y="614.933659925707" />
+  </Notes>
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="b8a2478e-d4b7-438c-a89b-df693dafc8ff" annotationText="INPUT" left="212.739049449026" top="257.638728858699" width="291" height="467.400895060025" fontSize="30" InitialTop="303.638728858699" InitialHeight="642.569212517933" TextblockHeight="36" backgrouund="#FFFFB8D8">
+      <Models ModelGuid="c5d2c632-5de3-4de8-82e8-11a8e16f3dd8" />
+      <Models ModelGuid="c7b68beb-a6b9-454e-8d15-e6a98793ae1e" />
+      <Models ModelGuid="26729878-fc25-4de9-bf18-c8fc3fcbbb52" />
+      <Models ModelGuid="86f73b62-8b0b-44f9-8470-f0fee1762da3" />
+      <Models ModelGuid="55262e4d-8f02-4f4e-bfaa-ba15ae476d31" />
+      <Models ModelGuid="d301924f-4482-4956-bbff-501837385963" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="2418351a-295d-4bca-a016-e6a86b7bb31c" annotationText="OPERATIONS" left="841.551352357306" top="233.974377351298" width="313" height="265.710741499093" fontSize="30" InitialTop="279.974377351298" InitialHeight="558.132385489925" TextblockHeight="36" backgrouund="#FF848484">
+      <Models ModelGuid="49dac0dd-6257-481f-b79c-a3781e7684b3" />
+      <Models ModelGuid="1fb0d0e5-dea3-4c7a-ae96-67540f47be92" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="2d8be0d8-214b-4790-ae99-e373a39b230d" annotationText="WATCH" left="1274.14096113965" top="307.685118850391" width="310" height="161" fontSize="30" InitialTop="353.685118850391" InitialHeight="151" TextblockHeight="36" backgrouund="#FFA4E1FF">
+      <Models ModelGuid="1c158d4b-fa3c-4218-92f3-c80d675fbe8a" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

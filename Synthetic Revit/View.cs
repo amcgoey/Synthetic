@@ -8,12 +8,11 @@ using revitDoc = Autodesk.Revit.DB.Document;
 using revitElemId = Autodesk.Revit.DB.ElementId;
 using revitViewOrientation = Autodesk.Revit.DB.ViewOrientation3D;
 using revitXYZ = Autodesk.Revit.DB.XYZ;
+using revitBB = Autodesk.Revit.DB.BoundingBoxXYZ;
 
 using RevitServices.Transactions;
 using dynaView = Revit.Elements.Views.View;
 using dynaView3D = Revit.Elements.Views.View3D;
-
-using rBoundingBox = Autodesk.Revit.DB.BoundingBoxXYZ;
 
 namespace Synthetic.Revit
 {
@@ -93,7 +92,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="View"></param>
         /// <returns name="CropBox">Revit BoundingBoxXYZ object that represents the cropbox of the view.</returns>
-        public static rBoundingBox GetCropbox (dynaView View)
+        public static revitBB GetCropbox (dynaView View)
         {
             revitView rView = (revitView)View.InternalElement;
             return rView.CropBox;
@@ -104,7 +103,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="View"></param>
         /// <returns name="View"></returns>
-        public static dynaView SetCropbox(dynaView View, rBoundingBox CropBox)
+        public static dynaView SetCropbox(dynaView View, revitBB CropBox)
         {
             revitView rView = (revitView)View.InternalElement;
             revitDoc document = rView.Document;
