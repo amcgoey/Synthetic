@@ -50,6 +50,7 @@
     </Reference>
     <Reference Include="ProtoGeometry">
       <HintPath>C:\Program Files\Dynamo\Dynamo Core\1.3\ProtoGeometry.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPI">
       <HintPath>C:\Program Files\Autodesk\Revit 2018\RevitAPI.dll</HintPath>
@@ -77,6 +78,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoundingBox.cs" />
     <Compile Include="CollectorFilterRules.cs" />
     <Compile Include="CompoundStructure.cs" />
     <Compile Include="Document.cs" />
@@ -86,6 +88,8 @@
     <Compile Include="Collector.cs" />
     <Compile Include="CollectorElementFilter.cs" />
     <Compile Include="Select.cs" />
+    <Compile Include="Tools.cs" />
+    <Compile Include="Transform.cs" />
     <Compile Include="View.cs" />
     <Compile Include="ViewOrientation.cs" />
     <Compile Include="ViewTemplates.cs" />
