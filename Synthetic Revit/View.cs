@@ -260,16 +260,47 @@ namespace Synthetic.Revit
         /// <returns name="View">The duplicated view</returns>
         public static dynaView DuplicateView (string DuplicateName,
             dynaView SourceView,
-            [DefaultArgument("Synthetic.Core.Enumeration.Parse(\"Autodesk.Revit.DB.ViewDuplicateOptions\", \"Duplicate\")")] revitDB.ViewDuplicateOption DuplicateOptions)
+            [DefaultArgument("OptionDuplicate()")] revitDB.ViewDuplicateOption DuplicateOptions)
         {
+            string transactionName = "Duplicate View";
+            Func<revitView, revitDB.ViewDuplicateOption, revitDoc, revitView> dupView = (v, vdo, doc) =>
+            {
+                revitElemId viewId = v.Duplicate(vdo);
+                revitView newView = (revitView)doc.GetElement(viewId);
+                newView.Name = DuplicateName;
+                return newView;
+            };
+
             revitView rView = (revitView)SourceView.InternalElement;
             revitDoc document = rView.Document;
+            revitView view;
 
-            revitElemId viewId = rView.Duplicate(DuplicateOptions);
-            revitView view = (revitView)document.GetElement(viewId);
-            view.Name = DuplicateName;
-
+            if (document.IsModifiable)
+            {
+                TransactionManager.Instance.EnsureInTransaction(document);
+                view = dupView(rView, DuplicateOptions, document);
+                TransactionManager.Instance.TransactionTaskDone();
+            }
+            else
+            {
+                using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                {
+                    trans.Start(transactionName);
+                    view = dupView(rView, DuplicateOptions, document);
+                    trans.Commit();
+                }
+            }
             return (dynaView)view.ToDSType(true);
+        }
+
+        /// <summary>
+        /// Returns ViewDuplicateOption.Duplicate
+        /// </summary>
+        /// <returns></returns>
+        [SupressImportIntoVM]
+        public static revitDB.ViewDuplicateOption OptionDuplicate()
+        {
+            return (revitDB.ViewDuplicateOption) Synthetic.Core.Enumeration.Parse("Autodesk.Revit.DB.ViewDuplicateOptions", "Duplicate");
         }
     }
 }
