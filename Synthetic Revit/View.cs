@@ -254,20 +254,20 @@ namespace Synthetic.Revit
         /// <summary>
         /// Duplciates a view and renames it.
         /// </summary>
-        /// <param name="DuplicateName">The name of the duplicated view</param>
+        /// <param name="Name">The name of the duplicated view</param>
         /// <param name="SourceView">The view to duplicate</param>
         /// <param name="DuplicateOptions">Enum ViewDuplicateOptions</param>
         /// <returns name="View">The duplicated view</returns>
-        public static dynaView DuplicateView (string DuplicateName,
+        public static dynaView DuplicateView (string Name,
             dynaView SourceView,
-            [DefaultArgument("OptionDuplicate()")] revitDB.ViewDuplicateOption DuplicateOptions)
+            revitDB.ViewDuplicateOption DuplicateOptions)
         {
             string transactionName = "Duplicate View";
             Func<revitView, revitDB.ViewDuplicateOption, revitDoc, revitView> dupView = (v, vdo, doc) =>
             {
                 revitElemId viewId = v.Duplicate(vdo);
                 revitView newView = (revitView)doc.GetElement(viewId);
-                newView.Name = DuplicateName;
+                newView.Name = Name;
                 return newView;
             };
 
@@ -291,16 +291,6 @@ namespace Synthetic.Revit
                 }
             }
             return (dynaView)view.ToDSType(true);
-        }
-
-        /// <summary>
-        /// Returns ViewDuplicateOption.Duplicate
-        /// </summary>
-        /// <returns></returns>
-        [SupressImportIntoVM]
-        public static revitDB.ViewDuplicateOption OptionDuplicate()
-        {
-            return (revitDB.ViewDuplicateOption) Synthetic.Core.Enumeration.Parse("Autodesk.Revit.DB.ViewDuplicateOptions", "Duplicate");
         }
     }
 }
