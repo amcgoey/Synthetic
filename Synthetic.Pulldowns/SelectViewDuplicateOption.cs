@@ -9,12 +9,12 @@ using revitDB = Autodesk.Revit.DB;
 
 using Synthetic.Pulldowns;
 
-namespace Synthetic.Revit.CollectorFilterRulesSelect
+namespace Synthetic.Revit.View
 {
     /// <summary>
     /// 
     /// </summary>
-    [NodeName("View.ViewDuplicateOption")]
+    [NodeName("ViewDuplicateOption")]
     [NodeDescription("Select the View Duplication type")]
 
     [IsDesignScriptCompatible]
