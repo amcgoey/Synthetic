@@ -10,7 +10,6 @@ using Autodesk.DesignScript.Runtime;
 using revitDB = Autodesk.Revit.DB;
 using revitDoc = Autodesk.Revit.DB.Document;
 using revitElem = Autodesk.Revit.DB.Element;
-using revitDesignOption = Autodesk.Revit.DB.DesignOption;
 
 using Revit.Elements;
 using dynElem = Revit.Elements.Element;
