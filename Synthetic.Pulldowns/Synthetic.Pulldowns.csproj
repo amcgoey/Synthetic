@@ -73,6 +73,7 @@
     <Compile Include="GenericEnumerationDropDown.cs" />
     <Compile Include="SelectBuiltInParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SelectViewDuplicateOption.cs" />
     <Compile Include="SelectFilterRuleEvaluators.cs" />
   </ItemGroup>
   <ItemGroup>

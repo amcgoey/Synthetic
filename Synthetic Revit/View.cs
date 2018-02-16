@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
+using Autodesk.DesignScript.Runtime;
+
+using revitDB = Autodesk.Revit.DB;
 using revitView = Autodesk.Revit.DB.View;
 using revitView3D = Autodesk.Revit.DB.View3D;
 using revitDoc = Autodesk.Revit.DB.Document;
@@ -11,6 +14,8 @@ using revitXYZ = Autodesk.Revit.DB.XYZ;
 using revitBB = Autodesk.Revit.DB.BoundingBoxXYZ;
 
 using RevitServices.Transactions;
+using Revit.Elements;
+using dynaElem = Revit.Elements.Element;
 using dynaView = Revit.Elements.Views.View;
 using dynaView3D = Revit.Elements.Views.View3D;
 
@@ -244,6 +249,27 @@ namespace Synthetic.Revit
                 }
             }
             return View3D;
+        }
+
+        /// <summary>
+        /// Duplciates a view and renames it.
+        /// </summary>
+        /// <param name="DuplicateName">The name of the duplicated view</param>
+        /// <param name="SourceView">The view to duplicate</param>
+        /// <param name="DuplicateOptions">Enum ViewDuplicateOptions</param>
+        /// <returns name="View">The duplicated view</returns>
+        public dynaView DuplicateView (string DuplicateName,
+            dynaView SourceView,
+            [DefaultArgument("Synthetic.Core.Enumeration.Parse(\"Autodesk.Revit.DB.ViewDuplicateOptions\", \"Duplicate\")")] revitDB.ViewDuplicateOption DuplicateOptions)
+        {
+            revitView rView = (revitView)SourceView.InternalElement;
+            revitDoc document = rView.Document;
+
+            revitElemId viewId = rView.Duplicate(DuplicateOptions);
+            revitView view = (revitView)document.GetElement(viewId);
+            view.Name = DuplicateName;
+
+            return (dynaView)view.ToDSType(true);
         }
     }
 }
