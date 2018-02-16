@@ -81,6 +81,7 @@
     <Compile Include="BoundingBox.cs" />
     <Compile Include="CollectorFilterRules.cs" />
     <Compile Include="CompoundStructure.cs" />
+    <Compile Include="DesignOptions.cs" />
     <Compile Include="Document.cs" />
     <Compile Include="ElementId.cs" />
     <Compile Include="Elements.cs" />
