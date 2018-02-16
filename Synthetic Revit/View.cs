@@ -258,7 +258,7 @@ namespace Synthetic.Revit
         /// <param name="SourceView">The view to duplicate</param>
         /// <param name="DuplicateOptions">Enum ViewDuplicateOptions</param>
         /// <returns name="View">The duplicated view</returns>
-        public dynaView DuplicateView (string DuplicateName,
+        public static dynaView DuplicateView (string DuplicateName,
             dynaView SourceView,
             [DefaultArgument("Synthetic.Core.Enumeration.Parse(\"Autodesk.Revit.DB.ViewDuplicateOptions\", \"Duplicate\")")] revitDB.ViewDuplicateOption DuplicateOptions)
         {
