@@ -10,11 +10,15 @@ using Revit.Elements;
 using RevitServices.Transactions;
 using dynamoElem = Revit.Elements.Element;
 using dynamoParam = Revit.Elements.Parameter;
+using dynRevit = Revit.Elements;
 
 using revitDB = Autodesk.Revit.DB;
 using revitElem = Autodesk.Revit.DB.Element;
 using revitElemId = Autodesk.Revit.DB.ElementId;
 using revitDoc = Autodesk.Revit.DB.Document;
+using revitFaceArray = Autodesk.Revit.DB.FaceArray;
+using revitFace = Autodesk.Revit.DB.Face;
+using revitGeo = Autodesk.Revit.DB.GeometryObject;
 
 using synthDict = Synthetic.Core.Dictionary;
 
@@ -295,6 +299,129 @@ namespace Synthetic.Revit
         public static revitElem GetByUniqueId(string UniqueId, revitDoc document)
         {
             return document.GetElement(UniqueId);
+        }
+
+        /// <summary>
+        /// Paints every face in an element with a material
+        /// </summary>
+        /// <param name="Element">The element to paint</param>
+        /// <param name="MaterialId">The material to paint</param>
+        /// <returns name="Element">The modified element</returns>
+        public static dynamoElem PaintElement (dynamoElem Element, revitElemId MaterialId)
+        {
+            string transactionName = "Paint Faces of Element";
+
+            revitDoc document = Element.InternalElement.Document;
+            revitElemId elementId = Element.InternalElement.Id;
+
+            revitDB.Options op = new revitDB.Options();
+            revitDB.GeometryElement geoElem = Element.InternalElement.get_Geometry(op);
+
+            IList<revitDB.Face> faces = new List<revitDB.Face>();
+
+            foreach (revitDB.GeometryObject geo in  geoElem)
+            {
+                if (geo is revitDB.Solid)
+                {
+                    revitDB.Solid solid = geo as revitDB.Solid;
+                    foreach (revitDB.Face face in solid.Faces)
+                    {
+                        faces.Add(face);
+                    }
+
+                    }
+                else if (geo is revitDB.Face)
+                {
+                    faces.Add(geo as revitDB.Face);
+                }
+
+                Action<revitElemId, IList<revitDB.Face>, revitElemId> paintFaces = (revitElemId elemId, IList<revitDB.Face> faceList, revitElemId matId) =>
+                {
+                    foreach (revitDB.Face face in faceList)
+                    {
+                        document.Paint(elemId, face, matId);
+                    }
+                };
+
+                if (document.IsModifiable)
+                {
+                    TransactionManager.Instance.EnsureInTransaction(document);
+                    paintFaces(elementId, faces, MaterialId);
+                    TransactionManager.Instance.TransactionTaskDone();
+                }
+                else
+                {
+                    using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                    {
+                        trans.Start(transactionName);
+                        paintFaces(elementId, faces, MaterialId);
+                        trans.Commit();
+                    }
+                }
+            }
+
+            return Element;
+        }
+
+        /// <summary>
+        /// Removes all painted faces on an elementl
+        /// </summary>
+        /// <param name="Element">The element to removve painted faces</param>
+        /// <returns name="Element">The modified element</returns>
+        public static dynamoElem RemovePaintElement(dynamoElem Element)
+        {
+            string transactionName = "Remove Painted Faces of Element";
+
+            revitDoc document = Element.InternalElement.Document;
+            revitElemId elementId = Element.InternalElement.Id;
+
+            revitDB.Options op = new revitDB.Options();
+            revitDB.GeometryElement geoElem = Element.InternalElement.get_Geometry(op);
+
+            IList<revitDB.Face> faces = new List<revitDB.Face>();
+
+            foreach (revitDB.GeometryObject geo in geoElem)
+            {
+                if (geo is revitDB.Solid)
+                {
+                    revitDB.Solid solid = geo as revitDB.Solid;
+                    foreach (revitDB.Face face in solid.Faces)
+                    {
+                        faces.Add(face);
+                    }
+
+                }
+                else if (geo is revitDB.Face)
+                {
+                    faces.Add(geo as revitDB.Face);
+                }
+
+                Action<revitElemId, IList<revitDB.Face>> RemovePaintedFaces = (revitElemId elemId, IList<revitDB.Face> faceList) =>
+                {
+                    foreach (revitDB.Face face in faceList)
+                    {
+                        document.RemovePaint(elemId, face);
+                    }
+                };
+
+                if (document.IsModifiable)
+                {
+                    TransactionManager.Instance.EnsureInTransaction(document);
+                    RemovePaintedFaces(elementId, faces);
+                    TransactionManager.Instance.TransactionTaskDone();
+                }
+                else
+                {
+                    using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                    {
+                        trans.Start(transactionName);
+                        RemovePaintedFaces(elementId, faces);
+                        trans.Commit();
+                    }
+                }
+            }
+
+            return Element;
         }
 
         /// <summary>
