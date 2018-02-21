@@ -14,7 +14,7 @@ namespace Synthetic.Pulldowns
     /// <summary>
     /// 
     /// </summary>
-    public abstract class GenericInheritedClassesPulldown : RevitDropDownBase
+    public abstract class GenericInheritedClassesDropDown : RevitDropDownBase
     {
         /// <summary>
         /// Generic Dropdown that creates an instance of a type from a list of classes that inherit from a base class.
@@ -22,7 +22,7 @@ namespace Synthetic.Pulldowns
         /// <param name="name">Node Name</param>
         /// <param name="objectType">Type of Enumeration to Display</param>
         /// <param name="function"></param>
-        public GenericInheritedClassesPulldown(string name, Type objectType, Func<string, object> function) : base(name)
+        public GenericInheritedClassesDropDown(string name, Type objectType, Func<string, object> function) : base(name)
         {
             this.ObjectType = objectType;
             this.Function = function;

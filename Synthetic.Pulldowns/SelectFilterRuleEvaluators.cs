@@ -18,7 +18,7 @@ namespace Synthetic.Revit.CollectorFilterRulesSelect
     [NodeDescription("Choose how a to evaluate a filter of a string parameter.")]
 
     [IsDesignScriptCompatible]
-    public class FilterStringRulesDropDown : GenericInheritedClassesPulldown
+    public class FilterStringRulesDropDown : GenericInheritedClassesDropDown
     {
         /// <summary>
         /// 
@@ -35,7 +35,7 @@ namespace Synthetic.Revit.CollectorFilterRulesSelect
     [NodeDescription("Choose how a to evaluate a filter of a numeric parameter.")]
 
     [IsDesignScriptCompatible]
-    public class FilterNumericRulesDropDown : GenericInheritedClassesPulldown
+    public class FilterNumericRulesDropDown : GenericInheritedClassesDropDown
     {
         /// <summary>
         /// 
