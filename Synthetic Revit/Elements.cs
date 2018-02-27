@@ -302,6 +302,49 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
+        /// Gets a Element's ElementId
+        /// </summary>
+        /// <param name="Element">A Autodesk.Revit.DB.Element, NOT a Dynamo wrapped element</param>
+        /// <returns name="ElementId">The Autodesk.Revit.DB.ElementId</returns>
+        public static revitElemId Id(System.Object Element)
+        {
+            revitElem elem = (revitElem)Element;
+            return elem.Id;
+        }
+
+        /// <summary>
+        /// Gets a Element's name
+        /// </summary>
+        /// <param name="Element">A Autodesk.Revit.DB.Element, NOT a Dynamo wrapped element</param>
+        /// <returns name="Name">The name of the element</returns>
+        public static string Name(System.Object Element)
+        {
+            revitElem elem = (revitElem)Element;
+            return elem.Name;
+        }
+
+        /// <summary>
+        /// Gets a Element's UniqueId
+        /// </summary>
+        /// <param name="Element">A Autodesk.Revit.DB.Element, NOT a Dynamo wrapped element</param>
+        /// <returns name="UniqueId">The UniqueId of the element</returns>
+        public static string UniqueId(System.Object Element)
+        {
+            revitElem elem = (revitElem)Element;
+            return elem.UniqueId;
+        }
+
+        /// <summary>
+        /// If the object 
+        /// </summary>
+        /// <param name="Object"></param>
+        /// <returns></returns>
+        public static revitElem CastRevitElement(System.Object Object)
+        {
+            return (revitElem)Object;
+        }
+
+        /// <summary>
         /// Paints every face in an element with a material
         /// </summary>
         /// <param name="Element">The element to paint</param>
