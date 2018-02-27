@@ -25,29 +25,35 @@ namespace Synthetic.Revit
         internal Material () { }
 
         /// <summary>
-        /// 
+        /// Gets a material given its name and document
         /// </summary>
-        /// <param name="Name"></param>
-        /// <param name="document"></param>
-        /// <returns name="material"></returns>
-        public static revitMaterial GetByName (string Name,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        /// <param name="Name">Name of a material</param>
+        /// <param name="Document">Document to get the material from</param>
+        /// <returns name="Material">A Autodeks.Revit.DB.Material</returns>
+        public static revitMaterial GetByNameDocument (string Name,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc Document)
         {
             revitDB.FilteredElementCollector collector
-                = new revitDB.FilteredElementCollector(document);
+                = new revitDB.FilteredElementCollector(Document);
 
             collector
                 .OfClass(typeof(revitDB.Material))
                 .OfType<revitDB.Material>();
 
             return collector
-                .Cast<revitMaterial>()
-                .Where(mat => mat.Name == Name)
-                .Select(elem =>
-                {
-                    return elem.ToDSType(true);
-                })
-                .ToList();
+                .OfType<revitDB.Material>()
+                .FirstOrDefault(
+                m => m.Name.Equals(Name));
+        }
+
+        /// <summary>
+        /// Gets a material from the current doucment given its name
+        /// </summary>
+        /// <param name="Name">Name of material</param>
+        /// <returns name="Material">A Autodeks.Revit.DB.Material</returns>
+        public static revitMaterial GetByName (string Name)
+        {
+            return GetByNameDocument(Name, Synthetic.Revit.Document.Current());
         }
     }
 }

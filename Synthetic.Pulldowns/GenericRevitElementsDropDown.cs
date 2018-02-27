@@ -105,7 +105,7 @@ namespace Synthetic.Pulldowns
             // If the dropdown is still empty try to populate it again          
             if (Items.Count == 0 || Items.Count == -1)
             {
-                if (this.ObjectType != null && Assemblies.GetEnumerableOfType(this.ObjectType).Count > 0)
+                if (this.ObjectType != null)
                 {
                     PopulateItems();
                 }
@@ -113,7 +113,7 @@ namespace Synthetic.Pulldowns
 
             var args = new List<AssociativeNode>
              {
-                AstFactory.BuildStringNode(((System.Object) Items[SelectedIndex].Item).ToString())
+                AstFactory.BuildStringNode(((revitDB.Element) Items[SelectedIndex].Item).Name)
              };
 
             var func = SelectionFunction;
