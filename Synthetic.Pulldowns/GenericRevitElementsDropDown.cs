@@ -45,15 +45,6 @@ namespace Synthetic.Pulldowns
         /// <summary>
         /// 
         /// </summary>
-        private Func<Type, string> ListFunction
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
         private Func<string, object> SelectionFunction
         {
             get;
