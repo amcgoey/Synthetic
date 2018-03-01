@@ -160,6 +160,31 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
+        /// Creates a ElementFilter that passes elements with the given status on the given phase.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.
+        /// </summary>
+        /// <param name="phaseId">ElementId of the phase</param>
+        /// <param name="PhaseStatus">The status of elements select in the phase.</param>
+        /// <param name="inverted">If true, the filter elements NOT matching the filter criteria are chosen.</param>
+        /// <returns name="ElementFilter">An Element Filter.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
+        public static revitDB.ElementFilter FilterElementPhaseStatus (int phaseId,
+            revitDB.ElementOnPhaseStatus PhaseStatus,
+            [DefaultArgument("false")] bool inverted)
+        {
+            return new revitDB.ElementPhaseStatusFilter(new revitDB.ElementId(phaseId), PhaseStatus, inverted);
+        }
+
+        /// <summary>
+        /// Creates a ElementFilter that passes elements that interseect an element.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.
+        /// </summary>
+        /// <param name="Element">The element to look for intersections.</param>
+        /// <param name="inverted">If true, the filter elements NOT matching the filter criteria are chosen.</param>
+        /// <returns name="ElementFilter">An Element Filter.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
+        public static revitDB.ElementFilter FilterElementIntersectsElement (revitDB.Element Element, [DefaultArgument("false")] bool inverted)
+        {
+            return new revitDB.ElementIntersectsElementFilter(Element, inverted);
+        }
+
+        /// <summary>
         /// Creates a ElementFilter that excludes elements with the given elementIds.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.
         /// </summary>
         /// <param name="elementIds">ElementIds as integers of the elements to be excluded.</param>
