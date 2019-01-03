@@ -72,7 +72,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="extra\Examples\Example Assemblies.dyn" />
+    <None Include="extra\Examples\Example Assemblies.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="extra\Examples\Example Change Levels Workset Filtered.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -89,6 +91,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="extra\Examples\Example CompoundStructure Create+Modify.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example CompoundStructure FromWallTypes.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="extra\Examples\Example CompoundStructure Modify Layers.dyn">
@@ -112,17 +117,34 @@
     <None Include="extra\Examples\Example Pick.Elements.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="extra\Examples\Example Regular Expressions.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="extra\Examples\Example RevitDocuments.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="extra\Examples\Example RoundInches.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="extra\Examples\Example SyncWithCentral.dyn" />
+    <None Include="extra\Examples\Example SyncWithCentral.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example TransferElementBetweenDocs.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example TransferWallTypeProperties.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="extra\Examples\Example UI.Dialogs.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="extra\Examples\Example UI.TaskDialog.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example View ApplyParameters.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example View View3dOrientToggleIsometric.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="extra\Examples\Example Workset Unwrap.dyn">

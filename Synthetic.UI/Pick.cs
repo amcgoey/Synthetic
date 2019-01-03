@@ -34,7 +34,7 @@ namespace Synthetic.UI
         internal Pick() { }
 
         /// <summary>
-        /// Pick Elementsin the current Revit Document.  Don't forget to hit the Finished button in the options bar.
+        /// Pick Elements in the current Revit Document.  Don't forget to hit the Finished button in the options bar.
         /// </summary>
         /// <param name="message">A message to be displayed in the status bar.</param>
         /// <param name="reset">Resets the node so one can pick new objects.</param>
@@ -54,6 +54,41 @@ namespace Synthetic.UI
             try
             {
                 IList<Reference> references = selection.PickObjects(revitSelect.ObjectType.Element, message);
+                foreach (Reference r in references)
+                {
+                    DynElem elem = doc.GetElement(r.ElementId).ToDSType(true);
+                    elems.Add(elem);
+                }
+            }
+            catch (Autodesk.Revit.Exceptions.OperationCanceledException e)
+            {
+                return null;
+            }
+
+            return elems;
+        }
+
+        /// <summary>
+        /// Pick Faces in the current Revit Document.  Don't forget to hit the Finished button in the options bar.
+        /// </summary>
+        /// <param name="message">A message to be displayed in the status bar.</param>
+        /// <param name="reset">Resets the node so one can pick new objects.</param>
+        /// <returns name="Faces">List of the selected faces.</returns>
+        public static List<DynElem> Faces(
+            [DefaultArgument("Select elements")] string message,
+            [DefaultArgument("true")] bool reset)
+        {
+
+            Autodesk.Revit.UI.UIApplication uiapp = DocumentManager.Instance.CurrentUIApplication;
+            RevitDoc doc = DocumentManager.Instance.CurrentDBDocument;
+
+            List<DynElem> elems = new List<DynElem>();
+
+            revitSelect.Selection selection = uiapp.ActiveUIDocument.Selection;
+
+            try
+            {
+                IList<Reference> references = selection.PickObjects(revitSelect.ObjectType.Face, message);
                 foreach (Reference r in references)
                 {
                     DynElem elem = doc.GetElement(r.ElementId).ToDSType(true);

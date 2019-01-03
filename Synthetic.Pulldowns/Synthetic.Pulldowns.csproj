@@ -60,6 +60,9 @@
       <HintPath>C:\Program Files\Autodesk\Revit 2018\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="RevitServices">
+      <HintPath>C:\Program Files\Dynamo\Dynamo Revit\1.3\Revit_2018\RevitServices.dll</HintPath>
+    </Reference>
     <Reference Include="Synthetic.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Output\Synthetic\bin\Synthetic.Core.dll</HintPath>
@@ -69,10 +72,14 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GenericCreateObjectPulldown.cs" />
+    <Compile Include="GenericRevitElementsDropDown.cs" />
+    <Compile Include="GenericInheritedClassesDropDown.cs" />
     <Compile Include="GenericEnumerationDropDown.cs" />
     <Compile Include="SelectBuiltInParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SelectElementOnPhaseStatus.cs" />
+    <Compile Include="SelectMaterial.cs" />
+    <Compile Include="SelectViewDuplicateOption.cs" />
     <Compile Include="SelectFilterRuleEvaluators.cs" />
   </ItemGroup>
   <ItemGroup>

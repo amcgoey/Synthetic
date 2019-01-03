@@ -2,18 +2,22 @@
 using System.Collections;
 using System.Collections.Generic;
 
+using Autodesk.DesignScript.Runtime;
+
+using revitDB = Autodesk.Revit.DB;
 using revitView = Autodesk.Revit.DB.View;
 using revitView3D = Autodesk.Revit.DB.View3D;
 using revitDoc = Autodesk.Revit.DB.Document;
 using revitElemId = Autodesk.Revit.DB.ElementId;
 using revitViewOrientation = Autodesk.Revit.DB.ViewOrientation3D;
 using revitXYZ = Autodesk.Revit.DB.XYZ;
+using revitBB = Autodesk.Revit.DB.BoundingBoxXYZ;
 
 using RevitServices.Transactions;
+using Revit.Elements;
+using dynaElem = Revit.Elements.Element;
 using dynaView = Revit.Elements.Views.View;
 using dynaView3D = Revit.Elements.Views.View3D;
-
-using rBoundingBox = Autodesk.Revit.DB.BoundingBoxXYZ;
 
 namespace Synthetic.Revit
 {
@@ -93,7 +97,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="View"></param>
         /// <returns name="CropBox">Revit BoundingBoxXYZ object that represents the cropbox of the view.</returns>
-        public static rBoundingBox GetCropbox (dynaView View)
+        public static revitBB GetCropbox (dynaView View)
         {
             revitView rView = (revitView)View.InternalElement;
             return rView.CropBox;
@@ -104,7 +108,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="View"></param>
         /// <returns name="View"></returns>
-        public static dynaView SetCropbox(dynaView View, rBoundingBox CropBox)
+        public static dynaView SetCropbox(dynaView View, revitBB CropBox)
         {
             revitView rView = (revitView)View.InternalElement;
             revitDoc document = rView.Document;
@@ -245,6 +249,48 @@ namespace Synthetic.Revit
                 }
             }
             return View3D;
+        }
+
+        /// <summary>
+        /// Duplciates a view and renames it.
+        /// </summary>
+        /// <param name="Name">The name of the duplicated view</param>
+        /// <param name="SourceView">The view to duplicate</param>
+        /// <param name="DuplicateOptions">Enum ViewDuplicateOptions</param>
+        /// <returns name="View">The duplicated view</returns>
+        public static dynaView DuplicateView (string Name,
+            dynaView SourceView,
+            revitDB.ViewDuplicateOption DuplicateOptions)
+        {
+            string transactionName = "Duplicate View";
+            Func<revitView, revitDB.ViewDuplicateOption, revitDoc, revitView> dupView = (v, vdo, doc) =>
+            {
+                revitElemId viewId = v.Duplicate(vdo);
+                revitView newView = (revitView)doc.GetElement(viewId);
+                newView.Name = Name;
+                return newView;
+            };
+
+            revitView rView = (revitView)SourceView.InternalElement;
+            revitDoc document = rView.Document;
+            revitView view;
+
+            if (document.IsModifiable)
+            {
+                TransactionManager.Instance.EnsureInTransaction(document);
+                view = dupView(rView, DuplicateOptions, document);
+                TransactionManager.Instance.TransactionTaskDone();
+            }
+            else
+            {
+                using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                {
+                    trans.Start(transactionName);
+                    view = dupView(rView, DuplicateOptions, document);
+                    trans.Commit();
+                }
+            }
+            return (dynaView)view.ToDSType(true);
         }
     }
 }
