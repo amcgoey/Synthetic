@@ -25,6 +25,10 @@ namespace Synthetic.Revit
         internal int _blue
         { get { return (int)revitColor.Blue; } }
 
+        #endregion
+
+        #region Internal Constructors
+
         internal ColorWrapper (RevitColor _revitColor)
         {
             this.revitColor = _revitColor;

@@ -97,6 +97,20 @@ namespace Synthetic.Revit
             return Transform;
         }
 
+        public static revitXYZ OfPoint(revitTransform Transform, revitXYZ Point)
+        {
+            return Transform.OfPoint(Point);
+        }
+
+        public static revitXYZ OfVector(revitTransform Transform, revitXYZ Vector)
+        {
+            return Transform.OfPoint(Vector);
+        }
+
+        public static revitTransform Inverse(revitTransform Transform)
+        {
+            return Transform.Inverse;
+        }
 
     }
 }
