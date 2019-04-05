@@ -12,6 +12,8 @@ using revitElemId = Autodesk.Revit.DB.ElementId;
 using revitViewOrientation = Autodesk.Revit.DB.ViewOrientation3D;
 using revitXYZ = Autodesk.Revit.DB.XYZ;
 using revitBB = Autodesk.Revit.DB.BoundingBoxXYZ;
+using revitBBuv = Autodesk.Revit.DB.BoundingBoxUV;
+using revitParam = Autodesk.Revit.DB.Parameter;
 
 using RevitServices.Transactions;
 using Revit.Elements;
@@ -292,5 +294,113 @@ namespace Synthetic.Revit
             }
             return (dynaView)view.ToDSType(true);
         }
+
+        public static revitBBuv GetOutline (dynaView View)
+        {
+            revitView rView = (revitView)View.InternalElement;
+            return rView.Outline;
+        }
+
+        public static double GetFarClippingDistance (dynaView3D View3D)
+        {
+            revitView3D rView = (revitView3D)View3D.InternalElement;
+
+            return Math.Abs(rView.CropBox.Min.Z);
+        }
+
+        public static double GetNearClippingDistance(dynaView3D View3D)
+        {
+            revitView3D rView = (revitView3D)View3D.InternalElement;
+
+            return Math.Abs(rView.CropBox.Max.Z);
+        }
+
+        /// <summary>
+        /// Set the far clipping distance of a view with far clipping active.  This method preserves the near clip distance, however setting the far clip distance using any other method will reset the near clip distance.
+        /// </summary>
+        /// <param name="View">A Dynamo wrapped view</param>
+        /// <param name="FarClipping">The Far Clipping Offset distance as a number from the camera</param>
+        /// <returns name="View">Returns the modified view</returns>
+        public static dynaView SetFarClippingDistance(dynaView View, double FarClipping)
+        {
+            string transactionName = "Set Far Clipping Distance";
+
+            revitView rView = (revitView)View.InternalElement;
+
+            double NearClipping = rView.CropBox.Max.Z;
+
+            revitDoc document = rView.Document;
+
+            Action _SetFarClip = () =>
+            {
+                rView.get_Parameter(revitDB.BuiltInParameter.VIEWER_BOUND_OFFSET_FAR).Set(FarClipping);
+                revitBB CropBox = rView.CropBox;
+                revitXYZ oldMax = CropBox.Max;
+                revitXYZ newMax = new revitXYZ(oldMax.X, oldMax.Y, -Math.Abs(NearClipping));
+                revitBB NewCropBox = new revitBB();
+                NewCropBox.Max = newMax;
+                NewCropBox.Min = CropBox.Min;
+                rView.CropBox = NewCropBox;
+            };
+
+            if (document.IsModifiable)
+            {
+                TransactionManager.Instance.EnsureInTransaction(document);
+                _SetFarClip();
+                TransactionManager.Instance.TransactionTaskDone();
+            }
+            else
+            {
+                using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                {
+                    trans.Start(transactionName);
+                    _SetFarClip();
+                    trans.Commit();
+                }
+            }
+
+            return View;
+        }
+
+        /// <summary>
+        /// Sets the near clipping plane distance of the view.  This is done by modifying the cropbox.  Please note that modifying the far clip distance will reset any near clip modifications.
+        /// </summary>
+        /// <param name="View">A Dynamo wrapped view</param>
+        /// <param name="NearClipping">The Near Clipping Offset distance as a number from the camera</param>
+        /// <returns name="View">Returns the modified view</returns>
+        public static dynaView SetNearClippingDistance(dynaView3D View, double NearClipping)
+        {
+            string transactionName = "Set Near Clipping Distance";
+
+            revitView rView = (revitView)View.InternalElement;
+
+            revitBB CropBox = rView.CropBox;
+            revitXYZ oldMax = CropBox.Max;
+            revitXYZ newMax = new revitXYZ(oldMax.X, oldMax.Y, -Math.Abs(NearClipping));
+            revitBB NewCropBox = new revitBB();
+            NewCropBox.Max = newMax;
+            NewCropBox.Min = CropBox.Min;
+
+            revitDoc document = rView.Document;
+
+            if (document.IsModifiable)
+            {
+                TransactionManager.Instance.EnsureInTransaction(document);
+                rView.CropBox = NewCropBox;
+                TransactionManager.Instance.TransactionTaskDone();
+            }
+            else
+            {
+                using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                {
+                    trans.Start(transactionName);
+                    rView.CropBox = NewCropBox;
+                    trans.Commit();
+                }
+            }
+
+            return View;
+        }
+
     }
 }
