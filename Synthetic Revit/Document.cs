@@ -197,10 +197,11 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="modelPath">Path to the document.</param>
         /// <param name="worksetConfiguration">An object that describes what worksets to open when the project is open.</param>
+        /// <param name="audit">Set true to audit the file on opening</param>
         /// <param name="reset">Resets the node to reopen the document.</param>
         /// <returns name="document">The opened revit document.</returns>
         [IsDesignScriptCompatible]
-        public static revitDoc OpenWithOptions (string modelPath, [DefaultArgument("Synthetic.Revit.WorksetConfigurationOpenAll()")] revitDB.WorksetConfiguration worksetConfiguration, [DefaultArgument("true")] bool reset)
+        public static revitDoc OpenWithOptions (string modelPath, [DefaultArgument("Synthetic.Revit.WorksetConfigurationOpenAll()")] revitDB.WorksetConfiguration worksetConfiguration, [DefaultArgument("false")] bool audit, [DefaultArgument("true")] bool reset)
         {
             Autodesk.Revit.UI.UIApplication uiapp = DocumentManager.Instance.CurrentUIApplication;
             Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
@@ -209,6 +210,7 @@ namespace Synthetic.Revit
             revitDB.ModelPath path = revitDB.ModelPathUtils.ConvertUserVisiblePathToModelPath(modelPath); 
 
             revitDB.OpenOptions openOptions = new revitDB.OpenOptions();
+            openOptions.Audit = audit;
             openOptions.SetOpenWorksetsConfiguration(worksetConfiguration);
 
             doc = app.OpenDocumentFile(path, openOptions);
@@ -242,7 +244,7 @@ namespace Synthetic.Revit
         [IsDesignScriptCompatible]
         public static bool Upgrade (string modelPath, [DefaultArgument("true")] bool reset)
         {
-            revitDoc doc = OpenWithOptions(modelPath, WorksetConfigurationCloseAll(), true);
+            revitDoc doc = OpenWithOptions(modelPath, WorksetConfigurationCloseAll(),true, true);
             bool results = doc.Close(true);
             return results;
         }
@@ -252,20 +254,23 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="document">A Autodesk.Revit.DB.Document object</param>
         /// <param name="syncOptions">A Autodesk.Revit.DB.SynchronizeWithCentralOptions object.  Creates a default object by default.</param>
-        /// <param name="commment">Syncrhonization comments.</param>
+        /// <param name="comment">Syncrhonization comments.</param>
+        /// <param name="compact">If true, compact the model while saving.</param>
         /// <param name="execute">If True synchoronize with central.</param>
         [IsDesignScriptCompatible]
         public static void SynchronizeWithCentral (
             revitDoc document,
             [DefaultArgument("Synthetic.Revit.Document.SynchronizeWithCentralOptions()")] revitDB.SynchronizeWithCentralOptions syncOptions,
-            string commment,
+            string comment,
+            [DefaultArgument("false")] bool compact,
             bool execute
             )
         {
             if (execute)
             {
                 revitDB.TransactWithCentralOptions transOptions = new revitDB.TransactWithCentralOptions();
-                syncOptions.Comment = commment;
+                syncOptions.Compact = compact;
+                syncOptions.Comment = comment;
 
                 document.SynchronizeWithCentral(transOptions, syncOptions);
             }
