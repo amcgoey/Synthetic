@@ -11,6 +11,7 @@ using revitExcept = Autodesk.Revit.Exceptions;
 /// Class Aliases
 using revitDoc = Autodesk.Revit.DB.Document;
 using dynamoDoc = Revit.Application.Document;
+using tData = Autodesk.Revit.DB.TransmissionData;
 
 namespace Synthetic.Revit
 {
@@ -244,7 +245,30 @@ namespace Synthetic.Revit
         [IsDesignScriptCompatible]
         public static bool Upgrade (string modelPath, [DefaultArgument("true")] bool reset)
         {
-            revitDoc doc = OpenWithOptions(modelPath, WorksetConfigurationCloseAll(),true, true);
+            revitDoc doc = OpenWithOptions(modelPath, WorksetConfigurationCloseAll(),false, true);
+            bool results = doc.Close(true);
+            return results;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelPath"></param>
+        /// <param name="reset"></param>
+        /// <returns name="bool">Returns true if document successfully closed.</returns>
+        public static bool UpgradeAuditCompact (string modelPath, [DefaultArgument("true")] bool reset)
+        {
+            revitDoc doc = OpenWithOptions(modelPath, WorksetConfigurationCloseAll(), true, true);
+            revitDB.SaveAsOptions saveOptions = new revitDB.SaveAsOptions();
+            revitDB.WorksharingSaveAsOptions worksharingSaveAsOptions = saveOptions.GetWorksharingOptions();
+
+            worksharingSaveAsOptions.ClearTransmitted = true;
+            worksharingSaveAsOptions.SaveAsCentral = true;
+
+            saveOptions.SetWorksharingOptions(worksharingSaveAsOptions);
+
+            doc.SaveAs(modelPath, saveOptions);
+
             bool results = doc.Close(true);
             return results;
         }
