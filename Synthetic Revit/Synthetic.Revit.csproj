@@ -92,6 +92,7 @@
     <Compile Include="Select.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="Transform.cs" />
+    <Compile Include="TransmissionData.cs" />
     <Compile Include="View.cs" />
     <Compile Include="ViewOrientation.cs" />
     <Compile Include="ViewTemplates.cs" />
