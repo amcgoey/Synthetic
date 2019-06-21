@@ -9,23 +9,27 @@ using Dynamo.Utilities;
 using Synthetic.Core;
 using Synthetic.Revit;
 
+using RevitServices.Persistence;
+using revitDB = Autodesk.Revit.DB;
+using revitDoc = Autodesk.Revit.DB.Document;
+
 namespace Synthetic.Pulldowns
 {
     /// <summary>
     /// 
     /// </summary>
-    public abstract class GenericInheritedClassesPulldown : RevitDropDownBase
+    public abstract class GenericRevitElementsDropDown : RevitDropDownBase
     {
         /// <summary>
-        /// Generic Dropdown that creates an instance of a type from a list of classes that inherit from a base class.
+        /// Generic Dropdown that selects a Revit element given a type.
         /// </summary>
         /// <param name="name">Node Name</param>
         /// <param name="objectType">Type of Enumeration to Display</param>
-        /// <param name="function"></param>
-        public GenericInheritedClassesPulldown(string name, Type objectType, Func<string, object> function) : base(name)
+        /// <param name="selectionFunction"></param>
+        public GenericRevitElementsDropDown(string name, Type objectType, Func<string, object> selectionFunction) : base(name)
         {
             this.ObjectType = objectType;
-            this.Function = function;
+            this.SelectionFunction = selectionFunction;
             PopulateDropDownItems();
         }
 
@@ -41,7 +45,7 @@ namespace Synthetic.Pulldowns
         /// <summary>
         /// 
         /// </summary>
-        private Func<string, object> Function
+        private Func<string, object> SelectionFunction
         {
             get;
             set;
@@ -68,10 +72,16 @@ namespace Synthetic.Pulldowns
                 // Clear the dropdown list
                 Items.Clear();
 
+                revitDoc doc = DocumentManager.Instance.CurrentDBDocument;
+                revitDB.ElementFilter typeFilter = new revitDB.ElementClassFilter(ObjectType);
+
+                revitDB.FilteredElementCollector collect = new revitDB.FilteredElementCollector(doc);
+                collect.WherePasses(typeFilter);
+
                 // Get all enumeration names and add them to the dropdown menu
-                foreach (Type type in Assemblies.GetEnumerableOfType(this.ObjectType))
+                foreach (revitDB.Element elem in collect)
                 {
-                    Items.Add(new CoreNodeModels.DynamoDropDownItem(type.ToString(), type));
+                    Items.Add(new CoreNodeModels.DynamoDropDownItem(elem.Name, elem));
                 }
 
                 Items = Items.OrderBy(x => x.Name).ToObservableCollection();
@@ -86,7 +96,7 @@ namespace Synthetic.Pulldowns
             // If the dropdown is still empty try to populate it again          
             if (Items.Count == 0 || Items.Count == -1)
             {
-                if (this.ObjectType != null && Assemblies.GetEnumerableOfType(this.ObjectType).Count > 0)
+                if (this.ObjectType != null)
                 {
                     PopulateItems();
                 }
@@ -94,10 +104,10 @@ namespace Synthetic.Pulldowns
 
             var args = new List<AssociativeNode>
              {
-                AstFactory.BuildStringNode(((System.Object) Items[SelectedIndex].Item).ToString())
+                AstFactory.BuildStringNode(((revitDB.Element) Items[SelectedIndex].Item).Name)
              };
 
-            var func = Function;
+            var func = SelectionFunction;
 
             var functionCall = AstFactory.BuildFunctionCall(func, args);
             var assign = AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), functionCall);
