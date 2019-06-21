@@ -409,10 +409,12 @@ namespace Synthetic.Revit
         /// Renumbers the views on the sheet based on the view grid.
         /// </summary>
         /// <param name="Sheet"></param>
-        /// <param name="xGrid"></param>
-        /// <param name="yGrid"></param>
-        /// <returns></returns>
-        public static List<revitViewport> RenumberOnSheet (dynaSheet Sheet, double gridX, double gridY, revitXYZ origin)
+        /// <param name="gridX"></param>
+        /// <param name="gridY"></param>
+        /// <param name="originX"></param>
+        /// <param name="originY"></param>
+        /// <returns name="Viewports">Revit viewport objects on the sheet.</returns>
+        public static List<revitViewport> RenumberOnSheet (dynaSheet Sheet, double gridX, double gridY, double originX, double originY)
         {
             revitSheet rSheet = (revitSheet)Sheet.InternalElement;
             revitDoc doc = rSheet.Document;
@@ -446,8 +448,8 @@ namespace Synthetic.Revit
             {
                 revitXYZ minPt = vp.GetBoxOutline().MinimumPoint;
 
-                double x = Math.Floor(((minPt.X - origin.X) + viewportOffset) / gridX + 1);
-                double y = Math.Floor(((minPt.Y - origin.Y) + viewportOffset) / gridY + 1);
+                double x = Math.Floor(((minPt.X - originX) + viewportOffset) / gridX + 1);
+                double y = Math.Floor(((minPt.Y - originY) + viewportOffset) / gridY + 1);
 
                 if (x > 0 && y > 0)
                 {
