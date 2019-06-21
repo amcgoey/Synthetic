@@ -14,12 +14,15 @@ using revitXYZ = Autodesk.Revit.DB.XYZ;
 using revitBB = Autodesk.Revit.DB.BoundingBoxXYZ;
 using revitBBuv = Autodesk.Revit.DB.BoundingBoxUV;
 using revitParam = Autodesk.Revit.DB.Parameter;
+using revitSheet = Autodesk.Revit.DB.ViewSheet;
+using revitViewport = Autodesk.Revit.DB.Viewport;
 
 using RevitServices.Transactions;
 using Revit.Elements;
 using dynaElem = Revit.Elements.Element;
 using dynaView = Revit.Elements.Views.View;
 using dynaView3D = Revit.Elements.Views.View3D;
+using dynaSheet = Revit.Elements.Views.Sheet;
 
 namespace Synthetic.Revit
 {
@@ -400,6 +403,68 @@ namespace Synthetic.Revit
             }
 
             return View;
+        }
+
+        /// <summary>
+        /// Renumbers the views on the sheet based on the view grid.
+        /// </summary>
+        /// <param name="Sheet"></param>
+        /// <param name="xGrid"></param>
+        /// <param name="yGrid"></param>
+        /// <returns></returns>
+        public static List<revitViewport> RenumberOnSheet (dynaSheet Sheet, double gridX, double gridY, revitXYZ origin)
+        {
+            revitSheet rSheet = (revitSheet)Sheet.InternalElement;
+            revitDoc doc = rSheet.Document;
+            ICollection<revitElemId> rViewports = rSheet.GetAllViewports();
+
+            double viewportOffset = 0.0114;
+
+            //ISet<revitElemId> rViews = rSheet.GetAllPlacedViews();
+
+            List<revitViewport> filteredViewports = new List<revitViewport>();
+            int i = 1;
+
+            TransactionManager.Instance.EnsureInTransaction(doc);
+
+            foreach (revitElemId id in rViewports)
+            {
+                revitViewport vp = (revitViewport)doc.GetElement(id);
+                revitView v = (revitView)doc.GetElement(vp.ViewId);
+
+                if (v.ViewType != revitDB.ViewType.Legend )
+                {
+                    filteredViewports.Add(vp);
+
+                    vp.get_Parameter(revitDB.BuiltInParameter.VIEWPORT_DETAIL_NUMBER).Set("!!" + i);
+                    i++;
+                }
+            }
+
+            i = 1;
+            foreach(revitViewport vp in filteredViewports)
+            {
+                revitXYZ minPt = vp.GetBoxOutline().MinimumPoint;
+
+                double x = Math.Floor(((minPt.X - origin.X) + viewportOffset) / gridX + 1);
+                double y = Math.Floor(((minPt.Y - origin.Y) + viewportOffset) / gridY + 1);
+
+                if (x > 0 && y > 0)
+                {
+                    char yChar = (char)('A' - 1 + y);
+                    string yString = yChar.ToString();
+
+                    vp.get_Parameter(revitDB.BuiltInParameter.VIEWPORT_DETAIL_NUMBER).Set(yString + x);
+                }
+                else
+                {
+                    vp.get_Parameter(revitDB.BuiltInParameter.VIEWPORT_DETAIL_NUMBER).Set("!!" + i + "!!");
+                }
+            }
+
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return filteredViewports;
         }
 
     }
