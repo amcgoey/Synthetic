@@ -37,33 +37,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="extra\Examples\backup\Example CompoundStructure.dyn.0.backup">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="extra\Examples\backup\Example CompoundStructure.dyn.1.backup">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="extra\Examples\backup\Example Enumeration.dyn.0.backup">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="extra\Examples\backup\Example Enumerations.dyn.0.backup">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="extra\Examples\backup\Example Enumerations.dyn.1.backup">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="extra\Examples\backup\Example Enumerations.dyn.2.backup">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="extra\Examples\backup\Example Enumerations.dyn.3.backup">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="extra\Examples\backup\Example Enumerations.dyn.4.backup">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="extra\Examples\backup\Example RoundInches.dyn.0.backup">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="dyf\**">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -152,6 +125,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="extra\Examples\backup\" />
     <Folder Include="extra\Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
