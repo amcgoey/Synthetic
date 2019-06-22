@@ -408,65 +408,100 @@ namespace Synthetic.Revit
         /// <summary>
         /// Renumbers the views on the sheet based on the view grid.
         /// </summary>
-        /// <param name="Sheet"></param>
-        /// <param name="gridX"></param>
-        /// <param name="gridY"></param>
-        /// <param name="originX"></param>
-        /// <param name="originY"></param>
+        /// <param name="Sheet">A dynamo Sheet element</param>
+        /// <param name="gridX">Size of the layout grid in the X direction</param>
+        /// <param name="gridY">Size of the layout grid in the Y direction</param>
+        /// <param name="originX">Location of the layout grid origin on the X axis</param>
+        /// <param name="originY">Location of the layout grid origin on the Y axis</param>
         /// <returns name="Viewports">Revit viewport objects on the sheet.</returns>
         public static List<revitViewport> RenumberOnSheet (dynaSheet Sheet, double gridX, double gridY, double originX, double originY)
         {
+            string transactionName = "Renumber views on sheet";
+
             revitSheet rSheet = (revitSheet)Sheet.InternalElement;
-            revitDoc doc = rSheet.Document;
-            ICollection<revitElemId> rViewports = rSheet.GetAllViewports();
+            revitDoc document = rSheet.Document;
+            List<revitElemId> rViewports = (List < revitElemId > )rSheet.GetAllViewports();
 
             double viewportOffset = 0.0114;
 
-            //ISet<revitElemId> rViews = rSheet.GetAllPlacedViews();
+            //Function for use inside of transaction.
+            //Function filters out Legend views,
+            //temporarily renumbers all non-legend views,
+            //then calculates the views correct number,
+            //then renumbers the views.
+            Func<List<revitElemId>, revitDoc, List<revitViewport>> _renumber = (rvp, d) =>
+              {
+                  List<revitViewport> filteredViewports = new List<revitViewport>();
+                  int i = 1;
 
-            List<revitViewport> filteredViewports = new List<revitViewport>();
-            int i = 1;
+                  foreach (revitElemId id in rvp)
+                  {
+                      revitViewport vp = (revitViewport)d.GetElement(id);
+                      revitView v = (revitView)d.GetElement(vp.ViewId);
 
-            TransactionManager.Instance.EnsureInTransaction(doc);
+                      if (v.ViewType != revitDB.ViewType.Legend)
+                      {
+                          filteredViewports.Add(vp);
 
-            foreach (revitElemId id in rViewports)
+                          vp.get_Parameter(revitDB.BuiltInParameter.VIEWPORT_DETAIL_NUMBER).Set("!!" + i);
+                          i++;
+                      }
+                  }
+
+                  i = 1;
+                  foreach (revitViewport vp in filteredViewports)
+                  {
+                      revitXYZ minPt = vp.GetBoxOutline().MinimumPoint;
+
+                      double x = Math.Floor(((minPt.X - originX) + viewportOffset) / gridX + 1);
+                      double y = Math.Floor(((minPt.Y - originY) + viewportOffset) / gridY + 1);
+
+                      if (x > 0 && y > 0)
+                      {
+                          char yChar = (char)('A' - 1 + y);
+                          string yString = yChar.ToString();
+
+                          vp.get_Parameter(revitDB.BuiltInParameter.VIEWPORT_DETAIL_NUMBER).Set(yString + x);
+                      }
+                      else
+                      {
+                          vp.get_Parameter(revitDB.BuiltInParameter.VIEWPORT_DETAIL_NUMBER).Set("!!" + i + "!!");
+                      }
+                  }
+
+                  return filteredViewports;
+              };
+
+            List<revitViewport> viewports;
+
+            if (document.IsModifiable)
             {
-                revitViewport vp = (revitViewport)doc.GetElement(id);
-                revitView v = (revitView)doc.GetElement(vp.ViewId);
-
-                if (v.ViewType != revitDB.ViewType.Legend )
+                TransactionManager.Instance.EnsureInTransaction(document);
+                viewports = _renumber(rViewports, document);
+                TransactionManager.Instance.TransactionTaskDone();
+            }
+            else
+            {
+                using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
                 {
-                    filteredViewports.Add(vp);
-
-                    vp.get_Parameter(revitDB.BuiltInParameter.VIEWPORT_DETAIL_NUMBER).Set("!!" + i);
-                    i++;
+                    trans.Start(transactionName);
+                    viewports = _renumber(rViewports, document);
+                    trans.Commit();
                 }
             }
 
-            i = 1;
-            foreach(revitViewport vp in filteredViewports)
-            {
-                revitXYZ minPt = vp.GetBoxOutline().MinimumPoint;
+            return viewports;
+        }
 
-                double x = Math.Floor(((minPt.X - originX) + viewportOffset) / gridX + 1);
-                double y = Math.Floor(((minPt.Y - originY) + viewportOffset) / gridY + 1);
+        /// <summary>
+        /// Gets the active view in the document.  Returns an unwrapped Revit view.
+        /// </summary>
+        /// <returns name="View">Returns the Revit view that is the current active view.  This is an unwrapped Revit element not the dynamo wrapped version.</returns>
+        public static revitView ActiveView ()
+        {
+            revitDoc doc = Document.Current();
 
-                if (x > 0 && y > 0)
-                {
-                    char yChar = (char)('A' - 1 + y);
-                    string yString = yChar.ToString();
-
-                    vp.get_Parameter(revitDB.BuiltInParameter.VIEWPORT_DETAIL_NUMBER).Set(yString + x);
-                }
-                else
-                {
-                    vp.get_Parameter(revitDB.BuiltInParameter.VIEWPORT_DETAIL_NUMBER).Set("!!" + i + "!!");
-                }
-            }
-
-            TransactionManager.Instance.TransactionTaskDone();
-
-            return filteredViewports;
+            return doc.ActiveView;
         }
 
     }
