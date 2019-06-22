@@ -11,7 +11,7 @@ using revitDoc = Autodesk.Revit.DB.Document;
 using revitElemId = Autodesk.Revit.DB.ElementId;
 using revitViewOrientation = Autodesk.Revit.DB.ViewOrientation3D;
 using revitXYZ = Autodesk.Revit.DB.XYZ;
-using revitBB = Autodesk.Revit.DB.BoundingBoxXYZ;
+using revitBBxyz = Autodesk.Revit.DB.BoundingBoxXYZ;
 using revitBBuv = Autodesk.Revit.DB.BoundingBoxUV;
 using revitParam = Autodesk.Revit.DB.Parameter;
 using revitSheet = Autodesk.Revit.DB.ViewSheet;
@@ -98,22 +98,23 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Gets a view's cropbox
         /// </summary>
-        /// <param name="View"></param>
+        /// <param name="View">A Dynamo wrapped View</param>
         /// <returns name="CropBox">Revit BoundingBoxXYZ object that represents the cropbox of the view.</returns>
-        public static revitBB GetCropbox (dynaView View)
+        public static revitBBxyz GetCropbox (dynaView View)
         {
             revitView rView = (revitView)View.InternalElement;
             return rView.CropBox;
         }
 
         /// <summary>
-        /// 
+        /// Sets the cropbox of a view
         /// </summary>
-        /// <param name="View"></param>
-        /// <returns name="View"></returns>
-        public static dynaView SetCropbox(dynaView View, revitBB CropBox)
+        /// <param name="View">A Dynamo wrapped View</param>
+        /// <param name="CropBox">A Revit BoundBoxXYZ</param>
+        /// <returns name="View">A Dynamo wrapped View with an updated cropbox</returns>
+        public static dynaView SetCropbox(dynaView View, revitBBxyz CropBox)
         {
             revitView rView = (revitView)View.InternalElement;
             revitDoc document = rView.Document;
@@ -150,7 +151,7 @@ namespace Synthetic.Revit
         /// <summary>
         /// Returns the direction towards the viewer
         /// </summary>
-        /// <param name="View">A view</param>
+        /// <param name="View">A Dynamo wrapped View</param>
         /// <returns name="XYZ">A Revit XYZ object pointing towards the viewer</returns>
         public static revitXYZ GetViewDirection(dynaView View)
         {
@@ -159,24 +160,24 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Gets the 3D view's orientation.
         /// </summary>
-        /// <param name="View3D"></param>
-        /// <returns name="ViewOrient"></returns>
+        /// <param name="View3D">A Dynamo wrapped View3D</param>
+        /// <returns name="ViewOrient">A Revit ViewOrientation3D element</returns>
         public static revitViewOrientation GetViewOrientation (dynaView3D View3D)
         {
             revitView3D rView = (revitView3D)View3D.InternalElement;
             return rView.GetOrientation();
         }
 
-        
+
 
         /// <summary>
-        /// 
+        /// Sets the 3D view's orientation.
         /// </summary>
-        /// <param name="View3D"></param>
-        /// <param name="ViewOrient"></param>
-        /// <returns name="View3D"></returns>
+        /// <param name="View3D">A Dynamo wrapped View3D</param>
+        /// <param name="ViewOrient">A Revit ViewOrientation3D element</param>
+        /// <returns name="View3D">A Dynamo wrapped View3D</returns>
         public static dynaView3D SetViewOrientation(dynaView3D View3D, revitViewOrientation ViewOrient)
         {
             revitView3D rView = (revitView3D)View3D.InternalElement;
@@ -201,10 +202,10 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Changes a view from Perspective to Isometric.
         /// </summary>
-        /// <param name="View3D"></param>
-        /// <returns name="View3D"></returns>
+        /// <param name="View3D">A Dynamo wrapped View3D</param>
+        /// <returns name="View3D">A Dynamo wrapped View3D</returns>
         public static dynaView3D ToggleToIsometric (dynaView3D View3D)
         {
             revitView3D rView = (revitView3D)View3D.InternalElement;
@@ -229,10 +230,10 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Changes a view from Isometric to Perspective.
         /// </summary>
-        /// <param name="View3D"></param>
-        /// <returns name="View3D"></returns>
+        /// <param name="View3D">A Dynamo wrapped View3D</param>
+        /// <returns name="View3D">A Dynamo wrapped View3D</returns>
         public static dynaView3D ToggleToPerspective(dynaView3D View3D)
         {
             revitView3D rView = (revitView3D)View3D.InternalElement;
@@ -298,12 +299,22 @@ namespace Synthetic.Revit
             return (dynaView)view.ToDSType(true);
         }
 
+        /// <summary>
+        /// Gets a View's outline.
+        /// </summary>
+        /// <param name="View">A Dynamo wrapped View</param>
+        /// <returns name="BoundingBoxUV">A Revit BoundingBoxUV representing the outline of the view.</returns>
         public static revitBBuv GetOutline (dynaView View)
         {
             revitView rView = (revitView)View.InternalElement;
             return rView.Outline;
         }
 
+        /// <summary>
+        /// Gets a View's distance to the Far Clipping Plane.
+        /// </summary>
+        /// <param name="View3D">A Dynamo wrapped View3D</param>
+        /// <returns name="Distance">Distance to the Far Clipping Plane as a Double.</returns>
         public static double GetFarClippingDistance (dynaView3D View3D)
         {
             revitView3D rView = (revitView3D)View3D.InternalElement;
@@ -311,6 +322,11 @@ namespace Synthetic.Revit
             return Math.Abs(rView.CropBox.Min.Z);
         }
 
+        /// <summary>
+        /// Gets a View's distance to the Near Clipping Plane.
+        /// </summary>
+        /// <param name="View3D">A Dynamo wrapped View3D</param>
+        /// <returns name="Distance">Distance to the Near Clipping Plane as a Double.</returns>
         public static double GetNearClippingDistance(dynaView3D View3D)
         {
             revitView3D rView = (revitView3D)View3D.InternalElement;
@@ -337,10 +353,10 @@ namespace Synthetic.Revit
             Action _SetFarClip = () =>
             {
                 rView.get_Parameter(revitDB.BuiltInParameter.VIEWER_BOUND_OFFSET_FAR).Set(FarClipping);
-                revitBB CropBox = rView.CropBox;
+                revitBBxyz CropBox = rView.CropBox;
                 revitXYZ oldMax = CropBox.Max;
                 revitXYZ newMax = new revitXYZ(oldMax.X, oldMax.Y, -Math.Abs(NearClipping));
-                revitBB NewCropBox = new revitBB();
+                revitBBxyz NewCropBox = new revitBBxyz();
                 NewCropBox.Max = newMax;
                 NewCropBox.Min = CropBox.Min;
                 rView.CropBox = NewCropBox;
@@ -377,10 +393,10 @@ namespace Synthetic.Revit
 
             revitView rView = (revitView)View.InternalElement;
 
-            revitBB CropBox = rView.CropBox;
+            revitBBxyz CropBox = rView.CropBox;
             revitXYZ oldMax = CropBox.Max;
             revitXYZ newMax = new revitXYZ(oldMax.X, oldMax.Y, -Math.Abs(NearClipping));
-            revitBB NewCropBox = new revitBB();
+            revitBBxyz NewCropBox = new revitBBxyz();
             NewCropBox.Max = newMax;
             NewCropBox.Min = CropBox.Min;
 
@@ -418,17 +434,20 @@ namespace Synthetic.Revit
         {
             string transactionName = "Renumber views on sheet";
 
+            //  Initialize variables
             revitSheet rSheet = (revitSheet)Sheet.InternalElement;
             revitDoc document = rSheet.Document;
             List<revitElemId> rViewports = (List < revitElemId > )rSheet.GetAllViewports();
+            List<revitViewport> viewports;
 
             double viewportOffset = 0.0114;
 
-            //Function for use inside of transaction.
-            //Function filters out Legend views,
-            //temporarily renumbers all non-legend views,
-            //then calculates the views correct number,
-            //then renumbers the views.
+            //  Function for use inside of transaction.
+
+            //  Function filters out Legend views,
+            //  temporarily renumbers all non-legend views,
+            //  then calculates the views correct number,
+            //  then renumbers the views.
             Func<List<revitElemId>, revitDoc, List<revitViewport>> _renumber = (rvp, d) =>
               {
                   List<revitViewport> filteredViewports = new List<revitViewport>();
@@ -472,8 +491,7 @@ namespace Synthetic.Revit
                   return filteredViewports;
               };
 
-            List<revitViewport> viewports;
-
+            //  
             if (document.IsModifiable)
             {
                 TransactionManager.Instance.EnsureInTransaction(document);

@@ -8,17 +8,17 @@ using revitDB = Autodesk.Revit.DB;
 namespace Synthetic.Revit
 {
     /// <summary>
-    /// 
+    /// Class for constructing Filter Rule Evaluators
     /// </summary>
     public class CollectorFilterRules
     {
         internal CollectorFilterRules () { }
 
         /// <summary>
-        /// 
+        /// Given a rule name, returns that type of FilterStringRuleEvaluator.
         /// </summary>
-        /// <param name="ruleName"></param>
-        /// <returns name="StringRule"></returns>
+        /// <param name="ruleName">Name of the FilterStringRuleEvaluator</param>
+        /// <returns name="StringRule">A Revit FilterStringRuleEvaluator</returns>
         public static revitDB.FilterStringRuleEvaluator FilterStringRules (string ruleName)
         {
             switch (ruleName)
@@ -45,10 +45,10 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Given a rule name, returns that type of FilterNumericRuleEvaluator.
         /// </summary>
-        /// <param name="ruleName"></param>
-        /// <returns name="NumericRule"></returns>
+        /// <param name="ruleName">Name of the FilterNumericRuleEvaluator</param>
+        /// <returns name="NumericRule">A Revit FilterNumbericRuleEvaluator</returns>
         public static revitDB.FilterNumericRuleEvaluator FilterNumericRules(string ruleName)
         {
             switch (ruleName)
@@ -186,7 +186,7 @@ namespace Synthetic.Revit
         //}
 
         /// <summary>
-        /// 
+        /// Enumertion of different String Rules
         /// </summary>
         [SupressImportIntoVM]
         public enum StringRules
@@ -226,7 +226,7 @@ namespace Synthetic.Revit
         };
 
         /// <summary>
-        /// 
+        /// Enumertion of different Numeric Rules
         /// </summary>
         [SupressImportIntoVM]
         public enum NumericRules

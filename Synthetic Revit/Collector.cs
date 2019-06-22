@@ -227,11 +227,11 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Searches the Collector for elements whose Name equals the string.
         /// </summary>
-        /// <param name="collector"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="collector">A Collector to search</param>
+        /// <param name="name">Name of the elements to find.</param>
+        /// <returns name="Elements">Returns a list of Dynamo wrapped elements that matches the query</returns>
         public static IList<dynElem> QueryNameEquals(Collector collector, string name)
         {
             revitFECollector rCollector = collector._ApplyFilters();
@@ -249,11 +249,11 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Searches the Collector for elements whose Name contains the string.
         /// </summary>
-        /// <param name="collector"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="collector">A Collector to search</param>
+        /// <param name="name">Name of the elements to find.</param>
+        /// <returns name="Elements">Returns a list of Dynamo wrapped elements that matches the query</returns>
         public static IList<dynElem> QueryNameContains(Collector collector, string name)
         {
             revitFECollector rCollector = collector._ApplyFilters();
@@ -271,11 +271,11 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Searches the Collector for elements whose Name does not contain the string.
         /// </summary>
-        /// <param name="collector"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="collector">A Collector to search</param>
+        /// <param name="name">Name of the elements to find.</param>
+        /// <returns name="Elements">Returns a list of Dynamo wrapped elements that matches the query</returns>
         public static IList<dynElem> QueryNameDoesNotContain(Collector collector, string name)
         {
             revitFECollector rCollector = collector._ApplyFilters();
@@ -293,10 +293,11 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Groups elements in the collector by their name
         /// </summary>
-        /// <param name="collector"></param>
-        /// <returns></returns>
+        /// <param name="collector">A Collector to search</param>
+        /// <param name="name">Name of the elements to find.</param>
+        /// <returns name="Elements">Returns a list of lists of Dynamo wrapped elements that are grouped by name</returns>
         public static List<List<dynElem>> QueryGroupByName(Collector collector)
         {
             revitFECollector rCollector = collector._ApplyFilters();

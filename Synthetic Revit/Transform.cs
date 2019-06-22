@@ -9,6 +9,9 @@ using revitXYZ = Autodesk.Revit.DB.XYZ;
 
 namespace Synthetic.Revit
 {
+    /// <summary>
+    /// Wrapper for Revit Transform
+    /// </summary>
     public class Transform
     {
         internal Transform () { }
@@ -57,10 +60,11 @@ namespace Synthetic.Revit
         /// Set the origin of the Transform
         /// </summary>
         /// <param name="Transform">Autodesk.Revit.DB.Transform</param>
+        /// <param name="XYZ">A Revit XYZ point</param>
         /// <returns name="Transform">Modified Transform</returns>
-        public static revitTransform SetOrigin (revitTransform Transform, revitXYZ Point)
+        public static revitTransform SetOrigin (revitTransform Transform, revitXYZ XYZ)
         {
-            Transform.Origin = Point;
+            Transform.Origin = XYZ;
             return Transform;
         }
 
@@ -68,10 +72,11 @@ namespace Synthetic.Revit
         /// Set the Basis of the X Axis of the Transform
         /// </summary>
         /// <param name="Transform">Autodesk.Revit.DB.Transform</param>
+        /// <param name="XYZ">A Revit XYZ point</param>
         /// <returns name="Transform">Modified Transform</returns>
-        public static revitTransform SetBasisX(revitTransform Transform, revitXYZ Point)
+        public static revitTransform SetBasisX(revitTransform Transform, revitXYZ XYZ)
         {
-            Transform.BasisX = Point;
+            Transform.BasisX = XYZ;
             return Transform;
         }
 
@@ -79,10 +84,11 @@ namespace Synthetic.Revit
         /// Set the Basis of the Y Axis of the Transform
         /// </summary>
         /// <param name="Transform">Autodesk.Revit.DB.Transform</param>
+        /// <param name="XYZ">A Revit XYZ point</param>
         /// <returns name="Transform">Modified Transform</returns>
-        public static revitTransform SetBasisY(revitTransform Transform, revitXYZ Point)
+        public static revitTransform SetBasisY(revitTransform Transform, revitXYZ XYZ)
         {
-            Transform.BasisY = Point;
+            Transform.BasisY = XYZ;
             return Transform;
         }
 
@@ -90,23 +96,41 @@ namespace Synthetic.Revit
         /// Set the Basis of the Z Axis of the Transform
         /// </summary>
         /// <param name="Transform">Autodesk.Revit.DB.Transform</param>
+        /// <param name="XYZ">A Revit XYZ point</param>
         /// <returns name="Transform">Modified Transform</returns>
-        public static revitTransform SetBasisZ(revitTransform Transform, revitXYZ Point)
+        public static revitTransform SetBasisZ(revitTransform Transform, revitXYZ XYZ)
         {
-            Transform.BasisZ = Point;
+            Transform.BasisZ = XYZ;
             return Transform;
         }
 
-        public static revitXYZ OfPoint(revitTransform Transform, revitXYZ Point)
+        /// <summary>
+        /// Applies the Transform to a point.
+        /// </summary>
+        /// <param name="Transform">Autodesk.Revit.DB.Transform</param>
+        /// <param name="XYZ">A Revit XYZ point</param>
+        /// <returns name="XYZ">A transformed Revit XYZ point</returns>
+        public static revitXYZ OfPoint(revitTransform Transform, revitXYZ XYZ)
         {
-            return Transform.OfPoint(Point);
+            return Transform.OfPoint(XYZ);
         }
 
-        public static revitXYZ OfVector(revitTransform Transform, revitXYZ Vector)
+        /// <summary>
+        /// Applies the Transform to a vector.
+        /// </summary>
+        /// <param name="Transform">Autodesk.Revit.DB.Transform</param>
+        /// <param name="XYZ">A Revit XYZ vector</param>
+        /// <returns name="XYZ">A transformed Revit XYZ vector</returns>
+        public static revitXYZ OfVector(revitTransform Transform, revitXYZ XYZ)
         {
-            return Transform.OfPoint(Vector);
+            return Transform.OfVector(XYZ);
         }
 
+        /// <summary>
+        /// The inverse transformation of this Transom
+        /// </summary>
+        /// <param name="Transform">Autodesk.Revit.DB.Transform</param>
+        /// <returns name="Transom">The inverted Autodesk.Revit.DB.Transform</returns>
         public static revitTransform Inverse(revitTransform Transform)
         {
             return Transform.Inverse;

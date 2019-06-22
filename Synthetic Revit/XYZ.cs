@@ -34,5 +34,35 @@ namespace Synthetic.Revit
         {
             return dynaVector.ByCoordinates(XYZ.X, XYZ.Y, XYZ.Z);
         }
+
+        /// <summary>
+        /// The X value of a Revit XYZ point.
+        /// </summary>
+        /// <param name="XYZ">A Revit XYZ point</param>
+        /// <returns name="X">A double</returns>
+        public static double X (revitXYZ XYZ)
+        {
+            return XYZ.X;
+        }
+
+        /// <summary>
+        /// The Y value of a Revit XYZ point.
+        /// </summary>
+        /// <param name="XYZ">A Revit XYZ point</param>
+        /// <returns name="Y">A double</returns>
+        public static double Y (revitXYZ XYZ)
+        {
+            return XYZ.Y;
+        }
+
+        /// <summary>
+        /// The Z value of a Revit XYZ point.
+        /// </summary>
+        /// <param name="XYZ">A Revit XYZ point</param>
+        /// <returns name="Z">A double</returns>
+        public static double Z (revitXYZ XYZ)
+        {
+            return XYZ.Z;
+        }
     }
 }

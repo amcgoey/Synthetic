@@ -43,10 +43,10 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Sets an element's parameters based on a Dictionary object with the Key being the parameter name and the Value being the parameter value.
         /// </summary>
-        /// <param name="element"></param>
-        /// <param name="dictionary"></param>
+        /// <param name="element">A Dynamo wrapped element.</param>
+        /// <param name="dictionary">A Synthetic Dictionary</param>
         /// <returns></returns>
         public static dynamoElem SetParamterByDictionary(dynamoElem element, synthDict dictionary)
         {
@@ -68,10 +68,10 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Gets the listed parameters of an element and returns a Dictionary with the Key being the parameter name and the Value being the parameter value.
         /// </summary>
-        /// <param name="element"></param>
-        /// <param name="parameterNames"></param>
+        /// <param name="element">A Dynamo wrapped element.</param>
+        /// <param name="dictionary">A Synthetic Dictionary</param>
         /// <returns></returns>
         public static synthDict GetParamterToDictionary(dynamoElem element, List<string> parameterNames)
         {
