@@ -120,7 +120,13 @@
     <None Include="extra\Examples\Example View View3dOrientToggleIsometric.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="extra\Examples\Example Views Renumber on Sheet.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="extra\Examples\Example Workset Unwrap.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Titleblock Grid Location Marker.rfa">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

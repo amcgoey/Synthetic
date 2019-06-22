@@ -303,13 +303,13 @@ namespace Synthetic.Revit
         //}
 
         /// <summary>
-        /// 
+        /// Creates a ElementFilter that passes elements with a string based parameter that match the provided FilterStringRuleEvaluator.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.
         /// </summary>
-        /// <param name="parameterId"></param>
-        /// <param name="value"></param>
-        /// <param name="filterStringRule"></param>
-        /// <param name="inverted"></param>
-        /// <returns></returns>
+        /// <param name="parameterId">The ElementId as an int of the parameter to search.</param>
+        /// <param name="value">Value of the parameter to search for.</param>
+        /// <param name="filterStringRule">Revit FilterStringRuleEvaluator that determines how to search the parameter.</param>
+        /// <param name="inverted">If true, the filter elements NOT matching the filter criteria are chosen.</param>
+        /// <returns name="ElementFilter">An Element Filter.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
         public static revitDB.ElementFilter FilterElementStringParameter(
             int parameterId,
             string value,
@@ -327,14 +327,14 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Creates a ElementFilter that passes elements with a number based parameter that match the provided FilterNumericRuleEvaluator.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.
         /// </summary>
-        /// <param name="parameterId"></param>
-        /// <param name="value"></param>
-        /// <param name="tolerance"></param>
-        /// <param name="filterNumberRule"></param>
-        /// <param name="inverted"></param>
-        /// <returns></returns>
+        /// <param name="parameterId">The ElementId as an int of the parameter to search.</param>
+        /// <param name="value">Value of the parameter to search for.</param>
+        /// <param name="tolerance">Tolerance on how close tot he value a match should be.</param>
+        /// <param name="filterNumberRule">Revit FilterNumberRuleEvaluator that determines how to search the parameter.</param>
+        /// <param name="inverted">If true, the filter elements NOT matching the filter criteria are chosen.</param>
+        /// <returns name="ElementFilter">An Element Filter.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
         public static revitDB.ElementFilter FilterElementNumberParameter (
             int parameterId,
             double value,
@@ -353,13 +353,13 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Creates a ElementFilter that passes elements with a number based parameter that match the provided FilterNumericRuleEvaluator.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.
         /// </summary>
-        /// <param name="parameterId"></param>
-        /// <param name="value"></param>
-        /// <param name="filterNumberRule"></param>
-        /// <param name="inverted"></param>
-        /// <returns></returns>
+        /// <param name="parameterId">The ElementId as an int of the parameter to search.</param>
+        /// <param name="value">Value of the parameter to search for.</param>
+        /// <param name="filterNumberRule">Revit FilterNumberRuleEvaluator that determines how to search the parameter.</param>
+        /// <param name="inverted">If true, the filter elements NOT matching the filter criteria are chosen.</param>
+        /// <returns name="ElementFilter">An Element Filter.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
         public static revitDB.ElementFilter FilterElementIntegerParameter(
             int parameterId,
             int value,
@@ -377,13 +377,13 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Creates a ElementFilter that passes elements with an ElementId based parameter that match the provided FilterNumericRuleEvaluator.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.
         /// </summary>
-        /// <param name="parameterId"></param>
-        /// <param name="value"></param>
-        /// <param name="filterNumberRule"></param>
-        /// <param name="inverted"></param>
-        /// <returns></returns>
+        /// <param name="parameterId">The ElementId as an int of the parameter to search.</param>
+        /// <param name="value">Value of the parameter to search for.</param>
+        /// <param name="filterNumberRule">Revit FilterNumberRuleEvaluator that determines how to search the parameter.</param>
+        /// <param name="inverted">If true, the filter elements NOT matching the filter criteria are chosen.</param>
+        /// <returns name="ElementFilter">An Element Filter.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
         public static revitDB.ElementFilter FilterElementIdParameter(
             int parameterId,
             int value,

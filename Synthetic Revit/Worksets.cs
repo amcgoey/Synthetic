@@ -367,10 +367,10 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Creates a workset in a document
         /// </summary>
-        /// <param name="doc"></param>
-        /// <param name="name"></param>
+        /// <param name="doc">A Revit Document</param>
+        /// <param name="name">Name of the workset</param>
         /// <returns></returns>
         [IsVisibleInDynamoLibrary(false)]
         public static revitWorkset Create(revitDoc doc, string name)
