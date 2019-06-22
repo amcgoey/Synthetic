@@ -13,20 +13,20 @@ namespace Synthetic.Core
         internal Json () { }
 
         /// <summary>
-        /// 
+        /// Serializes an element into JSON.
         /// </summary>
-        /// <param name="element"></param>
-        /// <returns></returns>
-        public static string Encode (System.Object element)
+        /// <param name="object">An object to serialize.</param>
+        /// <returns name="JSON">A string of JSON.</returns>
+        public static string Encode (System.Object @object)
         {
-            return j.JsonConvert.SerializeObject(element);
+            return j.JsonConvert.SerializeObject(@object);
         }
 
         /// <summary>
-        /// 
+        /// Deseralizes an element from JSON.
         /// </summary>
-        /// <param name="json"></param>
-        /// <returns></returns>
+        /// <param name="json">A string of JSON</param>
+        /// <returns name="object">An object to deserialize.</returns>
         public static System.Object Decode (string json)
         {
             return (System.Object)j.JsonConvert.DeserializeObject(json);

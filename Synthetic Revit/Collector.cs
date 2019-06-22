@@ -296,7 +296,6 @@ namespace Synthetic.Revit
         /// Groups elements in the collector by their name
         /// </summary>
         /// <param name="collector">A Collector to search</param>
-        /// <param name="name">Name of the elements to find.</param>
         /// <returns name="Elements">Returns a list of lists of Dynamo wrapped elements that are grouped by name</returns>
         public static List<List<dynElem>> QueryGroupByName(Collector collector)
         {
