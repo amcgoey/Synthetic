@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -8,6 +9,7 @@ using revitDB = Autodesk.Revit.DB;
 using revitView = Autodesk.Revit.DB.View;
 using revitView3D = Autodesk.Revit.DB.View3D;
 using revitDoc = Autodesk.Revit.DB.Document;
+using revitElem = Autodesk.Revit.DB.Element;
 using revitElemId = Autodesk.Revit.DB.ElementId;
 using revitViewOrientation = Autodesk.Revit.DB.ViewOrientation3D;
 using revitXYZ = Autodesk.Revit.DB.XYZ;
@@ -16,6 +18,8 @@ using revitBBuv = Autodesk.Revit.DB.BoundingBoxUV;
 using revitParam = Autodesk.Revit.DB.Parameter;
 using revitSheet = Autodesk.Revit.DB.ViewSheet;
 using revitViewport = Autodesk.Revit.DB.Viewport;
+using revitCollector = Autodesk.Revit.DB.FilteredElementCollector;
+using revitElementFilter = Autodesk.Revit.DB.ElementFilter;
 
 using RevitServices.Transactions;
 using Revit.Elements;
