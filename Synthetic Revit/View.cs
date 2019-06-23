@@ -511,6 +511,49 @@ namespace Synthetic.Revit
             return viewports;
         }
 
+        public static List<revitViewport> RenumberOnActiveSheet(string FamilyName, string FamilyTypeName, string xGridName, string yGridName)
+        {
+            revitDoc doc = Document.Current();
+            revitSheet sheet = (revitSheet)doc.ActiveView;
+
+            revitCollector collector = new revitCollector(doc);
+
+            collector.OfClass(typeof(revitDB.Family));
+
+            //  Get the family Symbol
+
+            revitDB.ParameterValueProvider provider
+                = new revitDB.ParameterValueProvider(
+                    new revitDB.ElementId
+                    (revitDB.BuiltInParameter.SYMBOL_FAMILY_NAME_PARAM));
+
+            revitDB.FilterStringRuleEvaluator evaluator = new revitDB.FilterStringEquals();
+            revitDB.FilterRule rule = new revitDB.FilterStringRule(provider, evaluator, FamilyName, false);
+
+            revitElementFilter filterFamily = new revitDB.ElementParameterFilter(rule);
+
+            List<revitElemId> symbolIds = (List<revitElemId>)collector.OfClass(typeof(revitDB.Family)).WherePasses(filterFamily).ToElementIds();
+
+            revitElemId symbolId = symbolIds[0];
+
+            //  Get the family Instances in view
+            revitElementFilter filterInstance = new revitDB.FamilyInstanceFilter(doc, symbolId);
+
+            collector = new revitCollector(doc, sheet.Id);
+            revitDB.FamilyInstance originFamily = (revitDB.FamilyInstance)collector.OfClass(typeof(revitDB.FamilyInstance)).WherePasses(filterInstance).First();
+
+            //List<revitDB.FamilyInstance> instances = new revitDB.FilteredElementCollector(doc)
+            //    .OfClass(typeof(revitDB.FamilyInstance))
+            //    .Cast<revitDB.FamilyInstance>()
+            //    .Where(x => x.Symbol.Family.Name.Equals(FamilyName)) //Family
+            //    .Where(x => x.Name.Equals(FamilyTypeName)).ToList<revitDB.FamilyInstance>(); // family type
+
+            revitDB.LocationPoint location = (revitDB.LocationPoint)originFamily.Location;
+            revitXYZ point = location.Point;
+
+            originFamily.get_Parameter(xGridName);
+        }
+
         /// <summary>
         /// Gets the active view in the document.  Returns an unwrapped Revit view.
         /// </summary>
