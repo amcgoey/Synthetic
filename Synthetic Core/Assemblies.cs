@@ -73,7 +73,7 @@ namespace Synthetic.Core
         }
 
         /// <summary>
-        /// 
+        /// Loads a DLL assembly given it's long name.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -109,9 +109,9 @@ namespace Synthetic.Core
         }
 
         /// <summary>
-        /// 
+        /// Returns all the methods of a Type that are public and static.
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="type">A Type</param>
         /// <returns name="Methods">List of the names of methods including Namespace, Type and Method.</returns>
         public static List<string> GetPublicStaticMethods(Type type)
         {
@@ -137,10 +137,10 @@ namespace Synthetic.Core
         }
 
         /// <summary>
-        /// 
+        /// Gets the Enumerations of a Type.
         /// </summary>
-        /// <param name="objectType"></param>
-        /// <returns name="Types"></returns>
+        /// <param name="objectType">A Type</param>
+        /// <returns name="Types">Enumerations of a Type.</returns>
         public static List<Type> GetEnumerableOfType(Type objectType)
         {
             List<Type> objects = new List<Type>();

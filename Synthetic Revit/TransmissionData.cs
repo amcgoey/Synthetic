@@ -17,10 +17,10 @@ namespace Synthetic.Revit
         internal TransmissionData () { }
 
         /// <summary>
-        /// 
+        /// Reads the TransmissionData from a file.
         /// </summary>
-        /// <param name="FilePath"></param>
-        /// <returns name="TransmissionData"></returns>
+        /// <param name="FilePath">Path to the file.</param>
+        /// <returns name="TransmissionData">Revit TransmissionData</returns>
         public static tData Read (string FilePath)
         {
             ModelPath mPath = Autodesk.Revit.DB.ModelPathUtils.ConvertUserVisiblePathToModelPath(FilePath);
@@ -30,11 +30,11 @@ namespace Synthetic.Revit
 
 
         /// <summary>
-        /// 
+        /// Writes modified TransmissionData from a file.  File must be closed to write TransmissionData.
         /// </summary>
-        /// <param name="FilePath"></param>
-        /// <param name="transmissionData"></param>
-        /// <returns name="FilePath">Returns the FilePath.</returns>
+        /// <param name="FilePath">Path to the file.</param>
+        /// <param name="transmissionData">A Revit TransmissionData object</param>
+        /// <returns name="FilePath">Returns the FilePath to the project.</returns>
         public static string Write (string FilePath, tData transmissionData)
         {
             ModelPath mPath = Autodesk.Revit.DB.ModelPathUtils.ConvertUserVisiblePathToModelPath(FilePath);
@@ -45,9 +45,9 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Verifies whether the file is flagged as Transmitted or not.
         /// </summary>
-        /// <param name="FilePath"></param>
+        /// <param name="FilePath">Path to the file.</param>
         /// <returns name="bool">Returns true if file is marked as Transmitted.  False if is not transmitted.</returns>
         public static bool IsTransmitted (string FilePath)
         {
@@ -58,10 +58,10 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// 
+        /// Set's the file to Transmitted or not.
         /// </summary>
-        /// <param name="FilePath"></param>
-        /// <param name="IsTransmitted"></param>
+        /// <param name="FilePath">Path to the file.</param>
+        /// <param name="IsTransmitted">True to flag the file as Transmitted.</param>
         /// <returns name="FilePath">Returns the FilePath.</returns>
         public static string SetIsTransmitted (string FilePath, bool IsTransmitted)
         {
