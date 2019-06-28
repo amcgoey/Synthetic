@@ -434,7 +434,7 @@ namespace Synthetic.Revit
         /// <param name="originX">Location of the layout grid origin on the X axis</param>
         /// <param name="originY">Location of the layout grid origin on the Y axis</param>
         /// <returns name="Viewports">Revit viewport objects on the sheet.</returns>
-        public static List<revitViewport> RenumberOnSheet (dynaSheet sheet, double gridX, double gridY, double originX, double originY)
+        public static List<revitViewport> RenumberOnSheetByCoordinates (dynaSheet sheet, double gridX, double gridY, double originX, double originY)
         {
             string transactionName = "Renumber views on sheet";
 
@@ -472,6 +472,70 @@ namespace Synthetic.Revit
         /// <summary>
         /// Renumbers the views on the Active Sheet
         /// </summary>
+        /// <param name="sheet">A dynamo Sheet element</param>
+        /// <param name="familyType">Dynamo FamilyType that represents the origin element</param>
+        /// <param name="xGridName">Name of the parameter that represents the X grid spacing</param>
+        /// <param name="yGridName">Name of the parameter that represents the Y grid spacing</param>
+        /// <returns name="Viewports">Revit viewport objects on the sheet.</returns>
+        public static List<revitViewport> RenumberOnSheet(dynaSheet sheet, FamilyType familyType, string xGridName, string yGridName)
+        {
+            string transactionName = "Renumber views on sheet";
+
+            //  Initialize variables
+            revitFamilySymbol rFamilySymbol = (revitFamilySymbol)familyType.InternalElement;
+
+            revitSheet rSheet = (revitSheet)sheet.InternalElement;
+            revitDoc document = rSheet.Document;
+            List<revitElemId> viewportIds = (List<revitElemId>)rSheet.GetAllViewports();
+            List<revitViewport> viewports = null;
+
+            //  Get the family Instances in view
+            revitElemId symbolId = familyType.InternalElement.Id;
+
+            revitCollector collector = new revitCollector(document, rSheet.Id);
+            revitElementFilter filterInstance = new revitDB.FamilyInstanceFilter(document, symbolId);
+
+            collector.OfClass(typeof(revitDB.FamilyInstance)).WherePasses(filterInstance);
+
+            revitDB.FamilyInstance originFamily = (revitDB.FamilyInstance)collector.FirstElement();
+
+            if (originFamily != null)
+            {
+                revitDB.LocationPoint location = (revitDB.LocationPoint)originFamily.Location;
+                revitXYZ point = location.Point;
+
+                double originX = rFamilySymbol.LookupParameter(xGridName).AsDouble();
+                double originY = rFamilySymbol.LookupParameter(yGridName).AsDouble();
+
+                //  If the document is modifieable,
+                //  then a transaction is already open
+                //  and function uses the Dynamo Transaction Manager.
+                //  Else, open a new transaction.
+                if (document.IsModifiable)
+                {
+                    TransactionManager.Instance.EnsureInTransaction(document);
+                    viewports = View._tempRenumberViewports(viewportIds, document);
+                    viewports = View._renumberViewports(viewports, point.X, point.Y, originX, originY);
+                    TransactionManager.Instance.TransactionTaskDone();
+                }
+                else
+                {
+                    using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                    {
+                        trans.Start(transactionName);
+                        viewports = View._tempRenumberViewports(viewportIds, document);
+                        viewports = View._renumberViewports(viewports, point.X, point.Y, originX, originY);
+                        trans.Commit();
+                    }
+                }
+            }
+
+            return viewports;
+        }
+
+        /// <summary>
+        /// Renumbers the views on the Active Sheet
+        /// </summary>
         /// <param name="familyType">Dynamo FamilyType that represents the origin element</param>
         /// <param name="xGridName">Name of the parameter that represents the X grid spacing</param>
         /// <param name="yGridName">Name of the parameter that represents the Y grid spacing</param>
@@ -486,43 +550,46 @@ namespace Synthetic.Revit
             revitDoc document = Document.Current();
             revitSheet sheet = (revitSheet)document.ActiveView;
             List<revitElemId> viewportIds = (List<revitElemId>)sheet.GetAllViewports();
-            List<revitViewport> viewports;
+            List<revitViewport> viewports = null;
 
             //  Get the family Instances in view
             revitElemId symbolId = familyType.InternalElement.Id;
 
             revitCollector collector = new revitCollector(document, sheet.Id);
             revitElementFilter filterInstance = new revitDB.FamilyInstanceFilter(document, symbolId);
-            revitDB.FamilyInstance originFamily = (revitDB.FamilyInstance)collector.OfClass(typeof(revitDB.FamilyInstance)).WherePasses(filterInstance).First();        
 
-            revitDB.LocationPoint location = (revitDB.LocationPoint)originFamily.Location;
-            revitXYZ point = location.Point;
+            revitDB.FamilyInstance originFamily = (revitDB.FamilyInstance)collector.OfClass(typeof(revitDB.FamilyInstance)).WherePasses(filterInstance).First();
 
-            double originX = rFamilySymbol.LookupParameter(xGridName).AsDouble();
-            double originY = rFamilySymbol.LookupParameter(yGridName).AsDouble();
-
-            //  If the document is modifieable,
-            //  then a transaction is already open
-            //  and function uses the Dynamo Transaction Manager.
-            //  Else, open a new transaction.
-            if (document.IsModifiable)
+            if (originFamily != null)
             {
-                TransactionManager.Instance.EnsureInTransaction(document);
-                viewports = View._tempRenumberViewports(viewportIds, document);
-                viewports = View._renumberViewports(viewports, point.X, point.Y, originX, originY);
-                TransactionManager.Instance.TransactionTaskDone();
-            }
-            else
-            {
-                using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                revitDB.LocationPoint location = (revitDB.LocationPoint)originFamily.Location;
+                revitXYZ point = location.Point;
+
+                double originX = rFamilySymbol.LookupParameter(xGridName).AsDouble();
+                double originY = rFamilySymbol.LookupParameter(yGridName).AsDouble();
+
+                //  If the document is modifieable,
+                //  then a transaction is already open
+                //  and function uses the Dynamo Transaction Manager.
+                //  Else, open a new transaction.
+                if (document.IsModifiable)
                 {
-                    trans.Start(transactionName);
+                    TransactionManager.Instance.EnsureInTransaction(document);
                     viewports = View._tempRenumberViewports(viewportIds, document);
                     viewports = View._renumberViewports(viewports, point.X, point.Y, originX, originY);
-                    trans.Commit();
+                    TransactionManager.Instance.TransactionTaskDone();
+                }
+                else
+                {
+                    using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                    {
+                        trans.Start(transactionName);
+                        viewports = View._tempRenumberViewports(viewportIds, document);
+                        viewports = View._renumberViewports(viewports, point.X, point.Y, originX, originY);
+                        trans.Commit();
+                    }
                 }
             }
-
             return viewports;
         }
 
