@@ -120,8 +120,12 @@
     <None Include="extra\Examples\Example View View3dOrientToggleIsometric.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="extra\Examples\Example Views Renumber on Active Sheet.dyn" />
-    <None Include="extra\Examples\Example Views Renumber on All Sheets.dyn" />
+    <None Include="extra\Examples\Example Views Renumber on Active Sheet.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example Views Renumber on All Sheets.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="extra\Examples\Example Views Renumber on Sheet.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
