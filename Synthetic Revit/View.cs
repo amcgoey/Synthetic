@@ -22,6 +22,7 @@ using revitViewport = Autodesk.Revit.DB.Viewport;
 using revitCollector = Autodesk.Revit.DB.FilteredElementCollector;
 using revitElementFilter = Autodesk.Revit.DB.ElementFilter;
 using revitFamilySymbol = Autodesk.Revit.DB.FamilySymbol;
+using revitOutline = Autodesk.Revit.DB.Outline;
 
 using RevitServices.Transactions;
 using Revit.Elements;
@@ -481,58 +482,10 @@ namespace Synthetic.Revit
         /// <returns name="Viewports">Revit viewport objects on the sheet.</returns>
         public static List<revitViewport> RenumberOnSheet(dynaSheet sheet, FamilyType familyType, string xGridName, string yGridName)
         {
-            string transactionName = "Renumber views on sheet";
-
-            //  Initialize variables
-            revitFamilySymbol rFamilySymbol = (revitFamilySymbol)familyType.InternalElement;
-
             revitSheet rSheet = (revitSheet)sheet.InternalElement;
             revitDoc document = rSheet.Document;
-            List<revitElemId> viewportIds = (List<revitElemId>)rSheet.GetAllViewports();
-            List<revitViewport> viewports = null;
 
-            //  Get the family Instances in view
-            revitElemId symbolId = familyType.InternalElement.Id;
-
-            revitCollector collector = new revitCollector(document, rSheet.Id);
-            revitElementFilter filterInstance = new revitDB.FamilyInstanceFilter(document, symbolId);
-
-            collector.OfClass(typeof(revitDB.FamilyInstance)).WherePasses(filterInstance);
-
-            revitDB.FamilyInstance originFamily = (revitDB.FamilyInstance)collector.FirstElement();
-
-            if (originFamily != null)
-            {
-                revitDB.LocationPoint location = (revitDB.LocationPoint)originFamily.Location;
-                revitXYZ point = location.Point;
-
-                double originX = rFamilySymbol.LookupParameter(xGridName).AsDouble();
-                double originY = rFamilySymbol.LookupParameter(yGridName).AsDouble();
-
-                //  If the document is modifieable,
-                //  then a transaction is already open
-                //  and function uses the Dynamo Transaction Manager.
-                //  Else, open a new transaction.
-                if (document.IsModifiable)
-                {
-                    TransactionManager.Instance.EnsureInTransaction(document);
-                    viewports = View._tempRenumberViewports(viewportIds, document);
-                    viewports = View._renumberViewports(viewports, point.X, point.Y, originX, originY);
-                    TransactionManager.Instance.TransactionTaskDone();
-                }
-                else
-                {
-                    using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
-                    {
-                        trans.Start(transactionName);
-                        viewports = View._tempRenumberViewports(viewportIds, document);
-                        viewports = View._renumberViewports(viewports, point.X, point.Y, originX, originY);
-                        trans.Commit();
-                    }
-                }
-            }
-
-            return viewports;
+            return _renumberViewsOnSheet(familyType, xGridName, yGridName, rSheet, document);
         }
 
         /// <summary>
@@ -544,55 +497,10 @@ namespace Synthetic.Revit
         /// <returns name="Viewports">Revit viewport objects on the sheet.</returns>
         public static List<revitViewport> RenumberOnActiveSheet(FamilyType familyType, string xGridName, string yGridName)
         {
-            string transactionName = "Renumber views on Active sheet";
-
-            //  Initialize variables
-            revitFamilySymbol rFamilySymbol = (revitFamilySymbol)familyType.InternalElement;
-
             revitDoc document = Document.Current();
-            revitSheet sheet = (revitSheet)document.ActiveView;
-            List<revitElemId> viewportIds = (List<revitElemId>)sheet.GetAllViewports();
-            List<revitViewport> viewports = null;
+            revitSheet rSheet = (revitSheet)document.ActiveView;
 
-            //  Get the family Instances in view
-            revitElemId symbolId = familyType.InternalElement.Id;
-
-            revitCollector collector = new revitCollector(document, sheet.Id);
-            revitElementFilter filterInstance = new revitDB.FamilyInstanceFilter(document, symbolId);
-
-            revitDB.FamilyInstance originFamily = (revitDB.FamilyInstance)collector.OfClass(typeof(revitDB.FamilyInstance)).WherePasses(filterInstance).First();
-
-            if (originFamily != null)
-            {
-                revitDB.LocationPoint location = (revitDB.LocationPoint)originFamily.Location;
-                revitXYZ point = location.Point;
-
-                double originX = rFamilySymbol.LookupParameter(xGridName).AsDouble();
-                double originY = rFamilySymbol.LookupParameter(yGridName).AsDouble();
-
-                //  If the document is modifieable,
-                //  then a transaction is already open
-                //  and function uses the Dynamo Transaction Manager.
-                //  Else, open a new transaction.
-                if (document.IsModifiable)
-                {
-                    TransactionManager.Instance.EnsureInTransaction(document);
-                    viewports = View._tempRenumberViewports(viewportIds, document);
-                    viewports = View._renumberViewports(viewports, point.X, point.Y, originX, originY);
-                    TransactionManager.Instance.TransactionTaskDone();
-                }
-                else
-                {
-                    using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
-                    {
-                        trans.Start(transactionName);
-                        viewports = View._tempRenumberViewports(viewportIds, document);
-                        viewports = View._renumberViewports(viewports, point.X, point.Y, originX, originY);
-                        trans.Commit();
-                    }
-                }
-            }
-            return viewports;
+            return _renumberViewsOnSheet(familyType, xGridName, yGridName, rSheet, document);
         }
 
         //List<revitDB.FamilyInstance> instances = new revitDB.FilteredElementCollector(doc)
@@ -636,6 +544,60 @@ namespace Synthetic.Revit
 
         #region Utility Functions
 
+        internal static List<revitViewport> _renumberViewsOnSheet (FamilyType familyType, string xGridName, string yGridName, revitSheet rSheet, revitDoc document)
+        {
+            string transactionName = "Renumber views on sheet";
+
+            //  Initialize variables
+            revitFamilySymbol rFamilySymbol = (revitFamilySymbol)familyType.InternalElement;
+
+            List<revitElemId> viewportIds = (List<revitElemId>)rSheet.GetAllViewports();
+            List<revitViewport> viewports = null;
+
+            //  Get the family Instances in view
+            revitElemId symbolId = familyType.InternalElement.Id;
+
+            revitCollector collector = new revitCollector(document, rSheet.Id);
+            revitElementFilter filterInstance = new revitDB.FamilyInstanceFilter(document, symbolId);
+
+            collector.OfClass(typeof(revitDB.FamilyInstance)).WherePasses(filterInstance);
+
+            revitDB.FamilyInstance originFamily = (revitDB.FamilyInstance)collector.FirstElement();
+
+            if (originFamily != null)
+            {
+                revitDB.LocationPoint location = (revitDB.LocationPoint)originFamily.Location;
+                revitXYZ originPoint = location.Point;
+
+                double gridX = rFamilySymbol.LookupParameter(xGridName).AsDouble();
+                double gridY = rFamilySymbol.LookupParameter(yGridName).AsDouble();
+
+                //  If the document is modifieable,
+                //  then a transaction is already open
+                //  and function uses the Dynamo Transaction Manager.
+                //  Else, open a new transaction.
+                if (document.IsModifiable)
+                {
+                    TransactionManager.Instance.EnsureInTransaction(document);
+                    viewports = View._tempRenumberViewports(viewportIds, document);
+                    viewports = View._renumberViewports(viewports, gridX, gridY, originPoint.X, originPoint.Y);
+                    TransactionManager.Instance.TransactionTaskDone();
+                }
+                else
+                {
+                    using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                    {
+                        trans.Start(transactionName);
+                        viewports = View._tempRenumberViewports(viewportIds, document);
+                        viewports = View._renumberViewports(viewports, gridX, gridY, originPoint.X, originPoint.Y);
+                        trans.Commit();
+                    }
+                }
+            }
+
+            return viewports;
+        }
+
         /// <summary>
         /// Given a list of viewport element IDs, the function will get the viewport from the document and give each viewport a temporary sheet number.  Function will ignore legends.
         /// </summary>
@@ -674,30 +636,70 @@ namespace Synthetic.Revit
         /// <returns name="viewports">The renumbered Revit ViewPorts</returns>
         internal static List<revitViewport> _renumberViewports (List<revitViewport> viewports, double gridX, double gridY, double originX, double originY)
         {
-            const double viewportOffset = 0.0114;
+            //const double viewportOffset = 0.0114;
 
-            int i = 1;
+            //int i = 1;
+
             foreach (revitViewport vp in viewports)
             {
-                revitXYZ minPt = vp.GetBoxOutline().MinimumPoint;
+                revitOutline labelOutline = vp.GetLabelOutline();
+                revitXYZ minPt = labelOutline.MinimumPoint;
 
-                double x = Math.Floor(((minPt.X - originX) + viewportOffset) / gridX + 1);
-                double y = Math.Floor(((minPt.Y - originY) + viewportOffset) / gridY + 1);
+                string viewNumber = _calculateViewNumber(minPt.X, minPt.Y, gridX, gridY, originX, originY);
 
-                if (x > 0 && y > 0)
-                {
-                    char yChar = (char)('A' - 1 + y);
-                    string yString = yChar.ToString();
+                vp.get_Parameter(revitDB.BuiltInParameter.VIEWPORT_DETAIL_NUMBER).Set(viewNumber);
 
-                    vp.get_Parameter(revitDB.BuiltInParameter.VIEWPORT_DETAIL_NUMBER).Set(yString + x);
-                }
-                else
-                {
-                    vp.get_Parameter(revitDB.BuiltInParameter.VIEWPORT_DETAIL_NUMBER).Set("!!" + i + "!!");
-                }
+                //double x = Math.Floor(((minPt.X - originX) + viewportOffset) / gridX + 1);
+                //double y = Math.Floor(((minPt.Y - originY) + viewportOffset) / gridY + 1);
+
+                //if (x > 0 && y > 0)
+                //{
+                //    char yChar = (char)('A' - 1 + y);
+                //    string yString = yChar.ToString();
+
+                //    vp.get_Parameter(revitDB.BuiltInParameter.VIEWPORT_DETAIL_NUMBER).Set(yString + x);
+                //}
+                //else
+                //{
+                //    vp.get_Parameter(revitDB.BuiltInParameter.VIEWPORT_DETAIL_NUMBER).Set("!!" + i + "!!");
+                //}
             }
 
             return viewports;
+        }
+
+        internal static string _calculateViewNumber (double viewX, double viewY, double gridX, double gridY, double originX, double originY)
+        {
+            // const double viewportOffset = 0.0114;
+            const double viewportOffset = 0.0;
+
+            double x = Math.Floor(((viewX - originX) + viewportOffset) / gridX + 1);
+            double y = Math.Floor(((viewY - originY) + viewportOffset) / gridY + 1);
+
+            string stringX = x.ToString();
+            string stringY = _IntToLetters((int)Math.Abs(y));
+            
+            if(y < 0)
+            {
+                stringY = "-" + stringY;
+            }
+            else if (y == 0)
+            {
+                stringY = "!" + stringY;
+            }
+            
+            return stringY + stringX;
+        }
+
+        internal static string _IntToLetters(int value)
+        {
+            string result = string.Empty;
+            while (--value >= 0)
+            {
+                result = (char)('A' + value % 26) + result;
+                value /= 26;
+            }
+            return result;
         }
 
         #endregion
