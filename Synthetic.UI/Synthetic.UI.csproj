@@ -2,10 +2,10 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-  <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+    <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
     None
   </ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
-</PropertyGroup>
+  </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -60,14 +60,6 @@
       <HintPath>C:\Program Files\Dynamo\Dynamo Revit\1.3\Revit_2018\RevitServices.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Synthetic.Core">
-      <HintPath>..\..\Output\Synthetic\bin\Synthetic.Core.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Synthetic.Revit">
-      <HintPath>..\..\..\Revit Dynamo Synthetic R1\Package\Synthetic\bin\Synthetic.Revit.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Windows.Forms" />
@@ -83,6 +75,16 @@
     <Content Include="Synthetic.UI_DynamoCustomization.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Synthetic Core\Synthetic.Core.csproj">
+      <Project>{5d72b274-2496-4cc8-b39e-ab4f517d39a4}</Project>
+      <Name>Synthetic.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Synthetic Revit\Synthetic.Revit.csproj">
+      <Project>{e4b1863b-67ec-40f7-8e63-2917b4485e71}</Project>
+      <Name>Synthetic.Revit</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
