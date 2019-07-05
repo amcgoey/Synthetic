@@ -81,27 +81,6 @@ namespace Synthetic.Revit.JSON
 
         public MaterialJSON () : base () { }
 
-        [JsonConstructor]
-        public MaterialJSON(string className, string name, int Id, string UniqueId, string category, List<ParameterJSON> parameters,
-            ColorJSON CutBackgroundPatternColor, ElementIdJSON CutBackgroundPatternId,
-            ColorJSON CutForegroundPatternColor, ElementIdJSON CutForegroundPatternId,
-            ColorJSON SurfaceBackgroundPatternColor, ElementIdJSON SurfaceBackgroundPatternId,
-            ColorJSON SurfaceForegroundPatternColor, ElementIdJSON SurfaceForegroundPatternId,
-            ElementIdJSON AppearanceAssetId)
-            : base (className, name, Id, UniqueId, category, parameters)
-        {
-            this.CutBackgroundPatternColor = CutBackgroundPatternColor;
-            this.CutBackgroundPatternId = CutBackgroundPatternId;
-            this.CutForegroundPatternColor = CutForegroundPatternColor;
-            this.CutForegroundPatternId = CutForegroundPatternId;
-            this.SurfaceBackgroundPatternColor = SurfaceBackgroundPatternColor;
-            this.SurfaceBackgroundPatternId = SurfaceBackgroundPatternId;
-            this.SurfaceForegroundPatternColor = SurfaceForegroundPatternColor;
-            this.SurfaceForegroundPatternId = SurfaceForegroundPatternId;
-
-            this.AppearanceAssetId = AppearanceAssetId;
-        }
-
         public MaterialJSON (revitMaterial material) : base (material)
         {
             revitDoc doc = material.Document;

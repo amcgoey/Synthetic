@@ -14,7 +14,11 @@ namespace Synthetic.Revit.JSON
     {
         public List<ElementJSON> Elements { get; set; }
 
-        [JsonConstructor]
+        public ListElementJSON()
+        {
+            this.Elements = new List<ElementJSON>();
+        }
+
         public ListElementJSON(List<ElementJSON> ElementJSONs)
         {
             this.Elements = ElementJSONs;
@@ -28,11 +32,6 @@ namespace Synthetic.Revit.JSON
             {
                 Elements.Add(new ElementJSON(elem));
             }
-        }
-
-        public ListElementJSON()
-        {
-            this.Elements = new List<ElementJSON>();
         }
 
         public static ListElementJSON ByJSON(string JSON)
@@ -70,17 +69,6 @@ namespace Synthetic.Revit.JSON
         public List<ParameterJSON> Parameters { get; set; }
 
         public ElementJSON() { }
-
-        [JsonConstructor]
-        public ElementJSON(string className, string name, int Id, string UniqueId, string category, List<ParameterJSON> parameters)
-        {
-            this.Class = className;
-            this.Name = name;
-            this.Id = Id;
-            this.UniqueId = UniqueId;
-            this.Category = category;
-            this.Parameters = parameters;
-        }
 
         public ElementJSON(revitElem element)
         {
