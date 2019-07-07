@@ -19,6 +19,6 @@
     "Synthetic.Core, Version=1.0.0.2, Culture=neutral, PublicKeyToken=null",
     "Synthetic.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
     "Synthetic.Pulldowns, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
-    "Synthetic.RevitJSON, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+    "Synthetic.RevitSerialize, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
   ]
 }

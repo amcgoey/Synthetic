@@ -12,13 +12,13 @@ using revitDoc = Autodesk.Revit.DB.Document;
 
 using Newtonsoft.Json;
 
-namespace Synthetic.Revit.JSON
+namespace Synthetic.Revit.Serialize
 {
-    public class ParameterJSON
+    public class SerializeParameter
     {
         public string Name { get; set; }
         public string Value { get; set; }
-        public ElementIdJSON ValueElemId { get; set; }
+        public SerializeElementId ValueElemId { get; set; }
         public string StorageType { get; set; }
         public int Id { get; set; }
         public string GUID { get; set; }
@@ -27,7 +27,7 @@ namespace Synthetic.Revit.JSON
 
 
         [JsonConstructor]
-        public ParameterJSON(string Name, string Value, ElementIdJSON ValueElemId, string StorageType, int Id, string GUID, bool IsShared, bool IsReadOnly)
+        public SerializeParameter(string Name, string Value, SerializeElementId ValueElemId, string StorageType, int Id, string GUID, bool IsShared, bool IsReadOnly)
         {
             this.Name = Name;
             this.Value = Value;
@@ -39,7 +39,7 @@ namespace Synthetic.Revit.JSON
             this.IsReadOnly = IsReadOnly;
         }
 
-        public ParameterJSON(RevitParam param,
+        public SerializeParameter(RevitParam param,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc Document)
         {
             this.Name = param.Definition.Name;
@@ -50,7 +50,7 @@ namespace Synthetic.Revit.JSON
                     this.Value = param.AsDouble().ToString();
                     break;
                 case "ElementId":
-                    this.ValueElemId = new ElementIdJSON(param.AsElementId(), Document);
+                    this.ValueElemId = new SerializeElementId(param.AsElementId(), Document);
                     //this.Value = param.AsElementId().ToString();
                     break;
                 case "Integer":
@@ -74,12 +74,12 @@ namespace Synthetic.Revit.JSON
 
         }
 
-        public static string ToJSON(ParameterJSON parameter)
+        public static string ToJSON(SerializeParameter parameter)
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(parameter, Formatting.Indented);
         }
 
-        public static RevitElem ModifyParameter(ParameterJSON paramJSON, RevitElem Elem)
+        public static RevitElem ModifyParameter(SerializeParameter paramJSON, RevitElem Elem)
         {
             RevitParam param = null;
 
@@ -111,7 +111,7 @@ namespace Synthetic.Revit.JSON
                         break;
                     case "ElementId":
                         //param.Set(new ElementId(Convert.ToInt32(paramJSON.Value)));                        
-                        param.Set(ElementIdJSON.ToElementId(paramJSON.ValueElemId));
+                        param.Set(SerializeElementId.ToElementId(paramJSON.ValueElemId));
                         break;
                     case "Integer":
                         param.Set(Convert.ToInt32(paramJSON.Value));

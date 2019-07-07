@@ -11,9 +11,9 @@ using revitDoc = Autodesk.Revit.DB.Document;
 
 using Newtonsoft.Json;
 
-namespace Synthetic.Revit.JSON
+namespace Synthetic.Revit.Serialize
 {
-    public class ElementIdJSON
+    public class SerializeElementId
     {
         public const string ClassName = "ElementId";
 
@@ -29,22 +29,20 @@ namespace Synthetic.Revit.JSON
 
         public string Class { get; set; }
         public string Category { get; set; }
-        //public string UniqueId { get; set; }
+        public string UniqueId { get; set; }
 
+        public SerializeElementId () { }
 
-        [JsonConstructor]
-        public ElementIdJSON (string Name, int ElementId, string Class, string Category)
+        public SerializeElementId (string Name, int ElementId, string Class, string Category)
         {
             this.Id = ElementId;
             this.Name = Name;
             this.Class = Class;
             this.Category = Category;
             //this.UniqueId = UniqueId;
-
-
         }
 
-        public ElementIdJSON (revitElemId Id,
+        public SerializeElementId (revitElemId Id,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc Document)
         {
             this.Id = Id.IntegerValue;
@@ -55,6 +53,7 @@ namespace Synthetic.Revit.JSON
             {
                 this.Name = elem.Name;
                 this.Class = elem.GetType().Name;
+                this.UniqueId = elem.UniqueId;
 
                 revitDB.Category cat = elem.Category;
 
@@ -66,17 +65,17 @@ namespace Synthetic.Revit.JSON
             }
         }
 
-        public static ElementIdJSON ByJSON (string JSON)
+        public static SerializeElementId ByJSON (string JSON)
         {
-            return JsonConvert.DeserializeObject<ElementIdJSON>(JSON);
+            return JsonConvert.DeserializeObject<SerializeElementId>(JSON);
         }
 
-        public static string ToJSON (ElementIdJSON IdJSON)
+        public static string ToJSON (SerializeElementId IdJSON)
         {
             return JsonConvert.SerializeObject(IdJSON, Formatting.Indented);
         }
 
-        public static revitElemId ToElementId (ElementIdJSON IdJSON)
+        public static revitElemId ToElementId (SerializeElementId IdJSON)
         {
             return new revitElemId(IdJSON.Id);
         }

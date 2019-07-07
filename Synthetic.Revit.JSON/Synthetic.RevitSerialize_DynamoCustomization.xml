@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <doc>
   <assembly>
-    <name>Synthetic.Revit.JSON</name>
+    <name>Synthetic.RevitSerialize</name>
   </assembly>
   <namespaces>
-    <namespace name="Synthetic.Revit.JSON">
-      <category>Synthetic.Revit.JSON</category>
+    <namespace name="Synthetic.Revit.Serialize">
+      <category>Synthetic.Revit.Serialize</category>
     </namespace>
     <namespace name="Synthetic.Experimental">
       <category>Synthetic.Experimental</category>

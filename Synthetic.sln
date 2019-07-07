@@ -31,7 +31,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Synthetic.Pulldowns", "Synt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Synthetic.Customization", "Synthetic.Customization\Synthetic.Customization.csproj", "{1D4D5A4D-E64B-41BD-8793-3245D00318DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Synthetic.RevitJSON", "Synthetic.Revit.JSON\Synthetic.RevitJSON.csproj", "{496ADF96-42B2-49E8-ADF2-4F5CF1E08511}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Synthetic.RevitSerialize", "Synthetic.Revit.JSON\Synthetic.RevitSerialize.csproj", "{496ADF96-42B2-49E8-ADF2-4F5CF1E08511}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
