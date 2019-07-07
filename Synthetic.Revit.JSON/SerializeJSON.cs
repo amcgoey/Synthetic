@@ -14,7 +14,7 @@ using revitMaterial = Autodesk.Revit.DB.Material;
 
 using Newtonsoft.Json;
 
-namespace Synthetic.Revit.Serialize
+namespace Synthetic.Serialize.Revit
 {
     public class SerializeJSON
     {

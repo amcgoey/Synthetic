@@ -7,8 +7,8 @@
     <ProjectGuid>{496ADF96-42B2-49E8-ADF2-4F5CF1E08511}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Synthetic.RevitSerialize</RootNamespace>
-    <AssemblyName>Synthetic.RevitSerialize</AssemblyName>
+    <RootNamespace>Synthetic.Serialize.Revit</RootNamespace>
+    <AssemblyName>Synthetic.Serialize.Revit</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -21,7 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\output\Synthetic\bin\Synthetic.RevitSerialize.xml</DocumentationFile>
+    <DocumentationFile>..\..\output\Synthetic\bin\Synthetic.Serialize.Revit.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -60,7 +60,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Synthetic.RevitSerialize_DynamoCustomization.xml">
+    <Content Include="Synthetic.Serialize.Revit_DynamoCustomization.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

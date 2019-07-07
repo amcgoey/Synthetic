@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <doc>
   <assembly>
-    <name>Synthetic.RevitSerialize</name>
+    <name>Synthetic.Serialize.Revit</name>
   </assembly>
   <namespaces>
-    <namespace name="Synthetic.Revit.Serialize">
-      <category>Synthetic.Revit.Serialize</category>
+    <namespace name="Synthetic.Serialize.Revit">
+      <category>Synthetic.Serialize.Revit</category>
     </namespace>
     <namespace name="Synthetic.Experimental">
       <category>Synthetic.Experimental</category>

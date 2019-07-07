@@ -11,7 +11,7 @@ using revitDoc = Autodesk.Revit.DB.Document;
 
 using Newtonsoft.Json;
 
-namespace Synthetic.Revit.Serialize
+namespace Synthetic.Serialize.Revit
 {
     public class SerializeElementId
     {

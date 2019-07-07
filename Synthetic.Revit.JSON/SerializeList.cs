@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,7 +13,7 @@ using revitMaterial = Autodesk.Revit.DB.Material;
 
 using Newtonsoft.Json;
 
-namespace Synthetic.Revit.Serialize
+namespace Synthetic.Serialize.Revit
 {
     public class SerializeListElement
     {

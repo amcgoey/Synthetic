@@ -13,7 +13,7 @@ using revitElemId = Autodesk.Revit.DB.ElementId;
 
 using Newtonsoft.Json;
 
-namespace Synthetic.Revit.Serialize
+namespace Synthetic.Serialize.Revit
 {
     public class SerializeElement
     {
