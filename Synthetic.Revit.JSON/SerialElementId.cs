@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace Synthetic.Serialize.Revit
 {
-    public class SerializeElementId
+    public class SerialElementId
     {
         public const string ClassName = "ElementId";
 
@@ -31,9 +31,9 @@ namespace Synthetic.Serialize.Revit
         public string Category { get; set; }
         public string UniqueId { get; set; }
 
-        public SerializeElementId () { }
+        public SerialElementId () { }
 
-        public SerializeElementId (string Name, int ElementId, string Class, string Category)
+        public SerialElementId (string Name, int ElementId, string Class, string Category)
         {
             this.Id = ElementId;
             this.Name = Name;
@@ -42,7 +42,7 @@ namespace Synthetic.Serialize.Revit
             //this.UniqueId = UniqueId;
         }
 
-        public SerializeElementId (revitElemId Id,
+        public SerialElementId (revitElemId Id,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc Document)
         {
             this.Id = Id.IntegerValue;
@@ -65,17 +65,17 @@ namespace Synthetic.Serialize.Revit
             }
         }
 
-        public static SerializeElementId ByJSON (string JSON)
+        public static SerialElementId ByJSON (string JSON)
         {
-            return JsonConvert.DeserializeObject<SerializeElementId>(JSON);
+            return JsonConvert.DeserializeObject<SerialElementId>(JSON);
         }
 
-        public static string ToJSON (SerializeElementId IdJSON)
+        public static string ToJSON (SerialElementId IdJSON)
         {
             return JsonConvert.SerializeObject(IdJSON, Formatting.Indented);
         }
 
-        public static revitElemId ToElementId (SerializeElementId IdJSON)
+        public static revitElemId ToElementId (SerialElementId IdJSON)
         {
             return new revitElemId(IdJSON.Id);
         }

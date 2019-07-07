@@ -13,19 +13,24 @@ using revitElemType = Autodesk.Revit.DB.ElementType;
 using revitElemId = Autodesk.Revit.DB.ElementId;
 using revitMaterial = Autodesk.Revit.DB.Material;
 
+using Revit.Elements;
+using dynElem = Revit.Elements.Element;
+
 using Newtonsoft.Json;
 
 namespace Synthetic.Serialize.Revit
 {
-    public class SerialElementType : SerializeElement
+    public class SerialElementType : SerialElement
     {
         public new const string ClassName = "Element Type";
 
         public SerialElementType () : base () { }
 
-        public SerialElementType (revitElemType elemType) : base (elemType) { }
+        public SerialElementType (revitElemType revitElemType) : base (revitElemType) { }
+
+        public SerialElementType (dynElem dynamoElemType) : base (dynamoElemType) { }
         
-        public SerialElementType (SerializeElement serialElement) : base (serialElement.Element)
+        public SerialElementType (SerialElement serialElement) : base (serialElement.Element)
         {
             //this.Element = serialElement.Element;
             //this.Document = serialElement.Document;
@@ -38,7 +43,8 @@ namespace Synthetic.Serialize.Revit
             //this.Parameters = serialElement.Parameters;
         }
 
-        public static revitElemType CreateElementTypeByTemplate (SerialElementType serialElementType, revitElemType templateElem,
+        #region Public Methods
+        public static dynElem CreateElementTypeByTemplate (SerialElementType serialElementType, revitElemType templateElem,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
             revitElemType newType = templateElem.Duplicate(serialElementType.Name);
@@ -46,10 +52,10 @@ namespace Synthetic.Serialize.Revit
             serialElementType.UniqueId = newType.UniqueId;
             serialElementType.Id = newType.Id.IntegerValue;
 
-            return (revitElemType)SerialElementType.ModifyElement(serialElementType, document);
+             return SerialElementType.ModifyElement(serialElementType, document);
         }
 
-        public static revitElemType CreateElementType (SerialElementType serialElementType,
+        public static dynElem CreateElementType (SerialElementType serialElementType,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
             Assembly assembly = typeof(revitElem).Assembly;
@@ -61,5 +67,8 @@ namespace Synthetic.Serialize.Revit
 
             return CreateElementTypeByTemplate(serialElementType, template, document);
         }
+        #endregion
+
+
     }
 }

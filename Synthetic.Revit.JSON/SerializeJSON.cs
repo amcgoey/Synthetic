@@ -10,7 +10,12 @@ using revitDB = Autodesk.Revit.DB;
 using revitDoc = Autodesk.Revit.DB.Document;
 using revitElem = Autodesk.Revit.DB.Element;
 using revitElemId = Autodesk.Revit.DB.ElementId;
+using revitElemType = Autodesk.Revit.DB.ElementType;
 using revitMaterial = Autodesk.Revit.DB.Material;
+
+using Revit.Elements;
+using dynElem = Revit.Elements.Element;
+using dynMaterial = Revit.Elements.Material;
 
 using Newtonsoft.Json;
 
@@ -18,61 +23,107 @@ namespace Synthetic.Serialize.Revit
 {
     public class SerializeJSON
     {
+        public Dictionary<string, SerialElementType> ElementTypes { get; set; }
+        public Dictionary<string, SerialMaterial> Materials { get; set; }
+        public Dictionary<string, SerialElement> Elements { get; set; }
+
         internal SerializeJSON () { }
 
-        public static SerializeElement ByRevitElement (revitElem element)
+        public static SerialElement ByRevitElement (revitElem revitElement)
         {
-            SerializeElement serializeElement = null;
+            SerialElement serializeElement = null;
 
-            if (element != null)
+            if (revitElement != null)
             {
-                if (element.GetType() == typeof(revitMaterial))
-                {
-                    serializeElement = new SerializeMaterial((revitMaterial)element);
-                }
-                else
-                {
-                    serializeElement = new SerializeElement(element);
-                }
+                serializeElement = _serialByType(revitElement);
             }
 
             return serializeElement;
         }
 
-        public static SerializeElement DeserializeByJson (string Json)
+        public static SerialElement ByDynamoElement(dynElem dynamoElement)
         {
-            SerializeElement serialElem = JsonConvert.DeserializeObject<SerializeElement>(Json);
+            SerialElement serializeElement = null;
 
-            if(serialElem.Class == "Autodesk.Revit.DB.Material")
+            revitElem revitElement = dynamoElement.InternalElement;
+            
+
+            if (dynamoElement != null)
             {
-                serialElem = JsonConvert.DeserializeObject<SerializeMaterial>(Json);
+                serializeElement = _serialByType(revitElement);
+            }
+
+            return serializeElement;
+        }
+
+        public static SerialElement DeserializeByJson (string Json)
+        {
+            SerialElement serialElem = JsonConvert.DeserializeObject<SerialElement>(Json);
+
+            switch (serialElem.Class)
+            {
+                case "Autodesk.Revit.DB.Material":
+                    serialElem = JsonConvert.DeserializeObject<SerialMaterial>(Json);
+                    break;
+                case "Autodesk.Revit.DB.ElementType":
+                case "Autodesk.Revit.DB.TextNoteType":
+                case "Autodesk.Revit.DB DimensionType":
+                    serialElem = JsonConvert.DeserializeObject<SerialElementType>(Json);
+                    break;
+                default:
+                    break;
             }
             
             return serialElem;
         }
 
-        public static IEnumerable<SerializeElement> DeserializeListByJson (string Json)
+        public static IEnumerable<SerialElement> DeserializeListByJson (string Json)
         {
-            SerializeListElement stringList = JsonConvert.DeserializeObject<SerializeListElement>(Json);
-            List<SerializeElement> serialList = stringList.Elements;
+            //SerialListElement tempList = JsonConvert.DeserializeObject<SerialListElement>(Json);
+            List<string> stringList = JsonConvert.DeserializeObject<SerialListString>(Json).Elements;
 
-            //foreach(string s in stringList)
-            //{
-            //    serialList.Add(SerializeJSON.DeserializeByJson(s));
-            //}
+            List<SerialElement> serialList = new List<SerialElement>();
+
+            foreach (string s in stringList)
+            {
+                serialList.Add(SerializeJSON.DeserializeByJson(s));
+            }
 
             return serialList;
         }
 
-        public static string SerializeElementToJson (SerializeElement serialElement)
+        public static string SerializeToJson (SerialElement serialElement)
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(serialElement, Formatting.Indented);
         }
 
-        public static string SerializeListToJson (List<SerializeElement> serialList)
+        public static string SerializeToJson (List<SerialElement> serialList)
         {
-            SerializeListElement list = new SerializeListElement(serialList);
+            SerialListElement list = new SerialListElement(serialList);
             return Newtonsoft.Json.JsonConvert.SerializeObject(list, Formatting.Indented);
         }
+
+        #region Helper Functions
+        private static SerialElement _serialByType (revitElem revitElement)
+        {
+            SerialElement serializeElement = null;
+            Type revitType = revitElement.GetType();
+
+            if (revitType == typeof(revitMaterial))
+            {
+                serializeElement = new SerialMaterial((revitMaterial)revitElement);
+            }
+            else if (revitType == typeof(revitElemType))
+            {
+                serializeElement = new SerialElementType((revitElemType)revitElement);
+            }
+            else
+            {
+                serializeElement = new SerialElement(revitElement);
+            }
+
+            return serializeElement;
+        }
+        #endregion
     }
 }

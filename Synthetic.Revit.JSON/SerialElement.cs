@@ -11,70 +11,93 @@ using revitDoc = Autodesk.Revit.DB.Document;
 using revitElem = Autodesk.Revit.DB.Element;
 using revitElemId = Autodesk.Revit.DB.ElementId;
 
+using Revit.Elements;
+using dynElem = Revit.Elements.Element;
+
 using Newtonsoft.Json;
 
 namespace Synthetic.Serialize.Revit
 {
-    public class SerializeElement
+    public class SerialElement
     {
         public const string ClassName = "Element";
 
+        #region Public Properties
         public string Class { get; set; }
         public string Name { get; set; }
         public int Id { get; set; }
         public string UniqueId { get; set; }
         public string Category { get; set; }
-        public List<SerializeParameter> Parameters { get; set; }
+        public List<SerialParameter> Parameters { get; set; }
 
         [JsonIgnoreAttribute]
         public revitElem Element { get; set; }
 
         [JsonIgnoreAttribute]
         public revitDoc Document { get; set; }
+        #endregion
 
-        public SerializeElement() { }
+        #region Public Constructors
 
-        public SerializeElement(revitElem element)
+        public SerialElement() { }
+
+        public SerialElement(dynElem dynamoElement)
         {
-            this.Element = element;
-            this.Document = element.Document;
+            revitElem elem = dynamoElement.InternalElement;
+            _ByElement(elem);
+        }
 
-            this.Class = element.GetType().FullName;
-            this.Name = element.Name;
-            this.Id = element.Id.IntegerValue;
-            this.UniqueId = element.UniqueId.ToString();
+        public SerialElement(revitElem revitElement)
+        {
+            _ByElement(revitElement);
+        }
+        #endregion
 
-            revitDB.Category cat = element.Category;
+        #region Constructor Helper Functions
+        private void _ByElement (revitElem elem)
+        {
+            this.Element = elem;
+            this.Document = elem.Document;
+
+            this.Class = elem.GetType().FullName;
+            this.Name = elem.Name;
+            this.Id = elem.Id.IntegerValue;
+            this.UniqueId = elem.UniqueId.ToString();
+
+            revitDB.Category cat = elem.Category;
 
             if (cat != null)
             {
-                this.Category = element.Category.Name;
+                this.Category = elem.Category.Name;
             }
-            
-            this.Parameters = new List<SerializeParameter>();
+
+            this.Parameters = new List<SerialParameter>();
 
             //Iterate through parameters
-            foreach (revitDB.Parameter param in element.Parameters)
+            foreach (revitDB.Parameter param in elem.Parameters)
             {
                 //If the parameter has a value, the add it to the parameter list for export
                 if (!param.IsReadOnly)
                 {
-                    this.Parameters.Add(new SerializeParameter(param, this.Document));
+                    this.Parameters.Add(new SerialParameter(param, this.Document));
                 }
             }
         }
+        #endregion
 
-        public static SerializeElement ByJSON(string JSON)
+
+        #region Public Methods
+        public static SerialElement ByJSON(string JSON)
         {
-            return JsonConvert.DeserializeObject<SerializeElement>(JSON);
+            return JsonConvert.DeserializeObject<SerialElement>(JSON);
         }
 
-        public static string ToJSON(SerializeElement serialElement)
+        public static string ToJSON(SerialElement serialElement)
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(serialElement, Formatting.Indented);
         }
 
-        public static revitElem ModifyElement(SerializeElement serialElement, revitDoc document)
+        public static dynElem ModifyElement(SerialElement serialElement, revitDoc document)
         {
             revitElem elem = null;
 
@@ -88,34 +111,38 @@ namespace Synthetic.Serialize.Revit
             }
             else if (serialElement.Name != null) 
             {
-                //Type elemClass = Type.GetType(JSON.Class);
                 Assembly assembly = typeof(revitElem).Assembly;
                 Type elemClass = assembly.GetType(serialElement.Class);
 
                 revitDB.FilteredElementCollector collector = new revitDB.FilteredElementCollector(document);
                 elem = collector.OfClass(elemClass)
                     .FirstOrDefault(e => e.Name.Equals(serialElement.Name));
-
-                //revitDB.ElementId elemId = revitElem.Create(doc, materialJSON.Name);
-                //elem = (revitElem)doc.GetElement(elemId);
             }
 
             if(elem != null)
             {
-                elem.Name = serialElement.Name;
-
-                foreach (SerializeParameter paramJson in serialElement.Parameters)
-                {
-                    SerializeParameter.ModifyParameter(paramJson, elem);
-                }
+                serialElement._ModifyProperties(elem);
             }
 
-            return elem;
+            return elem.ToDSType(true);
         }
 
         public override string ToString()
         {
             return string.Format("{0}(Name=\"{1}\", ID={2})", this.GetType().Name, this.Name, this.Id);
         }
+        #endregion
+
+        #region Helper Functions
+        private void _ModifyProperties (revitElem elem)
+        {
+            elem.Name = this.Name;
+
+            foreach (SerialParameter paramJson in this.Parameters)
+            {
+                SerialParameter.ModifyParameter(paramJson, elem);
+            }
+        }
+        #endregion
     }
 }
