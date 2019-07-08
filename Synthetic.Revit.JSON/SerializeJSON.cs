@@ -23,9 +23,9 @@ namespace Synthetic.Serialize.Revit
 {
     public class SerializeJSON
     {
-        public Dictionary<string, SerialElementType> ElementTypes { get; set; }
-        public Dictionary<string, SerialMaterial> Materials { get; set; }
-        public Dictionary<string, SerialElement> Elements { get; set; }
+        public Dictionary<string, SerialElementType> ElementTypes { get; set; } = new Dictionary<string, SerialElementType>();
+        public Dictionary<string, SerialMaterial> Materials { get; set; } = new Dictionary<string, SerialMaterial>();
+        public List<SerialElement> Elements { get; set; } = new List<SerialElement>();
 
         internal SerializeJSON () { }
 
@@ -73,57 +73,134 @@ namespace Synthetic.Serialize.Revit
                 default:
                     break;
             }
-            
+
             return serialElem;
         }
 
+        #region Serialize and Deserialize Methods
         public static IEnumerable<SerialElement> DeserializeListByJson (string Json)
         {
-            //SerialListElement tempList = JsonConvert.DeserializeObject<SerialListElement>(Json);
-            List<string> stringList = JsonConvert.DeserializeObject<SerialListString>(Json).Elements;
+            ////SerialListElement tempList = JsonConvert.DeserializeObject<SerialListElement>(Json);
+            //List<string> stringList = JsonConvert.DeserializeObject<SerialListString>(Json).Elements;
 
-            List<SerialElement> serialList = new List<SerialElement>();
+            //List<SerialElement> serialList = new List<SerialElement>();
 
-            foreach (string s in stringList)
-            {
-                serialList.Add(SerializeJSON.DeserializeByJson(s));
-            }
+            //foreach (string s in stringList)
+            //{
+            //    serialList.Add(SerializeJSON.DeserializeByJson(s));
+            //}
 
-            return serialList;
+            //return serialList;
+
+            SerializeJSON serializeJSON = JsonConvert.DeserializeObject<SerializeJSON>(Json);
+
+            return serializeJSON.Materials.Values.ToList<SerialElement>()
+                .Concat(serializeJSON.ElementTypes.Values.ToList <SerialElement>()
+                .Concat(serializeJSON.Elements));
         }
 
         public static string SerializeToJson (SerialElement serialElement)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(serialElement, Formatting.Indented);
+            SerializeJSON serializeJSON = new SerializeJSON();
+            serializeJSON._sortSerialElement(serialElement);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(serializeJSON, Formatting.Indented);
         }
 
         public static string SerializeToJson (List<SerialElement> serialList)
         {
-            SerialListElement list = new SerialListElement(serialList);
-            return Newtonsoft.Json.JsonConvert.SerializeObject(list, Formatting.Indented);
+            SerializeJSON serializeJSON = new SerializeJSON();
+            
+            foreach (SerialElement se in serialList)
+            {
+                serializeJSON._sortSerialElement(se);
+            }
+            return Newtonsoft.Json.JsonConvert.SerializeObject(serializeJSON, Formatting.Indented);
         }
+        #endregion
 
-        #region Helper Functions
-        private static SerialElement _serialByType (revitElem revitElement)
+        #region Serialization Helper Functions
+
+        private static SerialElement _serialByType(revitElem revitElement)
         {
             SerialElement serializeElement = null;
-            Type revitType = revitElement.GetType();
+            string revitType = revitElement.GetType().FullName;
 
-            if (revitType == typeof(revitMaterial))
+            switch (revitType)
             {
-                serializeElement = new SerialMaterial((revitMaterial)revitElement);
-            }
-            else if (revitType == typeof(revitElemType))
-            {
-                serializeElement = new SerialElementType((revitElemType)revitElement);
-            }
-            else
-            {
-                serializeElement = new SerialElement(revitElement);
+                case "Autodesk.Revit.DB.Material":
+                    serializeElement = new SerialMaterial((revitMaterial)revitElement);
+                    break;
+                case "Autodesk.Revit.DB.ElementType":
+                case "Autodesk.Revit.DB.TextNoteType":
+                case "Autodesk.Revit.DB DimensionType":
+                    serializeElement = new SerialElementType((revitElemType)revitElement);
+                    break;
+                default:
+                    serializeElement = new SerialElement(revitElement);
+                    break;
             }
 
             return serializeElement;
         }
+
+        private void _sortSerialElement(SerialElement serialElement)
+        {
+            Type type = serialElement.GetType();
+
+            if (type == typeof(SerialMaterial))
+            {
+                this.Materials.Add(serialElement.Name, (SerialMaterial)serialElement);
+            }
+            else if (type == typeof(SerialElementType))
+            {
+                this.ElementTypes.Add(serialElement.Name, (SerialElementType)serialElement);
+            }
+            else
+            {
+                this.Elements.Add((SerialElement)serialElement);
+            }
+        }
+        #endregion
+
+        #region Element Creation and Modification Methods
+
+        public static dynElem ModifyElement (SerialElement serialElement,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        {
+            dynElem elem = null;
+            Type type = serialElement.GetType();
+
+            if (type == typeof(SerialMaterial))
+            {
+                elem = SerialMaterial.ModifyMaterial((SerialMaterial)serialElement, document);
+                
+            }
+            else if (type == typeof(SerialElementType))
+            {
+                elem = SerialElementType.ModifyElement((SerialElementType)serialElement, document);
+            }
+            else
+            {
+                elem = SerialElement.ModifyElement((SerialElement)serialElement, document);
+            }
+
+            return elem;
+        }
+
+        public static dynElem CreateElementType (SerialElementType serialElementType, dynElem templateType)
+        {
+            revitDoc document = templateType.InternalElement.Document;
+
+            dynElem elem = SerialElementType.CreateElementTypeByTemplate(serialElementType, (revitElemType)templateType.InternalElement, document);
+
+            return elem;
+        }
+        #endregion
+
+        #region Creation and Modification Helper Functions
+
+        
+
         #endregion
     }
 }

@@ -30,6 +30,8 @@ namespace Synthetic.Serialize.Revit
         public string Category { get; set; }
         public List<SerialParameter> Parameters { get; set; }
 
+        public List<string> Aliases { get; set; }
+
         [JsonIgnoreAttribute]
         public revitElem Element { get; set; }
 
@@ -97,7 +99,8 @@ namespace Synthetic.Serialize.Revit
             return Newtonsoft.Json.JsonConvert.SerializeObject(serialElement, Formatting.Indented);
         }
 
-        public static dynElem ModifyElement(SerialElement serialElement, revitDoc document)
+        public static dynElem ModifyElement(SerialElement serialElement,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
             revitElem elem = null;
 

@@ -44,15 +44,34 @@ namespace Synthetic.Serialize.Revit
         }
 
         #region Public Methods
-        public static dynElem CreateElementTypeByTemplate (SerialElementType serialElementType, revitElemType templateElem,
+
+        public static dynElem CreateElementTypeByTemplate (SerialElementType serialElementType, revitElemType templateElemType,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
-            revitElemType newType = templateElem.Duplicate(serialElementType.Name);
+            // Intialize an empty newType.
+            revitElemType newType = null;
+            
+            // Get the Revit Class of the ElementType
+            Assembly assembly = typeof(revitElem).Assembly;
+            Type elemClass = assembly.GetType(serialElementType.Class);
 
+            // Check if a ElementType of that name already exists
+            revitDB.FilteredElementCollector collector = new revitDB.FilteredElementCollector(document);
+            newType = (revitElemType)collector.OfClass(elemClass)
+                .FirstOrDefault(e => e.Name.Equals(serialElementType.Name));
+
+            // If the ElementType doesn't exist, create a new type based on the template
+            if (newType == null)
+            {
+                newType = templateElemType.Duplicate(serialElementType.Name);
+            }
+
+            // Set the SerialElementType's Ids to the newType
             serialElementType.UniqueId = newType.UniqueId;
             serialElementType.Id = newType.Id.IntegerValue;
 
-             return SerialElementType.ModifyElement(serialElementType, document);
+            // Return the modified Dynamo Element of the ElementType.
+            return SerialElementType.ModifyElement(serialElementType, document);
         }
 
         public static dynElem CreateElementType (SerialElementType serialElementType,

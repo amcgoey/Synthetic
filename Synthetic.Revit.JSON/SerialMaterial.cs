@@ -103,29 +103,30 @@ namespace Synthetic.Serialize.Revit
             return Newtonsoft.Json.JsonConvert.SerializeObject(materialJSON, Formatting.Indented);
         }
 
-        public static dynElem ModifyMaterial(SerialMaterial serialMaterial, revitDoc doc)
+        public static dynElem ModifyMaterial(SerialMaterial serialMaterial,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
             revitMaterial mat = null;
 
             if (serialMaterial.UniqueId != null)
             {
-                mat = (revitMaterial)doc.GetElement(serialMaterial.UniqueId);
+                mat = (revitMaterial)document.GetElement(serialMaterial.UniqueId);
             }
             else if (serialMaterial.Id != 0)
             {
-                mat = (revitMaterial)doc.GetElement(new revitDB.ElementId(serialMaterial.Id));
+                mat = (revitMaterial)document.GetElement(new revitDB.ElementId(serialMaterial.Id));
             }
             else if (serialMaterial.Name != null)
             {
-                revitDB.FilteredElementCollector collector = new revitDB.FilteredElementCollector(doc);
+                revitDB.FilteredElementCollector collector = new revitDB.FilteredElementCollector(document);
                 mat = collector.OfClass(typeof(revitMaterial))
                     .OfType<revitMaterial>()
                     .FirstOrDefault(e => e.Name.Equals(serialMaterial.Name));
             }
             else
             {
-                revitDB.ElementId matId = revitMaterial.Create(doc, serialMaterial.Name);
-                mat = (revitMaterial)doc.GetElement(matId);
+                revitDB.ElementId matId = revitMaterial.Create(document, serialMaterial.Name);
+                mat = (revitMaterial)document.GetElement(matId);
             }
 
             if (mat != null)
