@@ -99,12 +99,12 @@ namespace Synthetic.Serialize.Revit
                 .Concat(serializeJSON.Elements));
         }
 
-        public static string SerializeToJson (SerialElement serialElement)
-        {
-            SerializeJSON serializeJSON = new SerializeJSON();
-            serializeJSON._sortSerialElement(serialElement);
-            return Newtonsoft.Json.JsonConvert.SerializeObject(serializeJSON, Formatting.Indented);
-        }
+        //public static string SerializeToJson (SerialElement serialElement)
+        //{
+        //    SerializeJSON serializeJSON = new SerializeJSON();
+        //    serializeJSON._sortSerialElement(serialElement);
+        //    return Newtonsoft.Json.JsonConvert.SerializeObject(serializeJSON, Formatting.Indented);
+        //}
 
         public static string SerializeToJson (List<SerialElement> serialList)
         {

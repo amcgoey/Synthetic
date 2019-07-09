@@ -60,6 +60,26 @@ namespace Synthetic.Serialize.Revit
             newType = (revitElemType)collector.OfClass(elemClass)
                 .FirstOrDefault(e => e.Name.Equals(serialElementType.Name));
 
+            List<revitElemType> aliasTypes = null;
+
+            // Check if Aliases of the ElementType already exist
+            if (serialElementType.Aliases != null && newType == null)
+            {
+                foreach (string alias in serialElementType.Aliases)
+                {
+                    aliasTypes.Add(
+                    (revitElemType)collector.OfClass(elemClass)
+                    .Where(e => e.Name.Equals(alias) )
+                    .Select(e => e)
+                    );
+                }
+
+                if (aliasTypes.FirstOrDefault() != null)
+                {
+                    newType = aliasTypes.FirstOrDefault();
+                }
+            }
+
             // If the ElementType doesn't exist, create a new type based on the template
             if (newType == null)
             {
