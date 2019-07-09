@@ -196,7 +196,7 @@
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
       "NodeType": "BooleanInputNode",
-      "InputValue": false,
+      "InputValue": true,
       "Id": "624c06199ffa4b0e85d47827b4f3a7e4",
       "Inputs": [],
       "Outputs": [
@@ -689,8 +689,8 @@
     },
     {
       "Start": "c80aa395c59847138de7bda45a393159",
-      "End": "bffe9443f039418990d0ca4a77204f04",
-      "Id": "8d5214d4a49b4c0b9add4c5ef0bba476"
+      "End": "e70e572e471849afa5e21ed576823603",
+      "Id": "2ae538c9f8a24214b8344acc73299b15"
     },
     {
       "Start": "419c7ec583f4410dbbf11f27b58d5757",
@@ -700,7 +700,7 @@
     {
       "Start": "8b521337d0e8470ca260929a30e4a7d2",
       "End": "743ad5d7fa7e4715a1f09f2fc521b671",
-      "Id": "64dde0ee06444b1bb2ae7671c37386a0"
+      "Id": "246a60d98f4c47658f49e5df4863ce5e"
     },
     {
       "Start": "38518e4fa3c248c4a990b494d63421c7",
@@ -714,8 +714,8 @@
     },
     {
       "Start": "4bc58b88d6d247fca05eebc01e7fb9d5",
-      "End": "1a91c960aa48442a8611aba3d20552f2",
-      "Id": "4304aacc2f8741e09a9045e688433ce6"
+      "End": "bffe9443f039418990d0ca4a77204f04",
+      "Id": "b66820f54d7c43769909e2416409bf26"
     },
     {
       "Start": "61a47bbe24054bd7a07da24b3f052261",
@@ -744,8 +744,8 @@
     },
     {
       "Start": "f090478bf1794a00beb1da0928ed2d8f",
-      "End": "e70e572e471849afa5e21ed576823603",
-      "Id": "44baf597a74b4af7b425cfa7260824f0"
+      "End": "1a91c960aa48442a8611aba3d20552f2",
+      "Id": "147286d98b994c9cbe1f803a0a19549c"
     },
     {
       "Start": "27fdee8a43bb4d23b869382c922d26aa",
@@ -844,8 +844,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": 2453.3030991900669,
-        "Y": 726.128714072792
+        "X": 2867.1628399135548,
+        "Y": 634.67391893011586
       },
       {
         "ShowGeometry": true,
@@ -874,8 +874,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": 2348.2208733105472,
-        "Y": 824.5817997671686
+        "X": 2623.2647964757602,
+        "Y": 800.20931990243707
       },
       {
         "ShowGeometry": true,
@@ -884,8 +884,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": 2097.7440344736765,
-        "Y": 591.80573041555817
+        "X": 2126.5741270078479,
+        "Y": 550.621621532091
       },
       {
         "ShowGeometry": true,
@@ -934,8 +934,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": 2447.2977432366106,
-        "Y": 596.33863858870586
+        "X": 2479.14329789575,
+        "Y": 678.62971873414949
       },
       {
         "ShowGeometry": true,
@@ -954,8 +954,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": 3694.3378189715595,
-        "Y": 723.8667787118236
+        "X": 3989.7392962096,
+        "Y": 434.70869912396779
       },
       {
         "ShowGeometry": true,
@@ -964,8 +964,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": 2758.3226929098741,
-        "Y": 597.408499002079
+        "X": 3040.0564378772037,
+        "Y": 507.83285018155857
       },
       {
         "ShowGeometry": true,
@@ -974,8 +974,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": 3227.409228681046,
-        "Y": 600.51137442294544
+        "X": 3501.1416580633213,
+        "Y": 598.082029639846
       },
       {
         "ShowGeometry": true,
@@ -984,8 +984,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": 3008.6624902159224,
-        "Y": 646.74496535200979
+        "X": 3303.6351038275793,
+        "Y": 536.067561218288
       },
       {
         "ShowGeometry": true,
@@ -994,8 +994,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": 3461.409671119744,
-        "Y": 724.30014685795641
+        "X": 3756.8111483577845,
+        "Y": 435.1420672701006
       }
     ],
     "Annotations": [
@@ -1017,7 +1017,7 @@
         "Height": 225.30637240826718,
         "FontSize": 36.0,
         "InitialTop": 989.74516179813008,
-        "InitialHeight": 204.5843174662316,
+        "InitialHeight": 207.81084461776368,
         "TextblockHeight": 43.0,
         "Background": "#FF848484"
       },
@@ -1038,7 +1038,7 @@
         "Height": 663.81928343553864,
         "FontSize": 36.0,
         "InitialTop": 525.18523069029516,
-        "InitialHeight": 481.77877663250604,
+        "InitialHeight": 662.81928343553864,
         "TextblockHeight": 43.0,
         "Background": "#FFFFB8D8"
       },
@@ -1056,7 +1056,7 @@
         "Height": 244.92156846659111,
         "FontSize": 36.0,
         "InitialTop": 747.21833773448486,
-        "InitialHeight": 397.63774458340197,
+        "InitialHeight": 200.92156846659111,
         "TextblockHeight": 86.0,
         "Background": "#FF848484"
       },
@@ -1088,7 +1088,7 @@
         "Height": 278.0,
         "FontSize": 24.0,
         "InitialTop": 231.15021456209342,
-        "InitialHeight": 124.0,
+        "InitialHeight": 145.0,
         "TextblockHeight": 29.0,
         "Background": "#FFA4E1FF"
       },
@@ -1099,13 +1099,13 @@
           "5bdb0f8de9834091b647170b375181e6",
           "88980c38d6c34e43a50a52e17e9cab74"
         ],
-        "Left": 3451.409671119744,
-        "Top": 684.8667787118236,
+        "Left": 3746.8111483577845,
+        "Top": 395.70869912396779,
         "Width": 483.92814785181554,
         "Height": 278.0,
         "FontSize": 24.0,
-        "InitialTop": 723.8667787118236,
-        "InitialHeight": 124.0,
+        "InitialTop": 434.70869912396779,
+        "InitialHeight": 145.43336814613281,
         "TextblockHeight": 29.0,
         "Background": "#FFA4E1FF"
       },
@@ -1122,13 +1122,13 @@
           "f6bc8043cf704422a97ff9d12708751d",
           "916f7308ec1848308da7cc974405c80a"
         ],
-        "Left": 2087.7440344736765,
-        "Top": 491.62025340502419,
-        "Width": 1343.6651942073695,
-        "Height": 425.96154636214442,
+        "Left": 2116.5741270078479,
+        "Top": 401.47121077262784,
+        "Width": 1588.5675310554734,
+        "Height": 491.73810912980923,
         "FontSize": 36.0,
-        "InitialTop": 544.62025340502419,
-        "InitialHeight": 355.77606935161043,
+        "InitialTop": 454.47121077262784,
+        "InitialHeight": 424.96154636214442,
         "TextblockHeight": 43.0,
         "Background": "#FF848484"
       },
@@ -1234,8 +1234,8 @@
         "Id": "916f7308ec1848308da7cc974405c80a",
         "Title": "Custom Node: Synthetic\r\n   v. 1.3.190629",
         "Nodes": [],
-        "Left": 2445.8439706119425,
-        "Top": 544.62025340502419,
+        "Left": 3054.0924458417749,
+        "Top": 454.47121077262784,
         "Width": 0.0,
         "Height": 0.0,
         "FontSize": 36.0,
@@ -1245,8 +1245,8 @@
         "Background": "#FFC1D676"
       }
     ],
-    "X": -449.40693983702772,
-    "Y": -225.13017674623075,
-    "Zoom": 0.812397250794529
+    "X": -125.42576855257892,
+    "Y": 122.64815453352105,
+    "Zoom": 0.235142759831316
   }
 }
