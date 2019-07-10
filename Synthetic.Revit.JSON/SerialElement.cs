@@ -67,7 +67,6 @@ namespace Synthetic.Serialize.Revit
         [JsonIgnoreAttribute]
         public SerialElementId ElementId { get; set; }
 
-
         [JsonIgnoreAttribute]
         public revitElem Element { get; set; }
 
@@ -137,37 +136,37 @@ namespace Synthetic.Serialize.Revit
             return Newtonsoft.Json.JsonConvert.SerializeObject(serialElement, Formatting.Indented);
         }
 
-        public static dynElem ModifyElement(SerialElement serialElement,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        public static dynElem ModifyElement(SerialElement serialElement, [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
-            revitElem elem = null;
+            serialElement.Element = serialElement.ElementId.GetElem(document);
+            //revitElem elem = null;
 
-            if (serialElement.UniqueId != null)
+            //if (serialElement.UniqueId != null)
+            //{
+            //    elem = (revitElem)document.GetElement(serialElement.UniqueId);
+            //}
+            //else if (serialElement.Id != 0)
+            //{
+            //    elem = (revitElem)document.GetElement(new revitElemId(serialElement.Id));
+            //}
+            //else if (serialElement.Name != null) 
+            //{
+            //    Assembly assembly = typeof(revitElem).Assembly;
+            //    Type elemClass = assembly.GetType(serialElement.Class);
+
+
+            //    //revitDB.FilteredElementCollector collector = new revitDB.FilteredElementCollector(document);
+            //    //elem = collector.OfClass(elemClass)
+            //    //    .FirstOrDefault(e => e.Name.Equals(serialElement.Name));
+            //    elem = Select.ByNameClass(elemClass, serialElement.Name, document);
+            //}
+
+            if(serialElement.Element != null)
             {
-                elem = (revitElem)document.GetElement(serialElement.UniqueId);
-            }
-            else if (serialElement.Id != 0)
-            {
-                elem = (revitElem)document.GetElement(new revitElemId(serialElement.Id));
-            }
-            else if (serialElement.Name != null) 
-            {
-                Assembly assembly = typeof(revitElem).Assembly;
-                Type elemClass = assembly.GetType(serialElement.Class);
-
-
-                //revitDB.FilteredElementCollector collector = new revitDB.FilteredElementCollector(document);
-                //elem = collector.OfClass(elemClass)
-                //    .FirstOrDefault(e => e.Name.Equals(serialElement.Name));
-                elem = Select.ByNameClass(elemClass, serialElement.Name, document);
+                serialElement._ModifyProperties(serialElement.Element);
             }
 
-            if(elem != null)
-            {
-                serialElement._ModifyProperties(elem);
-            }
-
-            return elem.ToDSType(true);
+            return serialElement.Element.ToDSType(true);
         }
 
         public override string ToString()
