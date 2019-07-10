@@ -31,6 +31,8 @@ namespace Synthetic.Serialize.Revit
         public string Category { get; set; }
         public string UniqueId { get; set; }
 
+        public List<string> Aliases { get; set; }
+
         public SerialElementId () { }
 
         public SerialElementId (string Name, int ElementId, string Class, string Category)

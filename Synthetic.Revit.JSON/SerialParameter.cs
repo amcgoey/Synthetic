@@ -114,8 +114,6 @@ namespace Synthetic.Serialize.Revit
                         param.Set(Convert.ToDouble(paramJSON.Value));
                         break;
                     case "ElementId":
-                        //param.Set(new ElementId(Convert.ToInt32(paramJSON.Value)));                        
-                        //param.Set(paramJSON.ValueElemId.ToElementId());
                         SerialParameter._ModifyElementIdParameter(param, paramJSON.ValueElemId, doc);
                         break;
                     case "Integer":
@@ -131,32 +129,67 @@ namespace Synthetic.Serialize.Revit
             return Elem;
         }
 
+        /// <summary>
+        /// Depending on SerialElementId properties, method attempts to find the Element referenced by the ElementId by first trying UniqueId, then Id, then Name, then Aliases of the name.  If an element is found, then set the parameter to the Element's Id.
+        /// </summary>
+        /// <param name="param">Parameter to modify</param>
+        /// <param name="serialElementId">A SerialElementId that references an element in the Document.</param>
+        /// <param name="document">A revit document</param>
+        /// <returns name="status">Returns true if parameter was successfully set and false if not.  Parameter retains it previous value if Set was unsucessful.</returns>
         private static bool _ModifyElementIdParameter (revitParam param, SerialElementId serialElementId, revitDoc document)
         {
+            //  Initialize variables.
+            // Status of parameter change.
             bool status = false;
+
+            //  Element to set the ElementId parameter to
             revitElem elem = null;
 
-            if(serialElementId.UniqueId != null)
+            // Assembly and Class that the Element should be
+            Assembly assembly = typeof(revitElem).Assembly;
+            Type elemClass = assembly.GetType(serialElementId.Class);
+
+            // Try to collect the element by UniqueId
+            if (serialElementId.UniqueId != null && elem == null)
             {
                 elem = document.GetElement(serialElementId.UniqueId);
             }
-            else if (serialElementId.Id != 0)
+            // Otherwise try to collect the element by Id
+            if (serialElementId.Id != 0 && elem == null)
             {
                 elem = document.GetElement(serialElementId.ToElementId());
             }
-            else if (serialElementId.Name != null)
+            // Otherwise try to collect the element by name
+            if (serialElementId.Name != null && elem == null)
             {
-                Assembly assembly = typeof(revitElem).Assembly;
-                Type elemClass = assembly.GetType(serialElementId.Class);
-
                 elem = Select.ByNameClass(elemClass, serialElementId.Name, document);
             }
+            // Otherwise try to collect the element by aliases of it's name.
+            if (serialElementId.Aliases != null && elem == null)
+            {
+                // Intialize list for alias ElementTypes
+                List<revitElem> aliasElem = new List<revitElem>();
 
-            if (elem == null)
+                //  Try to collect elements for each alias
+                foreach (string alias in serialElementId.Aliases)
+                {
+                    aliasElem.Add((revitElem)Select.ByNameClass(elemClass, alias, document));
+                }
+
+                //  If an alias was found, then select that alias to use.
+                if (aliasElem.FirstOrDefault() != null)
+                {
+                    elem = aliasElem.FirstOrDefault();
+                }
+            }
+
+            //  If elem was selected, then set the parameter to that element.
+            if (elem != null)
             {
                 status = param.Set(elem.Id);
             }
 
+            // Return if parameter change was successful.
             return status;
         }
     }
