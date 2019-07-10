@@ -42,38 +42,38 @@ namespace Synthetic.Serialize.Revit
             this.IsReadOnly = IsReadOnly;
         }
 
-        public SerialParameter(revitParam param,
+        public SerialParameter(revitParam parameter,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc Document)
         {
-            this.Name = param.Definition.Name;
-            this.StorageType = param.StorageType.ToString();
+            this.Name = parameter.Definition.Name;
+            this.StorageType = parameter.StorageType.ToString();
             switch (this.StorageType)
             {
                 case "Double":
-                    this.Value = param.AsDouble().ToString();
+                    this.Value = parameter.AsDouble().ToString();
                     break;
                 case "ElementId":
-                    this.ValueElemId = new SerialElementId(param.AsElementId(), Document);
+                    this.ValueElemId = new SerialElementId(parameter.AsElementId(), Document);
                     //this.Value = param.AsElementId().ToString();
                     break;
                 case "Integer":
-                    this.Value = param.AsInteger().ToString();
+                    this.Value = parameter.AsInteger().ToString();
                     break;
                 case "String":
                 default:
-                    this.Value = param.AsString();
+                    this.Value = parameter.AsString();
                     break;
             }
 
-            this.Id = param.Id.IntegerValue;
+            this.Id = parameter.Id.IntegerValue;
 
             if (IsShared)
             {
-                this.GUID = param.GUID.ToString();
+                this.GUID = parameter.GUID.ToString();
             }
 
-            this.IsShared = param.IsShared;
-            this.IsReadOnly = param.IsReadOnly;
+            this.IsShared = parameter.IsShared;
+            this.IsReadOnly = parameter.IsReadOnly;
 
         }
 
@@ -82,22 +82,22 @@ namespace Synthetic.Serialize.Revit
             return Newtonsoft.Json.JsonConvert.SerializeObject(parameter, Formatting.Indented);
         }
 
-        public static revitElem ModifyParameter(SerialParameter paramJSON, revitElem Elem)
+        public static revitElem ModifyParameter(SerialParameter serialParameter, revitElem Elem)
         {
             revitParam param = null;
             revitDoc doc = Elem.Document;
 
-            if (paramJSON.IsShared)
+            if (serialParameter.IsShared)
             {
-                param = Elem.get_Parameter(new Guid(paramJSON.GUID));
+                param = Elem.get_Parameter(new Guid(serialParameter.GUID));
             }
-            else if (paramJSON.Id < 0)
+            else if (serialParameter.Id < 0)
             {
-                param = Elem.get_Parameter((BuiltInParameter)paramJSON.Id);
+                param = Elem.get_Parameter((BuiltInParameter)serialParameter.Id);
             }
-            else if (paramJSON.Id > 0)
+            else if (serialParameter.Id > 0)
             {
-                ParameterElement paramElem = (ParameterElement)doc.GetElement(new ElementId(paramJSON.Id));
+                ParameterElement paramElem = (ParameterElement)doc.GetElement(new ElementId(serialParameter.Id));
                 if (paramElem != null)
                 {
                     Definition def = paramElem.GetDefinition();
@@ -107,20 +107,20 @@ namespace Synthetic.Serialize.Revit
 
             if (param != null && !param.IsReadOnly)
             {
-                switch (paramJSON.StorageType)
+                switch (serialParameter.StorageType)
                 {
                     case "Double":
-                        param.Set(Convert.ToDouble(paramJSON.Value));
+                        param.Set(Convert.ToDouble(serialParameter.Value));
                         break;
                     case "ElementId":
-                        SerialParameter._ModifyElementIdParameter(param, paramJSON.ValueElemId, doc);
+                        SerialParameter._ModifyElementIdParameter(param, serialParameter.ValueElemId, doc);
                         break;
                     case "Integer":
-                        param.Set(Convert.ToInt32(paramJSON.Value));
+                        param.Set(Convert.ToInt32(serialParameter.Value));
                         break;
                     case "String":
                     default:
-                        param.Set(paramJSON.Value);
+                        param.Set(serialParameter.Value);
                         break;
                 }
             }

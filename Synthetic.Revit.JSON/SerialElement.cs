@@ -25,14 +25,52 @@ namespace Synthetic.Serialize.Revit
         public const string ClassName = "Element";
 
         #region Public Properties
-        public string Class { get; set; }
-        public string Name { get; set; }
-        public int Id { get; set; }
-        public string UniqueId { get; set; }
-        public string Category { get; set; }
+        
+        public SerialElementId ElementId { get; set; }
+
         public List<SerialParameter> Parameters { get; set; }
 
-        public List<string> Aliases { get; set; }
+        [JsonIgnoreAttribute]
+        public string Class
+        {
+            get { return this.ElementId.Class; }
+            private set { this.ElementId.Class = value; }
+        }
+
+        [JsonIgnoreAttribute]
+        public string Name
+        {
+            get { return this.ElementId.Name; }
+            set { this.ElementId.Name = value; }
+        }
+
+        [JsonIgnoreAttribute]
+        public List<string> Aliases
+        {
+            get { return this.ElementId.Aliases; }
+            set { this.ElementId.Aliases = value; }
+        }
+
+        [JsonIgnoreAttribute]
+        public int Id
+        {
+            get { return this.ElementId.Id; }
+            set { this.ElementId.Id = value; }
+        }
+
+        [JsonIgnoreAttribute]
+        public string UniqueId
+        {
+            get { return this.ElementId.UniqueId; }
+            set { this.ElementId.UniqueId = value; }
+        }
+
+        [JsonIgnoreAttribute]
+        public string Category
+        {
+            get { return this.ElementId.Category; }
+            set { this.ElementId.Category = value; }
+        }
 
         [JsonIgnoreAttribute]
         public revitElem Element { get; set; }
@@ -62,6 +100,8 @@ namespace Synthetic.Serialize.Revit
         {
             this.Element = elem;
             this.Document = elem.Document;
+
+            this.ElementId = new SerialElementId();
 
             this.Class = elem.GetType().FullName;
             this.Name = elem.Name;
