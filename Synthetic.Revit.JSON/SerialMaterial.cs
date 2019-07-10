@@ -13,6 +13,8 @@ using Revit.Elements;
 using dynElem = Revit.Elements.Element;
 using dynMaterial = Revit.Elements.Material;
 
+using Select = Synthetic.Revit.Select;
+
 using Newtonsoft.Json;
 
 namespace Synthetic.Serialize.Revit
@@ -93,7 +95,7 @@ namespace Synthetic.Serialize.Revit
         #endregion
 
         #region Public Methods
-        public static SerialMaterial ByJSON(string JSON)
+        public new static SerialMaterial ByJSON(string JSON)
         {
             return JsonConvert.DeserializeObject<SerialMaterial>(JSON);
         }
@@ -118,10 +120,11 @@ namespace Synthetic.Serialize.Revit
             }
             else if (serialMaterial.Name != null)
             {
-                revitDB.FilteredElementCollector collector = new revitDB.FilteredElementCollector(document);
-                mat = collector.OfClass(typeof(revitMaterial))
-                    .OfType<revitMaterial>()
-                    .FirstOrDefault(e => e.Name.Equals(serialMaterial.Name));
+                //revitDB.FilteredElementCollector collector = new revitDB.FilteredElementCollector(document);
+                //mat = collector.OfClass(typeof(revitMaterial))
+                //    .OfType<revitMaterial>()
+                //    .FirstOrDefault(e => e.Name.Equals(serialMaterial.Name));
+                mat = (revitMaterial)Select.ByNameClass(typeof(revitMaterial), serialMaterial.Name, document);
             }
             else
             {
@@ -143,13 +146,13 @@ namespace Synthetic.Serialize.Revit
         {
             material.Name = this.Name;
 
-            material.CutPatternColor = SerialColor.ToColor(this.CutForegroundPatternColor);
-            material.CutPatternId = SerialElementId.ToElementId(this.CutForegroundPatternId);
+            material.CutPatternColor = this.CutForegroundPatternColor.ToColor();
+            material.CutPatternId = this.CutForegroundPatternId.ToElementId();
 
-            material.SurfacePatternColor = SerialColor.ToColor(this.CutForegroundPatternColor);
-            material.SurfacePatternId = SerialElementId.ToElementId(this.CutForegroundPatternId);
+            material.SurfacePatternColor = this.CutForegroundPatternColor.ToColor();
+            material.SurfacePatternId = this.CutForegroundPatternId.ToElementId();
 
-            material.AppearanceAssetId = SerialElementId.ToElementId(this.AppearanceAssetId);
+            material.AppearanceAssetId = this.AppearanceAssetId.ToElementId();
 
             foreach (SerialParameter paramJson in this.Parameters)
             {

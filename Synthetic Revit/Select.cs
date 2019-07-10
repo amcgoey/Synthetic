@@ -122,5 +122,18 @@ namespace Synthetic.Revit
                 .FirstOrDefault(
                 m => m.Name.Equals(materialName));
         }
+
+        public static revitDB.Element ByNameClass(Type Class, string Name,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        {
+            revitFECollector collector
+                = new revitFECollector(document);
+
+            revitDB.Element elem = collector
+                .OfClass(Class)
+                .FirstOrDefault(e => e.Name.Equals(Name));
+
+            return elem;
+        }
     }
 }

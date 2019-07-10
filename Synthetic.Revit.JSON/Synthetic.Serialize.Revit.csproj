@@ -72,5 +72,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Synthetic Revit\Synthetic.Revit.csproj">
+      <Project>{e4b1863b-67ec-40f7-8e63-2917b4485e71}</Project>
+      <Name>Synthetic.Revit</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -16,7 +16,7 @@ using revitMaterial = Autodesk.Revit.DB.Material;
 using Revit.Elements;
 using dynElem = Revit.Elements.Element;
 
-using Newtonsoft.Json;
+using Select = Synthetic.Revit.Select;
 
 namespace Synthetic.Serialize.Revit
 {
@@ -56,9 +56,10 @@ namespace Synthetic.Serialize.Revit
             Type elemClass = assembly.GetType(serialElementType.Class);
 
             // Check if a ElementType of that name already exists
-            revitDB.FilteredElementCollector collector = new revitDB.FilteredElementCollector(document);
-            newType = (revitElemType)collector.OfClass(elemClass)
-                .FirstOrDefault(e => e.Name.Equals(serialElementType.Name));
+            //revitDB.FilteredElementCollector collector = new revitDB.FilteredElementCollector(document);
+            //newType = (revitElemType)collector.OfClass(elemClass)
+            //    .FirstOrDefault(e => e.Name.Equals(serialElementType.Name));
+            newType = (revitElemType)Select.ByNameClass(elemClass, serialElementType.Name, document);
 
             // Intialize list for alias ElementTypes
             List<revitElemType> aliasTypes = new List<revitElemType>();
@@ -68,10 +69,11 @@ namespace Synthetic.Serialize.Revit
             {
                 foreach (string alias in serialElementType.Aliases)
                 {
-                    aliasTypes.Add(
-                    (revitElemType)collector.OfClass(elemClass)
-                    .FirstOrDefault(e => e.Name.Equals(alias))
-                    );
+                    //aliasTypes.Add(
+                    //(revitElemType)collector.OfClass(elemClass)
+                    //.FirstOrDefault(e => e.Name.Equals(alias))
+                    //);
+                    aliasTypes.Add( (revitElemType) Select.ByNameClass(elemClass, alias, document));
                 }
 
                 if (aliasTypes.FirstOrDefault() != null)

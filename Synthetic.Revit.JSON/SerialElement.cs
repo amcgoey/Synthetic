@@ -14,6 +14,8 @@ using revitElemId = Autodesk.Revit.DB.ElementId;
 using Revit.Elements;
 using dynElem = Revit.Elements.Element;
 
+using Select = Synthetic.Revit.Select;
+
 using Newtonsoft.Json;
 
 namespace Synthetic.Serialize.Revit
@@ -117,9 +119,11 @@ namespace Synthetic.Serialize.Revit
                 Assembly assembly = typeof(revitElem).Assembly;
                 Type elemClass = assembly.GetType(serialElement.Class);
 
-                revitDB.FilteredElementCollector collector = new revitDB.FilteredElementCollector(document);
-                elem = collector.OfClass(elemClass)
-                    .FirstOrDefault(e => e.Name.Equals(serialElement.Name));
+
+                //revitDB.FilteredElementCollector collector = new revitDB.FilteredElementCollector(document);
+                //elem = collector.OfClass(elemClass)
+                //    .FirstOrDefault(e => e.Name.Equals(serialElement.Name));
+                elem = Select.ByNameClass(elemClass, serialElement.Name, document);
             }
 
             if(elem != null)

@@ -52,7 +52,7 @@ namespace Synthetic.Serialize.Revit
             if (elem != null)
             {
                 this.Name = elem.Name;
-                this.Class = elem.GetType().Name;
+                this.Class = elem.GetType().FullName;
                 this.UniqueId = elem.UniqueId;
 
                 revitDB.Category cat = elem.Category;
@@ -75,9 +75,9 @@ namespace Synthetic.Serialize.Revit
             return JsonConvert.SerializeObject(IdJSON, Formatting.Indented);
         }
 
-        public static revitElemId ToElementId (SerialElementId IdJSON)
+        public revitElemId ToElementId ()
         {
-            return new revitElemId(IdJSON.Id);
+            return new revitElemId(this.Id);
         }
     }
 }

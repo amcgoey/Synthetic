@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 using Autodesk.DesignScript.Runtime;
 
 using Autodesk.Revit.DB;
-using RevitParam = Autodesk.Revit.DB.Parameter;
-using RevitElem = Autodesk.Revit.DB.Element;
+using revitParam = Autodesk.Revit.DB.Parameter;
+using revitElem = Autodesk.Revit.DB.Element;
+using revitElemId = Autodesk.Revit.DB.ElementId;
 using revitDoc = Autodesk.Revit.DB.Document;
+
+using Select = Synthetic.Revit.Select;
 
 using Newtonsoft.Json;
 
@@ -39,7 +43,7 @@ namespace Synthetic.Serialize.Revit
             this.IsReadOnly = IsReadOnly;
         }
 
-        public SerialParameter(RevitParam param,
+        public SerialParameter(revitParam param,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc Document)
         {
             this.Name = param.Definition.Name;
@@ -79,9 +83,10 @@ namespace Synthetic.Serialize.Revit
             return Newtonsoft.Json.JsonConvert.SerializeObject(parameter, Formatting.Indented);
         }
 
-        public static RevitElem ModifyParameter(SerialParameter paramJSON, RevitElem Elem)
+        public static revitElem ModifyParameter(SerialParameter paramJSON, revitElem Elem)
         {
-            RevitParam param = null;
+            revitParam param = null;
+            revitDoc doc = Elem.Document;
 
             if (paramJSON.IsShared)
             {
@@ -93,7 +98,6 @@ namespace Synthetic.Serialize.Revit
             }
             else if (paramJSON.Id > 0)
             {
-                revitDoc doc = Elem.Document;
                 ParameterElement paramElem = (ParameterElement)doc.GetElement(new ElementId(paramJSON.Id));
                 if (paramElem != null)
                 {
@@ -111,7 +115,8 @@ namespace Synthetic.Serialize.Revit
                         break;
                     case "ElementId":
                         //param.Set(new ElementId(Convert.ToInt32(paramJSON.Value)));                        
-                        param.Set(SerialElementId.ToElementId(paramJSON.ValueElemId));
+                        //param.Set(paramJSON.ValueElemId.ToElementId());
+                        SerialParameter._ModifyElementIdParameter(param, paramJSON.ValueElemId, doc);
                         break;
                     case "Integer":
                         param.Set(Convert.ToInt32(paramJSON.Value));
@@ -124,6 +129,35 @@ namespace Synthetic.Serialize.Revit
             }
 
             return Elem;
+        }
+
+        private static bool _ModifyElementIdParameter (revitParam param, SerialElementId serialElementId, revitDoc document)
+        {
+            bool status = false;
+            revitElem elem = null;
+
+            if(serialElementId.UniqueId != null)
+            {
+                elem = document.GetElement(serialElementId.UniqueId);
+            }
+            else if (serialElementId.Id != 0)
+            {
+                elem = document.GetElement(serialElementId.ToElementId());
+            }
+            else if (serialElementId.Name != null)
+            {
+                Assembly assembly = typeof(revitElem).Assembly;
+                Type elemClass = assembly.GetType(serialElementId.Class);
+
+                elem = Select.ByNameClass(elemClass, serialElementId.Name, document);
+            }
+
+            if (elem == null)
+            {
+                status = param.Set(elem.Id);
+            }
+
+            return status;
         }
     }
 }

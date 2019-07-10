@@ -44,9 +44,9 @@ namespace Synthetic.Serialize.Revit
             return Newtonsoft.Json.JsonConvert.SerializeObject(color, Formatting.Indented);
         }
 
-        public static revitDB.Color ToColor (SerialColor colorJSON)
+        public revitDB.Color ToColor ()
         {
-            return new revitDB.Color(colorJSON.Red, colorJSON.Green, colorJSON.Blue);
+            return new revitDB.Color(this.Red, this.Green, this.Blue);
         }
     }
 }

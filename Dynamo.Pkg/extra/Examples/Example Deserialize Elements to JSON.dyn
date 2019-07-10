@@ -196,7 +196,7 @@
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
       "NodeType": "BooleanInputNode",
-      "InputValue": true,
+      "InputValue": false,
       "Id": "624c06199ffa4b0e85d47827b4f3a7e4",
       "Inputs": [],
       "Outputs": [
@@ -215,8 +215,8 @@
     },
     {
       "ConcreteType": "CoreNodeModels.Input.Filename, CoreNodeModels",
-      "HintPath": "G:\\My Drive\\Assets\\!Revit Experiments\\Serialize JSON\\Serialize TextNoteTypes.json",
-      "InputValue": "G:\\My Drive\\Assets\\!Revit Experiments\\Serialize JSON\\Serialize TextNoteTypes.json",
+      "HintPath": "D:\\Dropbox\\Projects\\Revit Dynamo Synthetic R2\\Testing\\Test JSON Serialization MODIFY.json",
+      "InputValue": "..\\..\\..\\..\\Testing\\Test JSON Serialization MODIFY.json",
       "NodeType": "ExtensionNode",
       "Id": "d54d7a6487ca46978a96b8149ef29bff",
       "Inputs": [],
@@ -378,36 +378,6 @@
       ],
       "Replication": "Auto",
       "Description": "Reads a text file and returns the contents as a string.\n\nFileSystem.ReadText (file: var): string"
-    },
-    {
-      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
-      "NodeType": "FunctionNode",
-      "FunctionSignature": "Synthetic.Serialize.Revit.SerializeJSON.DeserializeListByJson@string",
-      "Id": "3c5c7004eb234c958fff7f22f2e1b943",
-      "Inputs": [
-        {
-          "Id": "c3b6e33c28e847a487c7bfd2d58666e8",
-          "Name": "Json",
-          "Description": "string",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Outputs": [
-        {
-          "Id": "9fb3f87a9d664137840e7261bdf74187",
-          "Name": "var[]",
-          "Description": "var[]",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Auto",
-      "Description": "SerializeJSON.DeserializeListByJson (Json: string): var[]"
     },
     {
       "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
@@ -664,6 +634,36 @@
       ],
       "Replication": "Auto",
       "Description": "Get the Name of the Element\n\nElement.Name: string"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Serialize.Revit.SerializeJSON.DeserializeByJson@string",
+      "Id": "d7fe8981460b40498bb1e8a35d8d37cd",
+      "Inputs": [
+        {
+          "Id": "a07ad24baf954832887e90aaf6b2a28a",
+          "Name": "Json",
+          "Description": "string",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "df46168f15294ff5a5e65beeade21488",
+          "Name": "var[]",
+          "Description": "var[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "SerializeJSON.DeserializeByJson (Json: string): var[]"
     }
   ],
   "Connectors": [
@@ -700,7 +700,7 @@
     {
       "Start": "8b521337d0e8470ca260929a30e4a7d2",
       "End": "743ad5d7fa7e4715a1f09f2fc521b671",
-      "Id": "246a60d98f4c47658f49e5df4863ce5e"
+      "Id": "5a52ea92db3e4e87b05c75ac529aee10"
     },
     {
       "Start": "38518e4fa3c248c4a990b494d63421c7",
@@ -724,23 +724,13 @@
     },
     {
       "Start": "8899c5fce1fd4c9db8b6422ee1b535b2",
-      "End": "c3b6e33c28e847a487c7bfd2d58666e8",
-      "Id": "e8a6f0f64f444cd1bc4c7221e407daae"
-    },
-    {
-      "Start": "8899c5fce1fd4c9db8b6422ee1b535b2",
       "End": "d4e2c79b9ed045d2ae3011d9491fcb4a",
       "Id": "5119b558d66d4fe49594b637bc802390"
     },
     {
-      "Start": "9fb3f87a9d664137840e7261bdf74187",
-      "End": "7e241751658c4b79ac8515f3a3e3a29f",
-      "Id": "abbeb7ab1686410aa002e5261d50f9d8"
-    },
-    {
-      "Start": "9fb3f87a9d664137840e7261bdf74187",
-      "End": "cf76d5b9f0d84cf096ee8981f60b95c3",
-      "Id": "9d51ef1b93f248f0820638fbb7966441"
+      "Start": "8899c5fce1fd4c9db8b6422ee1b535b2",
+      "End": "a07ad24baf954832887e90aaf6b2a28a",
+      "Id": "7c8726faec3a4bd799e47797c7fc6069"
     },
     {
       "Start": "f090478bf1794a00beb1da0928ed2d8f",
@@ -771,6 +761,16 @@
       "Start": "2d7e1caaae28414f9334a257f9cf0e10",
       "End": "7839d9d66a0e4580804d753b14051222",
       "Id": "2479ea56aac54b5f84f09c6bec480c1b"
+    },
+    {
+      "Start": "df46168f15294ff5a5e65beeade21488",
+      "End": "cf76d5b9f0d84cf096ee8981f60b95c3",
+      "Id": "ef2f83c2de4f4f31a308a770a70960f8"
+    },
+    {
+      "Start": "df46168f15294ff5a5e65beeade21488",
+      "End": "7e241751658c4b79ac8515f3a3e3a29f",
+      "Id": "551bd1a3bcbb4a3081455edb05e6aa95"
     }
   ],
   "Dependencies": [],
@@ -780,7 +780,7 @@
       "ScaleFactor": 1.0,
       "HasRunWithoutCrash": true,
       "IsVisibleInDynamoLibrary": true,
-      "Version": "2.0.3.8810",
+      "Version": "2.0.2.6826",
       "RunType": "Manual",
       "RunPeriod": "1000"
     },
@@ -905,17 +905,7 @@
         "IsSetAsOutput": false,
         "Excluded": false,
         "X": 1054.5555761228907,
-        "Y": 799.83780903158959
-      },
-      {
-        "ShowGeometry": true,
-        "Name": "SerializeJSON.DeserializeListByJson",
-        "Id": "3c5c7004eb234c958fff7f22f2e1b943",
-        "IsSetAsInput": false,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "X": 1324.7364352025611,
-        "Y": 803.139906201076
+        "Y": 788.639761041972
       },
       {
         "ShowGeometry": true,
@@ -996,6 +986,16 @@
         "Excluded": false,
         "X": 3756.8111483577845,
         "Y": 435.1420672701006
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "SerializeJSON.DeserializeByJson",
+        "Id": "d7fe8981460b40498bb1e8a35d8d37cd",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1323.6614167996117,
+        "Y": 790.46032935167943
       }
     ],
     "Annotations": [
@@ -1034,7 +1034,7 @@
         ],
         "Left": 576.213889105451,
         "Top": 472.18523069029516,
-        "Width": 423.0,
+        "Width": 368.0,
         "Height": 663.81928343553864,
         "FontSize": 36.0,
         "InitialTop": 525.18523069029516,
@@ -1047,16 +1047,16 @@
         "Title": "OPERATION: Create SerialElements",
         "Nodes": [
           "bac9d950a02445c095dae28eef510642",
-          "3c5c7004eb234c958fff7f22f2e1b943",
+          "d7fe8981460b40498bb1e8a35d8d37cd",
           "18c5166f82304757a727d94bfaa54c71"
         ],
         "Left": 1044.5555761228907,
-        "Top": 651.21833773448486,
-        "Width": 520.18085907967043,
-        "Height": 244.92156846659111,
+        "Top": 640.02028974486723,
+        "Width": 497.10584067672107,
+        "Height": 243.44003960681221,
         "FontSize": 36.0,
-        "InitialTop": 747.21833773448486,
-        "InitialHeight": 200.92156846659111,
+        "InitialTop": 736.02028974486723,
+        "InitialHeight": 199.44003960681221,
         "TextblockHeight": 86.0,
         "Background": "#FF848484"
       },
@@ -1085,7 +1085,7 @@
         "Left": 1665.5837869524121,
         "Top": 192.15021456209342,
         "Width": 310.0,
-        "Height": 278.0,
+        "Height": 188.0,
         "FontSize": 24.0,
         "InitialTop": 231.15021456209342,
         "InitialHeight": 145.0,
@@ -1101,8 +1101,8 @@
         ],
         "Left": 3746.8111483577845,
         "Top": 395.70869912396779,
-        "Width": 483.92814785181554,
-        "Height": 278.0,
+        "Width": 357.92814785181554,
+        "Height": 188.0,
         "FontSize": 24.0,
         "InitialTop": 434.70869912396779,
         "InitialHeight": 145.43336814613281,
@@ -1128,7 +1128,7 @@
         "Height": 491.73810912980923,
         "FontSize": 36.0,
         "InitialTop": 454.47121077262784,
-        "InitialHeight": 424.96154636214442,
+        "InitialHeight": 490.73810912980923,
         "TextblockHeight": 43.0,
         "Background": "#FF848484"
       },
@@ -1221,7 +1221,7 @@
         "Title": "Custom Node: Synthetic\r\n   v. 1.3.190629",
         "Nodes": [],
         "Left": 1326.044033231723,
-        "Top": 747.21833773448486,
+        "Top": 736.02028974486723,
         "Width": 0.0,
         "Height": 0.0,
         "FontSize": 36.0,
@@ -1245,8 +1245,8 @@
         "Background": "#FFC1D676"
       }
     ],
-    "X": -125.42576855257892,
-    "Y": 122.64815453352105,
-    "Zoom": 0.235142759831316
+    "X": -393.73294549012633,
+    "Y": -208.10657535286583,
+    "Zoom": 0.916002435345191
   }
 }

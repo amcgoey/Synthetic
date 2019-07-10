@@ -23,11 +23,16 @@ namespace Synthetic.Serialize.Revit
 {
     public class SerializeJSON
     {
-        public Dictionary<string, SerialElementType> ElementTypes { get; set; } = new Dictionary<string, SerialElementType>();
-        public Dictionary<string, SerialMaterial> Materials { get; set; } = new Dictionary<string, SerialMaterial>();
-        public List<SerialElement> Elements { get; set; } = new List<SerialElement>();
+        public Dictionary<string, SerialMaterial> Materials { get; set; }
+        public Dictionary<string, SerialElementType> ElementTypes { get; set; }
+        public List<SerialElement> Elements { get; set; }
 
-        internal SerializeJSON () { }
+        internal SerializeJSON ()
+        {
+            ElementTypes = new Dictionary<string, SerialElementType>();
+            Materials = new Dictionary<string, SerialMaterial>();
+            Elements = new List<SerialElement>();
+        }
 
         public static SerialElement ByRevitElement (revitElem revitElement)
         {
@@ -55,57 +60,19 @@ namespace Synthetic.Serialize.Revit
 
             return serializeElement;
         }
-
-        public static SerialElement DeserializeByJson (string Json)
-        {
-            SerialElement serialElem = JsonConvert.DeserializeObject<SerialElement>(Json);
-
-            switch (serialElem.Class)
-            {
-                case "Autodesk.Revit.DB.Material":
-                    serialElem = JsonConvert.DeserializeObject<SerialMaterial>(Json);
-                    break;
-                case "Autodesk.Revit.DB.ElementType":
-                case "Autodesk.Revit.DB.TextNoteType":
-                case "Autodesk.Revit.DB DimensionType":
-                    serialElem = JsonConvert.DeserializeObject<SerialElementType>(Json);
-                    break;
-                default:
-                    break;
-            }
-
-            return serialElem;
-        }
+        
 
         #region Serialize and Deserialize Methods
-        public static IEnumerable<SerialElement> DeserializeListByJson (string Json)
+
+        public static IEnumerable<SerialElement> DeserializeByJson (string Json)
         {
-            ////SerialListElement tempList = JsonConvert.DeserializeObject<SerialListElement>(Json);
-            //List<string> stringList = JsonConvert.DeserializeObject<SerialListString>(Json).Elements;
-
-            //List<SerialElement> serialList = new List<SerialElement>();
-
-            //foreach (string s in stringList)
-            //{
-            //    serialList.Add(SerializeJSON.DeserializeByJson(s));
-            //}
-
-            //return serialList;
-
             SerializeJSON serializeJSON = JsonConvert.DeserializeObject<SerializeJSON>(Json);
 
             return serializeJSON.Materials.Values.ToList<SerialElement>()
                 .Concat(serializeJSON.ElementTypes.Values.ToList <SerialElement>()
                 .Concat(serializeJSON.Elements));
         }
-
-        //public static string SerializeToJson (SerialElement serialElement)
-        //{
-        //    SerializeJSON serializeJSON = new SerializeJSON();
-        //    serializeJSON._sortSerialElement(serialElement);
-        //    return Newtonsoft.Json.JsonConvert.SerializeObject(serializeJSON, Formatting.Indented);
-        //}
-
+        
         public static string SerializeToJson (List<SerialElement> serialList)
         {
             SerializeJSON serializeJSON = new SerializeJSON();
@@ -116,6 +83,35 @@ namespace Synthetic.Serialize.Revit
             }
             return Newtonsoft.Json.JsonConvert.SerializeObject(serializeJSON, Formatting.Indented);
         }
+
+        //public static SerialElement DeserializeByJson (string Json)
+        //{
+        //    SerialElement serialElem = JsonConvert.DeserializeObject<SerialElement>(Json);
+
+        //    switch (serialElem.Class)
+        //    {
+        //        case "Autodesk.Revit.DB.Material":
+        //            serialElem = JsonConvert.DeserializeObject<SerialMaterial>(Json);
+        //            break;
+        //        case "Autodesk.Revit.DB.ElementType":
+        //        case "Autodesk.Revit.DB.TextNoteType":
+        //        case "Autodesk.Revit.DB DimensionType":
+        //            serialElem = JsonConvert.DeserializeObject<SerialElementType>(Json);
+        //            break;
+        //        default:
+        //            break;
+        //    }
+
+        //    return serialElem;
+        //}
+
+        //public static string SerializeToJson (SerialElement serialElement)
+        //{
+        //    SerializeJSON serializeJSON = new SerializeJSON();
+        //    serializeJSON._sortSerialElement(serialElement);
+        //    return Newtonsoft.Json.JsonConvert.SerializeObject(serializeJSON, Formatting.Indented);
+        //}
+
         #endregion
 
         #region Serialization Helper Functions
