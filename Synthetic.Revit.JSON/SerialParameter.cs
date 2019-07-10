@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Reflection;
 
 using Autodesk.DesignScript.Runtime;
@@ -142,46 +141,9 @@ namespace Synthetic.Serialize.Revit
             // Status of parameter change.
             bool status = false;
 
-            //  Element to set the ElementId parameter to
-            revitElem elem = null;
-
-            // Assembly and Class that the Element should be
-            Assembly assembly = typeof(revitElem).Assembly;
-            Type elemClass = assembly.GetType(serialElementId.Class);
-
-            // Try to collect the element by UniqueId
-            if (serialElementId.UniqueId != null && elem == null)
-            {
-                elem = document.GetElement(serialElementId.UniqueId);
-            }
-            // Otherwise try to collect the element by Id
-            if (serialElementId.Id != 0 && elem == null)
-            {
-                elem = document.GetElement(serialElementId.ToElementId());
-            }
-            // Otherwise try to collect the element by name
-            if (serialElementId.Name != null && elem == null)
-            {
-                elem = Select.ByNameClass(elemClass, serialElementId.Name, document);
-            }
-            // Otherwise try to collect the element by aliases of it's name.
-            if (serialElementId.Aliases != null && elem == null)
-            {
-                // Intialize list for alias ElementTypes
-                List<revitElem> aliasElem = new List<revitElem>();
-
-                //  Try to collect elements for each alias
-                foreach (string alias in serialElementId.Aliases)
-                {
-                    aliasElem.Add((revitElem)Select.ByNameClass(elemClass, alias, document));
-                }
-
-                //  If an alias was found, then select that alias to use.
-                if (aliasElem.FirstOrDefault() != null)
-                {
-                    elem = aliasElem.FirstOrDefault();
-                }
-            }
+            //  Element to set the ElementId parameter.
+            //  Will return null if element is not found.
+            revitElem elem = serialElementId.GetElem(document);
 
             //  If elem was selected, then set the parameter to that element.
             if (elem != null)
