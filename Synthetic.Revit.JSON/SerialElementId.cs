@@ -28,13 +28,15 @@ namespace Synthetic.Serialize.Revit
         /// Name of the element the Id belongs too.
         /// </summary>
         public string Name { get; set; }
-                
+
+        public List<string> Aliases { get; set; }
+
         /// <summary>
         /// Value of the Element Id as an int
         /// </summary>
         public int Id { get; set; }
         public string UniqueId { get; set; }
-        public List<string> Aliases { get; set; }
+        
 
         public SerialElementId () { }
 
