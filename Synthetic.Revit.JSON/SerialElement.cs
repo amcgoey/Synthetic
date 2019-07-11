@@ -29,7 +29,7 @@ namespace Synthetic.Serialize.Revit
         public string Class
         {
             get { return this.ElementId.Class; }
-            private set { this.ElementId.Class = value; }
+            set { this.ElementId.Class = value; }
         }
 
         public string Category
@@ -76,7 +76,10 @@ namespace Synthetic.Serialize.Revit
 
         #region Public Constructors
 
-        public SerialElement() { }
+        public SerialElement()
+        {
+            this.ElementId = new SerialElementId();
+        }
 
         public SerialElement(dynElem dynamoElement)
         {
