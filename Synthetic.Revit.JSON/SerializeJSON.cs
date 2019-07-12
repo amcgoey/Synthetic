@@ -12,7 +12,7 @@ using RevitElem = Autodesk.Revit.DB.Element;
 using RevitElemId = Autodesk.Revit.DB.ElementId;
 using RevitElemType = Autodesk.Revit.DB.ElementType;
 using RevitMaterial = Autodesk.Revit.DB.Material;
-using RevitWallType = Autodesk.Revit.DB.WallType;
+using RevitHostObjType = Autodesk.Revit.DB.HostObjAttributes;
 
 using Revit.Elements;
 using dynElem = Revit.Elements.Element;
@@ -24,18 +24,25 @@ namespace Synthetic.Serialize.Revit
 {
     public class SerializeJSON
     {
+        #region Public Properties
         public Dictionary<string, SerialMaterial> Materials { get; set; }
         public Dictionary<string, SerialElementType> ElementTypes { get; set; }
-        public Dictionary<string, SerialWallType> WallTypes { get; set; }
+        public Dictionary<string, SerialHostObjType> HostObjTypes { get; set; }
         public List<SerialElement> Elements { get; set; }
+
+        #endregion
+        #region Internal Constructors
 
         internal SerializeJSON ()
         {
             Materials = new Dictionary<string, SerialMaterial>();
             ElementTypes = new Dictionary<string, SerialElementType>();
-            WallTypes = new Dictionary<string, SerialWallType>();
+            HostObjTypes = new Dictionary<string, SerialHostObjType>();
             Elements = new List<SerialElement>();
         }
+
+        #endregion
+        #region Public SerialElement Creation Methods
 
         public static SerialElement ByRevitElement (RevitElem revitElement)
         {
@@ -63,8 +70,8 @@ namespace Synthetic.Serialize.Revit
 
             return serializeElement;
         }
-        
 
+        #endregion
         #region Serialize and Deserialize Methods
 
         public static IEnumerable<SerialElement> DeserializeByJson (string Json)
@@ -73,7 +80,7 @@ namespace Synthetic.Serialize.Revit
 
             return serializeJSON.Materials.Values.ToList<SerialElement>()
                 .Concat(serializeJSON.ElementTypes.Values.ToList <SerialElement>())
-                .Concat(serializeJSON.WallTypes.Values.ToList<SerialElement>())
+                .Concat(serializeJSON.HostObjTypes.Values.ToList<SerialElement>())
                 .Concat(serializeJSON.Elements);
         }
         
@@ -117,7 +124,6 @@ namespace Synthetic.Serialize.Revit
         //}
 
         #endregion
-
         #region Serialization Helper Functions
 
         private static SerialElement _serialByType(RevitElem revitElement)
@@ -136,7 +142,7 @@ namespace Synthetic.Serialize.Revit
                     serializeElement = new SerialElementType((RevitElemType)revitElement);
                     break;
                 case "Autodesk.Revit.DB.WallType":
-                    serializeElement = new SerialWallType((RevitWallType)revitElement);
+                    serializeElement = new SerialHostObjType((RevitHostObjType)revitElement);
                     break;
                 default:
                     serializeElement = new SerialElement(revitElement);
@@ -158,17 +164,17 @@ namespace Synthetic.Serialize.Revit
             {
                 this.ElementTypes.Add(serialElement.Name, (SerialElementType)serialElement);
             }
-            else if (type == typeof(SerialWallType))
+            else if (type == typeof(SerialHostObjType))
             {
-                this.WallTypes.Add(serialElement.Name, (SerialWallType)serialElement);
+                this.HostObjTypes.Add(serialElement.Name, (SerialHostObjType)serialElement);
             }
             else
             {
                 this.Elements.Add((SerialElement)serialElement);
             }
         }
-        #endregion
 
+        #endregion
         #region Element Creation and Modification Methods
 
         public static dynElem ModifyElement (SerialElement serialElement,
@@ -186,9 +192,9 @@ namespace Synthetic.Serialize.Revit
             {
                 elem = SerialElementType.ModifyElement((SerialElementType)serialElement, document);
             }
-            else if (type == typeof(SerialWallType))
+            else if (type == typeof(SerialHostObjType))
             {
-                elem = SerialWallType.ModifyWallType((SerialWallType)serialElement, document);
+                elem = SerialHostObjType.ModifyWallType((SerialHostObjType)serialElement, document);
             }
             else
             {
@@ -206,8 +212,8 @@ namespace Synthetic.Serialize.Revit
 
             return elem;
         }
-        #endregion
 
+        #endregion
         #region Creation and Modification Helper Functions
 
         

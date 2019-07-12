@@ -8,7 +8,7 @@ using Autodesk.DesignScript.Runtime;
 
 using RevitDB = Autodesk.Revit.DB;
 using RevitDoc = Autodesk.Revit.DB.Document;
-using RevitWallType = Autodesk.Revit.DB.WallType;
+using RevitHostObjType = Autodesk.Revit.DB.HostObjAttributes;
 
 using Revit.Elements;
 using DynElem = Revit.Elements.Element;
@@ -17,7 +17,7 @@ using Newtonsoft.Json;
 
 namespace Synthetic.Serialize.Revit
 {
-    public class SerialWallType : SerialElementType
+    public class SerialHostObjType : SerialElementType
     {
         #region Public Properties
 
@@ -25,41 +25,41 @@ namespace Synthetic.Serialize.Revit
         public SerialCompoundStructure Structure { get; set; }
 
         [JsonIgnoreAttribute]
-        public RevitWallType WallType { get; set; }
+        public RevitHostObjType WallType { get; set; }
 
         [JsonIgnoreAttribute]
         public override RevitDB.Element Element
         {
             get => this.WallType;
-            set => this.WallType = (RevitWallType)value;
+            set => this.WallType = (RevitHostObjType)value;
         }
 
         #endregion
         #region Public Constructors
 
-        public SerialWallType () : base () { }
+        public SerialHostObjType () : base () { }
 
-        public SerialWallType (RevitWallType wallType) : base (wallType)
+        public SerialHostObjType (RevitHostObjType wallType) : base (wallType)
         {
             RevitDoc document = wallType.Document;
             this._ApplyProperties(wallType, document);
         }
 
-        public SerialWallType(DynElem dynamoWallType) : base (dynamoWallType)
+        public SerialHostObjType(DynElem dynamoWallType) : base (dynamoWallType)
         {
-            RevitWallType wallType = (RevitWallType) dynamoWallType.InternalElement;
+            RevitHostObjType wallType = (RevitHostObjType) dynamoWallType.InternalElement;
             RevitDoc document = wallType.Document;
             this._ApplyProperties(wallType, document);
         }
 
-        public SerialWallType(SerialElementType serialElementType) : base (serialElementType.ElementType)
+        public SerialHostObjType(SerialElementType serialElementType) : base (serialElementType.ElementType)
         {
-            if (serialElementType.Element.GetType() == typeof(RevitWallType))
+            if (serialElementType.Element.GetType() == typeof(RevitHostObjType))
             {
                 RevitDoc document = serialElementType.Document;
                 if (serialElementType.Element == null && document != null)
                 {
-                    this.WallType = (RevitWallType) serialElementType.GetElem(document);
+                    this.WallType = (RevitHostObjType) serialElementType.GetElem(document);
                 }
 
                 if(this.WallType != null)
@@ -72,9 +72,9 @@ namespace Synthetic.Serialize.Revit
         #endregion
         #region Helper Constructor Functions
 
-        private void _ApplyProperties (RevitWallType wallType, RevitDoc document)
+        private void _ApplyProperties (RevitHostObjType wallType, RevitDoc document)
         {
-            this.Function = wallType.Function.ToString();
+            //this.Function = wallType.Function.ToString();
 
             RevitDB.CompoundStructure cs = wallType.GetCompoundStructure();
             if (cs != null)
@@ -86,20 +86,20 @@ namespace Synthetic.Serialize.Revit
         #endregion
         #region Public Methods
 
-        public static DynElem CreateWallType(SerialWallType serialWallType, RevitWallType templateWallType,
+        public static DynElem CreateWallType(SerialHostObjType serialWallType, RevitHostObjType templateWallType,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
             DynElem dElem = null;
 
             // Intialize an empty newType
-            RevitWallType newType = (RevitWallType)serialWallType.GetElem(document);
+            RevitHostObjType newType = (RevitHostObjType)serialWallType.GetElem(document);
 
-            SerialWallType newSerial = (SerialWallType)serialWallType.MemberwiseClone();
+            SerialHostObjType newSerial = (SerialHostObjType)serialWallType.MemberwiseClone();
 
             // If the ElementType doesn't exist, create a new type based on the template
             if (newType == null)
             {
-                newType = (RevitWallType)templateWallType.Duplicate(serialWallType.Name);
+                newType = (RevitHostObjType)templateWallType.Duplicate(serialWallType.Name);
             }
 
             if (newType == null)
@@ -115,19 +115,19 @@ namespace Synthetic.Serialize.Revit
             return dElem; 
         }
 
-        public static DynElem ModifyWallType(SerialWallType serialWallType,
+        public static DynElem ModifyWallType(SerialHostObjType serialWallType,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
             DynElem dElem = null;
 
             if (serialWallType.Element == null)
             {
-                serialWallType.Element = (RevitWallType)serialWallType.GetElem(document);
+                serialWallType.Element = (RevitHostObjType)serialWallType.GetElem(document);
             }
 
             if (serialWallType.Element != null)
             {
-                serialWallType._ModifyProperties((RevitWallType)serialWallType.Element, document);
+                serialWallType._ModifyProperties((RevitHostObjType)serialWallType.Element, document);
                 dElem = serialWallType.Element.ToDSType(true);
             }
 
@@ -136,15 +136,15 @@ namespace Synthetic.Serialize.Revit
 
         #endregion
         #region Helper Functions
-        private void _ModifyProperties(RevitWallType wallType, RevitDoc docuement)
+        private void _ModifyProperties(RevitHostObjType wallType, RevitDoc docuement)
         {
             wallType.Name = this.Name;
 
-            wallType.Function =
-                (RevitDB.WallFunction)
-                Enum.Parse(
-                    typeof(RevitDB.WallFunction),
-                    this.Function);
+            //wallType.Function =
+            //    (RevitDB.WallFunction)
+            //    Enum.Parse(
+            //        typeof(RevitDB.WallFunction),
+            //        this.Function);
 
             if (this.Structure != null)
             {
