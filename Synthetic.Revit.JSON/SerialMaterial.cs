@@ -37,6 +37,16 @@ namespace Synthetic.Serialize.Revit
 
         public SerialColor SurfaceBackgroundPatternColor { get; set; }
         public SerialElementId SurfaceBackgroundPatternId { get; set; }
+
+        [JsonIgnoreAttribute]
+        public revitMaterial Material { get; set; }
+
+        [JsonIgnoreAttribute]
+        public override revitDB.Element Element
+        {
+            get => this.Material;
+            set => this.Material = (revitMaterial)value;
+        }
         #endregion
 
         #region Public Constructors
@@ -59,19 +69,12 @@ namespace Synthetic.Serialize.Revit
 
         public SerialMaterial (SerialElement serialElement) : base (serialElement.Element)
         {
-            //this.Class = serialElement.Class;
-            //this.Name = serialElement.Name;
-            //this.Id = serialElement.Id;
-            //this.UniqueId = serialElement.UniqueId;
-            //this.Category = serialElement.Category;
-            //this.Parameters = serialElement.Parameters;
-
             if (serialElement.Element.GetType() == typeof(revitMaterial))
             {
                 revitDoc document = serialElement.Document;
                 if (document != null)
                 {
-                    revitMaterial material = (revitMaterial)document.GetElement(serialElement.UniqueId);
+                    revitMaterial material = (revitMaterial)serialElement.ElementId.GetElem(document);
                     _ApplyProperties(material);
                     _ApplyDocProperties(material, document);
                 }
@@ -95,38 +98,13 @@ namespace Synthetic.Serialize.Revit
         #endregion
 
         #region Public Methods
-        public new static SerialMaterial ByJSON(string JSON)
-        {
-            return JsonConvert.DeserializeObject<SerialMaterial>(JSON);
-        }
-
-        public static string ToJSON(SerialMaterial materialJSON)
-        {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(materialJSON, Formatting.Indented);
-        }
-
-        public static dynElem ModifyMaterial(SerialMaterial serialMaterial,
+        
+        public static dynElem CreateMaterial (SerialMaterial serialMaterial,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
-            revitMaterial mat = null;
+            revitMaterial mat = (revitMaterial)serialMaterial.GetElem(document);
 
-            if (serialMaterial.UniqueId != null)
-            {
-                mat = (revitMaterial)document.GetElement(serialMaterial.UniqueId);
-            }
-            else if (serialMaterial.Id != 0)
-            {
-                mat = (revitMaterial)document.GetElement(new revitDB.ElementId(serialMaterial.Id));
-            }
-            else if (serialMaterial.Name != null)
-            {
-                //revitDB.FilteredElementCollector collector = new revitDB.FilteredElementCollector(document);
-                //mat = collector.OfClass(typeof(revitMaterial))
-                //    .OfType<revitMaterial>()
-                //    .FirstOrDefault(e => e.Name.Equals(serialMaterial.Name));
-                mat = (revitMaterial)Select.ByNameClass(typeof(revitMaterial), serialMaterial.Name, document);
-            }
-            else
+            if (mat == null)
             {
                 revitDB.ElementId matId = revitMaterial.Create(document, serialMaterial.Name);
                 mat = (revitMaterial)document.GetElement(matId);
@@ -138,6 +116,52 @@ namespace Synthetic.Serialize.Revit
             }
 
             return mat.ToDSType(true);
+        }
+
+        public static dynElem ModifyMaterial(SerialMaterial serialMaterial,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        {
+            if (serialMaterial.Element == null)
+            {
+                serialMaterial.Element = (revitMaterial)serialMaterial.GetElem(document);
+            }
+
+            //revitMaterial mat = null;
+
+            //if (serialMaterial.UniqueId != null)
+            //{
+            //    mat = (revitMaterial)document.GetElement(serialMaterial.UniqueId);
+            //}
+            //else if (serialMaterial.Id != 0)
+            //{
+            //    mat = (revitMaterial)document.GetElement(new revitDB.ElementId(serialMaterial.Id));
+            //}
+            //else if (serialMaterial.Name != null)
+            //{
+            //    mat = (revitMaterial)Select.ByNameClass(typeof(revitMaterial), serialMaterial.Name, document);
+            //}
+            //else
+            //{
+            //    revitDB.ElementId matId = revitMaterial.Create(document, serialMaterial.Name);
+            //    mat = (revitMaterial)document.GetElement(matId);
+            //}
+
+            if (serialMaterial.Element != null)
+            {
+                serialMaterial._ModifyProperties((revitMaterial)serialMaterial.Element);
+            }
+
+            return serialMaterial.Element.ToDSType(true);
+        }
+
+        public new static SerialMaterial ByJSON(string JSON)
+        {
+            return JsonConvert.DeserializeObject<SerialMaterial>(JSON);
+        }
+
+        public static string ToJSON(SerialMaterial materialJSON)
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(materialJSON, Formatting.Indented);
         }
         #endregion
 

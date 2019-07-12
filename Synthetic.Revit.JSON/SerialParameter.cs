@@ -19,6 +19,8 @@ namespace Synthetic.Serialize.Revit
 {
     public class SerialParameter
     {
+        #region Public Properties
+
         public string Name { get; set; }
         public string Value { get; set; }
         public SerialElementId ValueElemId { get; set; }
@@ -28,6 +30,8 @@ namespace Synthetic.Serialize.Revit
         public bool IsShared { get; set; }
         public bool IsReadOnly { get; set; }
 
+        #endregion
+        #region Public Constructors
 
         [JsonConstructor]
         public SerialParameter(string Name, string Value, SerialElementId ValueElemId, string StorageType, int Id, string GUID, bool IsShared, bool IsReadOnly)
@@ -76,6 +80,9 @@ namespace Synthetic.Serialize.Revit
             this.IsReadOnly = parameter.IsReadOnly;
 
         }
+
+        #endregion
+        #region Public Methods
 
         public static string ToJSON(SerialParameter parameter)
         {
@@ -128,6 +135,9 @@ namespace Synthetic.Serialize.Revit
             return Elem;
         }
 
+        #endregion
+        #region Helper Functions
+
         /// <summary>
         /// Depending on SerialElementId properties, method attempts to find the Element referenced by the ElementId by first trying UniqueId, then Id, then Name, then Aliases of the name.  If an element is found, then set the parameter to the Element's Id.
         /// </summary>
@@ -154,5 +164,7 @@ namespace Synthetic.Serialize.Revit
             // Return if parameter change was successful.
             return status;
         }
+
+        #endregion
     }
 }

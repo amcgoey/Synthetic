@@ -22,44 +22,42 @@ namespace Synthetic.Serialize.Revit
 {
     public class SerialElement
     {
-        public const string ClassName = "Element";
-
         #region Public Properties
        
         public string Class
         {
-            get { return this.ElementId.Class; }
-            set { this.ElementId.Class = value; }
+            get => this.ElementId.Class;
+            set => this.ElementId.Class = value;
         }
 
         public string Category
         {
-            get { return this.ElementId.Category; }
-            set { this.ElementId.Category = value; }
+            get => this.ElementId.Category;
+            set => this.ElementId.Category = value;
         }
 
         public string Name
         {
-            get { return this.ElementId.Name; }
-            set { this.ElementId.Name = value; }
+            get => this.ElementId.Name;
+            set => this.ElementId.Name = value;
         }
 
         public List<string> Aliases
         {
-            get { return this.ElementId.Aliases; }
-            set { this.ElementId.Aliases = value; }
+            get => this.ElementId.Aliases;
+            set => this.ElementId.Aliases = value;
         }
 
         public int Id
         {
-            get { return this.ElementId.Id; }
-            set { this.ElementId.Id = value; }
+            get => this.ElementId.Id;
+            set => this.ElementId.Id = value;
         }
 
         public string UniqueId
         {
-            get { return this.ElementId.UniqueId; }
-            set { this.ElementId.UniqueId = value; }
+            get => this.ElementId.UniqueId;
+            set => this.ElementId.UniqueId = value;
         }
 
         public List<SerialParameter> Parameters { get; set; }
@@ -68,12 +66,12 @@ namespace Synthetic.Serialize.Revit
         public SerialElementId ElementId { get; set; }
 
         [JsonIgnoreAttribute]
-        public revitElem Element { get; set; }
+        virtual public revitElem Element { get; set; }
 
         [JsonIgnoreAttribute]
         public revitDoc Document { get; set; }
-        #endregion
 
+        #endregion
         #region Public Constructors
 
         public SerialElement()
@@ -91,9 +89,10 @@ namespace Synthetic.Serialize.Revit
         {
             _ByElement(revitElement);
         }
-        #endregion
 
+        #endregion
         #region Constructor Helper Functions
+
         private void _ByElement (revitElem elem)
         {
             this.Element = elem;
@@ -125,44 +124,21 @@ namespace Synthetic.Serialize.Revit
                 }
             }
         }
+
         #endregion
-
-
         #region Public Methods
-        public static SerialElement ByJSON(string JSON)
-        {
-            return JsonConvert.DeserializeObject<SerialElement>(JSON);
-        }
 
-        public static string ToJSON(SerialElement serialElement)
+        public revitElem GetElem ([DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(serialElement, Formatting.Indented);
+            return this.ElementId.GetElem(document);
         }
 
         public static dynElem ModifyElement(SerialElement serialElement, [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
         {
-            serialElement.Element = serialElement.ElementId.GetElem(document);
-            //revitElem elem = null;
-
-            //if (serialElement.UniqueId != null)
-            //{
-            //    elem = (revitElem)document.GetElement(serialElement.UniqueId);
-            //}
-            //else if (serialElement.Id != 0)
-            //{
-            //    elem = (revitElem)document.GetElement(new revitElemId(serialElement.Id));
-            //}
-            //else if (serialElement.Name != null) 
-            //{
-            //    Assembly assembly = typeof(revitElem).Assembly;
-            //    Type elemClass = assembly.GetType(serialElement.Class);
-
-
-            //    //revitDB.FilteredElementCollector collector = new revitDB.FilteredElementCollector(document);
-            //    //elem = collector.OfClass(elemClass)
-            //    //    .FirstOrDefault(e => e.Name.Equals(serialElement.Name));
-            //    elem = Select.ByNameClass(elemClass, serialElement.Name, document);
-            //}
+            if (serialElement.Element == null)
+            {
+                serialElement.Element = serialElement.GetElem(document);
+            }
 
             if(serialElement.Element != null)
             {
@@ -176,9 +152,20 @@ namespace Synthetic.Serialize.Revit
         {
             return string.Format("{0}(Name=\"{1}\", ID={2})", this.GetType().Name, this.Name, this.Id);
         }
-        #endregion
 
+        public static SerialElement ByJSON(string JSON)
+        {
+            return JsonConvert.DeserializeObject<SerialElement>(JSON);
+        }
+
+        public static string ToJSON(SerialElement serialElement)
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(serialElement, Formatting.Indented);
+        }
+
+        #endregion
         #region Helper Functions
+
         private void _ModifyProperties (revitElem elem)
         {
             elem.Name = this.Name;
@@ -188,6 +175,7 @@ namespace Synthetic.Serialize.Revit
                 SerialParameter.ModifyParameter(paramJson, elem);
             }
         }
+
         #endregion
     }
 }

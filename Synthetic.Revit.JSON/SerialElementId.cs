@@ -18,9 +18,8 @@ namespace Synthetic.Serialize.Revit
 {
     public class SerialElementId
     {
-        public const string ClassName = "ElementId";
+        #region Public Properties
 
-        
         public string Class { get; set; }
         public string Category { get; set; }
 
@@ -36,7 +35,9 @@ namespace Synthetic.Serialize.Revit
         /// </summary>
         public int Id { get; set; }
         public string UniqueId { get; set; }
-        
+
+        #endregion
+        #region Public Constructors
 
         public SerialElementId () { }
 
@@ -70,6 +71,9 @@ namespace Synthetic.Serialize.Revit
                 
             }
         }
+
+        #endregion
+        #region Public Methods
 
         public static SerialElementId ByJSON (string JSON)
         {
@@ -136,5 +140,7 @@ namespace Synthetic.Serialize.Revit
         {
             return new revitElemId(this.Id);
         }
+
+        #endregion
     }
 }
