@@ -5,15 +5,13 @@ using System.Linq;
 
 using Autodesk.DesignScript.Runtime;
 
-using revitDB = Autodesk.Revit.DB;
-using revitDoc = Autodesk.Revit.DB.Document;
-using revitMaterial = Autodesk.Revit.DB.Material;
+using RevitDB = Autodesk.Revit.DB;
+using RevitDoc = Autodesk.Revit.DB.Document;
+using RevitMaterial = Autodesk.Revit.DB.Material;
 
 using Revit.Elements;
-using dynElem = Revit.Elements.Element;
-using dynMaterial = Revit.Elements.Material;
-
-using Select = Synthetic.Revit.Select;
+using DynElem = Revit.Elements.Element;
+using DynMaterial = Revit.Elements.Material;
 
 using Newtonsoft.Json;
 
@@ -39,42 +37,42 @@ namespace Synthetic.Serialize.Revit
         public SerialElementId SurfaceBackgroundPatternId { get; set; }
 
         [JsonIgnoreAttribute]
-        public revitMaterial Material { get; set; }
+        public RevitMaterial Material { get; set; }
 
         [JsonIgnoreAttribute]
-        public override revitDB.Element Element
+        public override RevitDB.Element Element
         {
             get => this.Material;
-            set => this.Material = (revitMaterial)value;
+            set => this.Material = (RevitMaterial)value;
         }
         #endregion
 
         #region Public Constructors
         public SerialMaterial () : base () { }
 
-        public SerialMaterial (dynElem dynamoMaterial) : base (dynamoMaterial)
+        public SerialMaterial (DynElem dynamoMaterial) : base (dynamoMaterial)
         {
-            revitMaterial mat = (revitMaterial)dynamoMaterial.InternalElement;
-            revitDoc document = mat.Document;
+            RevitMaterial mat = (RevitMaterial)dynamoMaterial.InternalElement;
+            RevitDoc document = mat.Document;
             _ApplyProperties(mat);
             _ApplyDocProperties(mat, document);
         }
 
-        public SerialMaterial (revitMaterial revitMaterial) : base (revitMaterial)
+        public SerialMaterial (RevitMaterial revitMaterial) : base (revitMaterial)
         {
-            revitDoc document = revitMaterial.Document;
+            RevitDoc document = revitMaterial.Document;
             _ApplyProperties(revitMaterial);
             _ApplyDocProperties(revitMaterial, document);
         }
 
         public SerialMaterial (SerialElement serialElement) : base (serialElement.Element)
         {
-            if (serialElement.Element.GetType() == typeof(revitMaterial))
+            if (serialElement.Element.GetType() == typeof(RevitMaterial))
             {
-                revitDoc document = serialElement.Document;
+                RevitDoc document = serialElement.Document;
                 if (document != null)
                 {
-                    revitMaterial material = (revitMaterial)serialElement.ElementId.GetElem(document);
+                    RevitMaterial material = (RevitMaterial)serialElement.ElementId.GetElem(document);
                     _ApplyProperties(material);
                     _ApplyDocProperties(material, document);
                 }
@@ -83,13 +81,13 @@ namespace Synthetic.Serialize.Revit
         #endregion
 
         #region Constructor Helper Functions
-        private void _ApplyProperties(revitMaterial material)
+        private void _ApplyProperties(RevitMaterial material)
         {
             this.CutForegroundPatternColor = new SerialColor(material.CutPatternColor);
             this.SurfaceForegroundPatternColor = new SerialColor(material.SurfacePatternColor);
         }
 
-        private void _ApplyDocProperties(revitMaterial material, revitDoc document)
+        private void _ApplyDocProperties(RevitMaterial material, RevitDoc document)
         {
             this.CutForegroundPatternId = new SerialElementId(material.CutPatternId, document);
             this.SurfaceForegroundPatternId = new SerialElementId(material.SurfacePatternId, document);
@@ -99,31 +97,35 @@ namespace Synthetic.Serialize.Revit
 
         #region Public Methods
         
-        public static dynElem CreateMaterial (SerialMaterial serialMaterial,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        public static DynElem CreateMaterial (SerialMaterial serialMaterial,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
-            revitMaterial mat = (revitMaterial)serialMaterial.GetElem(document);
+            DynElem dElem = null;
+            RevitMaterial mat = (RevitMaterial)serialMaterial.GetElem(document);
 
             if (mat == null)
             {
-                revitDB.ElementId matId = revitMaterial.Create(document, serialMaterial.Name);
-                mat = (revitMaterial)document.GetElement(matId);
+                RevitDB.ElementId matId = RevitMaterial.Create(document, serialMaterial.Name);
+                mat = (RevitMaterial)document.GetElement(matId);
             }
 
             if (mat != null)
             {
                 serialMaterial._ModifyProperties(mat);
+                dElem = mat.ToDSType(true);
             }
 
-            return mat.ToDSType(true);
+            return dElem;
         }
 
-        public static dynElem ModifyMaterial(SerialMaterial serialMaterial,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        public static DynElem ModifyMaterial(SerialMaterial serialMaterial,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
+            DynElem dElem = null;
+
             if (serialMaterial.Element == null)
             {
-                serialMaterial.Element = (revitMaterial)serialMaterial.GetElem(document);
+                serialMaterial.Element = (RevitMaterial)serialMaterial.GetElem(document);
             }
 
             //revitMaterial mat = null;
@@ -148,10 +150,11 @@ namespace Synthetic.Serialize.Revit
 
             if (serialMaterial.Element != null)
             {
-                serialMaterial._ModifyProperties((revitMaterial)serialMaterial.Element);
+                serialMaterial._ModifyProperties((RevitMaterial)serialMaterial.Element);
+                dElem = serialMaterial.Element.ToDSType(true);
             }
 
-            return serialMaterial.Element.ToDSType(true);
+            return dElem;
         }
 
         public new static SerialMaterial ByJSON(string JSON)
@@ -166,7 +169,7 @@ namespace Synthetic.Serialize.Revit
         #endregion
 
         #region Helper Functions
-        private void _ModifyProperties (revitMaterial material)
+        private void _ModifyProperties (RevitMaterial material)
         {
             material.Name = this.Name;
 

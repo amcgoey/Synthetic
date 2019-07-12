@@ -6,15 +6,13 @@ using System.Reflection;
 
 using Autodesk.DesignScript.Runtime;
 
-using revitDB = Autodesk.Revit.DB;
-using revitDoc = Autodesk.Revit.DB.Document;
-using revitElem = Autodesk.Revit.DB.Element;
-using revitElemId = Autodesk.Revit.DB.ElementId;
+using RevitDB = Autodesk.Revit.DB;
+using RevitDoc = Autodesk.Revit.DB.Document;
+using RevitElem = Autodesk.Revit.DB.Element;
+using RevitElemId = Autodesk.Revit.DB.ElementId;
 
 using Revit.Elements;
-using dynElem = Revit.Elements.Element;
-
-using Select = Synthetic.Revit.Select;
+using DynElem = Revit.Elements.Element;
 
 using Newtonsoft.Json;
 
@@ -66,10 +64,10 @@ namespace Synthetic.Serialize.Revit
         public SerialElementId ElementId { get; set; }
 
         [JsonIgnoreAttribute]
-        virtual public revitElem Element { get; set; }
+        virtual public RevitElem Element { get; set; }
 
         [JsonIgnoreAttribute]
-        public revitDoc Document { get; set; }
+        public RevitDoc Document { get; set; }
 
         #endregion
         #region Public Constructors
@@ -79,13 +77,13 @@ namespace Synthetic.Serialize.Revit
             this.ElementId = new SerialElementId();
         }
 
-        public SerialElement(dynElem dynamoElement)
+        public SerialElement(DynElem dynamoElement)
         {
-            revitElem elem = dynamoElement.InternalElement;
+            RevitElem elem = dynamoElement.InternalElement;
             _ByElement(elem);
         }
 
-        public SerialElement(revitElem revitElement)
+        public SerialElement(RevitElem revitElement)
         {
             _ByElement(revitElement);
         }
@@ -93,7 +91,7 @@ namespace Synthetic.Serialize.Revit
         #endregion
         #region Constructor Helper Functions
 
-        private void _ByElement (revitElem elem)
+        private void _ByElement (RevitElem elem)
         {
             this.Element = elem;
             this.Document = elem.Document;
@@ -105,7 +103,7 @@ namespace Synthetic.Serialize.Revit
             this.Id = elem.Id.IntegerValue;
             this.UniqueId = elem.UniqueId.ToString();
 
-            revitDB.Category cat = elem.Category;
+            RevitDB.Category cat = elem.Category;
 
             if (cat != null)
             {
@@ -115,7 +113,7 @@ namespace Synthetic.Serialize.Revit
             this.Parameters = new List<SerialParameter>();
 
             //Iterate through parameters
-            foreach (revitDB.Parameter param in elem.Parameters)
+            foreach (RevitDB.Parameter param in elem.Parameters)
             {
                 //If the parameter has a value, the add it to the parameter list for export
                 if (!param.IsReadOnly)
@@ -128,12 +126,12 @@ namespace Synthetic.Serialize.Revit
         #endregion
         #region Public Methods
 
-        public revitElem GetElem ([DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        public RevitElem GetElem ([DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
             return this.ElementId.GetElem(document);
         }
 
-        public static dynElem ModifyElement(SerialElement serialElement, [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        public static DynElem ModifyElement(SerialElement serialElement, [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
             if (serialElement.Element == null)
             {
@@ -166,7 +164,7 @@ namespace Synthetic.Serialize.Revit
         #endregion
         #region Helper Functions
 
-        private void _ModifyProperties (revitElem elem)
+        private void _ModifyProperties (RevitElem elem)
         {
             elem.Name = this.Name;
 

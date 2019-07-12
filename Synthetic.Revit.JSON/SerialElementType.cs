@@ -6,17 +6,14 @@ using System.Reflection;
 
 using Autodesk.DesignScript.Runtime;
 
-using revitDB = Autodesk.Revit.DB;
-using revitDoc = Autodesk.Revit.DB.Document;
-using revitElem = Autodesk.Revit.DB.Element;
-using revitElemType = Autodesk.Revit.DB.ElementType;
-using revitElemId = Autodesk.Revit.DB.ElementId;
-using revitMaterial = Autodesk.Revit.DB.Material;
+using RevitDB = Autodesk.Revit.DB;
+using RevitDoc = Autodesk.Revit.DB.Document;
+using RevitElem = Autodesk.Revit.DB.Element;
+using RevitElemType = Autodesk.Revit.DB.ElementType;
+using RevitElemId = Autodesk.Revit.DB.ElementId;
 
 using Revit.Elements;
-using dynElem = Revit.Elements.Element;
-
-using Select = Synthetic.Revit.Select;
+using DynElem = Revit.Elements.Element;
 
 using Newtonsoft.Json;
 
@@ -27,13 +24,13 @@ namespace Synthetic.Serialize.Revit
         #region Public Properties
 
         [JsonIgnoreAttribute]
-        public revitElemType ElementType { get; set; }
+        public RevitElemType ElementType { get; set; }
 
         [JsonIgnoreAttribute]
-        public override revitElem Element
+        public override RevitElem Element
         {
             get => this.ElementType;
-            set => this.ElementType = (revitElemType)value;
+            set => this.ElementType = (RevitElemType)value;
         }
 
         #endregion
@@ -41,20 +38,22 @@ namespace Synthetic.Serialize.Revit
 
         public SerialElementType () : base () { }
 
-        public SerialElementType (revitElemType revitElemType) : base (revitElemType) { }
+        public SerialElementType (RevitElemType revitElemType) : base (revitElemType) { }
 
-        public SerialElementType (dynElem dynamoElemType) : base (dynamoElemType) { }
+        public SerialElementType (DynElem dynamoElemType) : base (dynamoElemType) { }
         
         public SerialElementType (SerialElement serialElement) : base (serialElement.Element) { }
 
         #endregion
         #region Public Methods
 
-        public static dynElem CreateElementTypeByTemplate (SerialElementType serialElementType, revitElemType templateElemType,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        public static DynElem CreateElementTypeByTemplate (SerialElementType serialElementType, RevitElemType templateElemType,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
+            DynElem dElem = null;
+
             // Intialize an empty newType.
-            revitElemType newType = (revitElemType)serialElementType.GetElem(document);
+            RevitElemType newType = (RevitElemType)serialElementType.GetElem(document);
 
             SerialElementType newSerial = (SerialElementType)serialElementType.MemberwiseClone();
             
@@ -88,24 +87,26 @@ namespace Synthetic.Serialize.Revit
                 newType = templateElemType.Duplicate(serialElementType.Name);
             }
 
-            newSerial.Element = newType;
-            newSerial.UniqueId = newType.UniqueId;
-            newSerial.Id = newType.Id.IntegerValue;
-
+            if (newType != null)
+            {
+                newSerial.Element = newType;
+                newSerial.UniqueId = newType.UniqueId;
+                newSerial.Id = newType.Id.IntegerValue;
+                dElem = SerialElementType.ModifyElement(newSerial, document);
+            }
 
             // Return the modified Dynamo Element of the ElementType.
-
-            return SerialElementType.ModifyElement(newSerial, document);
+            return dElem;
         }
 
-        public static dynElem CreateElementType (SerialElementType serialElementType,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        public static DynElem CreateElementType (SerialElementType serialElementType,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
-            Assembly assembly = typeof(revitElem).Assembly;
+            Assembly assembly = typeof(RevitElem).Assembly;
             Type elemClass = assembly.GetType(serialElementType.Class);
 
-            revitDB.FilteredElementCollector collector = new revitDB.FilteredElementCollector(document);
-            revitElemType template = collector.OfClass(elemClass).OfType<revitElemType>()
+            RevitDB.FilteredElementCollector collector = new RevitDB.FilteredElementCollector(document);
+            RevitElemType template = collector.OfClass(elemClass).OfType<RevitElemType>()
                 .FirstOrDefault();
 
             return CreateElementTypeByTemplate(serialElementType, template, document);

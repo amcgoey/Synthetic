@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 using Autodesk.DesignScript.Runtime;
 
-using revitDB = Autodesk.Revit.DB;
-using revitDoc = Autodesk.Revit.DB.Document;
-using revitElem = Autodesk.Revit.DB.Element;
-using revitElemId = Autodesk.Revit.DB.ElementId;
-using revitElemType = Autodesk.Revit.DB.ElementType;
-using revitMaterial = Autodesk.Revit.DB.Material;
+using RevitDB = Autodesk.Revit.DB;
+using RevitDoc = Autodesk.Revit.DB.Document;
+using RevitElem = Autodesk.Revit.DB.Element;
+using RevitElemId = Autodesk.Revit.DB.ElementId;
+using RevitElemType = Autodesk.Revit.DB.ElementType;
+using RevitMaterial = Autodesk.Revit.DB.Material;
+using RevitWallType = Autodesk.Revit.DB.WallType;
 
 using Revit.Elements;
 using dynElem = Revit.Elements.Element;
@@ -25,16 +26,18 @@ namespace Synthetic.Serialize.Revit
     {
         public Dictionary<string, SerialMaterial> Materials { get; set; }
         public Dictionary<string, SerialElementType> ElementTypes { get; set; }
+        public Dictionary<string, SerialWallType> WallTypes { get; set; }
         public List<SerialElement> Elements { get; set; }
 
         internal SerializeJSON ()
         {
-            ElementTypes = new Dictionary<string, SerialElementType>();
             Materials = new Dictionary<string, SerialMaterial>();
+            ElementTypes = new Dictionary<string, SerialElementType>();
+            WallTypes = new Dictionary<string, SerialWallType>();
             Elements = new List<SerialElement>();
         }
 
-        public static SerialElement ByRevitElement (revitElem revitElement)
+        public static SerialElement ByRevitElement (RevitElem revitElement)
         {
             SerialElement serializeElement = null;
 
@@ -50,7 +53,7 @@ namespace Synthetic.Serialize.Revit
         {
             SerialElement serializeElement = null;
 
-            revitElem revitElement = dynamoElement.InternalElement;
+            RevitElem revitElement = dynamoElement.InternalElement;
             
 
             if (dynamoElement != null)
@@ -69,8 +72,9 @@ namespace Synthetic.Serialize.Revit
             SerializeJSON serializeJSON = JsonConvert.DeserializeObject<SerializeJSON>(Json);
 
             return serializeJSON.Materials.Values.ToList<SerialElement>()
-                .Concat(serializeJSON.ElementTypes.Values.ToList <SerialElement>()
-                .Concat(serializeJSON.Elements));
+                .Concat(serializeJSON.ElementTypes.Values.ToList <SerialElement>())
+                .Concat(serializeJSON.WallTypes.Values.ToList<SerialElement>())
+                .Concat(serializeJSON.Elements);
         }
         
         public static string SerializeToJson (List<SerialElement> serialList)
@@ -116,7 +120,7 @@ namespace Synthetic.Serialize.Revit
 
         #region Serialization Helper Functions
 
-        private static SerialElement _serialByType(revitElem revitElement)
+        private static SerialElement _serialByType(RevitElem revitElement)
         {
             SerialElement serializeElement = null;
             string revitType = revitElement.GetType().FullName;
@@ -124,12 +128,15 @@ namespace Synthetic.Serialize.Revit
             switch (revitType)
             {
                 case "Autodesk.Revit.DB.Material":
-                    serializeElement = new SerialMaterial((revitMaterial)revitElement);
+                    serializeElement = new SerialMaterial((RevitMaterial)revitElement);
                     break;
                 case "Autodesk.Revit.DB.ElementType":
                 case "Autodesk.Revit.DB.TextNoteType":
                 case "Autodesk.Revit.DB DimensionType":
-                    serializeElement = new SerialElementType((revitElemType)revitElement);
+                    serializeElement = new SerialElementType((RevitElemType)revitElement);
+                    break;
+                case "Autodesk.Revit.DB.WallType":
+                    serializeElement = new SerialWallType((RevitWallType)revitElement);
                     break;
                 default:
                     serializeElement = new SerialElement(revitElement);
@@ -151,6 +158,10 @@ namespace Synthetic.Serialize.Revit
             {
                 this.ElementTypes.Add(serialElement.Name, (SerialElementType)serialElement);
             }
+            else if (type == typeof(SerialWallType))
+            {
+                this.WallTypes.Add(serialElement.Name, (SerialWallType)serialElement);
+            }
             else
             {
                 this.Elements.Add((SerialElement)serialElement);
@@ -161,7 +172,7 @@ namespace Synthetic.Serialize.Revit
         #region Element Creation and Modification Methods
 
         public static dynElem ModifyElement (SerialElement serialElement,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
             dynElem elem = null;
             Type type = serialElement.GetType();
@@ -169,11 +180,15 @@ namespace Synthetic.Serialize.Revit
             if (type == typeof(SerialMaterial))
             {
                 elem = SerialMaterial.ModifyMaterial((SerialMaterial)serialElement, document);
-                
+
             }
             else if (type == typeof(SerialElementType))
             {
                 elem = SerialElementType.ModifyElement((SerialElementType)serialElement, document);
+            }
+            else if (type == typeof(SerialWallType))
+            {
+                elem = SerialWallType.ModifyWallType((SerialWallType)serialElement, document);
             }
             else
             {
@@ -185,9 +200,9 @@ namespace Synthetic.Serialize.Revit
 
         public static dynElem CreateElementType (SerialElementType serialElementType, dynElem templateType)
         {
-            revitDoc document = templateType.InternalElement.Document;
+            RevitDoc document = templateType.InternalElement.Document;
 
-            dynElem elem = SerialElementType.CreateElementTypeByTemplate(serialElementType, (revitElemType)templateType.InternalElement, document);
+            dynElem elem = SerialElementType.CreateElementTypeByTemplate(serialElementType, (RevitElemType)templateType.InternalElement, document);
 
             return elem;
         }

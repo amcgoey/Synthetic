@@ -6,12 +6,10 @@ using System.Reflection;
 using Autodesk.DesignScript.Runtime;
 
 using Autodesk.Revit.DB;
-using revitParam = Autodesk.Revit.DB.Parameter;
-using revitElem = Autodesk.Revit.DB.Element;
-using revitElemId = Autodesk.Revit.DB.ElementId;
-using revitDoc = Autodesk.Revit.DB.Document;
-
-using Select = Synthetic.Revit.Select;
+using RevitParam = Autodesk.Revit.DB.Parameter;
+using RevitElem = Autodesk.Revit.DB.Element;
+using RevitElemId = Autodesk.Revit.DB.ElementId;
+using RevitDoc = Autodesk.Revit.DB.Document;
 
 using Newtonsoft.Json;
 
@@ -46,8 +44,8 @@ namespace Synthetic.Serialize.Revit
             this.IsReadOnly = IsReadOnly;
         }
 
-        public SerialParameter(revitParam parameter,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc Document)
+        public SerialParameter(RevitParam parameter,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc Document)
         {
             this.Name = parameter.Definition.Name;
             this.StorageType = parameter.StorageType.ToString();
@@ -89,10 +87,10 @@ namespace Synthetic.Serialize.Revit
             return Newtonsoft.Json.JsonConvert.SerializeObject(parameter, Formatting.Indented);
         }
 
-        public static revitElem ModifyParameter(SerialParameter serialParameter, revitElem Elem)
+        public static RevitElem ModifyParameter(SerialParameter serialParameter, RevitElem Elem)
         {
-            revitParam param = null;
-            revitDoc doc = Elem.Document;
+            RevitParam param = null;
+            RevitDoc doc = Elem.Document;
 
             if (serialParameter.IsShared)
             {
@@ -145,7 +143,7 @@ namespace Synthetic.Serialize.Revit
         /// <param name="serialElementId">A SerialElementId that references an element in the Document.</param>
         /// <param name="document">A revit document</param>
         /// <returns name="status">Returns true if parameter was successfully set and false if not.  Parameter retains it previous value if Set was unsucessful.</returns>
-        private static bool _ModifyElementIdParameter (revitParam param, SerialElementId serialElementId, revitDoc document)
+        private static bool _ModifyElementIdParameter (RevitParam param, SerialElementId serialElementId, RevitDoc document)
         {
             //  Initialize variables.
             // Status of parameter change.
@@ -153,7 +151,7 @@ namespace Synthetic.Serialize.Revit
 
             //  Element to set the ElementId parameter.
             //  Will return null if element is not found.
-            revitElem elem = serialElementId.GetElem(document);
+            RevitElem elem = serialElementId.GetElem(document);
 
             //  If elem was selected, then set the parameter to that element.
             if (elem != null)

@@ -4,8 +4,8 @@ using System.Text;
 
 using Autodesk.DesignScript.Runtime;
 
-using revitDB = Autodesk.Revit.DB;
-using revitDoc = Autodesk.Revit.DB.Document;
+using RevitDB = Autodesk.Revit.DB;
+using RevitDoc = Autodesk.Revit.DB.Document;
 
 using Newtonsoft.Json;
 
@@ -27,7 +27,7 @@ namespace Synthetic.Serialize.Revit
             this.Blue = Blue;
         }
 
-        public SerialColor (revitDB.Color color)
+        public SerialColor (RevitDB.Color color)
         {
             this.Red = color.Red;
             this.Green = color.Green;
@@ -44,9 +44,9 @@ namespace Synthetic.Serialize.Revit
             return Newtonsoft.Json.JsonConvert.SerializeObject(color, Formatting.Indented);
         }
 
-        public revitDB.Color ToColor ()
+        public RevitDB.Color ToColor ()
         {
-            return new revitDB.Color(this.Red, this.Green, this.Blue);
+            return new RevitDB.Color(this.Red, this.Green, this.Blue);
         }
     }
 }

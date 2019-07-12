@@ -5,10 +5,10 @@ using System.Reflection;
 
 using Autodesk.DesignScript.Runtime;
 
-using revitDB = Autodesk.Revit.DB;
-using revitElem = Autodesk.Revit.DB.Element;
-using revitElemId = Autodesk.Revit.DB.ElementId;
-using revitDoc = Autodesk.Revit.DB.Document;
+using RevitDB = Autodesk.Revit.DB;
+using RevitElem = Autodesk.Revit.DB.Element;
+using RevitElemId = Autodesk.Revit.DB.ElementId;
+using RevitDoc = Autodesk.Revit.DB.Document;
 
 using Select = Synthetic.Revit.Select;
 
@@ -49,12 +49,12 @@ namespace Synthetic.Serialize.Revit
             this.Category = Category;
         }
 
-        public SerialElementId (revitElemId Id,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc Document)
+        public SerialElementId (RevitElemId Id,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc Document)
         {
             this.Id = Id.IntegerValue;
 
-            revitElem elem = Document.GetElement(Id);
+            RevitElem elem = Document.GetElement(Id);
 
             if (elem != null)
             {
@@ -62,7 +62,7 @@ namespace Synthetic.Serialize.Revit
                 this.Class = elem.GetType().FullName;
                 this.UniqueId = elem.UniqueId;
 
-                revitDB.Category cat = elem.Category;
+                RevitDB.Category cat = elem.Category;
 
                 if(cat != null)
                 {
@@ -90,15 +90,11 @@ namespace Synthetic.Serialize.Revit
         /// </summary>
         /// <param name="document">A revit document</param>
         /// <returns name="Element">Returns a Revit Element</returns>
-        public revitElem GetElem (revitDoc document)
+        public RevitElem GetElem (RevitDoc document)
         {
             //  Element to set the ElementId parameter to
-            revitElem elem = null;
-
-            // Assembly and Class that the Element should be
-            Assembly assembly = typeof(revitElem).Assembly;
-            Type elemClass = assembly.GetType(this.Class);
-
+            RevitElem elem = null;
+            
             // Try to collect the element by UniqueId
             if (this.UniqueId != null && elem == null)
             {
@@ -110,20 +106,26 @@ namespace Synthetic.Serialize.Revit
                 elem = document.GetElement(this.ToElementId());
             }
             // Otherwise try to collect the element by name
-            if (this.Name != null && elem == null)
+            if (this.Name != null && elem == null && this.Class != null)
             {
+                // Assembly and Class that the Element should be
+                Assembly assembly = typeof(RevitElem).Assembly;
+                Type elemClass = assembly.GetType(this.Class);
                 elem = Select.ByNameClass(elemClass, this.Name, document);
             }
             // Otherwise try to collect the element by aliases of it's name.
-            if (this.Aliases != null && elem == null)
+            if (this.Aliases != null && elem == null && this.Class != null)
             {
                 // Intialize list for alias ElementTypes
-                List<revitElem> aliasElem = new List<revitElem>();
+                List<RevitElem> aliasElem = new List<RevitElem>();
 
                 //  Try to collect elements for each alias
                 foreach (string alias in this.Aliases)
                 {
-                    aliasElem.Add((revitElem)Select.ByNameClass(elemClass, alias, document));
+                    // Assembly and Class that the Element should be
+                    Assembly assembly = typeof(RevitElem).Assembly;
+                    Type elemClass = assembly.GetType(this.Class);
+                    aliasElem.Add((RevitElem)Select.ByNameClass(elemClass, alias, document));
                 }
 
                 //  If an alias was found, then select that alias to use.
@@ -136,9 +138,9 @@ namespace Synthetic.Serialize.Revit
             return elem;
         }
 
-        public revitElemId ToElementId ()
+        public RevitElemId ToElementId ()
         {
-            return new revitElemId(this.Id);
+            return new RevitElemId(this.Id);
         }
 
         #endregion
