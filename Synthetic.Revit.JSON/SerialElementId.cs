@@ -111,7 +111,7 @@ namespace Synthetic.Serialize.Revit
                 // Assembly and Class that the Element should be
                 Assembly assembly = typeof(RevitElem).Assembly;
                 Type elemClass = assembly.GetType(this.Class);
-                elem = Select.ByNameClass(elemClass, this.Name, document);
+                elem = Select.RevitElementByNameClass(this.Name, elemClass, document);
             }
             // Otherwise try to collect the element by aliases of it's name.
             if (this.Aliases != null && elem == null && this.Class != null)
@@ -125,7 +125,7 @@ namespace Synthetic.Serialize.Revit
                     // Assembly and Class that the Element should be
                     Assembly assembly = typeof(RevitElem).Assembly;
                     Type elemClass = assembly.GetType(this.Class);
-                    aliasElem.Add((RevitElem)Select.ByNameClass(elemClass, alias, document));
+                    aliasElem.Add((RevitElem)Select.RevitElementByNameClass(alias, elemClass, document));
                 }
 
                 //  If an alias was found, then select that alias to use.
