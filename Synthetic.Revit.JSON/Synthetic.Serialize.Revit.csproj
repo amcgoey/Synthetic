@@ -67,7 +67,7 @@
     <Compile Include="SerialMaterial.cs" />
     <Compile Include="SerialParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SerialWallType.cs" />
+    <Compile Include="SerialHostObjType.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Synthetic.Serialize.Revit_DynamoCustomization.xml">
