@@ -33,15 +33,17 @@ namespace Synthetic.Revit
         [MultiReturn(new[] { "Elements Merged", "Failed" })]
         public static IDictionary MergeTextNoteTypes(DynaElem FromType, DynaElem ToType)
         {
+            //  Name of Transaction
             string transactionName = "Merge TextNote Type";
 
+            // Get the Revit elements from the Dynamo Elements
             RevitDB.TextNoteType rFromType = (RevitDB.TextNoteType)FromType.InternalElement;
             RevitDB.TextNoteType rToType = (RevitDB.TextNoteType)ToType.InternalElement;
 
             RevitDoc document = rToType.Document;
 
+            // Collect all instances of FromType
             RevitDB.FilteredElementCollector collector = new RevitDB.FilteredElementCollector(document);
-
             RevitDB.BuiltInParameter parameterId = RevitDB.BuiltInParameter.ELEM_TYPE_PARAM;
             RevitDB.FilterNumericEquals filterNumberRule = new RevitDB.FilterNumericEquals();
             RevitDB.ParameterValueProvider provider = new RevitDB.ParameterValueProvider(new RevitDB.ElementId(parameterId));
@@ -53,13 +55,16 @@ namespace Synthetic.Revit
                 .WherePasses(filterParameter)
                 .ToElements();
 
+            // Intialize list for elements that are successfully merged and failed to merge.
             List<DynaElem> elements = new List<DynaElem>();
             List<DynaElem> elementsFailed = new List<DynaElem>();
 
+            // Define Function to change instances types.
             Action <IEnumerable<RevitDB.Element>> _SetType = (isntances) =>
              {
                  foreach (RevitDB.TextNote elem in instances)
                  {
+                     // If Element is in a group, put the element in the failed list
                      int groupId = elem.GroupId.IntegerValue;
                      if (groupId == -1)
                      {
@@ -72,6 +77,7 @@ namespace Synthetic.Revit
                      }
                  }
 
+                 // Check if there are any instances of FromType left
                  int count = collector.Count();
                  if (count == 0)
                  {
