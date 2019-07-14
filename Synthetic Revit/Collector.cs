@@ -213,7 +213,7 @@ namespace Synthetic.Revit
         public static IList<revitDB.Element> ToRevitElements(Collector collector,
             [DefaultArgument("true")] bool toggle = true)
         {
-            return collector._ApplyFilters().ToElements();
+            return (List<revitDB.Element>)collector._ApplyFilters().ToElements();
         }
 
         /// <summary>

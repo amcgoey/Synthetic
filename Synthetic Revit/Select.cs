@@ -122,5 +122,33 @@ namespace Synthetic.Revit
                 .FirstOrDefault(
                 m => m.Name.Equals(materialName));
         }
+
+        public static revitDB.Element RevitElementByNameClass( string Name, Type Class,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        {
+            revitFECollector collector
+                = new revitFECollector(document);
+
+            revitDB.Element elem = collector
+                .OfClass(Class)
+                .FirstOrDefault(e => e.Name.Equals(Name));
+
+            return elem;
+        }
+
+        public static dynElem DynamoElementByNameClass(string Name, Type Class,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        {
+            revitFECollector collector
+                = new revitFECollector(document);
+
+            revitDB.Element elem = collector
+                .OfClass(Class)
+                .FirstOrDefault(e => e.Name.Equals(Name));
+
+            dynElem dElem = elem.ToDSType(true);
+
+            return dElem;
+        }
     }
 }

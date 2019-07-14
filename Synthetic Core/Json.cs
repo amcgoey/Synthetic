@@ -19,7 +19,7 @@ namespace Synthetic.Core
         /// <returns name="JSON">A string of JSON.</returns>
         public static string Encode (System.Object @object)
         {
-            return j.JsonConvert.SerializeObject(@object);
+            return j.JsonConvert.SerializeObject(@object, j.Formatting.Indented);
         }
 
         /// <summary>
@@ -30,6 +30,16 @@ namespace Synthetic.Core
         public static System.Object Decode (string json)
         {
             return (System.Object)j.JsonConvert.DeserializeObject(json);
+        }
+
+        public static string ListToJSON (List<System.Object> ListJSON)
+        {
+            return j.JsonConvert.SerializeObject(ListJSON, j.Formatting.Indented);
+        }
+
+        public static object JsonToList (string JSON)
+        {
+            return j.JsonConvert.DeserializeObject(JSON);
         }
     }
 }
