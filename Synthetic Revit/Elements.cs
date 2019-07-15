@@ -273,12 +273,12 @@ namespace Synthetic.Revit
                         //elem.TextNoteType = rToType;
                         RevitDB.Parameter param = elem.get_Parameter(RevitDB.BuiltInParameter.ELEM_TYPE_PARAM);
                         param.Set(rToType.Id);
-                        DynaElem dElem = elem.ToDSType(false);
+                        DynaElem dElem = elem.ToDSType(true);
                         elements.Add(dElem);
                     }
                     else
                     {
-                        DynaElem dElem = elem.ToDSType(false);
+                        DynaElem dElem = elem.ToDSType(true);
                         elementsFailed.Add(dElem);
                     }
                 }
