@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<doc>
+  <assembly>
+    <name>Synthetic.Serialize.Revit</name>
+  </assembly>
+  <namespaces>
+    <namespace name="Synthetic.Serialize.Revit">
+      <category>Synthetic.Serialize.Revit</category>
+    </namespace>
+    <namespace name="Synthetic.Experimental">
+      <category>Synthetic.Experimental</category>
+    </namespace>
+  </namespaces>
+</doc>
