@@ -1,22 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 using Autodesk.DesignScript.Runtime;
 using Dynamo.Graph.Nodes;
 
-using revitDB = Autodesk.Revit.DB;
-using revitDoc = Autodesk.Revit.DB.Document;
-using revitFECollector = Autodesk.Revit.DB.FilteredElementCollector;
+using RevitDB = Autodesk.Revit.DB;
+using RevitArch = Autodesk.Revit.DB.Architecture;
+using RevitDoc = Autodesk.Revit.DB.Document;
+using RevitFECollector = Autodesk.Revit.DB.FilteredElementCollector;
+using RevitElem = Autodesk.Revit.DB.Element;
 
 using Revit.Elements;
-using dynElem = Revit.Elements.Element;
-using dynCat = Revit.Elements.Category;
+using DynElem = Revit.Elements.Element;
+using DynCat = Revit.Elements.Category;
 using RevitServices.Transactions;
 using RevitServices.Persistence;
 
-using synthCollect = Synthetic.Revit.Collector;
-using synthCollectFilter = Synthetic.Revit.CollectorElementFilter;
+using SynthCollect = Synthetic.Revit.Collector;
+using SynthCollectFilter = Synthetic.Revit.CollectorElementFilter;
 
 namespace Synthetic.Revit
 {
@@ -35,17 +38,17 @@ namespace Synthetic.Revit
         /// <param name="inverted">If false, elements in the chosen category will be selected.  If true, elements NOT in the chosen category will be selected.</param>
         /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
         /// <returns name="Elements">A list of Dynamo elements that pass the filer.</returns>
-        public static IList<dynElem> AllElementsOfType (Type type,
+        public static IList<DynElem> AllElementsOfType (Type type,
             [DefaultArgument("false")] bool inverted,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
-            synthCollect collector = new synthCollect(document);
-            List<revitDB.ElementFilter> filters = new List<Autodesk.Revit.DB.ElementFilter>();
-            filters.Add(synthCollectFilter.FilterElementClass(type, inverted));
+            SynthCollect collector = new SynthCollect(document);
+            List<RevitDB.ElementFilter> filters = new List<Autodesk.Revit.DB.ElementFilter>();
+            filters.Add(SynthCollectFilter.FilterElementClass(type, inverted));
 
-            synthCollect.SetFilters(collector, filters);
+            SynthCollect.SetFilters(collector, filters);
 
-            return synthCollect.ToElements(collector);
+            return SynthCollect.ToElements(collector);
         }
 
         /// <summary>
@@ -55,20 +58,20 @@ namespace Synthetic.Revit
         /// <param name="inverted">If false, elements in the chosen category will be selected.  If true, elements NOT in the chosen category will be selected.</param>
         /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
         /// <returns name="Elements">A list of Dynamo elements that pass the filer.</returns>
-        public static IList<dynElem> AllElementsOfCategory(dynCat category,
+        public static IList<DynElem> AllElementsOfCategory(DynCat category,
             [DefaultArgument("false")] bool inverted,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
-            synthCollect collector = new synthCollect(document);
+            SynthCollect collector = new SynthCollect(document);
 
             // Select only elements that are NOT Types (the filter is inverted)
-            List<revitDB.ElementFilter> filters = new List<Autodesk.Revit.DB.ElementFilter>();
-            filters.Add(synthCollectFilter.FilterElementIsElementType(true));
-            filters.Add(synthCollectFilter.FilterElementCategory(category, inverted));
+            List<RevitDB.ElementFilter> filters = new List<Autodesk.Revit.DB.ElementFilter>();
+            filters.Add(SynthCollectFilter.FilterElementIsElementType(true));
+            filters.Add(SynthCollectFilter.FilterElementCategory(category, inverted));
 
-            synthCollect.SetFilters(collector, filters);
+            SynthCollect.SetFilters(collector, filters);
 
-            return synthCollect.ToElements(collector);
+            return SynthCollect.ToElements(collector);
         }
 
         /// <summary>
@@ -78,20 +81,20 @@ namespace Synthetic.Revit
         /// <param name="inverted">If false, elements in the chosen category will be selected.  If true, elements NOT in the chosen category will be selected.</param>
         /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
         /// <returns name="Elements">A list of Dynamo elements that pass the filer.</returns>
-        public static IList<dynElem> AllFamilyTypesOfCategory(dynCat category,
+        public static IList<DynElem> AllFamilyTypesOfCategory(DynCat category,
             [DefaultArgument("false")] bool inverted,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
-            synthCollect collector = new synthCollect(document);
+            SynthCollect collector = new SynthCollect(document);
 
             // Select only elements that are Family Symbols
-            List<revitDB.ElementFilter> filters = new List<Autodesk.Revit.DB.ElementFilter>();
-            filters.Add(synthCollectFilter.FilterElementClass(typeof(revitDB.FamilySymbol), false));
-            filters.Add(synthCollectFilter.FilterElementCategory(category, inverted));
+            List<RevitDB.ElementFilter> filters = new List<Autodesk.Revit.DB.ElementFilter>();
+            filters.Add(SynthCollectFilter.FilterElementClass(typeof(RevitDB.FamilySymbol), false));
+            filters.Add(SynthCollectFilter.FilterElementCategory(category, inverted));
 
-            synthCollect.SetFilters(collector, filters);
+            SynthCollect.SetFilters(collector, filters);
 
-            return synthCollect.ToElements(collector);
+            return SynthCollect.ToElements(collector);
         }
 
         /// <summary>
@@ -99,14 +102,14 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="document">>A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
         /// <returns name="Materials">A list of Auotdesk.Revit.DB.Materials</returns>
-        public static IEnumerable<revitDB.Material> AllMaterials([DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        public static IEnumerable<RevitDB.Material> AllMaterials([DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
-            revitFECollector collector
-                = new revitFECollector(document);
+            RevitFECollector collector
+                = new RevitFECollector(document);
 
             return collector
-                .OfClass(typeof(revitDB.Material))
-                .OfType<revitDB.Material>();
+                .OfClass(typeof(RevitDB.Material))
+                .OfType<RevitDB.Material>();
         }
 
         /// <summary>
@@ -115,40 +118,92 @@ namespace Synthetic.Revit
         /// <param name="materials">A list of Autodesk.Revit.DB.Materials</param>
         /// <param name="materialName">The name of the material</param>
         /// <returns name="Material">A Autodesk.Revit.DB.Material that matches the given name.</returns>
-        public static revitDB.Material GetMaterialByName(IEnumerable<revitDB.Material> materials, string materialName)
+        public static RevitDB.Material GetMaterialByName(IEnumerable<RevitDB.Material> materials, string materialName)
         {
             return materials
-                .OfType<revitDB.Material>()
+                .OfType<RevitDB.Material>()
                 .FirstOrDefault(
                 m => m.Name.Equals(materialName));
         }
 
-        public static revitDB.Element RevitElementByNameClass( string Name, Type Class,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        public static RevitDB.Element RevitElementByNameClass( string Name, Type Class,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
-            revitFECollector collector
-                = new revitFECollector(document);
+            RevitFECollector collector
+                = new RevitFECollector(document);
 
-            revitDB.Element elem = collector
+            RevitDB.Element elem = collector
                 .OfClass(Class)
                 .FirstOrDefault(e => e.Name.Equals(Name));
 
             return elem;
         }
 
-        public static dynElem DynamoElementByNameClass(string Name, Type Class,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        public static DynElem DynamoElementByNameClass(string Name, Type Class,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
-            revitFECollector collector
-                = new revitFECollector(document);
+            RevitFECollector collector
+                = new RevitFECollector(document);
 
-            revitDB.Element elem = collector
+            RevitDB.Element elem = collector
                 .OfClass(Class)
                 .FirstOrDefault(e => e.Name.Equals(Name));
 
-            dynElem dElem = elem.ToDSType(true);
+            DynElem dElem = elem.ToDSType(true);
 
             return dElem;
+        }
+
+        /// <summary>
+        /// Get the Type of a Revit Class from RevitAPI.dll given its name.
+        /// </summary>
+        /// <param name="typeName">Name of the Autodesk.Revit.DB Class</param>
+        /// <returns name="Type">The Type of a Revit Class</returns>
+        public static Type RevitClassByString(string typeName)
+        {
+            // Assembly and Class that the Element should be
+            Assembly assembly = typeof(RevitElem).Assembly;
+            Type elemClass = assembly.GetType(typeName);
+
+            return elemClass;
+        }
+
+        /// <summary>
+        /// Given the an ElementType Type retrieves the corresponding Instance Type.  For example Type WallType returns Type Wall or Type TextNoteType returns Type TextNote.
+        /// </summary>
+        /// <param name="elementType">A Type of ElementType</param>
+        /// <returns name="instanceType">The Type of Instance</returns>
+        public static Type InstanceClassFromTypeClass (Type elementType)
+        {
+            Type instanceType = null;
+
+            // Create a dictionary of ElementTypes and InstanceTypes.
+            Dictionary<Type, Type> types = new Dictionary<Type, Type>();
+            types.Add(typeof(RevitDB.FamilySymbol), typeof(RevitDB.FamilyInstance));
+            types.Add(typeof(RevitDB.TextNoteType), typeof(RevitDB.TextNote));
+            types.Add(typeof(RevitDB.DimensionType), typeof(RevitDB.Dimension));
+            types.Add(typeof(RevitDB.WallType), typeof(RevitDB.Wall));
+            types.Add(typeof(RevitDB.FloorType), typeof(RevitDB.Floor));
+            types.Add(typeof(RevitDB.CeilingType), typeof(RevitDB.Ceiling));
+            types.Add(typeof(RevitDB.RoofType), typeof(RevitDB.RoofBase));
+            types.Add(typeof(RevitDB.BuildingPadType), typeof(RevitArch.BuildingPad));
+            types.Add(typeof(RevitDB.WallFoundationType), typeof(RevitDB.WallFoundation));
+            types.Add(typeof(RevitDB.BeamSystemType), typeof(RevitDB.BeamSystem));
+            types.Add(typeof(RevitDB.GroupType), typeof(RevitDB.Group));
+            types.Add(typeof(RevitDB.ViewFamilyType), typeof(RevitDB.View));
+            types.Add(typeof(RevitDB.FilledRegionType), typeof(RevitDB.FilledRegion));
+            types.Add(typeof(RevitDB.GridType), typeof(RevitDB.Grid));
+            types.Add(typeof(RevitDB.LevelType), typeof(RevitDB.Level));
+            types.Add(typeof(RevitDB.TextElementType), typeof(RevitDB.TextElement));
+            types.Add(typeof(RevitDB.RevitLinkType), typeof(RevitDB.RevitLinkInstance));
+            types.Add(typeof(RevitDB.AssemblyType), typeof(RevitDB.AssemblyInstance));
+
+            if (types.ContainsKey(elementType))
+            {
+                instanceType = types[elementType];
+            }
+
+            return instanceType;
         }
     }
 }
