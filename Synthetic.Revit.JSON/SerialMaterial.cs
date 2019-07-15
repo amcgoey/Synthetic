@@ -101,7 +101,7 @@ namespace Synthetic.Serialize.Revit
             [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
             DynElem dElem = null;
-            RevitMaterial mat = (RevitMaterial)serialMaterial.GetElem(document);
+            RevitMaterial mat = (RevitMaterial)serialMaterial.GetRevitElem(document);
 
             if (mat == null)
             {
@@ -125,7 +125,7 @@ namespace Synthetic.Serialize.Revit
 
             if (serialMaterial.Element == null)
             {
-                serialMaterial.Element = (RevitMaterial)serialMaterial.GetElem(document);
+                serialMaterial.Element = (RevitMaterial)serialMaterial.GetRevitElem(document);
             }
 
             //revitMaterial mat = null;

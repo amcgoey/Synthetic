@@ -14,6 +14,8 @@ using RevitElemId = Autodesk.Revit.DB.ElementId;
 using Revit.Elements;
 using DynElem = Revit.Elements.Element;
 
+using Select = Synthetic.Revit.Select;
+
 using Newtonsoft.Json;
 
 namespace Synthetic.Serialize.Revit
@@ -126,16 +128,51 @@ namespace Synthetic.Serialize.Revit
         #endregion
         #region Public Methods
 
-        public RevitElem GetElem ([DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
+        public RevitElem GetRevitElem ([DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
             return this.ElementId.GetElem(document);
+        }
+
+        public DynElem GetDynamoElem([DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
+        {
+            return this.ElementId.GetElem(document).ToDSType(true);
+        }
+
+        public List<RevitElem> GetAliasRevitElements ([DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
+        {
+            List<RevitElem> elements = new List<RevitElem>();
+
+            foreach(string aliasName in this.Aliases)
+            {
+                // Assembly and Class that the Element should be
+                Assembly assembly = typeof(RevitElem).Assembly;
+                Type elemClass = assembly.GetType(this.Class);
+                RevitElem elem = Select.RevitElementByNameClass(aliasName, elemClass, document);
+                elements.Add(elem);
+            }
+            return elements;
+        }
+
+        public List<DynElem> GetAliasDynamoElements([DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
+        {
+            List<DynElem> elements = new List<DynElem>();
+
+            foreach (string aliasName in this.Aliases)
+            {
+                // Assembly and Class that the Element should be
+                Assembly assembly = typeof(RevitElem).Assembly;
+                Type elemClass = assembly.GetType(this.Class);
+                RevitElem elem = Select.RevitElementByNameClass(aliasName, elemClass, document);
+                elements.Add(elem.ToDSType(true));
+            }
+            return elements;
         }
 
         public static DynElem ModifyElement(SerialElement serialElement, [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
             if (serialElement.Element == null)
             {
-                serialElement.Element = serialElement.GetElem(document);
+                serialElement.Element = serialElement.GetRevitElem(document);
             }
 
             if(serialElement.Element != null)

@@ -53,7 +53,7 @@ namespace Synthetic.Serialize.Revit
             DynElem dElem = null;
 
             // Intialize an empty newType.
-            RevitElemType newType = (RevitElemType)serialElementType.GetElem(document);
+            RevitElemType newType = (RevitElemType)serialElementType.GetRevitElem(document);
 
             SerialElementType newSerial = (SerialElementType)serialElementType.MemberwiseClone();
             

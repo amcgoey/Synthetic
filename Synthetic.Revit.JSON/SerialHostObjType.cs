@@ -57,7 +57,7 @@ namespace Synthetic.Serialize.Revit
                 RevitDoc document = serialElementType.Document;
                 if (serialElementType.Element == null && document != null)
                 {
-                    this.WallType = (RevitHostObjType) serialElementType.GetElem(document);
+                    this.WallType = (RevitHostObjType) serialElementType.GetRevitElem(document);
                 }
 
                 if(this.WallType != null)
@@ -90,7 +90,7 @@ namespace Synthetic.Serialize.Revit
             DynElem dElem = null;
 
             // Intialize an empty newType
-            RevitHostObjType newType = (RevitHostObjType)serialWallType.GetElem(document);
+            RevitHostObjType newType = (RevitHostObjType)serialWallType.GetRevitElem(document);
 
             SerialHostObjType newSerial = (SerialHostObjType)serialWallType.MemberwiseClone();
 
@@ -120,7 +120,7 @@ namespace Synthetic.Serialize.Revit
 
             if (serialWallType.Element == null)
             {
-                serialWallType.Element = (RevitHostObjType)serialWallType.GetElem(document);
+                serialWallType.Element = (RevitHostObjType)serialWallType.GetRevitElem(document);
             }
 
             if (serialWallType.Element != null)
