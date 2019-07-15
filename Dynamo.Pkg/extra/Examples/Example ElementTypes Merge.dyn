@@ -2,7 +2,7 @@
   "Uuid": "199be5ba-dd29-4f7b-a8d7-92cefe35f6e8",
   "IsCustomNode": false,
   "Description": null,
-  "Name": "Example TextNoteTypes Merge",
+  "Name": "Example ElementTypes Merge",
   "ElementResolver": {
     "ResolutionMap": {}
   },
@@ -369,7 +369,7 @@
       "Outputs": [
         {
           "Id": "eada2510efb04a3ea9ccebbe4e4dd32b",
-          "Name": "Elements Merged",
+          "Name": "Merged",
           "Description": "A list of instances that were successfully changed to ToType",
           "UsingDefaultValue": false,
           "Level": 2,
@@ -499,11 +499,11 @@
     {
       "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
       "NodeType": "FunctionNode",
-      "FunctionSignature": "Synthetic.Revit.Tools.RevitClassByString@string",
-      "Id": "9f8ee2113d0d44218fed3d3b7d3eb8ff",
+      "FunctionSignature": "Synthetic.Revit.Select.RevitClassByString@string",
+      "Id": "49a126b39a0340b4b84d256a94c8b5a8",
       "Inputs": [
         {
-          "Id": "0d84bc669cad4086968fa1f7c5b901ea",
+          "Id": "737ee324657148538f09ea498098ef87",
           "Name": "typeName",
           "Description": "Name of the Autodesk.Revit.DB Class\n\nstring",
           "UsingDefaultValue": false,
@@ -514,7 +514,7 @@
       ],
       "Outputs": [
         {
-          "Id": "6e5afb036bf94d37bf1946d8b8832f4f",
+          "Id": "d3230350dbfa409e8ff7089854e5a113",
           "Name": "Type",
           "Description": "The Type of a Revit Class",
           "UsingDefaultValue": false,
@@ -524,7 +524,7 @@
         }
       ],
       "Replication": "Auto",
-      "Description": "Get the Type of a Revit Class from RevitAPI.dll given its name.\n\nTools.RevitClassByString (typeName: string): var"
+      "Description": "Get the Type of a Revit Class from RevitAPI.dll given its name.\n\nSelect.RevitClassByString (typeName: string): var"
     }
   ],
   "Connectors": [
@@ -570,8 +570,8 @@
     },
     {
       "Start": "f065aafc7c934eecad8f00d24f3f10a8",
-      "End": "0d84bc669cad4086968fa1f7c5b901ea",
-      "Id": "574cdbef5df84b459371fdca5c16cabc"
+      "End": "737ee324657148538f09ea498098ef87",
+      "Id": "e0572f1576d3463fabc92330d3c602b3"
     },
     {
       "Start": "134ee9d7d55440dcab01b9ad9ae4535e",
@@ -604,14 +604,14 @@
       "Id": "36db6deb52b44c4bb5b377f725b1ff08"
     },
     {
-      "Start": "6e5afb036bf94d37bf1946d8b8832f4f",
-      "End": "3c50f087fddd46beac90f7a28a96eacb",
-      "Id": "06b81430b42e48e8a2c18e8a39556309"
+      "Start": "d3230350dbfa409e8ff7089854e5a113",
+      "End": "1b2b1d63575244afaa98a96018d57051",
+      "Id": "f8de34ef45734d1897a39b941f9dc2c1"
     },
     {
-      "Start": "6e5afb036bf94d37bf1946d8b8832f4f",
-      "End": "1b2b1d63575244afaa98a96018d57051",
-      "Id": "23e1a7f0d1284162b08cb324d475a96e"
+      "Start": "d3230350dbfa409e8ff7089854e5a113",
+      "End": "3c50f087fddd46beac90f7a28a96eacb",
+      "Id": "df181fcf007f4cec9815331bd65579e9"
     }
   ],
   "Dependencies": [],
@@ -735,8 +735,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -930.32564661656374,
-        "Y": 680.48422263436942
+        "X": -925.78903295229611,
+        "Y": 650.99623381663025
       },
       {
         "ShowGeometry": true,
@@ -745,8 +745,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -619.47028889714193,
-        "Y": 570.66384420654822
+        "X": -614.93367523287429,
+        "Y": 541.175855388809
       },
       {
         "ShowGeometry": true,
@@ -755,8 +755,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -929.763782359169,
-        "Y": 493.01769773348815
+        "X": -925.22716869490137,
+        "Y": 463.529708915749
       },
       {
         "ShowGeometry": true,
@@ -780,13 +780,13 @@
       },
       {
         "ShowGeometry": true,
-        "Name": "Tools.RevitClassByString",
-        "Id": "9f8ee2113d0d44218fed3d3b7d3eb8ff",
+        "Name": "Select.RevitClassByString",
+        "Id": "49a126b39a0340b4b84d256a94c8b5a8",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -1297.1758273526207,
-        "Y": 748.22134674080439
+        "X": -1293.3532242146096,
+        "Y": 723.07408200675036
       }
     ],
     "Annotations": [
@@ -838,7 +838,7 @@
         ],
         "Left": -2546.7485159073181,
         "Top": 359.42321884800441,
-        "Width": 336.0,
+        "Width": 325.0,
         "Height": 451.53137503355032,
         "FontSize": 36.0,
         "InitialTop": 412.42321884800441,
@@ -854,13 +854,13 @@
           "61e67c476f58484380dfaec6054dd7ab"
         ],
         "Left": -215.93919716525795,
-        "Top": 780.67414042425753,
-        "Width": 449.0,
-        "Height": 424.0,
+        "Top": 736.67414042425753,
+        "Width": 325.0,
+        "Height": 237.0,
         "FontSize": 36.0,
         "InitialTop": 876.67414042425753,
         "InitialHeight": 149.0,
-        "TextblockHeight": 86.0,
+        "TextblockHeight": 130.0,
         "Background": "#FFA4E1FF"
       },
       {
@@ -870,19 +870,19 @@
           "d72ae7a37ef4496b9cf8154aeb4bd1fa",
           "a740da9626e84d10be8a1bc491d473cd",
           "ab1d946c78644eef9f0c51e10d836f68",
-          "9f8ee2113d0d44218fed3d3b7d3eb8ff",
           "dd3f91f323724be492a52f4690eb12d1",
           "291677ac01d04a878c3dd018a76327d7",
           "eaaded16e82a409a98be407e526feab5",
-          "17849c2118fd405e9ebcfcb5ea520ef2"
+          "17849c2118fd405e9ebcfcb5ea520ef2",
+          "49a126b39a0340b4b84d256a94c8b5a8"
         ],
-        "Left": -1307.1758273526207,
-        "Top": 403.68942966742208,
-        "Width": 983.70553845547875,
-        "Height": 437.53191707338232,
+        "Left": -1303.3532242146096,
+        "Top": 374.20144084968291,
+        "Width": 925.41954898173526,
+        "Height": 441.87264115706745,
         "FontSize": 36.0,
-        "InitialTop": 456.68942966742208,
-        "InitialHeight": 357.46681607089522,
+        "InitialTop": 427.20144084968291,
+        "InitialHeight": 436.53191707338232,
         "TextblockHeight": 43.0,
         "Background": "#FF848484"
       },
@@ -895,8 +895,8 @@
         ],
         "Left": -231.00676600887641,
         "Top": 167.18571410325046,
-        "Width": 492.0,
-        "Height": 474.0,
+        "Width": 325.0,
+        "Height": 192.99999999999966,
         "FontSize": 36.0,
         "InitialTop": 263.18571410325046,
         "InitialHeight": 148.99999999999966,
@@ -963,8 +963,8 @@
         "Id": "291677ac01d04a878c3dd018a76327d7",
         "Title": "PACKAGE: Synthetic",
         "Nodes": [],
-        "Left": -928.34399834167334,
-        "Top": 456.68942966742208,
+        "Left": -923.80738467740571,
+        "Top": 427.20144084968291,
         "Width": 0.0,
         "Height": 0.0,
         "FontSize": 36.0,
@@ -977,8 +977,8 @@
         "Id": "eaaded16e82a409a98be407e526feab5",
         "Title": "PACKAGE: Synthetic",
         "Nodes": [],
-        "Left": -931.1249304703706,
-        "Top": 643.93885966637527,
+        "Left": -926.588316806103,
+        "Top": 614.4508708486361,
         "Width": 0.0,
         "Height": 0.0,
         "FontSize": 36.0,
@@ -991,8 +991,8 @@
         "Id": "dd3f91f323724be492a52f4690eb12d1",
         "Title": "PACKAGE: Synthetic",
         "Nodes": [],
-        "Left": -621.51448680873511,
-        "Top": 535.48250664717966,
+        "Left": -616.97787314446748,
+        "Top": 505.9945178294405,
         "Width": 0.0,
         "Height": 0.0,
         "FontSize": 36.0,
@@ -1005,8 +1005,8 @@
         "Id": "17849c2118fd405e9ebcfcb5ea520ef2",
         "Title": "PACKAGE: Synthetic",
         "Nodes": [],
-        "Left": -1296.9939148772921,
-        "Top": 710.65001351834962,
+        "Left": -1292.4573012130245,
+        "Top": 681.16202470061046,
         "Width": 0.0,
         "Height": 0.0,
         "FontSize": 36.0,
@@ -1016,8 +1016,8 @@
         "Background": "#FFC1D676"
       }
     ],
-    "X": 537.03373411683708,
-    "Y": -320.91025900341413,
-    "Zoom": 0.98810800798519538
+    "X": 1060.5246431622677,
+    "Y": -97.6039521429285,
+    "Zoom": 0.66656104831627971
   }
 }
