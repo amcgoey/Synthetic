@@ -29,16 +29,25 @@ namespace Synthetic.Serialize.Revit
             this.IsHidden = view.GetCategoryHidden(category.Id);
 
             RevitDB.OverrideGraphicSettings overrideSettings = view.GetCategoryOverrides(category.Id);
-            this.GraphicOverride = new SerialOverrideGraphicSettings(category, overrideSettings, document);
+            SerialOverrideGraphicSettings serialOverride = new SerialOverrideGraphicSettings(category, overrideSettings, document);
+
+            if (serialOverride.IsModified)
+            {
+                this.GraphicOverride = serialOverride;
+            }
         }
 
         public bool IsModified()
         {
-            if (this.GraphicOverride.IsModified || this.IsHidden == true)
+            bool modified = false;
+
+            if (this.GraphicOverride != null)
             {
-                return true;
+                if (this.GraphicOverride.IsModified) { modified = true; }
             }
-            else return false;
+            if (this.IsHidden == true) { modified = true; }
+
+            return modified;
         }
 
         public void ModifyOverrideGraphicSettings(RevitView view)

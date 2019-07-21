@@ -16,9 +16,8 @@ namespace Synthetic.Serialize.Revit
     {
         #region Public Properties
 
+        [JsonIgnoreAttribute]
         public bool IsModified { get; set; }
-
-        public bool Hidden { get; set; }
 
         public bool IsProjectionFillPaternVisible { get; set; }
         public SerialColor ProjectionFillColor { get; set; }
@@ -56,7 +55,6 @@ namespace Synthetic.Serialize.Revit
         public SerialOverrideGraphicSettings(RevitDB.Category category, RevitDB.OverrideGraphicSettings overrideGraphicSettings,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc Document)
         {
-            //this.Category = new SerialCategory(category, Document);
             this.IsModified = _IsModified(overrideGraphicSettings);
 
             if (this.IsModified)
@@ -68,23 +66,26 @@ namespace Synthetic.Serialize.Revit
         private void _setProperties(RevitDB.OverrideGraphicSettings ogs,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc Document)
         {
-            this.IsProjectionFillPaternVisible = ogs.IsProjectionFillPatternVisible;
-            this.ProjectionFillColor = new SerialColor(ogs.ProjectionFillColor);
-            this.ProjectionFillPatternId = new SerialElementId(ogs.ProjectionFillPatternId, Document);
-            this.ProjectionLineColor = new SerialColor(ogs.ProjectionLineColor);
-            this.ProjectionLinePatternId = new SerialElementId(ogs.ProjectionLinePatternId, Document);
-            this.ProjectionLineWeight = ogs.ProjectionLineWeight;
+            if (this._IsModified(ogs))
+            {
+                this.IsProjectionFillPaternVisible = ogs.IsProjectionFillPatternVisible;
+                this.ProjectionFillColor = new SerialColor(ogs.ProjectionFillColor);
+                this.ProjectionFillPatternId = new SerialElementId(ogs.ProjectionFillPatternId, Document);
+                this.ProjectionLineColor = new SerialColor(ogs.ProjectionLineColor);
+                this.ProjectionLinePatternId = new SerialElementId(ogs.ProjectionLinePatternId, Document);
+                this.ProjectionLineWeight = ogs.ProjectionLineWeight;
 
-            this.IsCutFillPaternVisible = ogs.IsCutFillPatternVisible;
-            this.CutFillColor = new SerialColor(ogs.CutFillColor);
-            this.CutFillPatternId = new SerialElementId(ogs.CutFillPatternId, Document);
-            this.CutLineColor = new SerialColor(ogs.CutLineColor);
-            this.CutLinePatternId = new SerialElementId(ogs.CutLinePatternId, Document);
-            this.CutLineWeight = ogs.CutLineWeight;
+                this.IsCutFillPaternVisible = ogs.IsCutFillPatternVisible;
+                this.CutFillColor = new SerialColor(ogs.CutFillColor);
+                this.CutFillPatternId = new SerialElementId(ogs.CutFillPatternId, Document);
+                this.CutLineColor = new SerialColor(ogs.CutLineColor);
+                this.CutLinePatternId = new SerialElementId(ogs.CutLinePatternId, Document);
+                this.CutLineWeight = ogs.CutLineWeight;
 
-            this.Transparency = ogs.Transparency;
-            this.Halftone = ogs.Halftone;
-            this.DetailLevel = new SerialEnum(typeof(RevitDB.ViewDetailLevel), ogs.DetailLevel);
+                this.Transparency = ogs.Transparency;
+                this.Halftone = ogs.Halftone;
+                this.DetailLevel = new SerialEnum(typeof(RevitDB.ViewDetailLevel), ogs.DetailLevel);
+            }
         }
 
         private bool _IsModified(RevitDB.OverrideGraphicSettings ogs)

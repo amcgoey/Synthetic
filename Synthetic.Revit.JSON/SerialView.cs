@@ -105,38 +105,6 @@ namespace Synthetic.Serialize.Revit
             return overrides;
         }
 
-        //private Dictionary<string, SerialObject> _CreateCategoryOverride (RevitDB.Category cat, RevitView view, RevitDoc document)
-        //{
-        //    bool catModified = false;
-
-        //    RevitDB.OverrideGraphicSettings overrideSettings = view.GetCategoryOverrides(cat.Id);
-        //    SerialOverrideGraphicSettings ogs = new SerialOverrideGraphicSettings(cat, overrideSettings, document);
-
-        //    SerialBoolean categoryHidden = new SerialBoolean(view.GetCategoryHidden(cat.Id));
-
-        //    Dictionary<string, SerialObject> dict = new Dictionary<string, SerialObject>();
-        //    dict.Add(CategoryKey, new SerialCategory(cat, document));
-
-        //    if (categoryHidden.boolean)
-        //    {
-        //        catModified = true;
-
-        //        dict.Add(HiddenKey, categoryHidden);
-        //    }
-
-        //    if (ogs.IsModified)
-        //    {
-        //        catModified = true;
-        //        dict.Add(OverrideKey, ogs);
-        //    }
-
-        //    if (catModified)
-        //    {
-        //        return dict;
-        //    }
-        //    else return null;
-        //}
-
         #endregion
         #region Public Methods
 
@@ -178,37 +146,10 @@ namespace Synthetic.Serialize.Revit
 
             if (view.AreGraphicsOverridesAllowed())
             {
-                //_SetCategoryOverrideGraphics(view);
                 foreach (SerialCategoryGraphicOverrides catOverride in this.CategoryGraphicOverrides)
                 {
                     catOverride.ModifyOverrideGraphicSettings(view);
                 }
-            }
-        }
-
-        private void _SetCategoryOverrideGraphics(RevitView view)
-        {
-            foreach (SerialCategoryGraphicOverrides catOverride in this.CategoryGraphicOverrides)
-            {
-                catOverride.ModifyOverrideGraphicSettings(view);
-                //RevitDB.Category category = null;
-                //RevitDB.OverrideGraphicSettings overrideSettings = null;
-
-                //if (oatOverride.ContainsKey(CategoryKey))
-                //{
-                //    SerialCategoryId serialCategory = (SerialCategoryId)oatOverride[CategoryKey];
-                //    category = serialCategory.GetCategory(document);
-                //}
-                //if (oatOverride.ContainsKey(OverrideKey))
-                //{
-                //    SerialOverrideGraphicSettings serialOgs = (SerialOverrideGraphicSettings)oatOverride[OverrideKey];
-                //    overrideSettings = serialOgs.ToOverrideGraphicSettings();
-                //}
-
-                //if (category != null && overrideSettings != null)
-                //{
-                //    view.SetCategoryOverrides(category.Id, overrideSettings);
-                //}
             }
         }
 
