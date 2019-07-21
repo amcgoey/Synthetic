@@ -57,17 +57,24 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SerialCategoryGraphicOverride.cs" />
+    <Compile Include="SerialBoolean.cs" />
+    <Compile Include="SerialCategoryId.cs" />
     <Compile Include="SerialColor.cs" />
     <Compile Include="SerialCompoundStructure.cs" />
     <Compile Include="SerialElementId.cs" />
     <Compile Include="SerialElement.cs" />
     <Compile Include="SerialElementType.cs" />
+    <Compile Include="SerialEnum.cs" />
     <Compile Include="SerializeJSON.cs" />
     <Compile Include="SerialList.cs" />
     <Compile Include="SerialMaterial.cs" />
+    <Compile Include="SerialObject.cs" />
+    <Compile Include="SerialOverrideGraphicSettings.cs" />
     <Compile Include="SerialParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerialHostObjType.cs" />
+    <Compile Include="SerialView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Synthetic.Serialize.Revit_DynamoCustomization.xml">
@@ -75,6 +82,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Synthetic Core\Synthetic.Core.csproj">
+      <Project>{5d72b274-2496-4cc8-b39e-ab4f517d39a4}</Project>
+      <Name>Synthetic.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Synthetic Revit\Synthetic.Revit.csproj">
       <Project>{e4b1863b-67ec-40f7-8e63-2917b4485e71}</Project>
       <Name>Synthetic.Revit</Name>

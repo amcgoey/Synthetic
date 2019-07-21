@@ -19,7 +19,7 @@ namespace Synthetic.Serialize.Revit
     {
         #region Public Properties
 
-        public string Function { get; set; }
+        public SerialEnum Function { get; set; }
         public SerialCompoundStructure Structure { get; set; }
 
         [JsonIgnoreAttribute]

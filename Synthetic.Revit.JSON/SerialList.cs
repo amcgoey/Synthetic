@@ -18,7 +18,7 @@ using Newtonsoft.Json;
 
 namespace Synthetic.Serialize.Revit
 {
-    public class SerialListElement
+    public class SerialListElement : SerialObject
     {
         public List<SerialElement> Elements { get; set; }
 

@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 namespace Synthetic.Serialize.Revit
 {
     [SupressImportIntoVM]
-    public class SerialColor
+    public class SerialColor : SerialObject
     {
         public Byte Blue { get; set; }
         public Byte Green { get; set; }
@@ -29,9 +29,12 @@ namespace Synthetic.Serialize.Revit
 
         public SerialColor (RevitDB.Color color)
         {
-            this.Red = color.Red;
-            this.Green = color.Green;
-            this.Blue = color.Blue;
+            if (color.IsValid)
+            {
+                this.Red = color.Red;
+                this.Green = color.Green;
+                this.Blue = color.Blue;
+            }
         }
 
         public static SerialColor ByJSON (string JSON)
