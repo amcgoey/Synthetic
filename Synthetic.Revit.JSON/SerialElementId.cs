@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 
 namespace Synthetic.Serialize.Revit
 {
-    public class SerialElementId
+    public class SerialElementId : SerialObject
     {
         #region Public Properties
 

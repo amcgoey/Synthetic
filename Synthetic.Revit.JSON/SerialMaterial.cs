@@ -48,6 +48,7 @@ namespace Synthetic.Serialize.Revit
         #endregion
 
         #region Public Constructors
+
         public SerialMaterial () : base () { }
 
         public SerialMaterial (DynElem dynamoMaterial) : base (dynamoMaterial)

@@ -13,6 +13,7 @@ using RevitElemId = Autodesk.Revit.DB.ElementId;
 using RevitElemType = Autodesk.Revit.DB.ElementType;
 using RevitMaterial = Autodesk.Revit.DB.Material;
 using RevitHostObjType = Autodesk.Revit.DB.HostObjAttributes;
+using RevitView = Autodesk.Revit.DB.View;
 
 using Revit.Elements;
 using dynElem = Revit.Elements.Element;
@@ -28,6 +29,7 @@ namespace Synthetic.Serialize.Revit
         public Dictionary<string, SerialMaterial> Materials { get; set; }
         public Dictionary<string, SerialElementType> ElementTypes { get; set; }
         public Dictionary<string, SerialHostObjType> HostObjTypes { get; set; }
+        public Dictionary<string, SerialView> Views { get; set; }
         public List<SerialElement> Elements { get; set; }
 
         #endregion
@@ -38,6 +40,7 @@ namespace Synthetic.Serialize.Revit
             Materials = new Dictionary<string, SerialMaterial>();
             ElementTypes = new Dictionary<string, SerialElementType>();
             HostObjTypes = new Dictionary<string, SerialHostObjType>();
+            Views = new Dictionary<string, SerialView>();
             Elements = new List<SerialElement>();
         }
 
@@ -81,6 +84,7 @@ namespace Synthetic.Serialize.Revit
             return serializeJSON.Materials.Values.ToList<SerialElement>()
                 .Concat(serializeJSON.ElementTypes.Values.ToList <SerialElement>())
                 .Concat(serializeJSON.HostObjTypes.Values.ToList<SerialElement>())
+                .Concat(serializeJSON.Views.Values.ToList<SerialElement>())
                 .Concat(serializeJSON.Elements);
         }
         
@@ -142,7 +146,20 @@ namespace Synthetic.Serialize.Revit
                     serializeElement = new SerialElementType((RevitElemType)revitElement);
                     break;
                 case "Autodesk.Revit.DB.WallType":
+                case "Autodesk.Revit.DB.FloorType":
+                case "Autodesk.Revit.DB.CeilingType":
+                case "Autodesk.Revit.DB.RoofType":
+                case "Autodesk.Revit.DB.BuildingPadType":
                     serializeElement = new SerialHostObjType((RevitHostObjType)revitElement);
+                    break;
+                case "Autodesk.Revit.DB.View":
+                case "Autodesk.Revit.DB.TableView":
+                case "Autodesk.Revit.DB.View3D":
+                case "Autodesk.Revit.DB.ViewDrafting":
+                case "Autodesk.Revit.DB.ViewPlan":
+                case "Autodesk.Revit.DB.ViewSection":
+                case "Autodesk.Revit.DB.ViewSheet":
+                    serializeElement = new SerialView((RevitView)revitElement);
                     break;
                 default:
                     serializeElement = new SerialElement(revitElement);
@@ -167,6 +184,10 @@ namespace Synthetic.Serialize.Revit
             else if (type == typeof(SerialHostObjType))
             {
                 this.HostObjTypes.Add(serialElement.Name, (SerialHostObjType)serialElement);
+            }
+            else if (type == typeof(SerialView))
+            {
+                this.Views.Add(serialElement.Name, (SerialView)serialElement);
             }
             else
             {
@@ -195,6 +216,10 @@ namespace Synthetic.Serialize.Revit
             else if (type == typeof(SerialHostObjType))
             {
                 elem = SerialHostObjType.ModifyWallType((SerialHostObjType)serialElement, document);
+            }
+            else if (type == typeof(SerialView))
+            {
+                elem = SerialView.ModifyView((SerialView)serialElement, document);
             }
             else
             {
