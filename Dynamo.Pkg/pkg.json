@@ -2,8 +2,8 @@
   "license": "",
   "file_hash": null,
   "name": "Synthetic",
-  "version": "1.3.190407",
-  "description": "Synthetic provides Dynamo nodes for manipulating data, and accessing Revit API objects.  Includes nodes for documents, collectors, worksets, view templates, dictionary data types, and Enum (enumerations).  Please refer to the example definitions in the extra folder.  The examples show how to use many of the included nodes.",
+  "version": "1.3.190629",
+  "description": "Synthetic provides Dynamo nodes for manipulating data, and accessing Revit API objects.  Includes nodes for documents, filtered element collectors, worksets, view templates, dictionary data types, and Enum (enumerations).  Please refer to the example definitions in the extra folder.  The examples show how to use many of the included nodes.",
   "group": "Synthetic",
   "keywords": [ "document", "workset", "view", "enumeration", "dialog", "collector", "regex" ],
   "dependencies": [ ],
@@ -14,11 +14,11 @@
   "site_url": "https://github.com/amcgoey/Synthetic",
   "repository_url": "https://github.com/amcgoey/Synthetic",
   "contains_binaries": true,
-  "node_libraries": 
-  [
+  "node_libraries": [
     "Synthetic.Revit, Version=1.0.0.2, Culture=neutral, PublicKeyToken=null",
     "Synthetic.Core, Version=1.0.0.2, Culture=neutral, PublicKeyToken=null",
     "Synthetic.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
-    "Synthetic.Pulldowns, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+    "Synthetic.Pulldowns, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "Synthetic.Serialize.Revit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
   ]
 }

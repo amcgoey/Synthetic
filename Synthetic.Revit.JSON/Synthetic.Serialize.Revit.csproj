@@ -1,21 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
-    None
-  </ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
-  </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9DE0F913-AFC3-41B1-B266-6E248CB6E984}</ProjectGuid>
+    <ProjectGuid>{496ADF96-42B2-49E8-ADF2-4F5CF1E08511}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Synthetic.UI</RootNamespace>
-    <AssemblyName>Synthetic.UI</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>Synthetic.Serialize.Revit</RootNamespace>
+    <AssemblyName>Synthetic.Serialize.Revit</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,7 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\output\Synthetic\bin\Synthetic.UI.XML</DocumentationFile>
+    <DocumentationFile>..\..\output\Synthetic\bin\Synthetic.Serialize.Revit.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,20 +32,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DSCoreNodes">
-      <HintPath>C:\Program Files\Dynamo\Dynamo Core\1.3\DSCoreNodes.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="DynamoServices">
       <HintPath>C:\Program Files\Dynamo\Dynamo Core\1.3\DynamoServices.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="RevitAPI">
-      <HintPath>C:\Program Files\Autodesk\Revit 2018\RevitAPI.dll</HintPath>
+    <Reference Include="NewtonSoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Autodesk\Revit 2019\NewtonSoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="RevitAPIUI">
-      <HintPath>C:\Program Files\Autodesk\Revit 2018\RevitAPIUI.dll</HintPath>
+    <Reference Include="RevitAPI">
+      <HintPath>C:\Program Files\Autodesk\Revit 2018\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitNodes">
@@ -62,18 +55,30 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Pick.cs" />
-    <Compile Include="DialogRevit.cs" />
-    <Compile Include="DialogRevitTask.cs" />
-    <Compile Include="DialogOS.cs" />
+    <Compile Include="SerialCategoryGraphicOverride.cs" />
+    <Compile Include="SerialBoolean.cs" />
+    <Compile Include="SerialCategoryId.cs" />
+    <Compile Include="SerialColor.cs" />
+    <Compile Include="SerialCompoundStructure.cs" />
+    <Compile Include="SerialElementId.cs" />
+    <Compile Include="SerialElement.cs" />
+    <Compile Include="SerialElementType.cs" />
+    <Compile Include="SerialEnum.cs" />
+    <Compile Include="SerializeJSON.cs" />
+    <Compile Include="SerialList.cs" />
+    <Compile Include="SerialMaterial.cs" />
+    <Compile Include="SerialObject.cs" />
+    <Compile Include="SerialOverrideGraphicSettings.cs" />
+    <Compile Include="SerialParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerialHostObjType.cs" />
+    <Compile Include="SerialView.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Synthetic.UI_DynamoCustomization.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="Synthetic.Serialize.Revit_DynamoCustomization.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -87,11 +92,4 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

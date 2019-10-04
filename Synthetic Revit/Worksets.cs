@@ -456,7 +456,7 @@ namespace Synthetic.Revit
         /// <returns name="string">Returns a string representation of the workset.</returns>
         public override string ToString()
         {
-            return string.Format("Workset(Name=\"{0}\", ID={1})", this.internalName, this.internalId);
+            return string.Format("{0}(Name=\"{1}\", ID={2})", this.GetType().Name, this.internalName, this.internalId);
         }
     }
 }
