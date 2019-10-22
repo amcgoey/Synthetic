@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 using Autodesk.DesignScript.Runtime;
 
@@ -551,6 +550,7 @@ namespace Synthetic.Revit
             //  Initialize variables
             revitFamilySymbol rFamilySymbol = (revitFamilySymbol)familyType.InternalElement;
 
+            //  Get all viewport ID's on the sheet.
             List<revitElemId> viewportIds = (List<revitElemId>)rSheet.GetAllViewports();
             List<revitViewport> viewports = null;
 
@@ -564,6 +564,8 @@ namespace Synthetic.Revit
 
             revitDB.FamilyInstance originFamily = (revitDB.FamilyInstance)collector.FirstElement();
 
+            //  If family instance is found in the view
+            //  Then renumber views.
             if (originFamily != null)
             {
                 revitDB.LocationPoint location = (revitDB.LocationPoint)originFamily.Location;
@@ -614,11 +616,22 @@ namespace Synthetic.Revit
                 revitViewport vp = (revitViewport)doc.GetElement(id);
                 revitView v = (revitView)doc.GetElement(vp.ViewId);
 
-                viewPorts.Add(vp);
-
-                if (v.ViewType != revitDB.ViewType.Legend)
+                if (
+                    v.ViewType == revitDB.ViewType.FloorPlan
+                    || v.ViewType == revitDB.ViewType.CeilingPlan
+                    || v.ViewType == revitDB.ViewType.Elevation
+                    || v.ViewType == revitDB.ViewType.ThreeD
+                    || v.ViewType == revitDB.ViewType.DraftingView
+                    || v.ViewType == revitDB.ViewType.AreaPlan
+                    || v.ViewType == revitDB.ViewType.Section
+                    || v.ViewType == revitDB.ViewType.Detail
+                    || v.ViewType == revitDB.ViewType.Rendering
+                    )
                 {
-                    vp.get_Parameter(revitDB.BuiltInParameter.VIEWPORT_DETAIL_NUMBER).Set("!!" + i);
+                    viewPorts.Add(vp);
+
+                    revitDB.Parameter param = vp.get_Parameter(revitDB.BuiltInParameter.VIEWPORT_DETAIL_NUMBER);
+                    if (param != null) param.Set("!!" + i);
                     i++;
                 }
             }
@@ -647,7 +660,8 @@ namespace Synthetic.Revit
 
                 string viewNumber = _calculateViewNumber(minPt.X, minPt.Y, gridX, gridY, originX, originY);
 
-                vp.get_Parameter(revitDB.BuiltInParameter.VIEWPORT_DETAIL_NUMBER).Set(viewNumber);
+                revitDB.Parameter param = vp.get_Parameter(revitDB.BuiltInParameter.VIEWPORT_DETAIL_NUMBER);
+                if (param != null) param.Set(viewNumber);
 
                 //double x = Math.Floor(((minPt.X - originX) + viewportOffset) / gridX + 1);
                 //double y = Math.Floor(((minPt.Y - originY) + viewportOffset) / gridY + 1);

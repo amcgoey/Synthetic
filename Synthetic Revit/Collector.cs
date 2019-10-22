@@ -5,21 +5,21 @@ using System.Linq;
 using Autodesk.DesignScript.Runtime;
 using Dynamo.Graph.Nodes;
 
-using revitDB = Autodesk.Revit.DB;
-using revitDoc = Autodesk.Revit.DB.Document;
-using revitFECollector = Autodesk.Revit.DB.FilteredElementCollector;
+using RevitDB = Autodesk.Revit.DB;
+using RevitDoc = Autodesk.Revit.DB.Document;
+using RevitCollector = Autodesk.Revit.DB.FilteredElementCollector;
 
 using Revit.Elements;
 using RevitServices.Transactions;
 using RevitServices.Persistence;
 
 //Need all these types so the Collectors can return these types of objects.
-using dynElem = Revit.Elements.Element;
-using dynCat = Revit.Elements.Category;
-using dynFamilyType = Revit.Elements.FamilyType;
-using dynFamily = Revit.Elements.Family;
-using dynLevel = Revit.Elements.Level;
-using dynView = Revit.Elements.Views.View;
+using DynElem = Revit.Elements.Element;
+using DynCat = Revit.Elements.Category;
+using DynFamilyType = Revit.Elements.FamilyType;
+using DynFamily = Revit.Elements.Family;
+using DynLevel = Revit.Elements.Level;
+using DynView = Revit.Elements.Views.View;
 
 
 namespace Synthetic.Revit
@@ -30,19 +30,19 @@ namespace Synthetic.Revit
     [IsDesignScriptCompatible]
     public class Collector
     {
-        internal revitDoc _document { get; private set; }
-        internal List<revitDB.ElementFilter> _filters { get; private set; }
-        internal revitDB.ElementId _viewId { get; private set; }
-        internal List<revitDB.ElementId> _elemIds { get; private set; }
+        internal RevitDoc _document { get; private set; }
+        internal List<RevitDB.ElementFilter> _filters { get; private set; }
+        internal RevitDB.ElementId _viewId { get; private set; }
+        internal List<RevitDB.ElementId> _elemIds { get; private set; }
 
         /// <summary>
         /// Constructor that takes a Revit Document as input.  Does not include filters.
         /// </summary>
         /// <param name="doc">A Revit Document</param>
-        internal Collector (revitDoc doc)
+        internal Collector (RevitDoc doc)
         {
             _document = doc;
-            _filters = new List<revitDB.ElementFilter>();
+            _filters = new List<RevitDB.ElementFilter>();
             _viewId = null;
             _elemIds = null;
         }
@@ -52,7 +52,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="filters">A list of ElementFilters</param>
         /// <param name="doc">A Revit Document</param>
-        internal Collector(List<revitDB.ElementFilter> filters, revitDoc doc)
+        internal Collector(List<RevitDB.ElementFilter> filters, RevitDoc doc)
         {
             _document = doc;
             _filters = filters;
@@ -66,7 +66,7 @@ namespace Synthetic.Revit
         /// <param name="filters">A list of ElementFilters</param>
         /// <param name="viewId">The Element Id of the view</param>
         /// <param name="doc">A Revit Document</param>
-        internal Collector(List<revitDB.ElementFilter> filters, revitDB.ElementId viewId, revitDoc doc)
+        internal Collector(List<RevitDB.ElementFilter> filters, RevitDB.ElementId viewId, RevitDoc doc)
         {
             _document = doc;
             _filters = filters;
@@ -80,7 +80,7 @@ namespace Synthetic.Revit
         /// <param name="filters">A list of ElementFilters</param>
         /// <param name="elemIds">The Element Id of the view</param>
         /// <param name="doc">A Revit Document</param>
-        internal Collector(List<revitDB.ElementFilter> filters, List<revitDB.ElementId> elemIds, revitDoc doc)
+        internal Collector(List<RevitDB.ElementFilter> filters, List<RevitDB.ElementId> elemIds, RevitDoc doc)
         {
             _document = doc;
             _filters = filters;
@@ -92,24 +92,24 @@ namespace Synthetic.Revit
         /// Creates a Revit FilteredElementCollector and passes filters to it.  Returns the Collector.
         /// </summary>
         /// <returns>A FilteredElementCollector with filters applied</returns>
-        internal revitFECollector _ApplyFilters ()
+        internal RevitCollector _ApplyFilters ()
         {
-            revitFECollector rCollector;
+            RevitCollector rCollector;
 
             if (_viewId != null)
             {
-                rCollector = new revitFECollector(this._document, _viewId);
+                rCollector = new RevitCollector(this._document, _viewId);
             }
             else if (_elemIds != null)
             {
-                rCollector = new revitFECollector(this._document, _elemIds);
+                rCollector = new RevitCollector(this._document, _elemIds);
             }
             else
             {
-                rCollector = new revitFECollector(this._document);
+                rCollector = new RevitCollector(this._document);
             }
 
-            foreach (revitDB.ElementFilter filter in this._filters)
+            foreach (RevitDB.ElementFilter filter in this._filters)
             {
                 rCollector.WherePasses(filter);
             }
@@ -121,7 +121,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="collector">A Synthetic Collector object.</param>
         /// <returns name="Revit Collector">A Revit FilteredElementCollector object.</returns>
-        public static revitFECollector ApplyFilters (Collector collector)
+        public static RevitCollector ApplyFilters (Collector collector)
         {
             return collector._ApplyFilters();
         }
@@ -131,7 +131,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
         /// <returns>A Synthetic Collector object without any filters.</returns>
-        public static Collector ByDocument ([DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        public static Collector ByDocument ([DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
             return new Collector(document);
         }
@@ -142,8 +142,8 @@ namespace Synthetic.Revit
         /// <param name="filters">A list of ElementFilter objects.</param>
         /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
         /// <returns>A Synthetic Collector object</returns>
-        public static Collector ByFilters (List<revitDB.ElementFilter> filters,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        public static Collector ByFilters (List<RevitDB.ElementFilter> filters,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
             Collector collector = new Collector(filters, document);
             return collector;
@@ -156,11 +156,11 @@ namespace Synthetic.Revit
         /// <param name="viewId">The view's ElementId as an integer</param>
         /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
         /// <returns>A Synthetic Collector object</returns>
-        public static Collector ByFiltersViewId(List<revitDB.ElementFilter> filters,
+        public static Collector ByFiltersViewId(List<RevitDB.ElementFilter> filters,
             int viewId,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
-            Collector collector = new Collector(filters, new revitDB.ElementId(viewId), document);
+            Collector collector = new Collector(filters, new RevitDB.ElementId(viewId), document);
             return collector;
         }
 
@@ -171,9 +171,9 @@ namespace Synthetic.Revit
         /// <param name="elementIds">The view's ElementId as an integer</param>
         /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
         /// <returns>A Synthetic Collector object</returns>
-        public static Collector ByFiltersElemIds(List<revitDB.ElementFilter> filters,
-            List<revitDB.ElementId> elementIds,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        public static Collector ByFiltersElemIds(List<RevitDB.ElementFilter> filters,
+            List<RevitDB.ElementId> elementIds,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
             Collector collector = new Collector(filters, elementIds, document);
             return collector;
@@ -185,14 +185,14 @@ namespace Synthetic.Revit
         /// <param name="collector">A Synthetc Collector</param>
         /// <param name="toggle">Toggle will reset the Dynamo graph and rerun the collector.</param>
         /// <returns>A</returns>
-        public static IList<dynElem> ToElements (Collector collector,
+        public static IList<DynElem> ToElements (Collector collector,
             [DefaultArgument("true")] bool toggle = true)
         {
-            IList<revitDB.Element> elements = collector._ApplyFilters().ToElements();
+            IList<RevitDB.Element> elements = collector._ApplyFilters().ToElements();
 
-            IList<dynElem> dynamoElements = new List<dynElem>();
+            IList<DynElem> dynamoElements = new List<DynElem>();
 
-            foreach (revitDB.Element elem in elements)
+            foreach (RevitDB.Element elem in elements)
             {
                 try
                 {
@@ -210,10 +210,10 @@ namespace Synthetic.Revit
         /// <param name="collector">A Synthetc Collector</param>
         /// <param name="toggle">Toggle will reset the Dynamo graph and rerun the collector.</param>
         /// <returns name="Elements">Autodesk.Revit.DB.Elements</returns>
-        public static IList<revitDB.Element> ToRevitElements(Collector collector,
+        public static IList<RevitDB.Element> ToRevitElements(Collector collector,
             [DefaultArgument("true")] bool toggle = true)
         {
-            return collector._ApplyFilters().ToElements();
+            return (List<RevitDB.Element>)collector._ApplyFilters().ToElements();
         }
 
         /// <summary>
@@ -221,9 +221,9 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="collector">A Syntehtic Collector</param>
         /// <returns name="ElementIds">Returns the ElementIds of the elements that pass the collector's filters.</returns>
-        public static IList<revitDB.ElementId> ToElementIds(Collector collector)
+        public static IList<RevitDB.ElementId> ToElementIds(Collector collector)
         {
-            return (IList<revitDB.ElementId>)collector._ApplyFilters().ToElementIds();
+            return (IList<RevitDB.ElementId>)collector._ApplyFilters().ToElementIds();
         }
 
         /// <summary>
@@ -232,12 +232,12 @@ namespace Synthetic.Revit
         /// <param name="collector">A Collector to search</param>
         /// <param name="name">Name of the elements to find.</param>
         /// <returns name="Elements">Returns a list of Dynamo wrapped elements that matches the query</returns>
-        public static IList<dynElem> QueryNameEquals(Collector collector, string name)
+        public static IList<DynElem> QueryNameEquals(Collector collector, string name)
         {
-            revitFECollector rCollector = collector._ApplyFilters();
+            RevitCollector rCollector = collector._ApplyFilters();
 
-            IList<dynElem> dynamoElements = rCollector
-                .Cast<revitDB.Element>()
+            IList<DynElem> dynamoElements = rCollector
+                .Cast<RevitDB.Element>()
                 .Where(elem => elem.Name == name)
                 .Select(elem =>
                 {
@@ -254,12 +254,12 @@ namespace Synthetic.Revit
         /// <param name="collector">A Collector to search</param>
         /// <param name="name">Name of the elements to find.</param>
         /// <returns name="Elements">Returns a list of Dynamo wrapped elements that matches the query</returns>
-        public static IList<dynElem> QueryNameContains(Collector collector, string name)
+        public static IList<DynElem> QueryNameContains(Collector collector, string name)
         {
-            revitFECollector rCollector = collector._ApplyFilters();
+            RevitCollector rCollector = collector._ApplyFilters();
 
-            IList<dynElem> dynamoElements = rCollector
-                .Cast<revitDB.Element>()
+            IList<DynElem> dynamoElements = rCollector
+                .Cast<RevitDB.Element>()
                 .Where(elem => elem.Name.Contains(name))
                 .Select(elem =>
                 {
@@ -276,12 +276,12 @@ namespace Synthetic.Revit
         /// <param name="collector">A Collector to search</param>
         /// <param name="name">Name of the elements to find.</param>
         /// <returns name="Elements">Returns a list of Dynamo wrapped elements that matches the query</returns>
-        public static IList<dynElem> QueryNameDoesNotContain(Collector collector, string name)
+        public static IList<DynElem> QueryNameDoesNotContain(Collector collector, string name)
         {
-            revitFECollector rCollector = collector._ApplyFilters();
+            RevitCollector rCollector = collector._ApplyFilters();
 
-            IList<dynElem> dynamoElements = rCollector
-                .Cast<revitDB.Element>()
+            IList<DynElem> dynamoElements = rCollector
+                .Cast<RevitDB.Element>()
                 .Where(elem => !elem.Name.Contains(name))
                 .Select(elem =>
                 {
@@ -297,12 +297,12 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="collector">A Collector to search</param>
         /// <returns name="Elements">Returns a list of lists of Dynamo wrapped elements that are grouped by name</returns>
-        public static List<List<dynElem>> QueryGroupByName(Collector collector)
+        public static List<List<DynElem>> QueryGroupByName(Collector collector)
         {
-            revitFECollector rCollector = collector._ApplyFilters();
+            RevitCollector rCollector = collector._ApplyFilters();
 
-            List<List<dynElem>> dynamoElements = rCollector
-                .Cast<revitDB.Element>()
+            List<List<DynElem>> dynamoElements = rCollector
+                .Cast<RevitDB.Element>()
                 .GroupBy(elem => elem.Name)
                 .Select(grp => grp.Select( elem => elem.ToDSType(true)).ToList())
                 .ToList();
@@ -316,7 +316,7 @@ namespace Synthetic.Revit
         /// <param name="collector">A Synthetic Collector</param>
         /// <param name="filters">A list of ElementFilters</param>
         /// <returns name="collector">A Synthetic Collector with assigned ElementFilters.</returns>
-        public static Collector SetFilters (Collector collector, List<revitDB.ElementFilter> filters)
+        public static Collector SetFilters (Collector collector, List<RevitDB.ElementFilter> filters)
         {
             collector._filters = filters;
             return collector;
@@ -327,7 +327,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="collector">A Syntehtic Collector</param>
         /// <returns name="ElementFilters">A list of ElementFilters</returns>
-        public static List<revitDB.ElementFilter> GetFilters(Collector collector)
+        public static List<RevitDB.ElementFilter> GetFilters(Collector collector)
         {
             return collector._filters;
         }

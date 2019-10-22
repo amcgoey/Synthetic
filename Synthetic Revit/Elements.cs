@@ -1,25 +1,25 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-
-using Synthetic.Core;
+using System.Linq;
 
 using Autodesk.DesignScript.Runtime;
 using Dynamo.Graph.Nodes;
+using RevitServices.Transactions;
 
 using Revit.Elements;
-using RevitServices.Transactions;
-using dynamoElem = Revit.Elements.Element;
-using dynamoParam = Revit.Elements.Parameter;
-using dynRevit = Revit.Elements;
+using DynaElem = Revit.Elements.Element;
+using DynaParam = Revit.Elements.Parameter;
 
-using revitDB = Autodesk.Revit.DB;
-using revitElem = Autodesk.Revit.DB.Element;
-using revitElemId = Autodesk.Revit.DB.ElementId;
-using revitDoc = Autodesk.Revit.DB.Document;
-using revitFaceArray = Autodesk.Revit.DB.FaceArray;
-using revitFace = Autodesk.Revit.DB.Face;
-using revitGeo = Autodesk.Revit.DB.GeometryObject;
+using RevitDB = Autodesk.Revit.DB;
+using RevitElem = Autodesk.Revit.DB.Element;
+using RevitElemId = Autodesk.Revit.DB.ElementId;
+using RevitDoc = Autodesk.Revit.DB.Document;
+using RevitFaceArray = Autodesk.Revit.DB.FaceArray;
+using RevitFace = Autodesk.Revit.DB.Face;
+using RevitGeo = Autodesk.Revit.DB.GeometryObject;
 
+using Synthetic.Core;
 using synthDict = Synthetic.Core.Dictionary;
 
 namespace Synthetic.Revit
@@ -37,7 +37,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="Element">A dynamo wrapped element</param>
         /// <returns name="Document">A Autodesk.Revit.DB.Document</returns>
-        public static revitDoc Document (dynamoElem Element)
+        public static RevitDoc Document (DynaElem Element)
         {
             return Element.InternalElement.Document;
         }
@@ -48,9 +48,9 @@ namespace Synthetic.Revit
         /// <param name="element">A Dynamo wrapped element.</param>
         /// <param name="dictionary">A Synthetic Dictionary</param>
         /// <returns></returns>
-        public static dynamoElem SetParamterByDictionary(dynamoElem element, synthDict dictionary)
+        public static DynaElem SetParamterByDictionary(DynaElem element, synthDict dictionary)
         {
-            revitDoc doc = element.InternalElement.Document;
+            RevitDoc doc = element.InternalElement.Document;
 
             TransactionManager.Instance.EnsureInTransaction(doc);
 
@@ -73,10 +73,10 @@ namespace Synthetic.Revit
         /// <param name="element">A Dynamo wrapped element.</param>
         /// <param name="parameterNames">A list of parameter names.</param>
         /// <returns></returns>
-        public static synthDict GetParamterToDictionary(dynamoElem element, List<string> parameterNames)
+        public static synthDict GetParamterToDictionary(DynaElem element, List<string> parameterNames)
         {
             synthDict dict = synthDict.ByEmpty();
-            revitDoc doc = element.InternalElement.Document;
+            RevitDoc doc = element.InternalElement.Document;
 
             foreach (string name in parameterNames)
             {
@@ -96,16 +96,16 @@ namespace Synthetic.Revit
         /// <param name="Element">Destination element</param>
         /// <param name="SourceElement">Source element for the parameter values</param>
         /// <returns name="Element">The destination element</returns>
-        public static dynamoElem TransferParameters(dynamoElem Element, dynamoElem SourceElement)
+        public static DynaElem TransferParameters(DynaElem Element, DynaElem SourceElement)
         {
             string transactionName = "Transfer Parameter Between Elements";
 
-            Action<dynamoElem, dynamoElem> transfer = (sElem, dElem) =>
+            Action<DynaElem, DynaElem> transfer = (sElem, dElem) =>
             {
                 _transferParameters(sElem.InternalElement, dElem.InternalElement);
             };
 
-            revitDoc document = Element.InternalElement.Document;
+            RevitDoc document = Element.InternalElement.Document;
 
             if (document.IsModifiable)
             {
@@ -132,21 +132,21 @@ namespace Synthetic.Revit
         /// <param name="elementIds">List of Element Ids of elements to be copied.</param>
         /// <param name="destinationDoc">The destination document.</param>
         /// <returns></returns>
-        public static List<revitElemId> CopyElements (revitDoc sourceDoc, List<int> elementIds, revitDoc destinationDoc)
+        public static List<RevitElemId> CopyElements (RevitDoc sourceDoc, List<int> elementIds, RevitDoc destinationDoc)
         {
             string transactionName = "Copy Elements from document " + sourceDoc.Title;
-            List<revitElemId> copiedElemsIds;
-            List<revitElemId> revitElemIds = new List<revitElemId>();
+            List<RevitElemId> copiedElemsIds;
+            List<RevitElemId> revitElemIds = new List<RevitElemId>();
             
-            Func<revitDoc, List<revitElemId>, revitDoc, List<revitElemId>> copy = (sDoc, elemIds, dDoc) =>
+            Func<RevitDoc, List<RevitElemId>, RevitDoc, List<RevitElemId>> copy = (sDoc, elemIds, dDoc) =>
             {
                 Autodesk.Revit.DB.CopyPasteOptions cpo = new Autodesk.Revit.DB.CopyPasteOptions();
-                return (List<revitElemId>)Autodesk.Revit.DB.ElementTransformUtils.CopyElements(sDoc, elemIds, dDoc, null, cpo);
+                return (List<RevitElemId>)Autodesk.Revit.DB.ElementTransformUtils.CopyElements(sDoc, elemIds, dDoc, null, cpo);
             };
 
             foreach (int id in elementIds)
             {
-                revitElemIds.Add(new revitElemId(id));
+                revitElemIds.Add(new RevitElemId(id));
             }
 
             if (destinationDoc.IsModifiable)
@@ -174,26 +174,26 @@ namespace Synthetic.Revit
         /// <param name="Element"></param>
         /// <param name="SourceElement"></param>
         /// <returns></returns>
-        public static revitElem TransferElements(
-            revitElem Element,
-            revitElem SourceElement)
+        public static RevitElem TransferElements(
+            RevitElem Element,
+            RevitElem SourceElement)
         {
-            revitDoc destinationDoc = Element.Document;
-            revitDoc sourceDoc = SourceElement.Document;
+            RevitDoc destinationDoc = Element.Document;
+            RevitDoc sourceDoc = SourceElement.Document;
 
             string transactionName = "Element overwritten from " + sourceDoc.Title;
 
-            revitElem returnElem;
+            RevitElem returnElem;
             
-            Func<revitElem, revitDoc, revitElem, revitDoc, revitElem> transfer = (dElem, dDoc, sElem, sDoc) =>
+            Func<RevitElem, RevitDoc, RevitElem, RevitDoc, RevitElem> transfer = (dElem, dDoc, sElem, sDoc) =>
             {
-                List<revitElemId> revitElemIds = new List<revitElemId>();
+                List<RevitElemId> revitElemIds = new List<RevitElemId>();
                 revitElemIds.Add(sElem.Id);
 
                 Autodesk.Revit.DB.CopyPasteOptions cpo = new Autodesk.Revit.DB.CopyPasteOptions();
-                List<revitElemId> ids = (List<revitElemId>)Autodesk.Revit.DB.ElementTransformUtils.CopyElements(sDoc, revitElemIds, dDoc, null, cpo);
+                List<RevitElemId> ids = (List<RevitElemId>)Autodesk.Revit.DB.ElementTransformUtils.CopyElements(sDoc, revitElemIds, dDoc, null, cpo);
 
-                revitElem tempElem = dDoc.GetElement(ids[0]);
+                RevitElem tempElem = dDoc.GetElement(ids[0]);
                 _transferParameters(tempElem, dElem);
                 destinationDoc.Delete(tempElem.Id);
 
@@ -220,6 +220,101 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
+        /// Merges ElementType FromType into ToType.  FromType will be deleted if all instances of the Type are successfully changed.  Elements in groups will not be changed.
+        /// </summary>
+        /// <param name="FromType">All instances of this ElementType will be merged into the ToType and the Type will be deleted.</param>
+        /// <param name="ToType">ElementType to merge into.</param>
+        /// <returns name="Merged">A list of instances that were successfully changed to ToType</returns>
+        /// <returns name="Failed">A list of instances that failed to changed to ToType</returns>
+        [MultiReturn(new[] { "Merged", "Failed" })]
+        public static IDictionary MergeElementTypes(DynaElem FromType, DynaElem ToType)
+        {
+            //  Name of Transaction
+            string transactionName = "Merge Element Type";
+
+            // Get the Revit elements from the Dynamo Elements
+            RevitDB.ElementType rFromType = (RevitDB.ElementType)FromType.InternalElement;
+            RevitDB.ElementType rToType = (RevitDB.ElementType)ToType.InternalElement;
+
+            RevitDoc document = rToType.Document;
+
+            // Collect all instances of FromType
+            RevitDB.FilteredElementCollector collector = new RevitDB.FilteredElementCollector(document);
+            RevitDB.BuiltInParameter parameterId = RevitDB.BuiltInParameter.ELEM_TYPE_PARAM;
+            RevitDB.FilterNumericEquals filterNumberRule = new RevitDB.FilterNumericEquals();
+            RevitDB.ParameterValueProvider provider = new RevitDB.ParameterValueProvider(new RevitDB.ElementId(parameterId));
+            RevitDB.FilterRule filterRule = new RevitDB.FilterElementIdRule(provider, filterNumberRule, rFromType.Id);
+            RevitDB.ElementFilter filterParameter = new RevitDB.ElementParameterFilter(filterRule, false);
+
+            Type instanceType = Select.InstanceClassFromTypeClass(rFromType.GetType());
+            if (instanceType != null)
+            {
+                collector.OfClass(instanceType);
+            }
+
+            IEnumerable<RevitDB.Element> instances = collector
+                .WhereElementIsNotElementType()
+                .WherePasses(filterParameter)
+                .ToElements();
+
+            // Intialize list for elements that are successfully merged and failed to merge.
+            List<DynaElem> elements = new List<DynaElem>();
+            List<DynaElem> elementsFailed = new List<DynaElem>();
+
+            // Define Function to change instances types.
+            Action<IEnumerable<RevitDB.Element>> _SetType = (isntances) =>
+            {
+                foreach (RevitDB.Element elem in instances)
+                {
+                    // If Element is in a group, put the element in the failed list
+                    int groupId = elem.GroupId.IntegerValue;
+                    if (groupId == -1)
+                    {
+                        //elem.TextNoteType = rToType;
+                        RevitDB.Parameter param = elem.get_Parameter(RevitDB.BuiltInParameter.ELEM_TYPE_PARAM);
+                        param.Set(rToType.Id);
+                        DynaElem dElem = elem.ToDSType(true);
+                        elements.Add(dElem);
+                    }
+                    else
+                    {
+                        DynaElem dElem = elem.ToDSType(true);
+                        elementsFailed.Add(dElem);
+                    }
+                }
+
+                // Check if there are any instances of FromType left
+                int count = collector.Count();
+                if (count == 0)
+                {
+                    document.Delete(rFromType.Id);
+                }
+            };
+
+            if (document.IsModifiable)
+            {
+                TransactionManager.Instance.EnsureInTransaction(document);
+                _SetType(instances);
+                TransactionManager.Instance.TransactionTaskDone();
+            }
+            else
+            {
+                using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                {
+                    trans.Start(transactionName);
+                    _SetType(instances);
+                    trans.Commit();
+                }
+            }
+
+            return new Dictionary<string, object>
+            {
+                {"Merged", elements},
+                {"Failed", elementsFailed}
+            };
+        }
+
+        /// <summary>
         /// Tests whether the element has a parameter of a given value.  Returns true if the parameter has an equal value and false otherwise.  A list of parameters names can be given to test against values in elements within parameters.  For example, one can test for a type description from a instance by creating a list of each parameter.  Please note that the comparision is done using the string representation of each parameter.
         /// </summary>
         /// <param name="element">A dynamo wrapped Revit element.</param>
@@ -228,7 +323,7 @@ namespace Synthetic.Revit
         /// <returns name="Filter">True if the element's parameter equals the input value, otherwise false.</returns>
         //[MultiReturn(new[] { "Filter", "Debug" })]
         //public static Dictionary<string,object> FilterByParameterValue (dynamoElem element, List<string> parameterNames, string value )
-        public static bool FilterByParameterValue(dynamoElem element, List<string> parameterNames, string value)
+        public static bool FilterByParameterValue(DynaElem element, List<string> parameterNames, string value)
         {
             bool filter;
             object valueParam = element;
@@ -250,7 +345,7 @@ namespace Synthetic.Revit
 
                 if (vType != typeof(string) && vType != typeof(int) && vType != typeof(double))
                 {
-                    dynamoElem e = (dynamoElem)valueParam;
+                    DynaElem e = (DynaElem)valueParam;
                     valueParam = e.GetParameterValueByName(param);
                     //debug.Add("Parameter = " + valueParam.ToString());
                 }
@@ -285,7 +380,7 @@ namespace Synthetic.Revit
         /// <param name="elementId">A Autodesk.Revit.DB.ElementId</param>
         /// <param name="document">Document that the element is in.</param>
         /// <returns name="Element">Returns a unwrapped Autodesk.Revit.DB.Element</returns>
-        public static revitElem GetByElementId (revitElemId elementId, revitDoc document)
+        public static RevitElem GetByElementId (RevitElemId elementId, RevitDoc document)
         {
             return document.GetElement(elementId);
         }
@@ -296,7 +391,7 @@ namespace Synthetic.Revit
         /// <param name="UniqueId">A UniqueId as a string</param>
         /// <param name="document">Document that the element is in.</param>
         /// <returns name="Element">Returns a unwrapped Autodesk.Revit.DB.Element</returns>
-        public static revitElem GetByUniqueId(string UniqueId, revitDoc document)
+        public static RevitElem GetByUniqueId(string UniqueId, RevitDoc document)
         {
             return document.GetElement(UniqueId);
         }
@@ -306,9 +401,9 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="Element">A Autodesk.Revit.DB.Element, NOT a Dynamo wrapped element</param>
         /// <returns name="ElementId">The Autodesk.Revit.DB.ElementId</returns>
-        public static revitElemId Id(System.Object Element)
+        public static RevitElemId Id(System.Object Element)
         {
-            revitElem elem = (revitElem)Element;
+            RevitElem elem = (RevitElem)Element;
             return elem.Id;
         }
 
@@ -319,7 +414,7 @@ namespace Synthetic.Revit
         /// <returns name="Name">The name of the element</returns>
         public static string Name(System.Object Element)
         {
-            revitElem elem = (revitElem)Element;
+            RevitElem elem = (RevitElem)Element;
             return elem.Name;
         }
 
@@ -330,7 +425,7 @@ namespace Synthetic.Revit
         /// <returns name="UniqueId">The UniqueId of the element</returns>
         public static string UniqueId(System.Object Element)
         {
-            revitElem elem = (revitElem)Element;
+            RevitElem elem = (RevitElem)Element;
             return elem.UniqueId;
         }
 
@@ -339,9 +434,9 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="Object"></param>
         /// <returns></returns>
-        public static revitElem CastRevitElement(System.Object Object)
+        public static RevitElem CastRevitElement(System.Object Object)
         {
-            return (revitElem)Object;
+            return (RevitElem)Object;
         }
 
         /// <summary>
@@ -350,37 +445,37 @@ namespace Synthetic.Revit
         /// <param name="Element">The element to paint</param>
         /// <param name="MaterialId">The material to paint</param>
         /// <returns name="Element">The modified element</returns>
-        public static dynamoElem PaintElement (dynamoElem Element, revitElemId MaterialId)
+        public static DynaElem PaintElement (DynaElem Element, RevitElemId MaterialId)
         {
             string transactionName = "Paint Faces of Element";
 
-            revitDoc document = Element.InternalElement.Document;
-            revitElemId elementId = Element.InternalElement.Id;
+            RevitDoc document = Element.InternalElement.Document;
+            RevitElemId elementId = Element.InternalElement.Id;
 
-            revitDB.Options op = new revitDB.Options();
-            revitDB.GeometryElement geoElem = Element.InternalElement.get_Geometry(op);
+            RevitDB.Options op = new RevitDB.Options();
+            RevitDB.GeometryElement geoElem = Element.InternalElement.get_Geometry(op);
 
-            IList<revitDB.Face> faces = new List<revitDB.Face>();
+            IList<RevitDB.Face> faces = new List<RevitDB.Face>();
 
-            foreach (revitDB.GeometryObject geo in  geoElem)
+            foreach (RevitDB.GeometryObject geo in  geoElem)
             {
-                if (geo is revitDB.Solid)
+                if (geo is RevitDB.Solid)
                 {
-                    revitDB.Solid solid = geo as revitDB.Solid;
-                    foreach (revitDB.Face face in solid.Faces)
+                    RevitDB.Solid solid = geo as RevitDB.Solid;
+                    foreach (RevitDB.Face face in solid.Faces)
                     {
                         faces.Add(face);
                     }
 
                     }
-                else if (geo is revitDB.Face)
+                else if (geo is RevitDB.Face)
                 {
-                    faces.Add(geo as revitDB.Face);
+                    faces.Add(geo as RevitDB.Face);
                 }
 
-                Action<revitElemId, IList<revitDB.Face>, revitElemId> paintFaces = (revitElemId elemId, IList<revitDB.Face> faceList, revitElemId matId) =>
+                Action<RevitElemId, IList<RevitDB.Face>, RevitElemId> paintFaces = (RevitElemId elemId, IList<RevitDB.Face> faceList, RevitElemId matId) =>
                 {
-                    foreach (revitDB.Face face in faceList)
+                    foreach (RevitDB.Face face in faceList)
                     {
                         document.Paint(elemId, face, matId);
                     }
@@ -411,37 +506,37 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="Element">The element to removve painted faces</param>
         /// <returns name="Element">The modified element</returns>
-        public static dynamoElem RemovePaintElement(dynamoElem Element)
+        public static DynaElem RemovePaintElement(DynaElem Element)
         {
             string transactionName = "Remove Painted Faces of Element";
 
-            revitDoc document = Element.InternalElement.Document;
-            revitElemId elementId = Element.InternalElement.Id;
+            RevitDoc document = Element.InternalElement.Document;
+            RevitElemId elementId = Element.InternalElement.Id;
 
-            revitDB.Options op = new revitDB.Options();
-            revitDB.GeometryElement geoElem = Element.InternalElement.get_Geometry(op);
+            RevitDB.Options op = new RevitDB.Options();
+            RevitDB.GeometryElement geoElem = Element.InternalElement.get_Geometry(op);
 
-            IList<revitDB.Face> faces = new List<revitDB.Face>();
+            IList<RevitDB.Face> faces = new List<RevitDB.Face>();
 
-            foreach (revitDB.GeometryObject geo in geoElem)
+            foreach (RevitDB.GeometryObject geo in geoElem)
             {
-                if (geo is revitDB.Solid)
+                if (geo is RevitDB.Solid)
                 {
-                    revitDB.Solid solid = geo as revitDB.Solid;
-                    foreach (revitDB.Face face in solid.Faces)
+                    RevitDB.Solid solid = geo as RevitDB.Solid;
+                    foreach (RevitDB.Face face in solid.Faces)
                     {
                         faces.Add(face);
                     }
 
                 }
-                else if (geo is revitDB.Face)
+                else if (geo is RevitDB.Face)
                 {
-                    faces.Add(geo as revitDB.Face);
+                    faces.Add(geo as RevitDB.Face);
                 }
 
-                Action<revitElemId, IList<revitDB.Face>> RemovePaintedFaces = (revitElemId elemId, IList<revitDB.Face> faceList) =>
+                Action<RevitElemId, IList<RevitDB.Face>> RemovePaintedFaces = (RevitElemId elemId, IList<RevitDB.Face> faceList) =>
                 {
-                    foreach (revitDB.Face face in faceList)
+                    foreach (RevitDB.Face face in faceList)
                     {
                         document.RemovePaint(elemId, face);
                     }
@@ -472,9 +567,9 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="element">A Autodesk.Revit.DB.Element</param>
         /// <returns name="Dynamo Element">If successful, returns a dynamo element, otherwise returns null.</returns>
-        public static dynamoElem WrapRevitElement ( revitElem element)
+        public static DynaElem WrapRevitElement ( RevitElem element)
         {
-            dynamoElem dElem = null;
+            DynaElem dElem = null;
 
             try
             {
@@ -490,9 +585,9 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="element">A Dynamo representation of a revit element</param>
         /// <returns name="Revit Element">If successful, returns a Autodesk.Revit.DB.Element, otherwise returns null.</returns>
-        public static revitElem UnwrapDynamoElement (dynamoElem element)
+        public static RevitElem UnwrapDynamoElement (DynaElem element)
         {
-            revitElem rElem = null;
+            RevitElem rElem = null;
 
             try
             {
@@ -506,30 +601,30 @@ namespace Synthetic.Revit
 
 #region Helper Functions
 
-        private static void _transferParameters(revitElem SourceElement, revitElem DestinationElement)
+        private static void _transferParameters(RevitElem SourceElement, RevitElem DestinationElement)
         {
-            revitDB.ParameterSet sourceParameters = SourceElement.Parameters;
+            RevitDB.ParameterSet sourceParameters = SourceElement.Parameters;
 
-            foreach (revitDB.Parameter sourceParam in sourceParameters)
+            foreach (RevitDB.Parameter sourceParam in sourceParameters)
             {
                 if (sourceParam.IsReadOnly == false)
                 {
-                    revitDB.Definition def = sourceParam.Definition;
-                    revitDB.Parameter destinationParam = DestinationElement.get_Parameter(def);
+                    RevitDB.Definition def = sourceParam.Definition;
+                    RevitDB.Parameter destinationParam = DestinationElement.get_Parameter(def);
 
-                    revitDB.StorageType st = sourceParam.StorageType;
+                    RevitDB.StorageType st = sourceParam.StorageType;
                     switch (st)
                     {
-                        case revitDB.StorageType.Double:
+                        case RevitDB.StorageType.Double:
                             destinationParam.Set(sourceParam.AsDouble());
                             break;
-                        case revitDB.StorageType.ElementId:
+                        case RevitDB.StorageType.ElementId:
                             destinationParam.Set(sourceParam.AsElementId());
                             break;
-                        case revitDB.StorageType.Integer:
+                        case RevitDB.StorageType.Integer:
                             destinationParam.Set(sourceParam.AsInteger());
                             break;
-                        case revitDB.StorageType.String:
+                        case RevitDB.StorageType.String:
                             destinationParam.Set(sourceParam.AsString());
                             break;
                     }

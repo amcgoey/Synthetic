@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Synthetic.Core
 {
@@ -11,7 +11,7 @@ namespace Synthetic.Core
     /// </summary>
     public class Object
     {
-        internal Object ()
+        internal Object()
         { }
 
         /// <summary>

@@ -1,18 +1,25 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-using revitDoc = Autodesk.Revit.DB.Document;
-using revitView = Autodesk.Revit.DB.View;
-using revitView3D = Autodesk.Revit.DB.View3D;
-using revitViewOrientation = Autodesk.Revit.DB.ViewOrientation3D;
-using revitXYZ = Autodesk.Revit.DB.XYZ;
-using revitBB = Autodesk.Revit.DB.BoundingBoxXYZ;
-
+using Autodesk.DesignScript.Runtime;
 using RevitServices.Transactions;
-using dynaView = Revit.Elements.Views.View;
-using dynaView3D = Revit.Elements.Views.View3D;
-using dynaPoint = Autodesk.DesignScript.Geometry.Point;
+
+using RevitDB = Autodesk.Revit.DB;
+using RevitDoc = Autodesk.Revit.DB.Document;
+using RevitElem = Autodesk.Revit.DB.Element;
+using RevitView = Autodesk.Revit.DB.View;
+using RevitView3D = Autodesk.Revit.DB.View3D;
+using RevitViewOrientation = Autodesk.Revit.DB.ViewOrientation3D;
+using RevitXYZ = Autodesk.Revit.DB.XYZ;
+using RevitBB = Autodesk.Revit.DB.BoundingBoxXYZ;
+
+using Revit.Elements;
+using DynaElem = Revit.Elements.Element;
+using DynaView = Revit.Elements.Views.View;
+using DynaView3D = Revit.Elements.Views.View3D;
+using DynaPoint = Autodesk.DesignScript.Geometry.Point;
 
 namespace Synthetic.Revit
 {
@@ -22,7 +29,7 @@ namespace Synthetic.Revit
     public class Tools
     {
         internal Tools () { }
-
+        
         /// <summary>
         /// Matches View3D's orientation and cropbox to an orthagonal view.  Also sets the View3D to isometric.
         /// </summary>
@@ -30,27 +37,27 @@ namespace Synthetic.Revit
         /// <param name="SourceView">The source orthogonal view to acquire orientation and cropbox</param>
         /// <param name="Offset">Offset of the camera from the view direction of the source view</param>
         /// <returns name="View3D"></returns>
-        public static dynaView3D View3dOrientToggleIsometric (dynaView3D View3D, dynaView SourceView, double Offset)
+        public static DynaView3D View3dOrientToggleIsometric (DynaView3D View3D, DynaView SourceView, double Offset)
         {
             string transactionName = "View3dOrientToggleIsometric";
 
-            revitView3D rView = (revitView3D)View3D.InternalElement;
-            revitView rSourceView = (revitView)SourceView.InternalElement;
+            RevitView3D rView = (RevitView3D)View3D.InternalElement;
+            RevitView rSourceView = (RevitView)SourceView.InternalElement;
 
-            revitDoc document = rView.Document;
+            RevitDoc document = rView.Document;
 
             // Cropbox
-            revitBB cropbox = rSourceView.CropBox;
-            revitXYZ origin = cropbox.Transform.Origin;
+            RevitBB cropbox = rSourceView.CropBox;
+            RevitXYZ origin = cropbox.Transform.Origin;
 
             // View Orientation
-            revitXYZ rEyePosition = origin.Add(rSourceView.ViewDirection.Normalize().Multiply(Offset));
-            revitXYZ rUpDirection = rSourceView.UpDirection;
-            revitXYZ rForwardDirection = rSourceView.ViewDirection.Negate();
+            RevitXYZ rEyePosition = origin.Add(rSourceView.ViewDirection.Normalize().Multiply(Offset));
+            RevitXYZ rUpDirection = rSourceView.UpDirection;
+            RevitXYZ rForwardDirection = rSourceView.ViewDirection.Negate();
 
-            revitViewOrientation viewOrient = new revitViewOrientation(rEyePosition, rUpDirection, rForwardDirection);
+            RevitViewOrientation viewOrient = new RevitViewOrientation(rEyePosition, rUpDirection, rForwardDirection);
 
-            Action<revitView3D, revitViewOrientation, revitBB> orientView = (view, orient, cropbb) =>
+            Action<RevitView3D, RevitViewOrientation, RevitBB> orientView = (view, orient, cropbb) =>
             {
                 view.ToggleToIsometric();
                 view.SetOrientation(orient);

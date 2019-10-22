@@ -6,19 +6,19 @@ using Autodesk.DesignScript.Runtime;
 using Dynamo.Graph.Nodes;
 
 using revitDB = Autodesk.Revit.DB;
-using revitDoc = Autodesk.Revit.DB.Document;
-using revitFECollector = Autodesk.Revit.DB.FilteredElementCollector;
+using RevitDoc = Autodesk.Revit.DB.Document;
+using RevitFECollector = Autodesk.Revit.DB.FilteredElementCollector;
 
 using Revit.Elements;
 using RevitServices.Transactions;
 using RevitServices.Persistence;
 
-using dynElem = Revit.Elements.Element;
-using dynCat = Revit.Elements.Category;
-using dynFamilyType = Revit.Elements.FamilyType;
-using dynFamily = Revit.Elements.Family;
-using dynLevel = Revit.Elements.Level;
-using dynView = Revit.Elements.Views.View;
+using DynElem = Revit.Elements.Element;
+using DynCat = Revit.Elements.Category;
+using DynFamilyType = Revit.Elements.FamilyType;
+using DynFamily = Revit.Elements.Family;
+using DynLevel = Revit.Elements.Level;
+using DynView = Revit.Elements.Views.View;
 
 namespace Synthetic.Revit
 {
@@ -77,7 +77,7 @@ namespace Synthetic.Revit
         /// <param name="category">A dynamo wrapped catogry.</param>
         /// <param name="inverted">If true, the filter elements NOT matching the filter criteria are chosen.</param>
         /// <returns name="ElementFilter">An Element Filter.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
-        public static revitDB.ElementFilter FilterElementCategory(dynCat category, [DefaultArgument("false")] bool inverted)
+        public static revitDB.ElementFilter FilterElementCategory(DynCat category, [DefaultArgument("false")] bool inverted)
         {
             return new revitDB.ElementCategoryFilter(new revitDB.ElementId(category.Id), inverted);
         }
@@ -120,10 +120,10 @@ namespace Synthetic.Revit
         /// <param name="categories">A collection of dynamo wrapped categories.</param>
         /// <param name="inverted">If true, the filter elements NOT matching the filter criteria are chosen.</param>
         /// <returns name="ElementFilter">An Element Filter.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
-        public static revitDB.ElementFilter FilterElementMulticategory(ICollection<dynCat> categories, [DefaultArgument("false")] bool inverted)
+        public static revitDB.ElementFilter FilterElementMulticategory(ICollection<DynCat> categories, [DefaultArgument("false")] bool inverted)
         {
             IList<revitDB.ElementId> categoryIds = new List<revitDB.ElementId>();
-            foreach (dynCat category in categories)
+            foreach (DynCat category in categories)
             {
                 categoryIds.Add(new revitDB.ElementId(category.Id));
             }
@@ -215,7 +215,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="family">A dynamo wrapped family</param>
         /// <returns name="ElementFilter">An Element Filter.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
-        public static revitDB.ElementFilter FilterFamilyType(dynFamily family)
+        public static revitDB.ElementFilter FilterFamilyType(DynFamily family)
         {
             return new revitDB.FamilySymbolFilter(new revitDB.ElementId(family.Id));
         }
@@ -226,8 +226,8 @@ namespace Synthetic.Revit
         /// <param name="familyType">A dynamo wrapped family type</param>
         /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
         /// <returns name="ElementFilter">An Element Filter.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
-        public static revitDB.ElementFilter FilterFamilyInstance(dynFamilyType familyType,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] revitDoc document)
+        public static revitDB.ElementFilter FilterFamilyInstance(DynFamilyType familyType,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
             return new revitDB.FamilyInstanceFilter(document, new revitDB.ElementId(familyType.Id));
         }
@@ -249,7 +249,7 @@ namespace Synthetic.Revit
         /// <param name="level">A Dynamo wrapped Level.</param>
         /// <param name="inverted">If true, the filter elements NOT matching the filter criteria are chosen.</param>
         /// <returns name="ElementFilter">An Element Filter.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
-        public static revitDB.ElementFilter FilterElementLevel(dynLevel level, [DefaultArgument("false")] bool inverted)
+        public static revitDB.ElementFilter FilterElementLevel(DynLevel level, [DefaultArgument("false")] bool inverted)
         {
             return new revitDB.ElementLevelFilter(new revitDB.ElementId(level.Id), inverted);
         }
@@ -271,7 +271,7 @@ namespace Synthetic.Revit
         /// <param name="view">The Element Id of the view as an integer</param>
         /// <param name="inverted">If true, the filter elements NOT matching the filter criteria are chosen.</param>
         /// <returns name="ElementFilter">An Element Filter.  The filter should then be passed to a Collector node and the Collector retrieves elements that pass the filter.</returns>
-        public static revitDB.ElementFilter FilterElementOwnerView(dynView view, [DefaultArgument("false")] bool inverted)
+        public static revitDB.ElementFilter FilterElementOwnerView(DynView view, [DefaultArgument("false")] bool inverted)
         {
             return new revitDB.ElementOwnerViewFilter(new revitDB.ElementId(view.Id), inverted);
         }
