@@ -99,6 +99,7 @@
     <Compile Include="CollectorElementFilter.cs" />
     <Compile Include="Material.cs" />
     <Compile Include="Select.cs" />
+    <Compile Include="Sheet.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="Transform.cs" />
     <Compile Include="TransmissionData.cs" />
