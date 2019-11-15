@@ -80,7 +80,8 @@ namespace Synthetic.Revit
                 TransactionManager.Instance.EnsureInTransaction(document);
                 revitSheet = RevitSheet.CreatePlaceholder(document);
                 revitSheet.SheetNumber = SheetNumber;
-                //revitSheet.ViewName = SheetTitle;
+                RevitDB.Parameter paramName = revitSheet.get_Parameter(RevitDB.BuiltInParameter.SHEET_NAME);
+                paramName.Set(SheetTitle);
                 TransactionManager.Instance.TransactionTaskDone();
             }
             else
@@ -90,7 +91,8 @@ namespace Synthetic.Revit
                     trans.Start("Create Placeholder Sheet");
                     revitSheet = RevitSheet.CreatePlaceholder(document);
                     revitSheet.SheetNumber = SheetNumber;
-                    //revitSheet.ViewName = SheetTitle;
+                    RevitDB.Parameter paramName = revitSheet.get_Parameter(RevitDB.BuiltInParameter.SHEET_NAME);
+                    paramName.Set(SheetTitle);
                     trans.Commit();
                 }
             }
