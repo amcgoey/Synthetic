@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Autodesk.DesignScript.Runtime;
+
 using RevitDB = Autodesk.Revit.DB;
 using RevitDoc = Autodesk.Revit.DB.Document;
 using RevitSheet = Autodesk.Revit.DB.ViewSheet;
@@ -59,6 +61,44 @@ namespace Synthetic.Revit
             }
 
             return Sheet;
+        }
+
+        /// <summary>
+        /// Creates a Placeholder Sheet
+        /// </summary>
+        /// <param name="SheetNumber">The sheet number</param>
+        /// <param name="SheetTitle">The sheet title</param>
+        /// <param name="document">Document to create the sheet in.</param>
+        /// <returns name="Sheet">Returns the created placeholder sheet as a dynamo wrapped sheet.</returns>
+        public static DynaSheet CreatePlaceHolderSheet (string SheetNumber, string SheetTitle,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
+        {
+            RevitSheet revitSheet;
+
+            if (document.IsModifiable)
+            {
+                TransactionManager.Instance.EnsureInTransaction(document);
+                revitSheet = RevitSheet.CreatePlaceholder(document);
+                revitSheet.SheetNumber = SheetNumber;
+                RevitDB.Parameter paramName = revitSheet.get_Parameter(RevitDB.BuiltInParameter.SHEET_NAME);
+                paramName.Set(SheetTitle);
+                TransactionManager.Instance.TransactionTaskDone();
+            }
+            else
+            {
+                using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                {
+                    trans.Start("Create Placeholder Sheet");
+                    revitSheet = RevitSheet.CreatePlaceholder(document);
+                    revitSheet.SheetNumber = SheetNumber;
+                    RevitDB.Parameter paramName = revitSheet.get_Parameter(RevitDB.BuiltInParameter.SHEET_NAME);
+                    paramName.Set(SheetTitle);
+                    trans.Commit();
+                }
+            }
+            
+
+            return (DynaSheet)revitSheet.ToDSType(false);
         }
     }
 }
