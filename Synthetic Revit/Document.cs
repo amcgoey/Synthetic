@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using RevitServices.Persistence;
 using Autodesk.DesignScript.Runtime;
 using Dynamo.Graph.Nodes;
 
-using revitDB = Autodesk.Revit.DB;
+using RevitDB = Autodesk.Revit.DB;
 using revitExcept = Autodesk.Revit.Exceptions;
 
 /// Class Aliases
-using revitDoc = Autodesk.Revit.DB.Document;
-using dynamoDoc = Revit.Application.Document;
+using RevitDoc = Autodesk.Revit.DB.Document;
+using DynamoDoc = Revit.Application.Document;
 using tData = Autodesk.Revit.DB.TransmissionData;
 
 namespace Synthetic.Revit
@@ -21,10 +22,10 @@ namespace Synthetic.Revit
     [IsDesignScriptCompatible]
     public class Document
     {
-        internal revitDoc _revitDoc { get; private set; }
+        internal RevitDoc _revitDoc { get; private set; }
 
         [IsVisibleInDynamoLibrary(false)]
-        internal Document(revitDoc doc)
+        internal Document(RevitDoc doc)
         {
             _revitDoc = doc;
         }
@@ -34,7 +35,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <returns name="Document">Returns a Autodesk.DB.Document object of the current document.</returns>
         [IsDesignScriptCompatible]
-        public static revitDoc Current ()
+        public static RevitDoc Current()
         {
             return DocumentManager.Instance.CurrentDBDocument;
         }
@@ -45,17 +46,17 @@ namespace Synthetic.Revit
         /// <returns name="Documents">Returns a Autodesk.DB.Document object of the current document.</returns>
         [IsDesignScriptCompatible]
         [MultiReturn(new[] { "Documents", "Titles", "Is a family" })]
-        public static IDictionary GetAllOpen ()
+        public static IDictionary GetAllOpen()
         {
             Autodesk.Revit.UI.UIApplication uiapp = DocumentManager.Instance.CurrentUIApplication;
             Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
-            revitDB.DocumentSet docSet = app.Documents;
+            RevitDB.DocumentSet docSet = app.Documents;
 
-            List<revitDoc> docs = new List<revitDoc>();
+            List<RevitDoc> docs = new List<RevitDoc>();
             List<string> names = new List<string>();
             List<bool> family = new List<bool>();
 
-            foreach (revitDoc doc in docSet)
+            foreach (RevitDoc doc in docSet)
             {
                 docs.Add(doc);
                 names.Add(doc.Title);
@@ -75,13 +76,13 @@ namespace Synthetic.Revit
         /// <param name="filePath"></param> 
         /// <returns></returns> 
         [IsDesignScriptCompatible]
-        public static revitDoc DocumentFromPath(string filePath)
+        public static RevitDoc DocumentFromPath(string filePath)
         {
             Autodesk.Revit.UI.UIApplication uiapp = DocumentManager.Instance.CurrentUIApplication;
             Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
-            revitDB.DocumentSet docSet = app.Documents;
+            RevitDB.DocumentSet docSet = app.Documents;
 
-            foreach (revitDoc doc in docSet)
+            foreach (RevitDoc doc in docSet)
             {
                 if (doc.PathName == filePath)
                 {
@@ -97,16 +98,16 @@ namespace Synthetic.Revit
         /// <param name="document">A Dynamo wrapped Revit Document</param>
         /// <returns name="Revit Document">A unwrapped Revit document.  Document needs to be open in the application, otherwise return null.</returns>
         [IsDesignScriptCompatible]
-        public static revitDoc UnwrapDocument (dynamoDoc document)
+        public static RevitDoc UnwrapDocument(DynamoDoc document)
         {
             string filePath = document.FilePath;
 
             Autodesk.Revit.UI.UIApplication uiapp = DocumentManager.Instance.CurrentUIApplication;
             Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
-            revitDB.DocumentSet docSet = app.Documents;
+            RevitDB.DocumentSet docSet = app.Documents;
 
-            List<revitDoc> docs = new List<revitDoc>();
-            foreach (revitDoc doc in docSet)
+            List<RevitDoc> docs = new List<RevitDoc>();
+            foreach (RevitDoc doc in docSet)
             {
                 if (filePath == doc.PathName)
                 {
@@ -122,7 +123,7 @@ namespace Synthetic.Revit
         /// <param name="doc">A Autodesk.DB.Document.  This will not work with a Dynamo based Revit.Document object. </param>
         /// <returns name="Title">The title of the document</returns>
         [IsDesignScriptCompatible]
-        public static string Title (revitDoc doc)
+        public static string Title(RevitDoc doc)
         {
             return doc.Title;
         }
@@ -133,7 +134,7 @@ namespace Synthetic.Revit
         /// <param name="doc">A Autodesk.DB.Document.  This will not work with a Dynamo based Revit.Document object. </param>
         /// <returns name="Is a family">True is the document is a family, false if it not.</returns>
         [IsDesignScriptCompatible]
-        public static bool IsFamilyDocument (revitDoc doc)
+        public static bool IsFamilyDocument(RevitDoc doc)
         {
             return doc.IsFamilyDocument;
         }
@@ -144,7 +145,7 @@ namespace Synthetic.Revit
         /// <param name="document"></param>
         /// <returns name="File Path">Returns a string of the file path.</returns>
         [IsDesignScriptCompatible]
-        public static string FilePath (revitDoc document)
+        public static string FilePath(RevitDoc document)
         {
             return document.PathName ?? string.Empty;
         }
@@ -155,7 +156,7 @@ namespace Synthetic.Revit
         /// <param name="document">A Revit document.</param>
         /// <returns name="document">The Revit document.  Returns null if worksharing cannot be enabled.</returns>
         [IsDesignScriptCompatible]
-        public static revitDoc EnableWorksharing (revitDoc document)
+        public static RevitDoc EnableWorksharing(RevitDoc document)
         {
             if (document.CanEnableWorksharing())
             {
@@ -171,7 +172,7 @@ namespace Synthetic.Revit
         /// <param name="document">A Revit document.</param>
         /// <returns name="bool">True is workshared, false if not.</returns>
         [IsDesignScriptCompatible]
-        public static bool IsWorkshared (revitDoc document)
+        public static bool IsWorkshared(RevitDoc document)
         {
             return document.IsWorkshared;
         }
@@ -183,13 +184,13 @@ namespace Synthetic.Revit
         /// <param name="reset">Resets the node to reopen the document.</param>
         /// <returns name="document">The opened revit document.</returns>
         [IsDesignScriptCompatible]
-        public static revitDoc Open (string modelPath, [DefaultArgument("true")] bool reset)
+        public static RevitDoc Open(string modelPath, [DefaultArgument("true")] bool reset)
         {
             Autodesk.Revit.UI.UIApplication uiapp = DocumentManager.Instance.CurrentUIApplication;
             Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
 
-            revitDoc doc = app.OpenDocumentFile(modelPath);
-            
+            RevitDoc doc = app.OpenDocumentFile(modelPath);
+
             return doc;
         }
 
@@ -202,15 +203,15 @@ namespace Synthetic.Revit
         /// <param name="reset">Resets the node to reopen the document.</param>
         /// <returns name="document">The opened revit document.</returns>
         [IsDesignScriptCompatible]
-        public static revitDoc OpenWithOptions (string modelPath, [DefaultArgument("Synthetic.Revit.WorksetConfigurationOpenAll()")] revitDB.WorksetConfiguration worksetConfiguration, [DefaultArgument("false")] bool audit, [DefaultArgument("true")] bool reset)
+        public static RevitDoc OpenWithOptions(string modelPath, [DefaultArgument("Synthetic.Revit.WorksetConfigurationOpenAll()")] RevitDB.WorksetConfiguration worksetConfiguration, [DefaultArgument("false")] bool audit, [DefaultArgument("true")] bool reset)
         {
             Autodesk.Revit.UI.UIApplication uiapp = DocumentManager.Instance.CurrentUIApplication;
             Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
-            revitDoc doc = null;
+            RevitDoc doc = null;
 
-            revitDB.ModelPath path = revitDB.ModelPathUtils.ConvertUserVisiblePathToModelPath(modelPath); 
+            RevitDB.ModelPath path = RevitDB.ModelPathUtils.ConvertUserVisiblePathToModelPath(modelPath);
 
-            revitDB.OpenOptions openOptions = new revitDB.OpenOptions();
+            RevitDB.OpenOptions openOptions = new RevitDB.OpenOptions();
             openOptions.Audit = audit;
             openOptions.SetOpenWorksetsConfiguration(worksetConfiguration);
 
@@ -226,7 +227,7 @@ namespace Synthetic.Revit
         /// <param name="save">If true, the document will be saved.  If false, the document will not be saved.</param>
         /// <returns name="bool">Returns true is the document was closed, false otherwise.  Returns false if saving was requested but failed</returns>
         [IsDesignScriptCompatible]
-        public static bool Close (revitDoc document, [DefaultArgument("false")] bool save)
+        public static bool Close(RevitDoc document, [DefaultArgument("false")] bool save)
         {
             if (DocumentManager.Instance.ActiveDocumentHashCode != document.GetHashCode())
             {
@@ -243,9 +244,9 @@ namespace Synthetic.Revit
         /// <param name="reset">Resets the node to reopen the document.</param>
         /// <returns name="bool">Returns true is the document was closed, false otherwise.  Returns false if saving was requested but failed</returns>
         [IsDesignScriptCompatible]
-        public static bool Upgrade (string modelPath, [DefaultArgument("true")] bool reset)
+        public static bool Upgrade(string modelPath, [DefaultArgument("true")] bool reset)
         {
-            revitDoc doc = OpenWithOptions(modelPath, WorksetConfigurationCloseAll(),false, true);
+            RevitDoc doc = OpenWithOptions(modelPath, WorksetConfigurationCloseAll(), false, true);
             bool results = doc.Close(true);
             return results;
         }
@@ -256,11 +257,11 @@ namespace Synthetic.Revit
         /// <param name="modelPath"></param>
         /// <param name="reset"></param>
         /// <returns name="bool">Returns true if document successfully closed.</returns>
-        public static bool UpgradeAuditCompact (string modelPath, [DefaultArgument("true")] bool reset)
+        public static bool UpgradeAuditCompact(string modelPath, [DefaultArgument("true")] bool reset)
         {
-            revitDoc doc = OpenWithOptions(modelPath, WorksetConfigurationCloseAll(), true, true);
-            revitDB.SaveAsOptions saveOptions = new revitDB.SaveAsOptions();
-            revitDB.WorksharingSaveAsOptions worksharingSaveAsOptions = saveOptions.GetWorksharingOptions();
+            RevitDoc doc = OpenWithOptions(modelPath, WorksetConfigurationCloseAll(), true, true);
+            RevitDB.SaveAsOptions saveOptions = new RevitDB.SaveAsOptions();
+            RevitDB.WorksharingSaveAsOptions worksharingSaveAsOptions = saveOptions.GetWorksharingOptions();
 
             worksharingSaveAsOptions.ClearTransmitted = true;
             worksharingSaveAsOptions.SaveAsCentral = true;
@@ -282,9 +283,9 @@ namespace Synthetic.Revit
         /// <param name="compact">If true, compact the model while saving.</param>
         /// <param name="execute">If True synchoronize with central.</param>
         [IsDesignScriptCompatible]
-        public static void SynchronizeWithCentral (
-            revitDoc document,
-            [DefaultArgument("Synthetic.Revit.Document.SynchronizeWithCentralOptions()")] revitDB.SynchronizeWithCentralOptions syncOptions,
+        public static void SynchronizeWithCentral(
+            RevitDoc document,
+            [DefaultArgument("Synthetic.Revit.Document.SynchronizeWithCentralOptions()")] RevitDB.SynchronizeWithCentralOptions syncOptions,
             string comment,
             [DefaultArgument("false")] bool compact,
             bool execute
@@ -292,7 +293,7 @@ namespace Synthetic.Revit
         {
             if (execute)
             {
-                revitDB.TransactWithCentralOptions transOptions = new revitDB.TransactWithCentralOptions();
+                RevitDB.TransactWithCentralOptions transOptions = new RevitDB.TransactWithCentralOptions();
                 syncOptions.Compact = compact;
                 syncOptions.Comment = comment;
 
@@ -308,18 +309,18 @@ namespace Synthetic.Revit
         /// <returns name="Titles">The file paths of the linked documents.</returns>
         [MultiReturn(new[] { "Documents", "Titles" })]
         [IsDesignScriptCompatible]
-        public static IDictionary GetLinkedRevit (revitDoc document)
+        public static IDictionary GetLinkedRevit(RevitDoc document)
         {
-            revitDB.FilteredElementCollector links = new revitDB.FilteredElementCollector(document);
-            links.OfClass(typeof(revitDB.RevitLinkInstance));
+            RevitDB.FilteredElementCollector links = new RevitDB.FilteredElementCollector(document);
+            links.OfClass(typeof(RevitDB.RevitLinkInstance));
 
-            List<revitDoc> linkDocs = new List<revitDoc>();
+            List<RevitDoc> linkDocs = new List<RevitDoc>();
             List<string> linkNames = new List<string>();
 
 
-            foreach (revitDB.RevitLinkInstance link in links)
+            foreach (RevitDB.RevitLinkInstance link in links)
             {
-                revitDoc linkDoc = link.GetLinkDocument();
+                RevitDoc linkDoc = link.GetLinkDocument();
 
                 linkDocs.Add(link.GetLinkDocument());
                 //document.GetElement(link.GetTypeId());
@@ -338,9 +339,9 @@ namespace Synthetic.Revit
         /// <param name="document">A Autodesk.Revit.DB.Document object</param>
         /// <returns name="ViewId">The ElementId of the view or sheet</returns>
         [IsDesignScriptCompatible]
-        public static revitDB.ElementId GetStartViewId (revitDoc document)
+        public static RevitDB.ElementId GetStartViewId(RevitDoc document)
         {
-            revitDB.StartingViewSettings startViewSettings = revitDB.StartingViewSettings.GetStartingViewSettings(document);
+            RevitDB.StartingViewSettings startViewSettings = RevitDB.StartingViewSettings.GetStartingViewSettings(document);
             return startViewSettings.ViewId;
         }
 
@@ -351,9 +352,9 @@ namespace Synthetic.Revit
         /// <param name="viewId">The ElementId of the view or sheet</param>
         /// <returns name="ViewId">The ElementId of the view currently set as the starting view.  If null, then the view could not be set.</returns>
         [IsDesignScriptCompatible]
-        public static revitDB.ElementId SetStartViewId(revitDoc document, revitDB.ElementId viewId)
+        public static RevitDB.ElementId SetStartViewId(RevitDoc document, RevitDB.ElementId viewId)
         {
-            revitDB.StartingViewSettings startViewSettings = revitDB.StartingViewSettings.GetStartingViewSettings(document);
+            RevitDB.StartingViewSettings startViewSettings = RevitDB.StartingViewSettings.GetStartingViewSettings(document);
             if (startViewSettings.IsAcceptableStartingView(viewId))
             {
                 return startViewSettings.ViewId = viewId;
@@ -369,9 +370,9 @@ namespace Synthetic.Revit
         /// </summary>
         /// <returns name="WorksetConfiguration">A WorksetConfiguration that opens all worksets</returns>
         [IsDesignScriptCompatible]
-        public static revitDB.WorksetConfiguration WorksetConfigurationOpenAll()
+        public static RevitDB.WorksetConfiguration WorksetConfigurationOpenAll()
         {
-            return new revitDB.WorksetConfiguration();
+            return new RevitDB.WorksetConfiguration();
         }
 
         /// <summary>
@@ -379,9 +380,9 @@ namespace Synthetic.Revit
         /// </summary>
         /// <returns name="WorksetConfiguration">A WorksetConfiguration that closes all worksets</returns>
         [IsDesignScriptCompatible]
-        public static revitDB.WorksetConfiguration WorksetConfigurationCloseAll()
+        public static RevitDB.WorksetConfiguration WorksetConfigurationCloseAll()
         {
-            return new revitDB.WorksetConfiguration(revitDB.WorksetConfigurationOption.CloseAllWorksets);
+            return new RevitDB.WorksetConfiguration(RevitDB.WorksetConfigurationOption.CloseAllWorksets);
         }
 
         /// <summary>
@@ -389,9 +390,61 @@ namespace Synthetic.Revit
         /// </summary>
         /// <returns name="SyncOptions">A default SynchronizeWithCentralOptions object</returns>
         [IsDesignScriptCompatible]
-        public static revitDB.SynchronizeWithCentralOptions SynchronizeWithCentralOptions()
+        public static RevitDB.SynchronizeWithCentralOptions SynchronizeWithCentralOptions()
         {
-            return new revitDB.SynchronizeWithCentralOptions();
+            return new RevitDB.SynchronizeWithCentralOptions();
+        }
+
+        /// <summary>
+        /// Opens all the Families in a project to test if any have been corrupted.
+        /// </summary>
+        /// <param name="document">A Revit Document</param>
+        /// <param name="execute">If true, run the node, otherwise the node will not run.</param>
+        /// <returns name="results">Returns a text string of the results of opening each family.</returns>
+        public static List<List<string>> AuditProjectFamilies(RevitDoc document, bool execute)
+        {
+            List<List<string>> results = new List<List<string>>();
+
+            if (execute)
+            {
+                RevitDB.FilteredElementCollector familyCollector = new RevitDB.FilteredElementCollector(document);
+                familyCollector.OfClass(typeof(RevitDB.Family)).ToElements();
+
+                foreach (RevitDB.Family family in familyCollector)
+                {
+                    List<string> familyResult = new List<string>();
+                    familyResult.Add(family.Name);
+
+                    if (family.IsEditable)
+                    {
+                        try
+                        {
+                            var familyDoc = document.EditFamily(family);
+                            familyResult.Add("Opened successfully");
+
+                            IList<RevitDB.FailureMessage> warnings = familyDoc.GetWarnings();
+
+                            StringBuilder warningString = new StringBuilder();
+
+                            foreach(RevitDB.FailureMessage warning in warnings)
+                            {
+                                warningString.AppendLine(warning.GetDescriptionText());
+                            }
+
+                            familyResult.Add(warningString.ToString());
+
+                            familyDoc.Close(false);
+                        }
+                        catch (Exception ex)
+                        {
+                            familyResult.Add("Error: " + ex.Message);
+                        }
+                        results.Add(familyResult);
+
+                    }
+                }
+            }
+            return results;
         }
     }
 }
