@@ -401,9 +401,11 @@ namespace Synthetic.Revit
         /// <param name="document">A Revit Document</param>
         /// <param name="execute">If true, run the node, otherwise the node will not run.</param>
         /// <returns name="results">Returns a text string of the results of opening each family.</returns>
-        public static List<List<string>> AuditProjectFamilies(RevitDoc document, bool execute)
+        [MultiReturn(new[] { "Results", "Errors" })]
+        public static Dictionary<string, object> AuditProjectFamilies(RevitDoc document, bool execute)
         {
             List<List<string>> results = new List<List<string>>();
+            List<List<string>> errors = new List<List<string>>();
 
             if (execute)
             {
@@ -414,6 +416,8 @@ namespace Synthetic.Revit
                 {
                     List<string> familyResult = new List<string>();
                     familyResult.Add(family.Name);
+                    familyResult.Add(family.Id.ToString());
+                    familyResult.Add(family.UniqueId);
 
                     if (family.IsEditable)
                     {
@@ -424,27 +428,34 @@ namespace Synthetic.Revit
 
                             IList<RevitDB.FailureMessage> warnings = familyDoc.GetWarnings();
 
-                            StringBuilder warningString = new StringBuilder();
-
-                            foreach(RevitDB.FailureMessage warning in warnings)
+                            if (warnings.Count > 0)
                             {
-                                warningString.AppendLine(warning.GetDescriptionText());
-                            }
+                                StringBuilder warningString = new StringBuilder();
 
-                            familyResult.Add(warningString.ToString());
+                                foreach (RevitDB.FailureMessage warning in warnings)
+                                {
+                                    warningString.AppendLine(warning.GetDescriptionText());
+                                }
+                                familyResult.Add(warningString.ToString());
+                            }
 
                             familyDoc.Close(false);
                         }
                         catch (Exception ex)
                         {
                             familyResult.Add("Error: " + ex.Message);
+                            errors.Add(familyResult);
                         }
                         results.Add(familyResult);
 
                     }
                 }
             }
-            return results;
+            return new Dictionary<string, object>
+            {
+                {"Results", results},
+                {"Errors", errors}
+            };
         }
     }
 }
