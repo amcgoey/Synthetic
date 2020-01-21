@@ -42,11 +42,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DSCoreNodes">
-      <HintPath>..\..\..\..\..\..\Program Files\Dynamo\Dynamo Core\2\DSCoreNodes.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\Revit 2020\AddIns\DynamoForRevit\DSCoreNodes.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DynamoServices">
-      <HintPath>..\..\..\..\..\..\Program Files\Dynamo\Dynamo Core\2\DynamoServices.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\Revit 2020\AddIns\DynamoForRevit\DynamoServices.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="NewtonSoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
