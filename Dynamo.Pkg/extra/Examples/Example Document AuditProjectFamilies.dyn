@@ -1,0 +1,208 @@
+{
+  "Uuid": "4ba90615-fc00-4f4c-9495-9ccb77208207",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "Example Document AuditProjectFamilies",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.Document.AuditProjectFamilies@var,bool",
+      "Id": "a80837ef7e2447548b9578752244135c",
+      "Inputs": [
+        {
+          "Id": "d0b481c795ec460f97697e41defc2dc6",
+          "Name": "document",
+          "Description": "A Revit Document\n\nvar",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "341fdf3ab4a742fc86baf087644e1b96",
+          "Name": "execute",
+          "Description": "If true, run the node, otherwise the node will not run.\n\nbool",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b6cf8cbd83f542889e37bc8786ceeb8d",
+          "Name": "results",
+          "Description": "Returns a text string of the results of opening each family.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Opens all the Families in a project to test if any have been corrupted.\n\nDocument.AuditProjectFamilies (document: var, execute: bool): string[][]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.Document.Current",
+      "Id": "c586a2ab529449b39a6227a99ba2414a",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "903d4d6b238d41e69e212609c54d3b63",
+          "Name": "Document",
+          "Description": "Returns a Autodesk.DB.Document object of the current document.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Retreives the current document for use with the Revit API rather than in Dynamo.\n\nDocument.Current ( ): var"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": true,
+      "Id": "8609b3666f154733bca7228cf2ee80b8",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "326c50552419490f9ec36d46bcd4b0d5",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "7545a027dfca43e09dd1f50f9094dbd4",
+      "Inputs": [
+        {
+          "Id": "322c3d6c1e7f48899708acdc807779f4",
+          "Name": "",
+          "Description": "Node to evaluate.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "26586a1ad33645dca873016fd4de1f60",
+          "Name": "",
+          "Description": "Watch contents.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the output of node."
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "b6cf8cbd83f542889e37bc8786ceeb8d",
+      "End": "322c3d6c1e7f48899708acdc807779f4",
+      "Id": "f9a76d1c47c24e1a9e7e5ced57af7bd8"
+    },
+    {
+      "Start": "903d4d6b238d41e69e212609c54d3b63",
+      "End": "d0b481c795ec460f97697e41defc2dc6",
+      "Id": "82dcc18477eb4047900b81df57d18f09"
+    },
+    {
+      "Start": "326c50552419490f9ec36d46bcd4b0d5",
+      "End": "341fdf3ab4a742fc86baf087644e1b96",
+      "Id": "63410d0bf67f45a289cf4f865d7effb5"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.2.1.5175",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Document.AuditProjectFamilies",
+        "Id": "a80837ef7e2447548b9578752244135c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 617.5,
+        "Y": 586.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Document.Current",
+        "Id": "c586a2ab529449b39a6227a99ba2414a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 374.5,
+        "Y": 578.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Boolean",
+        "Id": "8609b3666f154733bca7228cf2ee80b8",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 372.0,
+        "Y": 682.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "7545a027dfca43e09dd1f50f9094dbd4",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 919.81313487485818,
+        "Y": 592.30764488574
+      }
+    ],
+    "Annotations": [],
+    "X": -497.02553749999993,
+    "Y": -321.04105625,
+    "Zoom": 1.33823125
+  }
+}
