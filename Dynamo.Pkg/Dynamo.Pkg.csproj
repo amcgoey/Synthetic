@@ -78,7 +78,22 @@
     <None Include="extra\Examples\Example CopyElementsBetweenDocs.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="extra\Examples\Example Deserialize Elements to JSON.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="extra\Examples\Example Dictionary.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example Document AuditProjectFamilies.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example Duplicate Views Per Design Option.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example ElementTypes Merge.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example ElementTypes Merge2.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="extra\Examples\Example Enumeration.dyn">
@@ -96,7 +111,19 @@
     <None Include="extra\Examples\Example RevitDocuments.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="extra\Examples\Example RevitLinkType LoadFrom.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="extra\Examples\Example RoundInches.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example Serialize Elements to JSON.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example Serialize View To JSON.dyn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="extra\Examples\Example Sheets Create Placeholders.dyn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="extra\Examples\Example SyncWithCentral.dyn">

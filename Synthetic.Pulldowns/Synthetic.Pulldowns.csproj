@@ -66,12 +66,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitServices">
-      <HintPath>..\..\..\..\..\..\Program Files\Dynamo\Dynamo Revit\2\Revit_2019\RevitServices.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Synthetic.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Output\Synthetic\bin\Synthetic.Core.dll</HintPath>
+      <HintPath>C:\Program Files\Dynamo\Dynamo Revit\1.3\Revit_2018\RevitServices.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -94,6 +89,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Synthetic Core\Synthetic.Core.csproj">
+      <Project>{5d72b274-2496-4cc8-b39e-ab4f517d39a4}</Project>
+      <Name>Synthetic.Core</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Synthetic Revit\Synthetic.Revit.csproj">
       <Project>{e4b1863b-67ec-40f7-8e63-2917b4485e71}</Project>
       <Name>Synthetic.Revit</Name>
