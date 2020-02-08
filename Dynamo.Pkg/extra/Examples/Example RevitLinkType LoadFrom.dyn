@@ -500,9 +500,43 @@
       ],
       "Replication": "Disabled",
       "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "1549c1c9594e4bd6abb97e4df5d40d6c",
+      "Inputs": [
+        {
+          "Id": "29a0f0868a164ab5bbc21fe4ef02fc6c",
+          "Name": "",
+          "Description": "Node to evaluate.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "3be4789375b744dbb705b02a71afb9d7",
+          "Name": "",
+          "Description": "Watch contents.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the output of node."
     }
   ],
   "Connectors": [
+    {
+      "Start": "ef332e3957ce443face142633c91e571",
+      "End": "29a0f0868a164ab5bbc21fe4ef02fc6c",
+      "Id": "18091d193a784a0ca34f0f6632c1681b"
+    },
     {
       "Start": "68ede811f1dc45feae575ef1ed108eac",
       "End": "ddb145cb55994212aae160949c6add03",
@@ -562,6 +596,11 @@
       "Start": "b21e148d9f384cdfaefd948b9e56e8ff",
       "End": "f1635d6a22cd4c53a3f9d7ca5217de6a",
       "Id": "982d04f5b83e4dbd90dda460e11ddf19"
+    },
+    {
+      "Start": "b21e148d9f384cdfaefd948b9e56e8ff",
+      "End": "76b9faf79fda424d8feed11bd8543268",
+      "Id": "bc704959273e44fb99c2ac3a5a0abde7"
     },
     {
       "Start": "c455894fd0c44000982fd29cd26f7ed3",
@@ -742,6 +781,16 @@
         "Excluded": false,
         "X": 638.54441000567783,
         "Y": -118.39633749426599
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "1549c1c9594e4bd6abb97e4df5d40d6c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1697.7667334173229,
+        "Y": 1.9448016963027044
       }
     ],
     "Annotations": [
@@ -757,7 +806,7 @@
         "Height": 162.0,
         "FontSize": 36.0,
         "InitialTop": -243.4710035669346,
-        "InitialHeight": 139.0,
+        "InitialHeight": 145.0,
         "TextblockHeight": 43.0,
         "Background": "#FFA4E1FF"
       },
@@ -773,7 +822,7 @@
         "Height": 247.0,
         "FontSize": 36.0,
         "InitialTop": 371.07578118808311,
-        "InitialHeight": 224.0,
+        "InitialHeight": 145.0,
         "TextblockHeight": 43.0,
         "Background": "#FFA4E1FF"
       },
@@ -792,7 +841,7 @@
         "Height": 180.0,
         "FontSize": 36.0,
         "InitialTop": 109.35632764755712,
-        "InitialHeight": 162.0,
+        "InitialHeight": 153.0,
         "TextblockHeight": 43.0,
         "Background": "#FF848484"
       },
@@ -812,7 +861,7 @@
         "Height": 475.10978143824445,
         "FontSize": 36.0,
         "InitialTop": -126.63997015612324,
-        "InitialHeight": 409.10978143824445,
+        "InitialHeight": 431.10978143824445,
         "TextblockHeight": 86.0,
         "Background": "#FF848484"
       },
@@ -828,7 +877,7 @@
         "Height": 215.0,
         "FontSize": 36.0,
         "InitialTop": 3.6350378545733406,
-        "InitialHeight": 149.0,
+        "InitialHeight": 145.0,
         "TextblockHeight": 86.0,
         "Background": "#FF848484"
       },
@@ -846,7 +895,7 @@
         "Height": 265.71275872639433,
         "FontSize": 36.0,
         "InitialTop": -152.93937603678447,
-        "InitialHeight": 203.48498996280119,
+        "InitialHeight": 289.71275872639433,
         "TextblockHeight": 43.0,
         "Background": "#FFFFB8D8"
       },
@@ -865,8 +914,8 @@
         "Background": "#FFC1D676"
       }
     ],
-    "X": 757.486881706377,
-    "Y": 187.05016543640494,
-    "Zoom": 0.76224437763874
+    "X": -228.27407025212324,
+    "Y": 257.07879274296226,
+    "Zoom": 0.37555415274396881
   }
 }
