@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Autodesk.DesignScript.Runtime;
+using RevitServices.Transactions;
 
 using RevitDB = Autodesk.Revit.DB;
 using RevitDoc = Autodesk.Revit.DB.Document;
@@ -40,16 +41,18 @@ namespace Synthetic.Revit
             return dynamoElements;
         }
 
-        public static RevitDB.LinkLoadResult LoadFrom(DynElem LinkType, string FilePath)
+        public static string LoadFrom(DynElem LinkType, string FilePath)
         {
             RLinkType rLinkType = (RLinkType)LinkType.InternalElement;
 
             RevitDB.ModelPath linkpath = RevitDB.ModelPathUtils
               .ConvertUserVisiblePathToModelPath(FilePath);
 
-            RevitDB.LinkLoadResult linkLoadResult = rLinkType.LoadFrom(linkpath, new RevitDB.WorksetConfiguration());
+            RevitDB.LinkLoadResult linkLoadResult;
 
-            return linkLoadResult;
+            linkLoadResult = rLinkType.LoadFrom(linkpath, new RevitDB.WorksetConfiguration());
+            
+            return linkLoadResult.ToString();
         }
     }
 }
