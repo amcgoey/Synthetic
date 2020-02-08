@@ -29,6 +29,8 @@ namespace Synthetic.Revit
     public class Tools
     {
         internal Tools () { }
+
+        
         
         /// <summary>
         /// Matches View3D's orientation and cropbox to an orthagonal view.  Also sets the View3D to isometric.
