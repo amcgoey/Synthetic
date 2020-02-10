@@ -97,6 +97,7 @@
     <Compile Include="Color.cs" />
     <Compile Include="Collector.cs" />
     <Compile Include="CollectorElementFilter.cs" />
+    <Compile Include="Lines.cs" />
     <Compile Include="Material.cs" />
     <Compile Include="RevitLinkType.cs" />
     <Compile Include="Select.cs" />
