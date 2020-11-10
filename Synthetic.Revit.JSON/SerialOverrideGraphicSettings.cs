@@ -19,17 +19,27 @@ namespace Synthetic.Serialize.Revit
         [JsonIgnoreAttribute]
         public bool IsModified { get; set; }
 
-        public bool IsProjectionFillPaternVisible { get; set; }
-        public SerialColor ProjectionFillColor { get; set; }
-        public SerialElementId ProjectionFillPatternId { get; set; }
+        public bool IsSurfaceBackgroundPatternVisible { get; set; }
+        public SerialColor SurfaceBackgroundPatternColor { get; set; }
+        public SerialElementId SurfaceBackgroundPatternId { get; set; }
+        
+        public bool IsSurfaceForegroundPatternVisible { get; set; }
+        public SerialColor SurfaceForegroundPatternColor { get; set; }
+        public SerialElementId SurfaceForegroundPatternId { get; set; }
+
         public SerialColor ProjectionLineColor { get; set; }
         public SerialElementId ProjectionLinePatternId { get; set; }
         public int ProjectionLineWeight { get; set; }
         
 
-        public bool IsCutFillPaternVisible { get; set; }
-        public SerialColor CutFillColor { get; set; }
-        public SerialElementId CutFillPatternId { get; set; }
+        public bool IsCutBackgroundPatternVisible { get; set; }
+        public SerialColor CutBackgroundPatternColor { get; set; }
+        public SerialElementId CutBackgroundPatternId { get; set; }
+
+        public bool IsCutForegroundPatternVisible { get; set; }
+        public SerialColor CutForegroundPatternColor { get; set; }
+        public SerialElementId CutForegroundPatternId { get; set; }
+
         public SerialColor CutLineColor { get; set; }
         public SerialElementId CutLinePatternId { get; set; }
         public int CutLineWeight { get; set; }
@@ -68,16 +78,26 @@ namespace Synthetic.Serialize.Revit
         {
             if (this._IsModified(ogs))
             {
-                this.IsProjectionFillPaternVisible = ogs.IsProjectionFillPatternVisible;
-                this.ProjectionFillColor = new SerialColor(ogs.ProjectionFillColor);
-                this.ProjectionFillPatternId = new SerialElementId(ogs.ProjectionFillPatternId, Document);
+                this.IsSurfaceBackgroundPatternVisible = ogs.IsSurfaceBackgroundPatternVisible;
+                this.SurfaceBackgroundPatternColor = new SerialColor(ogs.SurfaceBackgroundPatternColor);
+                this.SurfaceBackgroundPatternId = new SerialElementId(ogs.SurfaceBackgroundPatternId, Document);
+
+                this.IsSurfaceForegroundPatternVisible = ogs.IsSurfaceForegroundPatternVisible;
+                this.SurfaceForegroundPatternColor = new SerialColor(ogs.SurfaceForegroundPatternColor);
+                this.SurfaceForegroundPatternId = new SerialElementId(ogs.SurfaceForegroundPatternId, Document);
+                
                 this.ProjectionLineColor = new SerialColor(ogs.ProjectionLineColor);
                 this.ProjectionLinePatternId = new SerialElementId(ogs.ProjectionLinePatternId, Document);
                 this.ProjectionLineWeight = ogs.ProjectionLineWeight;
 
-                this.IsCutFillPaternVisible = ogs.IsCutFillPatternVisible;
-                this.CutFillColor = new SerialColor(ogs.CutFillColor);
-                this.CutFillPatternId = new SerialElementId(ogs.CutFillPatternId, Document);
+                this.IsCutBackgroundPatternVisible = ogs.IsCutBackgroundPatternVisible;
+                this.CutBackgroundPatternColor = new SerialColor(ogs.CutBackgroundPatternColor);
+                this.CutBackgroundPatternId = new SerialElementId(ogs.CutBackgroundPatternId, Document);
+
+                this.IsCutForegroundPatternVisible = ogs.IsCutForegroundPatternVisible;
+                this.CutForegroundPatternColor = new SerialColor(ogs.CutForegroundPatternColor);
+                this.CutForegroundPatternId = new SerialElementId(ogs.CutForegroundPatternId, Document);
+
                 this.CutLineColor = new SerialColor(ogs.CutLineColor);
                 this.CutLinePatternId = new SerialElementId(ogs.CutLinePatternId, Document);
                 this.CutLineWeight = ogs.CutLineWeight;
@@ -92,19 +112,34 @@ namespace Synthetic.Serialize.Revit
         {
             bool isDefault = false;
 
-            if (!ogs.IsProjectionFillPatternVisible)
+
+            if (!ogs.IsSurfaceBackgroundPatternVisible)
             {
                 IsModified = true;
             }
-            if (ogs.ProjectionFillColor.IsValid)
+            if (ogs.SurfaceBackgroundPatternColor.IsValid)
             {
                 IsModified = true;
             }
-            if (ogs.ProjectionFillPatternId.IntegerValue != -1)
+            if (ogs.SurfaceBackgroundPatternId.IntegerValue != -1)
             {
                 IsModified = true;
             }
-            if (ogs.ProjectionFillColor.IsValid)
+
+            if (!ogs.IsSurfaceForegroundPatternVisible)
+            {
+                IsModified = true;
+            }
+            if (ogs.SurfaceForegroundPatternColor.IsValid)
+            {
+                IsModified = true;
+            }
+            if (ogs.SurfaceForegroundPatternId.IntegerValue != -1)
+            {
+                IsModified = true;
+            }
+
+            if (ogs.ProjectionLineColor.IsValid)
             {
                 IsModified = true;
             }
@@ -117,18 +152,32 @@ namespace Synthetic.Serialize.Revit
                 IsModified = true;
             }
 
-            if (!ogs.IsCutFillPatternVisible)
+            if (!ogs.IsCutBackgroundPatternVisible)
             {
                 IsModified = true;
             }
-            if (ogs.CutFillColor.IsValid)
+            if (ogs.CutBackgroundPatternColor.IsValid)
             {
                 IsModified = true;
             }
-            if (ogs.CutFillPatternId.IntegerValue != -1)
+            if (ogs.CutBackgroundPatternId.IntegerValue != -1)
             {
                 IsModified = true;
             }
+
+            if (!ogs.IsCutForegroundPatternVisible)
+            {
+                IsModified = true;
+            }
+            if (ogs.CutForegroundPatternColor.IsValid)
+            {
+                IsModified = true;
+            }
+            if (ogs.CutForegroundPatternId.IntegerValue != -1)
+            {
+                IsModified = true;
+            }
+
             if (ogs.CutLineColor.IsValid)
             {
                 IsModified = true;
@@ -165,16 +214,26 @@ namespace Synthetic.Serialize.Revit
         {
             RevitDB.OverrideGraphicSettings ogs = new RevitDB.OverrideGraphicSettings();
 
-            ogs.SetProjectionFillPatternVisible(this.IsProjectionFillPaternVisible);
-            ogs.SetProjectionFillColor(this.ProjectionFillColor.ToColor());
-            ogs.SetProjectionFillPatternId(this.ProjectionFillPatternId.ToElementId());
+            ogs.SetSurfaceBackgroundPatternVisible(this.IsSurfaceBackgroundPatternVisible);
+            ogs.SetSurfaceBackgroundPatternColor(this.SurfaceBackgroundPatternColor.ToColor());
+            ogs.SetSurfaceBackgroundPatternId(this.SurfaceBackgroundPatternId.ToElementId());
+
+            ogs.SetSurfaceForegroundPatternVisible(this.IsSurfaceForegroundPatternVisible);
+            ogs.SetSurfaceForegroundPatternColor(this.SurfaceForegroundPatternColor.ToColor());
+            ogs.SetSurfaceForegroundPatternId(this.SurfaceForegroundPatternId.ToElementId());
+
             ogs.SetProjectionLineColor(this.ProjectionLineColor.ToColor());
-            ogs.SetProjectionLinePatternId(this.ProjectionFillPatternId.ToElementId());
+            ogs.SetProjectionLinePatternId(this.ProjectionLinePatternId.ToElementId());
             ogs.SetProjectionLineWeight(this.ProjectionLineWeight);
 
-            ogs.SetCutFillPatternVisible(this.IsCutFillPaternVisible);
-            ogs.SetCutFillColor(this.CutFillColor.ToColor());
-            ogs.SetCutFillPatternId(this.CutFillPatternId.ToElementId());
+            ogs.SetCutBackgroundPatternVisible(this.IsCutBackgroundPatternVisible);
+            ogs.SetCutBackgroundPatternColor(this.CutBackgroundPatternColor.ToColor());
+            ogs.SetCutBackgroundPatternId(this.CutBackgroundPatternId.ToElementId());
+
+            ogs.SetCutForegroundPatternVisible(this.IsCutForegroundPatternVisible);
+            ogs.SetCutForegroundPatternColor(this.CutForegroundPatternColor.ToColor());
+            ogs.SetCutForegroundPatternId(this.CutForegroundPatternId.ToElementId());
+
             ogs.SetCutLineColor(this.CutLineColor.ToColor());
             ogs.SetCutLinePatternId(this.CutLinePatternId.ToElementId());
             ogs.SetCutLineWeight(this.CutLineWeight);

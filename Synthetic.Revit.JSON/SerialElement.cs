@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 
 using Autodesk.DesignScript.Runtime;
+using RevitServices.Transactions;
 
 using RevitDB = Autodesk.Revit.DB;
 using RevitDoc = Autodesk.Revit.DB.Document;
@@ -138,22 +139,28 @@ namespace Synthetic.Serialize.Revit
             return this.ElementId.GetElem(document).ToDSType(true);
         }
 
-        public List<RevitElem> GetAliasRevitElements ([DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
+        public List<RevitElem> GetAliasElements_Revit ([DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
             List<RevitElem> elements = new List<RevitElem>();
 
-            foreach(string aliasName in this.Aliases)
+            if (this.Aliases != null)
             {
-                // Assembly and Class that the Element should be
-                Assembly assembly = typeof(RevitElem).Assembly;
-                Type elemClass = assembly.GetType(this.Class);
-                RevitElem elem = Select.RevitElementByNameClass(aliasName, elemClass, document);
-                elements.Add(elem);
+                foreach (string aliasName in this.Aliases)
+                {
+                    // Assembly and Class that the Element should be
+                    Assembly assembly = typeof(RevitElem).Assembly;
+                    Type elemClass = assembly.GetType(this.Class);
+                    RevitElem elem = Select.RevitElementByNameClass(aliasName, elemClass, document);
+                    if (elem != null)
+                    {
+                        elements.Add(elem);
+                    }
+                }
             }
             return elements;
         }
 
-        public List<DynElem> GetAliasDynamoElements([DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
+        public List<DynElem> GetAliasElements_Dynamo([DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
             List<DynElem> elements = new List<DynElem>();
 
@@ -163,13 +170,18 @@ namespace Synthetic.Serialize.Revit
                 Assembly assembly = typeof(RevitElem).Assembly;
                 Type elemClass = assembly.GetType(this.Class);
                 RevitElem elem = Select.RevitElementByNameClass(aliasName, elemClass, document);
-                elements.Add(elem.ToDSType(true));
+                if (elem != null)
+                {
+                    elements.Add(elem.ToDSType(true));
+                }
             }
             return elements;
         }
 
         public static DynElem ModifyElement(SerialElement serialElement, [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
+            string transactionName = "Modify Element from Serialization";
+
             if (serialElement.Element == null)
             {
                 serialElement.Element = serialElement.GetRevitElem(document);
@@ -177,7 +189,22 @@ namespace Synthetic.Serialize.Revit
 
             if(serialElement.Element != null)
             {
-                serialElement._ModifyProperties(serialElement.Element);
+                if (document.IsModifiable)
+                {
+                    TransactionManager.Instance.EnsureInTransaction(document);
+                    serialElement._ModifyProperties(serialElement.Element);
+                    TransactionManager.Instance.TransactionTaskDone();
+                }
+                else
+                {
+                    using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                    {
+                        trans.Start(transactionName);
+                        serialElement._ModifyProperties(serialElement.Element);
+                        trans.Commit();
+                    }
+                }
+                
             }
 
             return serialElement.Element.ToDSType(true);

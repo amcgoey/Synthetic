@@ -160,7 +160,7 @@ namespace Synthetic.Revit
         /// <returns nampe="string">A string representation of the object.</returns>
         public override string ToString()
         {
-            return GetType().Name + "(Name = " + InternalViewTemplate.ViewName + " )";
+            return GetType().Name + "(Name = " + InternalViewTemplate.Name + " )";
         }
     }
 }

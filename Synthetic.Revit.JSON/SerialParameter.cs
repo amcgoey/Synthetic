@@ -92,6 +92,7 @@ namespace Synthetic.Serialize.Revit
             RevitParam param = null;
             RevitDoc doc = Elem.Document;
 
+            //Get the parameter object
             if (serialParameter.IsShared)
             {
                 param = Elem.get_Parameter(new Guid(serialParameter.GUID));
@@ -110,6 +111,7 @@ namespace Synthetic.Serialize.Revit
                 }
             }
 
+            //Depending on the parameter type, change the parameter
             if (param != null && !param.IsReadOnly)
             {
                 switch (serialParameter.StorageType)

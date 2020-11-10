@@ -84,14 +84,21 @@ namespace Synthetic.Serialize.Revit
         #region Constructor Helper Functions
         private void _ApplyProperties(RevitMaterial material)
         {
-            this.CutForegroundPatternColor = new SerialColor(material.CutPatternColor);
-            this.SurfaceForegroundPatternColor = new SerialColor(material.SurfacePatternColor);
+            this.CutForegroundPatternColor = new SerialColor(material.CutForegroundPatternColor);
+            this.CutBackgroundPatternColor = new SerialColor(material.CutBackgroundPatternColor);
+
+            this.SurfaceForegroundPatternColor = new SerialColor(material.SurfaceForegroundPatternColor);          
+            this.SurfaceBackgroundPatternColor = new SerialColor(material.SurfaceBackgroundPatternColor);
         }
 
         private void _ApplyDocProperties(RevitMaterial material, RevitDoc document)
         {
-            this.CutForegroundPatternId = new SerialElementId(material.CutPatternId, document);
-            this.SurfaceForegroundPatternId = new SerialElementId(material.SurfacePatternId, document);
+            this.CutForegroundPatternId = new SerialElementId(material.CutForegroundPatternId, document);
+            this.CutBackgroundPatternId = new SerialElementId(material.CutBackgroundPatternId, document);
+
+            this.SurfaceForegroundPatternId = new SerialElementId(material.SurfaceForegroundPatternId, document);
+            this.SurfaceBackgroundPatternId = new SerialElementId(material.SurfaceBackgroundPatternId, document);
+
             this.AppearanceAssetId = new SerialElementId(material.AppearanceAssetId, document);
         }
         #endregion
@@ -174,11 +181,17 @@ namespace Synthetic.Serialize.Revit
         {
             material.Name = this.Name;
 
-            material.CutPatternColor = this.CutForegroundPatternColor.ToColor();
-            material.CutPatternId = this.CutForegroundPatternId.ToElementId();
+            material.CutForegroundPatternColor = this.CutForegroundPatternColor.ToColor();
+            material.CutForegroundPatternId = this.CutForegroundPatternId.ToElementId();
 
-            material.SurfacePatternColor = this.CutForegroundPatternColor.ToColor();
-            material.SurfacePatternId = this.CutForegroundPatternId.ToElementId();
+            material.CutBackgroundPatternColor = this.CutBackgroundPatternColor.ToColor();
+            material.CutBackgroundPatternId = this.CutBackgroundPatternId.ToElementId();
+
+            material.SurfaceForegroundPatternColor = this.CutForegroundPatternColor.ToColor();
+            material.SurfaceForegroundPatternId = this.CutForegroundPatternId.ToElementId();
+
+            material.SurfaceBackgroundPatternColor = this.CutBackgroundPatternColor.ToColor();
+            material.SurfaceBackgroundPatternId = this.CutBackgroundPatternId.ToElementId();
 
             material.AppearanceAssetId = this.AppearanceAssetId.ToElementId();
 

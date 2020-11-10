@@ -229,7 +229,7 @@ namespace Synthetic.Serialize.Revit
             return elem;
         }
 
-        public static dynElem CreateElementType (SerialElementType serialElementType, dynElem templateType)
+        public static dynElem CreateElementTypeByTemplate (SerialElementType serialElementType, dynElem templateType)
         {
             RevitDoc document = templateType.InternalElement.Document;
 
@@ -238,10 +238,17 @@ namespace Synthetic.Serialize.Revit
             return elem;
         }
 
+        public static dynElem CreateElementType(SerialElementType serialElementType, [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
+        {
+            dynElem elem = SerialElementType.CreateElementType(serialElementType, document);
+
+            return elem;
+        }
+
         #endregion
         #region Creation and Modification Helper Functions
 
-        
+
 
         #endregion
     }
