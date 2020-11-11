@@ -60,11 +60,11 @@ namespace Synthetic.Serialize.Revit
         public SerialCompoundStructureLayer (RevitCSLayer Layer,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc Document)
         {
-            this.MaterialId = new SerialElementId(Layer.MaterialId, Document);
+            this.MaterialId = new SerialElementId(Layer.MaterialId, Document, false);
             this.Function = Layer.Function.ToString();
             this.Width = Layer.Width;
             this.DeckEmbeddingType = Layer.DeckEmbeddingType.ToString();
-            this.DeckProfileId = new SerialElementId(Layer.DeckProfileId, Document);
+            this.DeckProfileId = new SerialElementId(Layer.DeckProfileId, Document, false);
             this.LayerCapFlag = Layer.LayerCapFlag;
         }
 

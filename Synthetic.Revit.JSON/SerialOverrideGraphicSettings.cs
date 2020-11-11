@@ -80,26 +80,26 @@ namespace Synthetic.Serialize.Revit
             {
                 this.IsSurfaceBackgroundPatternVisible = ogs.IsSurfaceBackgroundPatternVisible;
                 this.SurfaceBackgroundPatternColor = new SerialColor(ogs.SurfaceBackgroundPatternColor);
-                this.SurfaceBackgroundPatternId = new SerialElementId(ogs.SurfaceBackgroundPatternId, Document);
+                this.SurfaceBackgroundPatternId = new SerialElementId(ogs.SurfaceBackgroundPatternId, Document, false);
 
                 this.IsSurfaceForegroundPatternVisible = ogs.IsSurfaceForegroundPatternVisible;
                 this.SurfaceForegroundPatternColor = new SerialColor(ogs.SurfaceForegroundPatternColor);
-                this.SurfaceForegroundPatternId = new SerialElementId(ogs.SurfaceForegroundPatternId, Document);
+                this.SurfaceForegroundPatternId = new SerialElementId(ogs.SurfaceForegroundPatternId, Document, false);
                 
                 this.ProjectionLineColor = new SerialColor(ogs.ProjectionLineColor);
-                this.ProjectionLinePatternId = new SerialElementId(ogs.ProjectionLinePatternId, Document);
+                this.ProjectionLinePatternId = new SerialElementId(ogs.ProjectionLinePatternId, Document, false);
                 this.ProjectionLineWeight = ogs.ProjectionLineWeight;
 
                 this.IsCutBackgroundPatternVisible = ogs.IsCutBackgroundPatternVisible;
                 this.CutBackgroundPatternColor = new SerialColor(ogs.CutBackgroundPatternColor);
-                this.CutBackgroundPatternId = new SerialElementId(ogs.CutBackgroundPatternId, Document);
+                this.CutBackgroundPatternId = new SerialElementId(ogs.CutBackgroundPatternId, Document, false);
 
                 this.IsCutForegroundPatternVisible = ogs.IsCutForegroundPatternVisible;
                 this.CutForegroundPatternColor = new SerialColor(ogs.CutForegroundPatternColor);
-                this.CutForegroundPatternId = new SerialElementId(ogs.CutForegroundPatternId, Document);
+                this.CutForegroundPatternId = new SerialElementId(ogs.CutForegroundPatternId, Document, false);
 
                 this.CutLineColor = new SerialColor(ogs.CutLineColor);
-                this.CutLinePatternId = new SerialElementId(ogs.CutLinePatternId, Document);
+                this.CutLinePatternId = new SerialElementId(ogs.CutLinePatternId, Document, false);
                 this.CutLineWeight = ogs.CutLineWeight;
 
                 this.Transparency = ogs.Transparency;

@@ -203,7 +203,10 @@ namespace Synthetic.Revit
         /// <param name="reset">Resets the node to reopen the document.</param>
         /// <returns name="document">The opened revit document.</returns>
         [IsDesignScriptCompatible]
-        public static RevitDoc OpenWithOptions(string modelPath, [DefaultArgument("Synthetic.Revit.WorksetConfigurationOpenAll()")] RevitDB.WorksetConfiguration worksetConfiguration, [DefaultArgument("false")] bool audit, [DefaultArgument("true")] bool reset)
+        public static RevitDoc OpenWithOptions(string modelPath,
+            [DefaultArgument("Synthetic.Revit.WorksetConfigurationOpenAll()")] RevitDB.WorksetConfiguration worksetConfiguration,
+            [DefaultArgument("false")] bool audit,
+            [DefaultArgument("true")] bool reset)
         {
             Autodesk.Revit.UI.UIApplication uiapp = DocumentManager.Instance.CurrentUIApplication;
             Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
@@ -216,6 +219,15 @@ namespace Synthetic.Revit
             openOptions.SetOpenWorksetsConfiguration(worksetConfiguration);
 
             doc = app.OpenDocumentFile(path, openOptions);
+
+            return doc;
+        }
+
+        public static RevitDoc OpenAndActivate(string modelPath, [DefaultArgument("true")] bool reset)
+        {
+            Autodesk.Revit.UI.UIApplication uiapp = DocumentManager.Instance.CurrentUIApplication;
+
+            RevitDoc doc = uiapp.OpenAndActivateDocument(modelPath).Document;
 
             return doc;
         }

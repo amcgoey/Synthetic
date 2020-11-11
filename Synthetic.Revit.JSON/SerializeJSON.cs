@@ -47,19 +47,19 @@ namespace Synthetic.Serialize.Revit
         #endregion
         #region Public SerialElement Creation Methods
 
-        public static SerialElement ByRevitElement (RevitElem revitElement)
+        public static SerialElement ByRevitElement (RevitElem revitElement, [DefaultArgument("true")] bool IsTemplate)
         {
             SerialElement serializeElement = null;
 
             if (revitElement != null)
             {
-                serializeElement = _serialByType(revitElement);
+                serializeElement = _serialByType(revitElement, IsTemplate);
             }
 
             return serializeElement;
         }
 
-        public static SerialElement ByDynamoElement(dynElem dynamoElement)
+        public static SerialElement ByDynamoElement(dynElem dynamoElement, [DefaultArgument("true")] bool IsTemplate)
         {
             SerialElement serializeElement = null;
 
@@ -68,7 +68,7 @@ namespace Synthetic.Serialize.Revit
 
             if (dynamoElement != null)
             {
-                serializeElement = _serialByType(revitElement);
+                serializeElement = _serialByType(revitElement, IsTemplate);
             }
 
             return serializeElement;
@@ -130,7 +130,7 @@ namespace Synthetic.Serialize.Revit
         #endregion
         #region Serialization Helper Functions
 
-        private static SerialElement _serialByType(RevitElem revitElement)
+        private static SerialElement _serialByType(RevitElem revitElement, bool IsTemplate)
         {
             SerialElement serializeElement = null;
             string revitType = revitElement.GetType().FullName;
@@ -138,19 +138,20 @@ namespace Synthetic.Serialize.Revit
             switch (revitType)
             {
                 case "Autodesk.Revit.DB.Material":
-                    serializeElement = new SerialMaterial((RevitMaterial)revitElement);
+                    serializeElement = new SerialMaterial((RevitMaterial)revitElement, IsTemplate);
                     break;
                 case "Autodesk.Revit.DB.ElementType":
                 case "Autodesk.Revit.DB.TextNoteType":
+                case "Autodesk.Revit.DB.TextElementType":
                 case "Autodesk.Revit.DB DimensionType":
-                    serializeElement = new SerialElementType((RevitElemType)revitElement);
+                    serializeElement = new SerialElementType((RevitElemType)revitElement, IsTemplate);
                     break;
                 case "Autodesk.Revit.DB.WallType":
                 case "Autodesk.Revit.DB.FloorType":
                 case "Autodesk.Revit.DB.CeilingType":
                 case "Autodesk.Revit.DB.RoofType":
                 case "Autodesk.Revit.DB.BuildingPadType":
-                    serializeElement = new SerialHostObjType((RevitHostObjType)revitElement);
+                    serializeElement = new SerialHostObjType((RevitHostObjType)revitElement, IsTemplate);
                     break;
                 case "Autodesk.Revit.DB.View":
                 case "Autodesk.Revit.DB.TableView":
@@ -159,10 +160,10 @@ namespace Synthetic.Serialize.Revit
                 case "Autodesk.Revit.DB.ViewPlan":
                 case "Autodesk.Revit.DB.ViewSection":
                 case "Autodesk.Revit.DB.ViewSheet":
-                    serializeElement = new SerialView((RevitView)revitElement);
+                    serializeElement = new SerialView((RevitView)revitElement, IsTemplate);
                     break;
                 default:
-                    serializeElement = new SerialElement(revitElement);
+                    serializeElement = new SerialElement(revitElement, IsTemplate);
                     break;
             }
 

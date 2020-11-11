@@ -51,7 +51,7 @@ namespace Synthetic.Serialize.Revit
 
         public SerialMaterial () : base () { }
 
-        public SerialMaterial (DynElem dynamoMaterial) : base (dynamoMaterial)
+        public SerialMaterial (DynElem dynamoMaterial, [DefaultArgument("true")] bool IsTemplate) : base (dynamoMaterial, IsTemplate)
         {
             RevitMaterial mat = (RevitMaterial)dynamoMaterial.InternalElement;
             RevitDoc document = mat.Document;
@@ -59,14 +59,14 @@ namespace Synthetic.Serialize.Revit
             _ApplyDocProperties(mat, document);
         }
 
-        public SerialMaterial (RevitMaterial revitMaterial) : base (revitMaterial)
+        public SerialMaterial (RevitMaterial revitMaterial, [DefaultArgument("true")] bool IsTemplate) : base (revitMaterial, IsTemplate)
         {
             RevitDoc document = revitMaterial.Document;
             _ApplyProperties(revitMaterial);
             _ApplyDocProperties(revitMaterial, document);
         }
 
-        public SerialMaterial (SerialElement serialElement) : base (serialElement.Element)
+        public SerialMaterial (SerialElement serialElement, [DefaultArgument("true")] bool IsTemplate) : base (serialElement.Element, IsTemplate)
         {
             if (serialElement.Element.GetType() == typeof(RevitMaterial))
             {
@@ -93,13 +93,13 @@ namespace Synthetic.Serialize.Revit
 
         private void _ApplyDocProperties(RevitMaterial material, RevitDoc document)
         {
-            this.CutForegroundPatternId = new SerialElementId(material.CutForegroundPatternId, document);
-            this.CutBackgroundPatternId = new SerialElementId(material.CutBackgroundPatternId, document);
+            this.CutForegroundPatternId = new SerialElementId(material.CutForegroundPatternId, document, this.IsTemplate);
+            this.CutBackgroundPatternId = new SerialElementId(material.CutBackgroundPatternId, document, this.IsTemplate);
 
-            this.SurfaceForegroundPatternId = new SerialElementId(material.SurfaceForegroundPatternId, document);
-            this.SurfaceBackgroundPatternId = new SerialElementId(material.SurfaceBackgroundPatternId, document);
+            this.SurfaceForegroundPatternId = new SerialElementId(material.SurfaceForegroundPatternId, document, this.IsTemplate);
+            this.SurfaceBackgroundPatternId = new SerialElementId(material.SurfaceBackgroundPatternId, document, this.IsTemplate);
 
-            this.AppearanceAssetId = new SerialElementId(material.AppearanceAssetId, document);
+            this.AppearanceAssetId = new SerialElementId(material.AppearanceAssetId, document, this.IsTemplate);
         }
         #endregion
 

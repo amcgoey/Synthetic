@@ -40,11 +40,11 @@ namespace Synthetic.Serialize.Revit
 
         public SerialElementType () : base () { }
 
-        public SerialElementType (RevitElemType revitElemType) : base (revitElemType) { }
+        public SerialElementType (RevitElemType revitElemType, [DefaultArgument("true")] bool IsTemplate) : base (revitElemType, IsTemplate) { }
 
-        public SerialElementType (DynElem dynamoElemType) : base (dynamoElemType) { }
+        public SerialElementType (DynElem dynamoElemType, [DefaultArgument("true")] bool IsTemplate) : base (dynamoElemType, IsTemplate) { }
         
-        public SerialElementType (SerialElement serialElement) : base (serialElement.Element) { }
+        public SerialElementType (SerialElement serialElement, [DefaultArgument("true")] bool IsTemplate) : base (serialElement.Element, IsTemplate) { }
 
         #endregion
         #region Public Methods
@@ -125,6 +125,10 @@ namespace Synthetic.Serialize.Revit
             Type elemClass = assembly.GetType(serialElementType.Class);
 
             RevitDB.FilteredElementCollector collector = new RevitDB.FilteredElementCollector(document);
+            if (elemClass == typeof(RevitDB.TextElementType))
+            {
+                collector.WherePasses( new RevitDB.ElementClassFilter(typeof(RevitDB.TextNoteType), true) );
+            }
             RevitElemType template = collector.OfClass(elemClass).OfType<RevitElemType>()
                 .FirstOrDefault();
 

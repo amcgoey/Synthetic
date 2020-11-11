@@ -32,13 +32,13 @@ namespace Synthetic.Serialize.Revit
             this.Elements = ElementJSONs;
         }
 
-        public SerialListElement(List<revitElem> elements)
+        public SerialListElement(List<revitElem> elements, [DefaultArgument("true")] bool IsTemplate)
         {
             this.Elements = new List<SerialElement>();
 
             foreach (revitElem elem in elements)
             {
-                Elements.Add(new SerialElement(elem));
+                Elements.Add(new SerialElement(elem, IsTemplate));
             }
         }
 
@@ -81,13 +81,13 @@ namespace Synthetic.Serialize.Revit
             this.Elements = MaterialJSONs;
         }
 
-        public SerialListMaterial(List<revitMaterial> materials)
+        public SerialListMaterial(List<revitMaterial> materials, [DefaultArgument("true")] bool IsTemplate)
         {
             this.Elements = new List<SerialMaterial>();
 
             foreach (revitMaterial mat in materials)
             {
-                Elements.Add(new SerialMaterial(mat));
+                Elements.Add(new SerialMaterial(mat, IsTemplate));
             }
         }
 

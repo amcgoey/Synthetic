@@ -28,7 +28,15 @@ namespace Synthetic.Serialize.Revit
         public bool IsShared { get; set; }
         public bool IsReadOnly { get; set; }
 
+        /// <summary>
+        /// If true, SerialParameter is intended to be deserialized as a template for use as standards or transfer to another project.
+        /// If false, SerialParameter is intended to modify an element inside the project and will include ElementIds and UniqueIds.
+        /// </summary>
+        [JsonIgnoreAttribute]
+        public bool IsTemplate { get; set; }
+
         #endregion
+
         #region Public Constructors
 
         [JsonConstructor]
@@ -42,11 +50,15 @@ namespace Synthetic.Serialize.Revit
             this.GUID = GUID;
             this.IsShared = IsShared;
             this.IsReadOnly = IsReadOnly;
+
+            this.IsTemplate = false;
         }
 
         public SerialParameter(RevitParam parameter,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc Document)
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc Document, [DefaultArgument("true")] bool IsTemplate)
         {
+            this.IsTemplate = IsTemplate;
+
             this.Name = parameter.Definition.Name;
             this.StorageType = parameter.StorageType.ToString();
             switch (this.StorageType)
@@ -55,7 +67,7 @@ namespace Synthetic.Serialize.Revit
                     this.Value = parameter.AsDouble().ToString();
                     break;
                 case "ElementId":
-                    this.ValueElemId = new SerialElementId(parameter.AsElementId(), Document);
+                    this.ValueElemId = new SerialElementId(parameter.AsElementId(), Document, IsTemplate);
                     //this.Value = param.AsElementId().ToString();
                     break;
                 case "Integer":

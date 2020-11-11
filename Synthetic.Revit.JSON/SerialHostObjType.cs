@@ -37,20 +37,20 @@ namespace Synthetic.Serialize.Revit
 
         public SerialHostObjType () : base () { }
 
-        public SerialHostObjType (RevitHostObjType wallType) : base (wallType)
+        public SerialHostObjType (RevitHostObjType wallType, [DefaultArgument("true")] bool IsTemplate) : base (wallType, IsTemplate)
         {
             RevitDoc document = wallType.Document;
             this._ApplyProperties(wallType, document);
         }
 
-        public SerialHostObjType(DynElem dynamoWallType) : base (dynamoWallType)
+        public SerialHostObjType(DynElem dynamoWallType, [DefaultArgument("true")] bool IsTemplate) : base (dynamoWallType, IsTemplate)
         {
             RevitHostObjType wallType = (RevitHostObjType) dynamoWallType.InternalElement;
             RevitDoc document = wallType.Document;
             this._ApplyProperties(wallType, document);
         }
 
-        public SerialHostObjType(SerialElementType serialElementType) : base (serialElementType.ElementType)
+        public SerialHostObjType(SerialElementType serialElementType, [DefaultArgument("true")] bool IsTemplate) : base (serialElementType.ElementType, IsTemplate)
         {
             if (serialElementType.Element.GetType() == typeof(RevitHostObjType))
             {
