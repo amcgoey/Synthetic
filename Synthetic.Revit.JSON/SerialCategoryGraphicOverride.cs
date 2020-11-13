@@ -25,7 +25,7 @@ namespace Synthetic.Serialize.Revit
         {
             RevitDoc document = view.Document;
 
-            this.Category = new SerialCategoryId(category, document);
+            this.Category = new SerialCategoryId(category, document, false);
             this.IsHidden = view.GetCategoryHidden(category.Id);
 
             RevitDB.OverrideGraphicSettings overrideSettings = view.GetCategoryOverrides(category.Id);

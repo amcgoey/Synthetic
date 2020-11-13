@@ -19,7 +19,7 @@ namespace Synthetic.Serialize.Revit
     public class SerialCategoryId : SerialObject
     {
         public string Name { get; set; }
-        public int CategoryId { get; set; }
+        public int Id { get; set; }
 
         [JsonIgnoreAttribute]
         public RevitCategory Category { get; set; }
@@ -27,16 +27,36 @@ namespace Synthetic.Serialize.Revit
         [JsonIgnoreAttribute]
         public RevitDoc Document { get; set; }
 
-        public SerialCategoryId () { }
+        /// <summary>
+        /// If true, SerialElement is intended to be deserialized as a template for use as standards or transfer to another project.
+        /// If false, SerialElement is intended to modify an element inside the project and will include ElementIds and UniqueIds.
+        /// </summary>
+        [JsonIgnoreAttribute]
+        public bool IsTemplate { get; set; }
+
+        /// <summary>
+        /// If IsTemplate, don't serialize the Element Id
+        /// </summary>
+        /// <returns>True if not a template</returns>
+        public bool ShouldSerializeId()
+        {
+            return !IsTemplate;
+        }
+
+
+        public SerialCategoryId ()
+        {
+            this.IsTemplate = false;        
+        }
 
         public SerialCategoryId (RevitCategory category,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc Document)
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc Document, bool IsTemplate)
         {
             this.Category = category;
             this.Document = Document;
 
             this.Name = category.Name;
-            this.CategoryId = category.Id.IntegerValue;
+            this.Id = category.Id.IntegerValue;
         }
 
         public RevitCategory GetCategory(
@@ -44,7 +64,7 @@ namespace Synthetic.Serialize.Revit
         {
             if(Category == null)
             {
-                this.Category = RevitCategory.GetCategory(Document, new RevitElemId(this.CategoryId));
+                this.Category = RevitCategory.GetCategory(Document, new RevitElemId(this.Id));
             }
             return this.Category;
         }

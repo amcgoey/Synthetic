@@ -14,10 +14,12 @@ using RevitElemType = Autodesk.Revit.DB.ElementType;
 using RevitMaterial = Autodesk.Revit.DB.Material;
 using RevitHostObjType = Autodesk.Revit.DB.HostObjAttributes;
 using RevitView = Autodesk.Revit.DB.View;
+using RevitCat = Autodesk.Revit.DB.Category;
 
 using Revit.Elements;
 using dynElem = Revit.Elements.Element;
 using dynMaterial = Revit.Elements.Material;
+using dynCat = Revit.Elements.Category;
 
 using Newtonsoft.Json;
 
@@ -30,6 +32,7 @@ namespace Synthetic.Serialize.Revit
         public Dictionary<string, SerialElementType> ElementTypes { get; set; }
         public Dictionary<string, SerialHostObjType> HostObjTypes { get; set; }
         public Dictionary<string, SerialView> Views { get; set; }
+        public Dictionary<string, SerialCategory> Categories { get; set; }
         public List<SerialElement> Elements { get; set; }
 
         #endregion
@@ -41,6 +44,7 @@ namespace Synthetic.Serialize.Revit
             ElementTypes = new Dictionary<string, SerialElementType>();
             HostObjTypes = new Dictionary<string, SerialHostObjType>();
             Views = new Dictionary<string, SerialView>();
+            Categories = new Dictionary<string, SerialCategory>();
             Elements = new List<SerialElement>();
         }
 
@@ -74,6 +78,28 @@ namespace Synthetic.Serialize.Revit
             return serializeElement;
         }
 
+        /// <summary>
+        /// Creates a SerialCategory object from a Revit Category
+        /// </summary>
+        /// <param name="Category">A Revit Category object</param>
+        /// <param name="document">The document the category belongs too.</param>
+        /// <param name="IsTemplate">If true, SerialElement is intended to be deserialized as a template for use as standards or transfer to another project.
+        /// If false, SerialElement is intended to modify an element inside the project and will include ElementIds and UniqueIds.</param>
+        /// <returns>A SertialCategory object</returns>
+        public static SerialCategory ByCategory(RevitCat Category,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document,
+            [DefaultArgument("true")] bool IsTemplate)
+        {
+            SerialCategory serialCategory = null;
+
+            if (Category != null)
+            {
+                new SerialCategory(Category, document, IsTemplate);
+            }
+
+            return serialCategory;
+        }
+
         #endregion
         #region Serialize and Deserialize Methods
 
@@ -88,13 +114,13 @@ namespace Synthetic.Serialize.Revit
                 .Concat(serializeJSON.Elements);
         }
         
-        public static string SerializeToJson (List<SerialElement> serialList)
+        public static string SerializeToJson (List<SerialObject> serialList)
         {
             SerializeJSON serializeJSON = new SerializeJSON();
             
-            foreach (SerialElement se in serialList)
+            foreach (SerialObject se in serialList)
             {
-                serializeJSON._sortSerialElement(se);
+                serializeJSON._sortSerialObject(se);
             }
             return Newtonsoft.Json.JsonConvert.SerializeObject(serializeJSON, Formatting.Indented);
         }
@@ -170,29 +196,39 @@ namespace Synthetic.Serialize.Revit
             return serializeElement;
         }
 
-        private void _sortSerialElement(SerialElement serialElement)
+        private void _sortSerialObject(SerialObject serialElement)
         {
             Type type = serialElement.GetType();
 
             if (type == typeof(SerialMaterial))
             {
-                this.Materials.Add(serialElement.Name, (SerialMaterial)serialElement);
+                SerialMaterial elem = (SerialMaterial)serialElement;
+                this.Materials.Add(elem.Name, elem);
             }
             else if (type == typeof(SerialElementType))
             {
-                this.ElementTypes.Add(serialElement.Name, (SerialElementType)serialElement);
+                SerialElementType elem = (SerialElementType)serialElement;
+                this.ElementTypes.Add(elem.Name, elem);
             }
             else if (type == typeof(SerialHostObjType))
             {
-                this.HostObjTypes.Add(serialElement.Name, (SerialHostObjType)serialElement);
+                SerialHostObjType elem = (SerialHostObjType)serialElement;
+                this.HostObjTypes.Add(elem.Name, elem);
             }
             else if (type == typeof(SerialView))
             {
-                this.Views.Add(serialElement.Name, (SerialView)serialElement);
+                SerialView elem = (SerialView)serialElement;
+                this.Views.Add(elem.Name, elem);
+            }
+            else if (type == typeof(SerialCategory))
+            {
+                SerialCategory elem = (SerialCategory)serialElement;
+                this.Categories.Add(elem.Name, elem);
             }
             else
             {
-                this.Elements.Add((SerialElement)serialElement);
+                SerialElement elem = (SerialElement)serialElement;
+                this.Elements.Add(elem);
             }
         }
 
