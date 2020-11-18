@@ -23,10 +23,20 @@ using RevitGraphicStyle = Autodesk.Revit.DB.GraphicsStyle;
 
 namespace Synthetic.Revit
 {
+    /// <summary>
+    /// Synthetic class for working with Revit line elements and categories.
+    /// </summary>
     public class Lines
     {
         internal Lines() { }
 
+        /// <summary>
+        /// Creates a new line style in the document.
+        /// </summary>
+        /// <param name="Name">Name of the new linestyle</param>
+        /// <param name="graphicsStyle">Graphic style object.</param>
+        /// <param name="document">The document to make the linestyle in</param>
+        /// <returns name="Category">Newly created line style category</returns>
         public static RevitCategory LineStyleByName(string Name, RevitDB.GraphicsStyle graphicsStyle, [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
             //  Name of Transaction
@@ -58,7 +68,14 @@ namespace Synthetic.Revit
             return newLineStyleCat;
         }
 
-
+        /// <summary>
+        /// Merges all lines of one line style into another style.  Excludes lines in groups.
+        /// </summary>
+        /// <param name="FromLineStyle">Name of the line style to change the lines.</param>
+        /// <param name="ToLineStyle">Name of the line style to move all the lines to.</param>
+        /// <param name="document">The document to make the change in.  Autodesk.Revit.DB.Document object.</param>
+        /// <returns name="Merged">Elements that have successfully been merged.</returns>
+        /// <returns name="Failed">Elements that failed to merge.</returns>
         [MultiReturn(new[] { "Merged", "Failed" })]
         public static IDictionary MergeLineStyles(string FromLineStyle, string ToLineStyle, [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {

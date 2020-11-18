@@ -30,6 +30,9 @@ namespace Synthetic.Revit
     [IsDesignScriptCompatible]
     public class Elements
     {
+        /// <summary>
+        /// Dummy constructor for the class.  Not used.
+        /// </summary>
         internal Elements () { }
 
         /// <summary>
