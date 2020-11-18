@@ -59,6 +59,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SerialCategory.cs" />
     <Compile Include="SerialCategoryGraphicOverride.cs" />
     <Compile Include="SerialBoolean.cs" />
     <Compile Include="SerialCategoryId.cs" />
