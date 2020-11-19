@@ -66,11 +66,11 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPI">
-      <HintPath>C:\Program Files\Autodesk\Revit 2018\RevitAPI.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\Revit 2020\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>C:\Program Files\Autodesk\Revit 2018\RevitAPIUI.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\Revit 2020\RevitAPIUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitNodes">
@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoundingBox.cs" />
+    <Compile Include="Category.cs" />
     <Compile Include="CollectorFilterRules.cs" />
     <Compile Include="CompoundStructure.cs" />
     <Compile Include="DesignOptions.cs" />
@@ -97,6 +98,8 @@
     <Compile Include="Color.cs" />
     <Compile Include="Collector.cs" />
     <Compile Include="CollectorElementFilter.cs" />
+    <Compile Include="LinePatternElement.cs" />
+    <Compile Include="Lines.cs" />
     <Compile Include="Material.cs" />
     <Compile Include="RevitLinkType.cs" />
     <Compile Include="Select.cs" />

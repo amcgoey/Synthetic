@@ -50,12 +50,12 @@ namespace Synthetic.Serialize.Revit
 
         public SerialView () { }
 
-        public SerialView (RevitView view) : base (view)
+        public SerialView (RevitView view, [DefaultArgument("true")] bool IsTemplate) : base (view, IsTemplate)
         {
             _ApplyProperties(view);
         }
 
-        public SerialView (DynView view) : base (view)
+        public SerialView (DynView view, [DefaultArgument("true")] bool IsTemplate) : base (view, IsTemplate)
         {
             RevitView rView = (RevitView)view.InternalElement;
             _ApplyProperties(rView);

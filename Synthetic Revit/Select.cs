@@ -29,7 +29,7 @@ namespace Synthetic.Revit
     [IsDesignScriptCompatible]
     public class Select
     {
-        internal Select () { }
+        internal Select() { }
 
         /// <summary>
         /// Selects all elements of a type.  Works with documents other than the active document.
@@ -38,7 +38,7 @@ namespace Synthetic.Revit
         /// <param name="inverted">If false, elements in the chosen category will be selected.  If true, elements NOT in the chosen category will be selected.</param>
         /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
         /// <returns name="Elements">A list of Dynamo elements that pass the filer.</returns>
-        public static IList<DynElem> AllElementsOfType (Type type,
+        public static IList<DynElem> AllElementsOfType(Type type,
             [DefaultArgument("false")] bool inverted,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
@@ -52,13 +52,13 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// Selects all instance elements in a category, excludes element types.
+        /// Selects all instance elements in a category, excludes element types.  Use a Dynamo Category wrapper
         /// </summary>
-        /// <param name="category">The categoryId of the elements you wish to select.</param>
+        /// <param name="category">The Dynamo Category wrapper of the elements you wish to select.</param>
         /// <param name="inverted">If false, elements in the chosen category will be selected.  If true, elements NOT in the chosen category will be selected.</param>
         /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
         /// <returns name="Elements">A list of Dynamo elements that pass the filer.</returns>
-        public static IList<DynElem> AllElementsOfCategory(DynCat category,
+        public static IList<DynElem> AllElementsOfCategoryDynamo(DynCat categoryDynamo,
             [DefaultArgument("false")] bool inverted,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
@@ -67,11 +67,49 @@ namespace Synthetic.Revit
             // Select only elements that are NOT Types (the filter is inverted)
             List<RevitDB.ElementFilter> filters = new List<Autodesk.Revit.DB.ElementFilter>();
             filters.Add(SynthCollectFilter.FilterElementIsElementType(true));
-            filters.Add(SynthCollectFilter.FilterElementCategory(category, inverted));
+            filters.Add(SynthCollectFilter.FilterElementCategory(categoryDynamo, inverted));
 
             SynthCollect.SetFilters(collector, filters);
 
             return SynthCollect.ToElements(collector);
+        }
+
+        /// <summary>
+        /// Selects all instance elements in a category, excludes element types.  Uses a Synthetic Category wrapper
+        /// </summary>
+        /// <param name="category">The Synthetic Category wrapper of the elements you wish to select.</param>
+        /// <param name="inverted">If false, elements in the chosen category will be selected.  If true, elements NOT in the chosen category will be selected.</param>
+        /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
+        /// <returns name="Elements">A list of Dynamo elements that pass the filer.</returns>
+        public static IList<DynElem> AllElementsOfCategorySynthetic(Category category,
+            [DefaultArgument("false")] bool inverted,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
+        {
+            if (category != null)
+            {
+                // Collect all elements on the category
+                RevitDB.FilteredElementCollector collector = new RevitDB.FilteredElementCollector(document);
+
+                RevitDB.ElementCategoryFilter elementCategoryFilter = new RevitDB.ElementCategoryFilter(category.RevitCategory.Id);
+                IEnumerable<RevitDB.Element> elements = collector
+                    .WhereElementIsNotElementType()
+                    .WherePasses(elementCategoryFilter)
+                    .ToElements();
+
+                IList<DynElem> dynamoElements = new List<DynElem>();
+
+                foreach (RevitDB.Element elem in elements)
+                {
+                    try
+                    {
+                        dynamoElements.Add(elem.ToDSType(true));
+                    }
+                    catch { }
+                }
+
+                return dynamoElements;
+            }
+            else { return null; }
         }
 
         /// <summary>
@@ -126,7 +164,7 @@ namespace Synthetic.Revit
                 m => m.Name.Equals(materialName));
         }
 
-        public static RevitDB.Element RevitElementByNameClass( string Name, Type Class,
+        public static RevitDB.Element RevitElementByNameClass(string Name, Type Class,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
             RevitFECollector collector
@@ -173,7 +211,7 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="elementType">A Type of ElementType</param>
         /// <returns name="instanceType">The Type of Instance</returns>
-        public static Type InstanceClassFromTypeClass (Type elementType)
+        public static Type InstanceClassFromTypeClass(Type elementType)
         {
             Type instanceType = null;
 
@@ -204,6 +242,59 @@ namespace Synthetic.Revit
             }
 
             return instanceType;
+        }
+
+        public static List<DynElem> GetInstancesFromElemType_Dynamo(DynElem ElemType, [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
+        {
+            List<DynElem> dynamoElements = new List<DynElem>();
+
+            RevitDB.ElementType rFromType = (RevitDB.ElementType)ElemType.InternalElement;
+
+            IEnumerable<RevitDB.Element> instances = GetInstancesFromElemType_Revit(rFromType, document);
+
+            foreach (RevitElem elem in instances)
+            {
+                try
+                {
+                    dynamoElements.Add(elem.ToDSType(true));
+                }
+                catch { }
+            }
+
+            return dynamoElements;
+        }
+
+        public static IEnumerable<RevitElem> GetInstancesFromElemType_Revit(RevitElem ElemType, [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
+        {
+            RevitFECollector collector = new RevitFECollector(document);
+            RevitDB.BuiltInParameter parameterId = RevitDB.BuiltInParameter.ELEM_TYPE_PARAM;
+            RevitDB.FilterNumericEquals filterNumberRule = new RevitDB.FilterNumericEquals();
+            RevitDB.ParameterValueProvider provider = new RevitDB.ParameterValueProvider(new RevitDB.ElementId(parameterId));
+            RevitDB.FilterRule filterRule = new RevitDB.FilterElementIdRule(provider, filterNumberRule, ElemType.Id);
+            RevitDB.ElementFilter filterParameter = new RevitDB.ElementParameterFilter(filterRule, false);
+
+            Type instanceType = Select.InstanceClassFromTypeClass(ElemType.GetType());
+            if (instanceType != null)
+            {
+                collector.OfClass(instanceType);
+            }
+
+            IEnumerable<RevitElem> instances = collector
+                .WhereElementIsNotElementType()
+                .WherePasses(filterParameter)
+                .ToElements();
+
+            return instances;
+        }
+
+        public static RevitElem GetElementTypeByName_Revit(string Name, [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
+        {
+            RevitFECollector collector = new RevitFECollector(document);
+
+            return collector
+                .WhereElementIsElementType()
+                .ToElements()
+                .FirstOrDefault(e => e.Name.Equals(Name));
         }
     }
 }

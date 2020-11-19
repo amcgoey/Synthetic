@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 
 using Autodesk.DesignScript.Runtime;
+using RevitServices.Transactions;
 
 using RevitDB = Autodesk.Revit.DB;
 using RevitDoc = Autodesk.Revit.DB.Document;
@@ -60,16 +61,56 @@ namespace Synthetic.Serialize.Revit
             set => this.ElementId.UniqueId = value;
         }
 
+        /// <summary>
+        /// List of the Parameters that belong to the Element.
+        /// </summary>
         public List<SerialParameter> Parameters { get; set; }
 
+        /// <summary>
+        /// The Revit ElementId of the element linked to the SerialElement.
+        /// </summary>
         [JsonIgnoreAttribute]
         public SerialElementId ElementId { get; set; }
 
+        /// <summary>
+        /// The Revit Element that is linked to the SerialElement.
+        /// </summary>
         [JsonIgnoreAttribute]
         virtual public RevitElem Element { get; set; }
 
+        /// <summary>
+        /// The Revit Document the element belongs too.
+        /// </summary>
         [JsonIgnoreAttribute]
         public RevitDoc Document { get; set; }
+
+        /// <summary>
+        /// If true, SerialElement is intended to be deserialized as a template for use as standards or transfer to another project.
+        /// If false, SerialElement is intended to modify an element inside the project and will include ElementIds and UniqueIds.
+        /// </summary>
+        [JsonIgnoreAttribute]
+        public bool IsTemplate { get; set; }
+
+        #endregion
+        #region Conditional Serialization Methods for Properties
+
+        /// <summary>
+        /// If IsTemplate, don't serialize the Element Id
+        /// </summary>
+        /// <returns>True if not a template</returns>
+        public bool ShouldSerializeId()
+        {
+            return !IsTemplate;
+        }
+
+        /// <summary>
+        /// If IsTemplate, don't serialize the Unqiue Id
+        /// </summary>
+        /// <returns>True if not a template</returns>
+        public bool ShouldSerializeUniqueId()
+        {
+            return !IsTemplate;
+        }
 
         #endregion
         #region Public Constructors
@@ -77,33 +118,36 @@ namespace Synthetic.Serialize.Revit
         public SerialElement()
         {
             this.ElementId = new SerialElementId();
+            this.IsTemplate = true;
         }
 
-        public SerialElement(DynElem dynamoElement)
+        public SerialElement(DynElem dynamoElement, [DefaultArgument("true")] bool IsTemplate)
         {
             RevitElem elem = dynamoElement.InternalElement;
-            _ByElement(elem);
+            _ByElement(elem, IsTemplate);
         }
 
-        public SerialElement(RevitElem revitElement)
+        public SerialElement(RevitElem revitElement, [DefaultArgument("true")] bool IsTemplate)
         {
-            _ByElement(revitElement);
+            _ByElement(revitElement, IsTemplate);
         }
 
         #endregion
         #region Constructor Helper Functions
 
-        private void _ByElement (RevitElem elem)
+        private void _ByElement (RevitElem elem, bool IsTemplate)
         {
             this.Element = elem;
             this.Document = elem.Document;
 
-            this.ElementId = new SerialElementId();
+            this.ElementId = new SerialElementId(IsTemplate);
 
             this.Class = elem.GetType().FullName;
             this.Name = elem.Name;
             this.Id = elem.Id.IntegerValue;
             this.UniqueId = elem.UniqueId.ToString();
+
+            this.IsTemplate = IsTemplate;
 
             RevitDB.Category cat = elem.Category;
 
@@ -120,7 +164,7 @@ namespace Synthetic.Serialize.Revit
                 //If the parameter has a value, the add it to the parameter list for export
                 if (!param.IsReadOnly)
                 {
-                    this.Parameters.Add(new SerialParameter(param, this.Document));
+                    this.Parameters.Add(new SerialParameter(param, this.Document, IsTemplate));
                 }
             }
         }
@@ -138,22 +182,28 @@ namespace Synthetic.Serialize.Revit
             return this.ElementId.GetElem(document).ToDSType(true);
         }
 
-        public List<RevitElem> GetAliasRevitElements ([DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
+        public List<RevitElem> GetAliasElements_Revit ([DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
             List<RevitElem> elements = new List<RevitElem>();
 
-            foreach(string aliasName in this.Aliases)
+            if (this.Aliases != null)
             {
-                // Assembly and Class that the Element should be
-                Assembly assembly = typeof(RevitElem).Assembly;
-                Type elemClass = assembly.GetType(this.Class);
-                RevitElem elem = Select.RevitElementByNameClass(aliasName, elemClass, document);
-                elements.Add(elem);
+                foreach (string aliasName in this.Aliases)
+                {
+                    // Assembly and Class that the Element should be
+                    Assembly assembly = typeof(RevitElem).Assembly;
+                    Type elemClass = assembly.GetType(this.Class);
+                    RevitElem elem = Select.RevitElementByNameClass(aliasName, elemClass, document);
+                    if (elem != null)
+                    {
+                        elements.Add(elem);
+                    }
+                }
             }
             return elements;
         }
 
-        public List<DynElem> GetAliasDynamoElements([DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
+        public List<DynElem> GetAliasElements_Dynamo([DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
             List<DynElem> elements = new List<DynElem>();
 
@@ -163,13 +213,33 @@ namespace Synthetic.Serialize.Revit
                 Assembly assembly = typeof(RevitElem).Assembly;
                 Type elemClass = assembly.GetType(this.Class);
                 RevitElem elem = Select.RevitElementByNameClass(aliasName, elemClass, document);
-                elements.Add(elem.ToDSType(true));
+                if (elem != null)
+                {
+                    elements.Add(elem.ToDSType(true));
+                }
             }
             return elements;
         }
 
+        /// <summary>
+        /// Sets the SerialElement's aliases given a list of strings.
+        /// </summary>
+        /// <param name="serialElement">A SerialElement</param>
+        /// <param name="aliases">A list of strings representing name aliases.</param>
+        /// <returns name="serialElement">Returns the modified SerialElement</returns>
+        public static SerialElement SetAliases (SerialElement serialElement, List<string> aliases)
+        {
+            if (aliases.Count()>0)
+            {
+                serialElement.Aliases = aliases;
+            }
+            return serialElement;
+        }
+
         public static DynElem ModifyElement(SerialElement serialElement, [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
+            string transactionName = "Modify Element from Serialization";
+
             if (serialElement.Element == null)
             {
                 serialElement.Element = serialElement.GetRevitElem(document);
@@ -177,7 +247,22 @@ namespace Synthetic.Serialize.Revit
 
             if(serialElement.Element != null)
             {
-                serialElement._ModifyProperties(serialElement.Element);
+                if (document.IsModifiable)
+                {
+                    TransactionManager.Instance.EnsureInTransaction(document);
+                    serialElement._ModifyProperties(serialElement.Element);
+                    TransactionManager.Instance.TransactionTaskDone();
+                }
+                else
+                {
+                    using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                    {
+                        trans.Start(transactionName);
+                        serialElement._ModifyProperties(serialElement.Element);
+                        trans.Commit();
+                    }
+                }
+                
             }
 
             return serialElement.Element.ToDSType(true);
@@ -210,7 +295,6 @@ namespace Synthetic.Serialize.Revit
                 SerialParameter.ModifyParameter(paramJson, elem);
             }
         }
-
         #endregion
     }
 }

@@ -14,10 +14,12 @@ using RevitElemType = Autodesk.Revit.DB.ElementType;
 using RevitMaterial = Autodesk.Revit.DB.Material;
 using RevitHostObjType = Autodesk.Revit.DB.HostObjAttributes;
 using RevitView = Autodesk.Revit.DB.View;
+using RevitCat = Autodesk.Revit.DB.Category;
 
 using Revit.Elements;
 using dynElem = Revit.Elements.Element;
 using dynMaterial = Revit.Elements.Material;
+using dynCat = Revit.Elements.Category;
 
 using Newtonsoft.Json;
 
@@ -30,6 +32,7 @@ namespace Synthetic.Serialize.Revit
         public Dictionary<string, SerialElementType> ElementTypes { get; set; }
         public Dictionary<string, SerialHostObjType> HostObjTypes { get; set; }
         public Dictionary<string, SerialView> Views { get; set; }
+        public Dictionary<string, SerialCategory> Categories { get; set; }
         public List<SerialElement> Elements { get; set; }
 
         #endregion
@@ -41,25 +44,26 @@ namespace Synthetic.Serialize.Revit
             ElementTypes = new Dictionary<string, SerialElementType>();
             HostObjTypes = new Dictionary<string, SerialHostObjType>();
             Views = new Dictionary<string, SerialView>();
+            Categories = new Dictionary<string, SerialCategory>();
             Elements = new List<SerialElement>();
         }
 
         #endregion
         #region Public SerialElement Creation Methods
 
-        public static SerialElement ByRevitElement (RevitElem revitElement)
+        public static SerialElement ByRevitElement (RevitElem revitElement, [DefaultArgument("true")] bool IsTemplate)
         {
             SerialElement serializeElement = null;
 
             if (revitElement != null)
             {
-                serializeElement = _serialByType(revitElement);
+                serializeElement = _serialByType(revitElement, IsTemplate);
             }
 
             return serializeElement;
         }
 
-        public static SerialElement ByDynamoElement(dynElem dynamoElement)
+        public static SerialElement ByDynamoElement(dynElem dynamoElement, [DefaultArgument("true")] bool IsTemplate)
         {
             SerialElement serializeElement = null;
 
@@ -68,10 +72,32 @@ namespace Synthetic.Serialize.Revit
 
             if (dynamoElement != null)
             {
-                serializeElement = _serialByType(revitElement);
+                serializeElement = _serialByType(revitElement, IsTemplate);
             }
 
             return serializeElement;
+        }
+
+        /// <summary>
+        /// Creates a SerialCategory object from a Revit Category
+        /// </summary>
+        /// <param name="Category">A Revit Category object</param>
+        /// <param name="document">The document the category belongs too.</param>
+        /// <param name="IsTemplate">If true, SerialElement is intended to be deserialized as a template for use as standards or transfer to another project.
+        /// If false, SerialElement is intended to modify an element inside the project and will include ElementIds and UniqueIds.</param>
+        /// <returns>A SertialCategory object</returns>
+        public static SerialCategory ByCategory(RevitCat Category,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document,
+            [DefaultArgument("true")] bool IsTemplate)
+        {
+            SerialCategory serialCategory = null;
+
+            if (Category != null)
+            {
+                new SerialCategory(Category, document, IsTemplate);
+            }
+
+            return serialCategory;
         }
 
         #endregion
@@ -88,13 +114,13 @@ namespace Synthetic.Serialize.Revit
                 .Concat(serializeJSON.Elements);
         }
         
-        public static string SerializeToJson (List<SerialElement> serialList)
+        public static string SerializeToJson (List<SerialObject> serialList)
         {
             SerializeJSON serializeJSON = new SerializeJSON();
             
-            foreach (SerialElement se in serialList)
+            foreach (SerialObject se in serialList)
             {
-                serializeJSON._sortSerialElement(se);
+                serializeJSON._sortSerialObject(se);
             }
             return Newtonsoft.Json.JsonConvert.SerializeObject(serializeJSON, Formatting.Indented);
         }
@@ -130,7 +156,7 @@ namespace Synthetic.Serialize.Revit
         #endregion
         #region Serialization Helper Functions
 
-        private static SerialElement _serialByType(RevitElem revitElement)
+        private static SerialElement _serialByType(RevitElem revitElement, bool IsTemplate)
         {
             SerialElement serializeElement = null;
             string revitType = revitElement.GetType().FullName;
@@ -138,19 +164,20 @@ namespace Synthetic.Serialize.Revit
             switch (revitType)
             {
                 case "Autodesk.Revit.DB.Material":
-                    serializeElement = new SerialMaterial((RevitMaterial)revitElement);
+                    serializeElement = new SerialMaterial((RevitMaterial)revitElement, IsTemplate);
                     break;
                 case "Autodesk.Revit.DB.ElementType":
                 case "Autodesk.Revit.DB.TextNoteType":
+                case "Autodesk.Revit.DB.TextElementType":
                 case "Autodesk.Revit.DB DimensionType":
-                    serializeElement = new SerialElementType((RevitElemType)revitElement);
+                    serializeElement = new SerialElementType((RevitElemType)revitElement, IsTemplate);
                     break;
                 case "Autodesk.Revit.DB.WallType":
                 case "Autodesk.Revit.DB.FloorType":
                 case "Autodesk.Revit.DB.CeilingType":
                 case "Autodesk.Revit.DB.RoofType":
                 case "Autodesk.Revit.DB.BuildingPadType":
-                    serializeElement = new SerialHostObjType((RevitHostObjType)revitElement);
+                    serializeElement = new SerialHostObjType((RevitHostObjType)revitElement, IsTemplate);
                     break;
                 case "Autodesk.Revit.DB.View":
                 case "Autodesk.Revit.DB.TableView":
@@ -159,39 +186,49 @@ namespace Synthetic.Serialize.Revit
                 case "Autodesk.Revit.DB.ViewPlan":
                 case "Autodesk.Revit.DB.ViewSection":
                 case "Autodesk.Revit.DB.ViewSheet":
-                    serializeElement = new SerialView((RevitView)revitElement);
+                    serializeElement = new SerialView((RevitView)revitElement, IsTemplate);
                     break;
                 default:
-                    serializeElement = new SerialElement(revitElement);
+                    serializeElement = new SerialElement(revitElement, IsTemplate);
                     break;
             }
 
             return serializeElement;
         }
 
-        private void _sortSerialElement(SerialElement serialElement)
+        private void _sortSerialObject(SerialObject serialElement)
         {
             Type type = serialElement.GetType();
 
             if (type == typeof(SerialMaterial))
             {
-                this.Materials.Add(serialElement.Name, (SerialMaterial)serialElement);
+                SerialMaterial elem = (SerialMaterial)serialElement;
+                this.Materials.Add(elem.Name, elem);
             }
             else if (type == typeof(SerialElementType))
             {
-                this.ElementTypes.Add(serialElement.Name, (SerialElementType)serialElement);
+                SerialElementType elem = (SerialElementType)serialElement;
+                this.ElementTypes.Add(elem.Name, elem);
             }
             else if (type == typeof(SerialHostObjType))
             {
-                this.HostObjTypes.Add(serialElement.Name, (SerialHostObjType)serialElement);
+                SerialHostObjType elem = (SerialHostObjType)serialElement;
+                this.HostObjTypes.Add(elem.Name, elem);
             }
             else if (type == typeof(SerialView))
             {
-                this.Views.Add(serialElement.Name, (SerialView)serialElement);
+                SerialView elem = (SerialView)serialElement;
+                this.Views.Add(elem.Name, elem);
+            }
+            else if (type == typeof(SerialCategory))
+            {
+                SerialCategory elem = (SerialCategory)serialElement;
+                this.Categories.Add(elem.Name, elem);
             }
             else
             {
-                this.Elements.Add((SerialElement)serialElement);
+                SerialElement elem = (SerialElement)serialElement;
+                this.Elements.Add(elem);
             }
         }
 
@@ -229,7 +266,7 @@ namespace Synthetic.Serialize.Revit
             return elem;
         }
 
-        public static dynElem CreateElementType (SerialElementType serialElementType, dynElem templateType)
+        public static dynElem CreateElementTypeByTemplate (SerialElementType serialElementType, dynElem templateType)
         {
             RevitDoc document = templateType.InternalElement.Document;
 
@@ -238,10 +275,17 @@ namespace Synthetic.Serialize.Revit
             return elem;
         }
 
+        public static dynElem CreateElementType(SerialElementType serialElementType, [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
+        {
+            dynElem elem = SerialElementType.CreateElementType(serialElementType, document);
+
+            return elem;
+        }
+
         #endregion
         #region Creation and Modification Helper Functions
 
-        
+
 
         #endregion
     }

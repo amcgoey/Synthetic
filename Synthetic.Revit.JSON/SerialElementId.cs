@@ -36,10 +36,46 @@ namespace Synthetic.Serialize.Revit
         public int Id { get; set; }
         public string UniqueId { get; set; }
 
+        /// <summary>
+        /// If true, SerialElement is intended to be deserialized as a template for use as standards or transfer to another project.
+        /// If false, SerialElement is intended to modify an element inside the project and will include ElementIds and UniqueIds.
+        /// </summary>
+        [JsonIgnoreAttribute]
+        public bool IsTemplate { get; set; }
+
+        #endregion
+        #region Conditional Serialization Methods for Properties
+
+        /// <summary>
+        /// If IsTemplate, don't serialize the Element Id
+        /// </summary>
+        /// <returns>True if not a template</returns>
+        public bool ShouldSerializeId()
+        {
+            return !IsTemplate;
+        }
+
+        /// <summary>
+        /// If IsTemplate, don't serialize the Unqiue Id
+        /// </summary>
+        /// <returns>True if not a template</returns>
+        public bool ShouldSerializeUniqueId()
+        {
+            return !IsTemplate;
+        }
+
         #endregion
         #region Public Constructors
 
-        public SerialElementId () { }
+        public SerialElementId ()
+        {
+            this.IsTemplate = true;
+        }
+
+        public SerialElementId([DefaultArgument("true")] bool IsTemplate)
+        {
+            this.IsTemplate = IsTemplate;
+        }
 
         public SerialElementId (string Name, int ElementId, string Class, string Category)
         {
@@ -47,12 +83,14 @@ namespace Synthetic.Serialize.Revit
             this.Name = Name;
             this.Class = Class;
             this.Category = Category;
+            this.IsTemplate = false;
         }
 
         public SerialElementId (RevitElemId Id,
-            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc Document)
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc Document, [DefaultArgument("true")] bool IsTemplate)
         {
             this.Id = Id.IntegerValue;
+            this.IsTemplate = IsTemplate;
 
             RevitElem elem = Document.GetElement(Id);
 

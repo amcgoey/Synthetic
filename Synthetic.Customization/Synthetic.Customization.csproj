@@ -85,4 +85,8 @@
     </ItemGroup>
     <Delete Files="@(DeleteFiles)" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>echo "$(TargetDir)$(TargetName).*"
+del "$(TargetDir)$(TargetName).*"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
