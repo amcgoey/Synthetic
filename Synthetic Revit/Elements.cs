@@ -223,6 +223,66 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
+        /// Changes an element's subcategory.  Only works inside of Family documents
+        /// </summary>
+        /// <param name="element">Element to change</param>
+        /// <param name="category">Subcategory to set the element too.</param>
+        /// <returns name="Suceeded">If the element's category was changed.</returns>
+        /// <returns name="Failed">If the change in category failed.</returns>
+        [MultiReturn(new[] { "Succeeded", "Failed" })]
+        public static IDictionary SetCategory (DynElem element, Category category)
+        {
+            //  Name of Transaction
+            string transactionName = "Set Element Category to" + category.Name;
+
+            RevitDoc document = element.InternalElement.Document;
+
+            // Intialize list for elements that are successfully merged and failed to merge.
+            List<DynElem> elementsMerged = new List<DynElem>();
+            List<DynElem> elementsFailed = new List<DynElem>();
+
+            // Define Function to change element's category.
+            Action<DynElem, Category> _SetCategory = (elem, cat) =>
+            {
+                // If Element is in a group, put the element in the failed list
+                int groupId = elem.InternalElement.GroupId.IntegerValue;
+                if (groupId == -1)
+                {
+                    //elem.TextNoteType = rToType;
+                    RevitDB.Parameter parameter = elem.InternalElement.get_Parameter(RevitDB.BuiltInParameter.FAMILY_ELEM_SUBCATEGORY);
+                    parameter.Set(cat.RevitCategory.Id);
+                    elementsMerged.Add(elem);
+                }
+                else
+                {
+                    elementsFailed.Add(elem);
+                }
+            };
+
+            if (document.IsModifiable)
+            {
+                TransactionManager.Instance.EnsureInTransaction(document);
+                _SetCategory(element, category);
+                TransactionManager.Instance.TransactionTaskDone();
+            }
+            else
+            {
+                using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                {
+                    trans.Start(transactionName);
+                    _SetCategory(element, category);
+                    trans.Commit();
+                }
+            }
+
+            return new Dictionary<string, object>
+            {
+                {"Succeeded", elementsMerged},
+                {"Failed", elementsFailed}
+            };
+        }
+
+        /// <summary>
         /// Merges ElementType FromType into ToType.  FromType will be deleted if all instances of the Type are successfully changed.  Elements in groups will not be changed.
         /// </summary>
         /// <param name="FromType">All instances of this ElementType will be merged into the ToType and the Type will be deleted.</param>

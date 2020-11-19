@@ -17,6 +17,8 @@ using RevitElem = Autodesk.Revit.DB.Element;
 using RevitElemId = Autodesk.Revit.DB.ElementId;
 using RevitDoc = Autodesk.Revit.DB.Document;
 using RevitCat = Autodesk.Revit.DB.Category;
+using RevitLinePatternElem = Autodesk.Revit.DB.LinePatternElement;
+using RevitCollector = Autodesk.Revit.DB.FilteredElementCollector;
 
 
 namespace Synthetic.Revit
@@ -40,6 +42,39 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
+        /// Creates a Synthetic.Revit.Categoray wrapper given a Dynamo Category.  It searches for the Category name.
+        /// </summary>
+        /// <param name="category">A dynamo category wrapper.</param>
+        /// <param name="document">The document to search for the category in.</param>
+        public Category(DynCat category,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
+        {
+            RevitDB.Categories categories = document.Settings.Categories;
+
+            RevitCat cat = categories.get_Item(category.Name);
+
+            this.RevitCategory = cat;
+        }
+
+        /// <summary>
+        /// Creates a Synthetic.Revit.Categoray wrapper by searching for the category name in the document.
+        /// </summary>
+        /// <param name="Name">The name of the category</param>
+        /// <param name="document">The document to search for the category in.</param>
+        public Category(string Name,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
+        {
+            RevitDB.Categories categories = document.Settings.Categories;
+
+            RevitCat cat;
+            if (categories.Contains(Name))
+            {
+                cat = categories.get_Item(Name);
+                this.RevitCategory = cat;
+            }            
+        }
+
+        /// <summary>
         /// Empty constructor.
         /// </summary>
         public Category() { }
@@ -51,7 +86,8 @@ namespace Synthetic.Revit
         {
             get
             {
-                return RevitCategory.Name;
+                if (RevitCategory != null) { return RevitCategory.Name; }
+                else { return null; }
             }
         }
 
@@ -62,7 +98,14 @@ namespace Synthetic.Revit
         /// <returns name="lineweight">An integer of the lineweight</returns>
         public int? LineWeightProjection (RevitDB.GraphicsStyleType type)
         {
-            return RevitCategory.GetLineWeight(type);
+            if (RevitCategory != null)
+            {
+                return RevitCategory.GetLineWeight(type);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -70,9 +113,16 @@ namespace Synthetic.Revit
         /// </summary>
         /// <param name="type">Autodesk.Revit.DB.GraphicsStyleType</param>
         /// <returns name="linePatternId">An integer of the Line Pattern ElementId</returns>
-        public int LinePatternId (RevitDB.GraphicsStyleType type)
+        public int? LinePatternId (RevitDB.GraphicsStyleType type)
         {
+            if (RevitCategory != null)
+            {
                 return RevitCategory.GetLinePatternId(type).IntegerValue;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -82,29 +132,47 @@ namespace Synthetic.Revit
         /// <param name="Name">Name of the new Subcategory</param>
         /// <param name="document">Document to make the subcategory in.</param>
         /// <returns name="Subcategory">Returns the newly made subcategory</returns>
-        public static Category SubcategoryByName(Synthetic.Revit.Category ParentCategory, string Name, [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
+        public static Category SubcategoryByName(string parentCategory,
+            string Name,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
             string transactionName = "Create Subcategory" + Name;
 
-            RevitDB.Categories categories = document.Settings.Categories;
-
             Category category = new Category();
 
-            if (document.IsModifiable)
+            RevitDB.Categories categories = document.Settings.Categories;
+            RevitDB.Category pCat;
+            if (categories.Contains(parentCategory))
             {
-                TransactionManager.Instance.EnsureInTransaction(document);
-                category.RevitCategory = categories.NewSubcategory(ParentCategory.RevitCategory, Name);
-                document.Regenerate();
-                TransactionManager.Instance.TransactionTaskDone();
-            }
-            else
-            {
-                using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                pCat = categories.get_Item(parentCategory);
+
+                RevitDB.CategoryNameMap categoryNameMap = pCat.SubCategories;
+
+                // If the project does not contain the subcategory already, create it.
+                if (!categoryNameMap.Contains(Name))
                 {
-                    trans.Start(transactionName);
-                    category.RevitCategory = categories.NewSubcategory(ParentCategory.RevitCategory, Name);
-                    document.Regenerate();
-                    trans.Commit();
+                    if (document.IsModifiable)
+                    {
+                        TransactionManager.Instance.EnsureInTransaction(document);
+                        category.RevitCategory = categories.NewSubcategory(pCat, Name);
+                        document.Regenerate();
+                        TransactionManager.Instance.TransactionTaskDone();
+                    }
+                    else
+                    {
+                        using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                        {
+                            trans.Start(transactionName);
+                            category.RevitCategory = categories.NewSubcategory(pCat, Name);
+                            document.Regenerate();
+                            trans.Commit();
+                        }
+                    }
+                }
+                // Else the project contains the category so just get the category.
+                else
+                {
+                    category.RevitCategory = categoryNameMap.get_Item(Name);
                 }
             }
 
@@ -116,15 +184,111 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
+        /// Gets a subcategory from a parent category
+        /// </summary>
+        /// <param name="ParentCategory">A Synthetic wrapped Category object of a built-in category.</param>
+        /// <param name="Name">Name of the new Subcategory</param>
+        /// <param name="document">Document to make the subcategory in.</param>
+        /// <returns name="Subcategory">Returns the newly made subcategory</returns>
+        public static Category GetSubCategoryByName(string parentCategory,
+            string Name,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
+        {
+            Category category = new Category();
+
+            RevitDB.Categories categories = document.Settings.Categories;
+            RevitDB.Category pCat;
+            if (categories.Contains(parentCategory))
+            {
+                pCat = categories.get_Item(parentCategory);
+
+                RevitDB.CategoryNameMap categoryNameMap = pCat.SubCategories;
+
+                if (categoryNameMap.Contains(Name))
+                {
+                    category.RevitCategory = categoryNameMap.get_Item(Name);
+                }
+            }
+
+            if (category.RevitCategory != null)
+            {
+                return category;
+            }
+            else { return null; }
+        }
+
+        /// <summary>
+        /// Sets the line color of a category
+        /// </summary>
+        /// <param name="category">A Synthetic wrapped Category object</param>
+        /// <param name="red">Red channel, 0 to 255</param>
+        /// <param name="green">Green channel, 0 to 255</param>
+        /// <param name="blue">Blue channel, 0 to 255</param>
+        /// <param name="document">Autodesk.Revit.DB.Document to modify</param>
+        /// <returns name="Category">The modified category</returns>
+        public static Category SetLineColor(Category category,
+            int red,
+            int green,
+            int blue,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
+        {
+            string transactionName = "Set " + category.Name + "Category's color";
+
+            RevitDB.Color color = new RevitDB.Color((byte)red, (byte)green, (byte)blue);
+
+            if (document.IsModifiable)
+            {
+                TransactionManager.Instance.EnsureInTransaction(document);
+                category.RevitCategory.LineColor = color;
+                document.Regenerate();
+                TransactionManager.Instance.TransactionTaskDone();
+            }
+            else
+            {
+                using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                {
+                    trans.Start(transactionName);
+                    category.RevitCategory.LineColor = color;
+                    document.Regenerate();
+                    trans.Commit();
+                }
+            }
+
+            return category;
+        }
+
+        /// <summary>
         /// Sets the line weight of a category
         /// </summary>
         /// <param name="category">A Synthetic wrapped Category object</param>
         /// <param name="lineWeight">An integer of the lineweight</param>
         /// <param name="type">The Revit GraphicsStyleType for either projection or cut</param>
+        /// <param name="document">Autodesk.Revit.DB.Document to modify</param>
         /// <returns name="Category">The modified category</returns>
-        public static Category SetLineWeight(Category category, int lineWeight, RevitDB.GraphicsStyleType type)
+        public static Category SetLineWeight(Category category, int lineWeight,
+            RevitDB.GraphicsStyleType type,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
-            category.RevitCategory.SetLineWeight(lineWeight, type);
+            string transactionName = "Set " + category.Name + "Category's " + type.ToString() + "Line Weight";
+            
+            if (document.IsModifiable)
+            {
+                TransactionManager.Instance.EnsureInTransaction(document);
+                category.RevitCategory.SetLineWeight(lineWeight, type);
+                document.Regenerate();
+                TransactionManager.Instance.TransactionTaskDone();
+            }
+            else
+            {
+                using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                {
+                    trans.Start(transactionName);
+                    category.RevitCategory.SetLineWeight(lineWeight, type);
+                    document.Regenerate();
+                    trans.Commit();
+                }
+            }
+            
             return category;
         }
 
@@ -132,12 +296,73 @@ namespace Synthetic.Revit
         /// Sets the line pattern id
         /// </summary>
         /// <param name="category">A Synthetic wrapped Category object</param>
-        /// <param name="linePatternId">An integer representing the ElementId of the Line Pattern</param>
+        /// <param name="linePatternName">An integer representing the ElementId of the Line Pattern</param>
         /// <param name="type">The Revit GraphicsStyleType for either projection or cut</param>
+        /// <param name="document">Autodesk.Revit.DB.Document to modify</param>
         /// <returns name="Category">The modified category</returns>
-        public static Category SetLinePatternId(Category category, int linePatternId, RevitDB.GraphicsStyleType type)
+        public static Category SetLinePatternId(Category category,
+            string linePatternName,
+            RevitDB.GraphicsStyleType type,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
-            category.RevitCategory.SetLinePatternId(new RevitElemId(linePatternId), type);
+            string transactionName = "Set " + category.Name + "Category's " + type.ToString() + "Line Weight";
+
+            RevitElemId linePatternElemId = null;
+
+            if (linePatternName == "Solid" || linePatternName == null)
+            {
+                linePatternElemId = RevitLinePatternElem.GetSolidPatternId();
+            }
+            else
+            {
+                RevitLinePatternElem linePatternElem;
+
+                RevitCollector collector = new RevitCollector(document);
+
+                RevitDB.ElementClassFilter elementClassFilter =
+                    new RevitDB.ElementClassFilter(typeof(RevitDB.LinePatternElement));
+
+                linePatternElem = (RevitLinePatternElem)collector.WhereElementIsNotElementType()
+                    .WherePasses(elementClassFilter)
+                    .FirstOrDefault(elem => elem.Name.Equals(linePatternName));
+
+                if (linePatternElem != null)
+                {
+                    linePatternElemId = linePatternElem.Id;
+                }
+                else
+                {
+                    linePatternElem = LinePatternElement.ByName(linePatternName, document);
+                    if (linePatternElem != null)
+                    {
+                        linePatternElemId = linePatternElem.Id;
+                    }
+                }
+            }
+
+            if (linePatternElemId == null)
+            {
+                linePatternElemId = RevitLinePatternElem.GetSolidPatternId();
+            }
+
+            if (document.IsModifiable)
+            {
+                TransactionManager.Instance.EnsureInTransaction(document);
+                category.RevitCategory.SetLinePatternId(linePatternElemId, type);
+                document.Regenerate();
+                TransactionManager.Instance.TransactionTaskDone();
+            }
+            else
+            {
+                using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                {
+                    trans.Start(transactionName);
+                    category.RevitCategory.SetLinePatternId(linePatternElemId, type);
+                    document.Regenerate();
+                    trans.Commit();
+                }
+            }
+            
             return category;
         }
 

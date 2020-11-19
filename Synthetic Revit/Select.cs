@@ -52,13 +52,13 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// Selects all instance elements in a category, excludes element types.
+        /// Selects all instance elements in a category, excludes element types.  Use a Dynamo Category wrapper
         /// </summary>
-        /// <param name="category">The categoryId of the elements you wish to select.</param>
+        /// <param name="category">The Dynamo Category wrapper of the elements you wish to select.</param>
         /// <param name="inverted">If false, elements in the chosen category will be selected.  If true, elements NOT in the chosen category will be selected.</param>
         /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
         /// <returns name="Elements">A list of Dynamo elements that pass the filer.</returns>
-        public static IList<DynElem> AllElementsOfCategory(DynCat category,
+        public static IList<DynElem> AllElementsOfCategoryDynamo(DynCat categoryDynamo,
             [DefaultArgument("false")] bool inverted,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
@@ -67,11 +67,49 @@ namespace Synthetic.Revit
             // Select only elements that are NOT Types (the filter is inverted)
             List<RevitDB.ElementFilter> filters = new List<Autodesk.Revit.DB.ElementFilter>();
             filters.Add(SynthCollectFilter.FilterElementIsElementType(true));
-            filters.Add(SynthCollectFilter.FilterElementCategory(category, inverted));
+            filters.Add(SynthCollectFilter.FilterElementCategory(categoryDynamo, inverted));
 
             SynthCollect.SetFilters(collector, filters);
 
             return SynthCollect.ToElements(collector);
+        }
+
+        /// <summary>
+        /// Selects all instance elements in a category, excludes element types.  Uses a Synthetic Category wrapper
+        /// </summary>
+        /// <param name="category">The Synthetic Category wrapper of the elements you wish to select.</param>
+        /// <param name="inverted">If false, elements in the chosen category will be selected.  If true, elements NOT in the chosen category will be selected.</param>
+        /// <param name="document">A Autodesk.Revit.DB.Document object.  This does not work with Dynamo document objects.</param>
+        /// <returns name="Elements">A list of Dynamo elements that pass the filer.</returns>
+        public static IList<DynElem> AllElementsOfCategorySynthetic(Category category,
+            [DefaultArgument("false")] bool inverted,
+            [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
+        {
+            if (category != null)
+            {
+                // Collect all elements on the category
+                RevitDB.FilteredElementCollector collector = new RevitDB.FilteredElementCollector(document);
+
+                RevitDB.ElementCategoryFilter elementCategoryFilter = new RevitDB.ElementCategoryFilter(category.RevitCategory.Id);
+                IEnumerable<RevitDB.Element> elements = collector
+                    .WhereElementIsNotElementType()
+                    .WherePasses(elementCategoryFilter)
+                    .ToElements();
+
+                IList<DynElem> dynamoElements = new List<DynElem>();
+
+                foreach (RevitDB.Element elem in elements)
+                {
+                    try
+                    {
+                        dynamoElements.Add(elem.ToDSType(true));
+                    }
+                    catch { }
+                }
+
+                return dynamoElements;
+            }
+            else { return null; }
         }
 
         /// <summary>

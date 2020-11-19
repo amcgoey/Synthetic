@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoundingBox.cs" />
+    <Compile Include="Category.cs" />
     <Compile Include="CollectorFilterRules.cs" />
     <Compile Include="CompoundStructure.cs" />
     <Compile Include="DesignOptions.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Color.cs" />
     <Compile Include="Collector.cs" />
     <Compile Include="CollectorElementFilter.cs" />
+    <Compile Include="LinePatternElement.cs" />
     <Compile Include="Lines.cs" />
     <Compile Include="Material.cs" />
     <Compile Include="RevitLinkType.cs" />

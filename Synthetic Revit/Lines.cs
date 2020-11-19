@@ -40,7 +40,7 @@ namespace Synthetic.Revit
         public static RevitCategory LineStyleByName(string Name, RevitDB.GraphicsStyle graphicsStyle, [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
             //  Name of Transaction
-            string transactionName = "Create Line Style";
+            string transactionName = "Create Line Style " + Name;
 
             RevitDB.Categories categories = document.Settings.Categories;
 
@@ -77,109 +77,116 @@ namespace Synthetic.Revit
         /// <returns name="Merged">Elements that have successfully been merged.</returns>
         /// <returns name="Failed">Elements that failed to merge.</returns>
         [MultiReturn(new[] { "Merged", "Failed" })]
-        public static IDictionary MergeLineStyles(string FromLineStyle, string ToLineStyle, [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
+        public static IDictionary MergeLineStyles(string parentCategory, string FromLineStyle, string ToLineStyle, [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
             //  Name of Transaction
             string transactionName = "Merge Line Style";
             List<DynaCurve> elements = new List<DynaCurve>();
             List<DynaCurve> elementsFailed = new List<DynaCurve>();
 
-            RevitDB.CategoryNameMap lineCategories = RevitDB.Category.GetCategory(document, RevitDB.BuiltInCategory.OST_Lines).SubCategories;
-
-            RevitDB.Category FromCategory;
-            RevitDB.Category ToCategory;
-
-            //  If both FromLineStyle and ToLineStyle categories exist, proceed with merge.
-            if (lineCategories.Contains(FromLineStyle) && lineCategories.Contains(ToLineStyle))
+            RevitDB.Categories categories = document.Settings.Categories;
+            RevitDB.Category pCat;
+            if (categories.Contains(parentCategory))
             {
-                FromCategory = RevitDB.Category.GetCategory(document, RevitDB.BuiltInCategory.OST_Lines).SubCategories.get_Item(FromLineStyle);
-                ToCategory = RevitDB.Category.GetCategory(document, RevitDB.BuiltInCategory.OST_Lines).SubCategories.get_Item(ToLineStyle);
+                pCat = categories.get_Item(parentCategory);
 
-                RevitDB.GraphicsStyle ToGraphicStyle = ToCategory.GetGraphicsStyle(RevitDB.GraphicsStyleType.Projection);
-                RevitDB.GraphicsStyle FromGraphicStyle = FromCategory.GetGraphicsStyle(RevitDB.GraphicsStyleType.Projection);
+                RevitDB.CategoryNameMap lineCategories = RevitDB.Category.GetCategory(document, pCat.Id).SubCategories;
 
-                RevitDB.ElementCategoryFilter categoryFilter = new RevitDB.ElementCategoryFilter(FromCategory.Id);
-                RevitDB.FilteredElementCollector collector = new RevitDB.FilteredElementCollector(document)
-                    .OfClass(typeof(RevitDB.CurveElement))
-                    //.OfCategory(RevitDB.BuiltInCategory.OST_Lines)
-                    ;
+                RevitDB.Category FromCategory;
+                RevitDB.Category ToCategory;
 
-                IEnumerable<RevitDB.Element> lineElements = collector
-                    .Cast<RevitDB.CurveElement>()
-                    .Where(q => q.LineStyle.Id == FromGraphicStyle.Id)
-                    .ToList();
-
-                // Define Function to change CurveElement LineStyles.
-                Action<IEnumerable<RevitDB.Element>> _SetLineStyle = (lines) =>
+                //  If both FromLineStyle and ToLineStyle categories exist, proceed with merge.
+                if (lineCategories.Contains(FromLineStyle) && lineCategories.Contains(ToLineStyle))
                 {
-                    foreach (RevitDB.CurveElement line in lines)
+                    FromCategory = RevitDB.Category.GetCategory(document, pCat.Id).SubCategories.get_Item(FromLineStyle);
+                    ToCategory = RevitDB.Category.GetCategory(document, pCat.Id).SubCategories.get_Item(ToLineStyle);
+
+                    RevitDB.GraphicsStyle ToGraphicStyle = ToCategory.GetGraphicsStyle(RevitDB.GraphicsStyleType.Projection);
+                    RevitDB.GraphicsStyle FromGraphicStyle = FromCategory.GetGraphicsStyle(RevitDB.GraphicsStyleType.Projection);
+
+                    RevitDB.ElementCategoryFilter categoryFilter = new RevitDB.ElementCategoryFilter(FromCategory.Id);
+                    RevitDB.FilteredElementCollector collector = new RevitDB.FilteredElementCollector(document)
+                        .OfClass(typeof(RevitDB.CurveElement))
+                        //.OfCategory(RevitDB.BuiltInCategory.OST_Lines)
+                        ;
+
+                    IEnumerable<RevitDB.Element> lineElements = collector
+                        .Cast<RevitDB.CurveElement>()
+                        .Where(q => q.LineStyle.Id == FromGraphicStyle.Id)
+                        .ToList();
+
+                    // Define Function to change CurveElement LineStyles.
+                    Action<IEnumerable<RevitDB.Element>> _SetLineStyle = (lines) =>
                     {
+                        foreach (RevitDB.CurveElement line in lines)
+                        {
                         // If Element is in a group, put the element in the failed list
                         int groupId = line.GroupId.IntegerValue;
-                        if (groupId == -1)
-                        {
-                            line.LineStyle = ToGraphicStyle;
-                            DynaCurve dElem = (DynaCurve)line.ToDSType(true);
-
-                            if (line.LineStyle.Id == ToGraphicStyle.Id)
+                            if (groupId == -1)
                             {
-                                elements.Add(dElem);
+                                line.LineStyle = ToGraphicStyle;
+                                DynaCurve dElem = (DynaCurve)line.ToDSType(true);
+
+                                if (line.LineStyle.Id == ToGraphicStyle.Id)
+                                {
+                                    elements.Add(dElem);
+                                }
+                                else
+                                {
+                                    elementsFailed.Add(dElem);
+                                }
                             }
                             else
                             {
+                                DynaCurve dElem = (DynaCurve)line.ToDSType(true);
                                 elementsFailed.Add(dElem);
                             }
                         }
-                        else
-                        {
-                            DynaCurve dElem = (DynaCurve)line.ToDSType(true);
-                            elementsFailed.Add(dElem);
-                        }
-                    }
 
                     // Check if there are any instances of FromType left
                     int count = collector
-                        .Cast<RevitDB.CurveElement>()
-                        .Where(q => q.LineStyle.Id == FromGraphicStyle.Id)
-                        .ToList().Count();
-                    if (count == 0)
-                    {
-                        if (!FromCategory.IsReadOnly &&
-                        !FromCategory.Name.Contains("<") &&
-                        FromCategory.Name != "Hidden Lines" &&
-                        FromCategory.Name != "Axis of Rotation" &&
-                        FromCategory.Name != "Boundary" &&
-                        FromCategory.Name != "Insulation Batting Lines" &&
-                        FromCategory.Name != "Lines" &&
-                        FromCategory.Name != "Medium Lines" &&
-                        FromCategory.Name != "Wide Lines" &&
-                        FromCategory.Name != "Thin Lines"
-                        )
-                            //if (FromCategory.Name != "Thin Lines")
+                            .Cast<RevitDB.CurveElement>()
+                            .Where(q => q.LineStyle.Id == FromGraphicStyle.Id)
+                            .ToList().Count();
+                        if (count == 0)
                         {
-                            document.Delete(FromCategory.Id);
+                            if (!FromCategory.IsReadOnly &&
+                            !FromCategory.Name.Contains("<") &&
+                            FromCategory.Name != "Hidden Lines" &&
+                            FromCategory.Name != "Axis of Rotation" &&
+                            FromCategory.Name != "Boundary" &&
+                            FromCategory.Name != "Insulation Batting Lines" &&
+                            FromCategory.Name != "Lines" &&
+                            FromCategory.Name != "Medium Lines" &&
+                            FromCategory.Name != "Wide Lines" &&
+                            FromCategory.Name != "Thin Lines"
+                            )
+                        //if (FromCategory.Name != "Thin Lines")
+                        {
+                                document.Delete(FromCategory.Id);
+                            }
                         }
-                    }
 
-                    _MoveAllFilledRegions(document);
-                };
+                        _MoveAllFilledRegions(document);
+                    };
 
-                //if (document.IsModifiable)
-                //{
-                TransactionManager.Instance.EnsureInTransaction(document);
-                _SetLineStyle(lineElements);
-                document.Regenerate();
-                TransactionManager.Instance.TransactionTaskDone();
-                //}
-                //else
-                //{
-                //    using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
-                //    {
-                //        trans.Start(transactionName);
-                //        _SetLineStyle(lineElements);
-                //        trans.Commit();
-                //    }
-                //}
+                    //if (document.IsModifiable)
+                    //{
+                    TransactionManager.Instance.EnsureInTransaction(document);
+                    _SetLineStyle(lineElements);
+                    document.Regenerate();
+                    TransactionManager.Instance.TransactionTaskDone();
+                    //}
+                    //else
+                    //{
+                    //    using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                    //    {
+                    //        trans.Start(transactionName);
+                    //        _SetLineStyle(lineElements);
+                    //        trans.Commit();
+                    //    }
+                    //}
+                }
             }
 
             return new Dictionary<string, object>
