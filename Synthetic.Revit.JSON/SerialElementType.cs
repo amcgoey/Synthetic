@@ -27,6 +27,7 @@ namespace Synthetic.Serialize.Revit
 
         [JsonIgnoreAttribute]
         public RevitElemType ElementType { get; set; }
+       
 
         [JsonIgnoreAttribute]
         public override RevitElem Element
@@ -121,6 +122,7 @@ namespace Synthetic.Serialize.Revit
         public static DynElem CreateElementType (SerialElementType serialElementType,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
+            RevitElemType template;
             Assembly assembly = typeof(RevitElem).Assembly;
             Type elemClass = assembly.GetType(serialElementType.Class);
 
@@ -129,7 +131,9 @@ namespace Synthetic.Serialize.Revit
             {
                 collector.WherePasses( new RevitDB.ElementClassFilter(typeof(RevitDB.TextNoteType), true) );
             }
-            RevitElemType template = collector.OfClass(elemClass).OfType<RevitElemType>()
+            template = collector
+                .OfClass(elemClass)
+                .OfType<RevitElemType>()
                 .FirstOrDefault();
 
             return CreateElementTypeByTemplate(serialElementType, template, document);
