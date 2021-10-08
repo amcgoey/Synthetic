@@ -43,6 +43,15 @@ namespace Synthetic.Serialize.Revit
             set => this.DimensionType = (RevitDimType)value;
         }
 
+
+        /// <summary>
+        /// Constant for the hidden built in linear dimension style.
+        /// These styles shouldn't be serialized or used as templates to create new styles.
+        /// </summary>
+        [JsonIgnoreAttribute]
+        [SupressImportIntoVM]
+        public const string InternalDimStyleName = "Linear Dimension Style";
+
         #endregion
         #region Public Constructors
 
@@ -84,10 +93,13 @@ namespace Synthetic.Serialize.Revit
 
             RevitDB.FilteredElementCollector collector = new RevitDB.FilteredElementCollector(document);
             
+
+
             template = collector
                     .OfClass(elemClass)
                     .OfType<RevitDB.DimensionType>()
                     .Where(elem => elem.StyleType.Equals(serialDimensionType.DimensionStyleType))
+                    .Where(elem => elem.Name != InternalDimStyleName)
                     .FirstOrDefault();
 
             return CreateElementTypeByTemplate(serialDimensionType, template, document);

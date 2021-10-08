@@ -185,7 +185,10 @@ namespace Synthetic.Serialize.Revit
                 case "Autodesk.Revit.DB.DimensionType":
                 case "Autodesk.Revit.DB.SpotDimensionType":
                 case "Autodesk.Revit.DB.AngularDimensionType":
-                    serializeElement = new SerialDimensionType((RevitDimType)revitElement, IsTemplate);
+                    if (revitElement.Name != SerialDimensionType.InternalDimStyleName)
+                    {
+                        serializeElement = new SerialDimensionType((RevitDimType)revitElement, IsTemplate);
+                    }
                     break;
                 case "Autodesk.Revit.DB.WallType":
                 case "Autodesk.Revit.DB.FloorType":
@@ -217,8 +220,19 @@ namespace Synthetic.Serialize.Revit
 
             if (type == typeof(SerialMaterial))
             {
+                
                 SerialMaterial elem = (SerialMaterial)serialElement;
-                bool keyExists = this.Materials.ContainsKey(elem.Name);
+                string name = elem.Name;
+                bool keyExists = this.Materials.ContainsKey(name);
+
+                //if (keyExists)
+                //{
+                //    for (int i = 1; keyExists && i < this.Materials.Count()+2; i++)
+                //    {
+                //        name += i.ToString();
+                //        keyExists = this.Materials.ContainsKey(name);
+                //    }
+                //}
                 if (!keyExists)
                 {
                     this.Materials.Add(elem.Name, elem);
@@ -227,19 +241,45 @@ namespace Synthetic.Serialize.Revit
             else if (type == typeof(SerialDimensionType))
             {
                 SerialDimensionType elem = (SerialDimensionType)serialElement;
-                bool keyExists = this.ElementTypes.ContainsKey(elem.Name);
-                if (!keyExists)
+                string name = elem.Name;
+                bool keyExists = this.DimensionTypes.ContainsKey(name);
+
+                //  Exlcude any DimensionTypes that are named "Linear Dimension Style".
+                //  These dimension styles seem to be empty internal dimensions and cause issues when serializing.
+                if (name != SerialDimensionType.InternalDimStyleName)
                 {
-                    this.DimensionTypes.Add(elem.Name, elem);
+
+                    if (keyExists)
+                    {
+                        for (int i = 1; keyExists && i < this.DimensionTypes.Count() + 2; i++)
+                        {
+                            name += i.ToString();
+                            keyExists = this.DimensionTypes.ContainsKey(name);
+                        }
+                    }
+                    if (!keyExists)
+                    {
+                        this.DimensionTypes.Add(name, elem);
+                    }
                 }
             }
             else if (type == typeof(SerialElementType))
             {
                 SerialElementType elem = (SerialElementType)serialElement;
-                bool keyExists = this.ElementTypes.ContainsKey(elem.Name);
+                string name = elem.Name;
+                bool keyExists = this.ElementTypes.ContainsKey(name);
+
+                //if (keyExists)
+                //{
+                //    for (int i = 1; keyExists && i < this.ElementTypes.Count()+2; i++)
+                //    {
+                //        name += i.ToString();
+                //        keyExists = this.ElementTypes.ContainsKey(name);
+                //    }
+                //}
                 if (!keyExists)
                 {
-                    this.ElementTypes.Add(elem.Name, elem);
+                    this.ElementTypes.Add(name, elem);
                 }
             }
             else if (type == typeof(SerialHostObjType))
@@ -250,7 +290,17 @@ namespace Synthetic.Serialize.Revit
             else if (type == typeof(SerialView))
             {
                 SerialView elem = (SerialView)serialElement;
-                bool keyExists = this.Views.ContainsKey(elem.Name);
+                string name = elem.Name;
+                bool keyExists = this.Views.ContainsKey(name);
+
+                //if (keyExists)
+                //{
+                //    for (int i = 1; keyExists && i < this.Views.Count()+2; i++)
+                //    {
+                //        name += i.ToString();
+                //        keyExists = this.Views.ContainsKey(name);
+                //    }
+                //}
                 if (!keyExists)
                 {
                     this.Views.Add(elem.Name, elem);
