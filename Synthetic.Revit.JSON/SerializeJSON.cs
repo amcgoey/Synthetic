@@ -336,7 +336,7 @@ namespace Synthetic.Serialize.Revit
             Type elemClass = assembly.GetType(serialElementType.Class);
             SerialDimensionType serialDimType = (SerialDimensionType)serialElementType;
 
-            if (elemClass == typeof(RevitDB.DimensionType))
+            if (elemClass == typeof(RevitDB.DimensionType)  || elemClass == typeof(RevitDB.SpotDimensionType))
             {
                 elem = SerialDimensionType.CreateDimensionType(serialDimType, document);
             }
