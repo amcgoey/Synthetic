@@ -65,13 +65,16 @@ namespace Synthetic.Core
             foreach (string path in this.Paths)
             {
 
-                List<string> filesAll = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories).ToList();
-
-                foreach (string filepath in filesAll)
+                if (Directory.Exists(path))
                 {
-                    if (! files.ContainsKey(Path.GetFileName(filepath)))
+                    List<string> filesAll = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories).ToList();
+
+                    foreach (string filepath in filesAll)
                     {
-                        files.Add(Path.GetFileName(filepath), filepath);
+                        if (!files.ContainsKey(Path.GetFileName(filepath)))
+                        {
+                            files.Add(Path.GetFileName(filepath), filepath);
+                        }
                     }
                 }
             }

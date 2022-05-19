@@ -151,7 +151,8 @@ namespace Synthetic.Revit
 
             if(CentralFilePath && document.IsWorkshared)
             {
-                path = document.GetWorksharingCentralModelPath().ToString();
+                RevitDB.ModelPath modelPath = document.GetWorksharingCentralModelPath();
+                path = RevitDB.ModelPathUtils.ConvertModelPathToUserVisiblePath(modelPath);
             }
             else
             {

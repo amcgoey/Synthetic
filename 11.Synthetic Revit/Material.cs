@@ -116,31 +116,34 @@ namespace Synthetic.Revit
         {
             List<List<string>> results = null;
 
-            revitDB.ElementId appearanceAssetID = Material.AppearanceAssetId;
-
-            if (appearanceAssetID.IntegerValue != -1)
+            if (searchPaths != null && Material != null)
             {
-                revitDB.AppearanceAssetElement assetElem = Material.Document.GetElement(appearanceAssetID) as revitDB.AppearanceAssetElement;
+                revitDB.ElementId appearanceAssetID = Material.AppearanceAssetId;
 
-                if (assetElem != null)
+                if (appearanceAssetID.IntegerValue != -1)
                 {
-                    string transactionName = "Replace Bitmap Paths on Material " + Material.Name;
-                    revitDoc document = Material.Document;
+                    revitDB.AppearanceAssetElement assetElem = Material.Document.GetElement(appearanceAssetID) as revitDB.AppearanceAssetElement;
 
-                    if (document.IsModifiable)
+                    if (assetElem != null)
                     {
-                        TransactionManager.Instance.EnsureInTransaction(document);
-                        results = _ReplaceBitmapPaths(assetElem, searchPaths, ReplaceRelativePaths);
-                        TransactionManager.Instance.TransactionTaskDone();
-                        //TransactionManager.Instance.ForceCloseTransaction();
-                    }
-                    else
-                    {
-                        using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                        string transactionName = "Replace Bitmap Paths on Material " + Material.Name;
+                        revitDoc document = Material.Document;
+
+                        if (document.IsModifiable)
                         {
-                            trans.Start(transactionName);
+                            TransactionManager.Instance.EnsureInTransaction(document);
                             results = _ReplaceBitmapPaths(assetElem, searchPaths, ReplaceRelativePaths);
-                            trans.Commit();
+                            TransactionManager.Instance.TransactionTaskDone();
+                            //TransactionManager.Instance.ForceCloseTransaction();
+                        }
+                        else
+                        {
+                            using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                            {
+                                trans.Start(transactionName);
+                                results = _ReplaceBitmapPaths(assetElem, searchPaths, ReplaceRelativePaths);
+                                trans.Commit();
+                            }
                         }
                     }
                 }

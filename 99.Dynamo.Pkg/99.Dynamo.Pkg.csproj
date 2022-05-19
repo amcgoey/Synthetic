@@ -38,9 +38,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="dyf\**">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="pkg.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -168,6 +165,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="dyf\" />
     <Folder Include="extra\Examples\backup\" />
     <Folder Include="extra\Images\" />
   </ItemGroup>
