@@ -10,12 +10,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9DE0F913-AFC3-41B1-B266-6E248CB6E984}</ProjectGuid>
+    <ProjectGuid>{5D72B274-2496-4CC8-B39E-AB4F517D39A4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Synthetic.UI</RootNamespace>
-    <AssemblyName>Synthetic.UI</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <RootNamespace>Synthetic.Core</RootNamespace>
+    <AssemblyName>01.Synthetic.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -26,7 +26,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\output\Synthetic\bin\Synthetic.UI.XML</DocumentationFile>
+    <DocumentationFile>..\..\output\Synthetic\bin\01.Synthetic.Core.xml</DocumentationFile>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,69 +37,46 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <OutputPath>bin\Test\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="DSCoreNodes">
-      <HintPath>C:\Program Files\Autodesk\Revit 2020\AddIns\DynamoForRevit\DSCoreNodes.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DSRevitNodesUI">
-      <HintPath>C:\Program Files\Autodesk\Revit 2020\AddIns\DynamoForRevit\Revit\nodes\DSRevitNodesUI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DynamoCore">
-      <HintPath>C:\Program Files\Autodesk\Revit 2020\AddIns\DynamoForRevit\DynamoCore.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Revit 2020\AddIns\DynamoForRevit\DSCoreNodes.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DynamoServices">
-      <HintPath>C:\Program Files\Autodesk\Revit 2020\AddIns\DynamoForRevit\DynamoServices.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Revit 2020\AddIns\DynamoForRevit\DynamoServices.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="RevitAPI">
-      <HintPath>C:\Program Files\Autodesk\Revit 2020\RevitAPI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPIUI">
-      <HintPath>C:\Program Files\Autodesk\Revit 2020\RevitAPIUI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitNodes">
-      <HintPath>C:\Program Files\Autodesk\Revit 2020\AddIns\DynamoForRevit\Revit\RevitNodes.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitServices">
+    <Reference Include="NewtonSoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2020\AddIns\DynamoForRevit\Revit\RevitServices.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Revit 2020\NewtonSoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Pick.cs" />
-    <Compile Include="DialogRevit.cs" />
-    <Compile Include="DialogRevitTask.cs" />
-    <Compile Include="DialogOS.cs" />
+    <Compile Include="Assemblies.cs" />
+    <Compile Include="Dictionary.cs" />
+    <Compile Include="Enum.cs" />
+    <Compile Include="Json.cs" />
+    <Compile Include="Object.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Regex.cs" />
+    <Compile Include="SearchPaths.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Synthetic.UI_DynamoCustomization.xml">
+    <Content Include="01.Synthetic.Core_DynamoCustomization.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Synthetic Core\Synthetic.Core.csproj">
-      <Project>{5d72b274-2496-4cc8-b39e-ab4f517d39a4}</Project>
-      <Name>Synthetic.Core</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Synthetic Revit\Synthetic.Revit.csproj">
-      <Project>{e4b1863b-67ec-40f7-8e63-2917b4485e71}</Project>
-      <Name>Synthetic.Revit</Name>
-      <Private>False</Private>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

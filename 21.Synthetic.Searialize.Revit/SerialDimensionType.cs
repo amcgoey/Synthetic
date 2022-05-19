@@ -31,7 +31,7 @@ namespace Synthetic.Serialize.Revit
         /// <summary>
         /// Revit DimensionStyle Type Enum
         /// </summary>
-        public RevitDB.DimensionStyleType DimensionStyleType { get; set; }
+        public RevitDB.DimensionStyleType DimensionStyle { get; set; }
 
         [JsonIgnoreAttribute]
         public RevitDimType DimensionType { get; set; }
@@ -57,22 +57,22 @@ namespace Synthetic.Serialize.Revit
 
         public SerialDimensionType() : base()
         {
-            DimensionStyleType = RevitDB.DimensionStyleType.Linear;
+            DimensionStyle = RevitDB.DimensionStyleType.Linear;
         }
 
         public SerialDimensionType(RevitElemType revitElemType, [DefaultArgument("true")] bool IsTemplate) : base(revitElemType, IsTemplate)
         {
-            this.DimensionStyleType = this.DimensionType.StyleType;
+            this.DimensionStyle = this.DimensionType.StyleType;
         }
 
         public SerialDimensionType(DynElem dynamoElemType, [DefaultArgument("true")] bool IsTemplate) : base(dynamoElemType, IsTemplate)
         {
-            this.DimensionStyleType = this.DimensionType.StyleType;
+            this.DimensionStyle = this.DimensionType.StyleType;
         }
 
         public SerialDimensionType(SerialElementType serialElement, [DefaultArgument("true")] bool IsTemplate) : base(serialElement.ElementType, IsTemplate)
         {
-            this.DimensionStyleType = this.DimensionType.StyleType;
+            this.DimensionStyle = this.DimensionType.StyleType;
         }
 
         #endregion
@@ -98,7 +98,7 @@ namespace Synthetic.Serialize.Revit
             template = collector
                     .OfClass(elemClass)
                     .OfType<RevitDB.DimensionType>()
-                    .Where(elem => elem.StyleType.Equals(serialDimensionType.DimensionStyleType))
+                    .Where(elem => elem.StyleType.Equals(serialDimensionType.DimensionStyle))
                     .Where(elem => elem.Name != InternalDimStyleName)
                     .FirstOrDefault();
 

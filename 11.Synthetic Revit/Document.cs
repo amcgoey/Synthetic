@@ -140,14 +140,25 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
-        /// Retrives the file path of the document
+        /// Retrives the file path of the document.  If CentralFilePath is true, then the method returns the patht to the central file, if false, then it returns the path to the local file.  Detached files will return an empty string.
         /// </summary>
-        /// <param name="document"></param>
+        /// <param name="document">An Autodsk.Revit.DB.Document element.</param>
         /// <returns name="File Path">Returns a string of the file path.</returns>
         [IsDesignScriptCompatible]
-        public static string FilePath(RevitDoc document)
+        public static string FilePath(RevitDoc document, bool CentralFilePath = true)
         {
-            return document.PathName ?? string.Empty;
+            string path = null;
+
+            if(CentralFilePath && document.IsWorkshared)
+            {
+                path = document.GetWorksharingCentralModelPath().ToString();
+            }
+            else
+            {
+                path = document.PathName ?? string.Empty;
+            }
+
+            return path;
         }
 
         /// <summary>

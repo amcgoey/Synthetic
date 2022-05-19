@@ -15,10 +15,10 @@
   "repository_url": "https://github.com/amcgoey/Synthetic",
   "contains_binaries": true,
   "node_libraries": [
-    "Synthetic.Revit, Version=1.0.0.2, Culture=neutral, PublicKeyToken=null",
-    "Synthetic.Core, Version=1.0.0.2, Culture=neutral, PublicKeyToken=null",
-    "Synthetic.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
-    "Synthetic.Pulldowns, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
-    "Synthetic.Serialize.Revit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+    "01.Synthetic.Core, Version=1.0.0.2, Culture=neutral, PublicKeyToken=null",
+    "11.Synthetic.Revit, Version=1.0.0.2, Culture=neutral, PublicKeyToken=null",
+    "09.Synthetic.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "19.Synthetic.Pulldowns, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "21.Synthetic.Serialize.Revit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
   ]
 }

@@ -8,8 +8,8 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Synthetic.Serialize.Revit</RootNamespace>
-    <AssemblyName>Synthetic.Serialize.Revit</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <AssemblyName>21.Synthetic.Serialize.Revit</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -22,7 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\output\Synthetic\bin\Synthetic.Serialize.Revit.xml</DocumentationFile>
+    <DocumentationFile>..\..\output\Synthetic\bin\21.Synthetic.Serialize.Revit.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,25 +34,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DynamoServices">
-      <HintPath>C:\Program Files\Autodesk\Revit 2020\AddIns\DynamoForRevit\DynamoServices.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Revit 2020\AddIns\DynamoForRevit\DynamoServices.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="NewtonSoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2020\NewtonSoft.Json.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Revit 2020\NewtonSoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPI">
-      <HintPath>C:\Program Files\Autodesk\Revit 2020\RevitAPI.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Revit 2020\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitNodes">
-      <HintPath>C:\Program Files\Autodesk\Revit 2020\AddIns\DynamoForRevit\Revit\RevitNodes.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Revit 2020\AddIns\DynamoForRevit\Revit\RevitNodes.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitServices, Version=1.3.4.6666, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2020\AddIns\DynamoForRevit\Revit\RevitServices.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Revit 2020\AddIns\DynamoForRevit\Revit\RevitServices.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -81,19 +81,19 @@
     <Compile Include="SerialView.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Synthetic.Serialize.Revit_DynamoCustomization.xml">
+    <Content Include="21.Synthetic.Serialize.Revit_DynamoCustomization.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Synthetic Core\Synthetic.Core.csproj">
+    <ProjectReference Include="..\01.Synthetic Core\01.Synthetic.Core.csproj">
       <Project>{5d72b274-2496-4cc8-b39e-ab4f517d39a4}</Project>
-      <Name>Synthetic.Core</Name>
+      <Name>01.Synthetic.Core</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Synthetic Revit\Synthetic.Revit.csproj">
+    <ProjectReference Include="..\11.Synthetic Revit\11.Synthetic.Revit.csproj">
       <Project>{e4b1863b-67ec-40f7-8e63-2917b4485e71}</Project>
-      <Name>Synthetic.Revit</Name>
+      <Name>11.Synthetic.Revit</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
