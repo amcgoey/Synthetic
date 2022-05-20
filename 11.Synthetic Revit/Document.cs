@@ -7,6 +7,7 @@ using Autodesk.DesignScript.Runtime;
 using Dynamo.Graph.Nodes;
 
 using RevitDB = Autodesk.Revit.DB;
+using RevitServices.Transactions;
 using revitExcept = Autodesk.Revit.Exceptions;
 
 /// Class Aliases
@@ -328,14 +329,14 @@ namespace Synthetic.Revit
         /// <summary>
         /// Get all the linked Revit documents in a document.
         /// </summary>
-        /// <param name="document">A revit document.</param>
+        /// <param name="Document">A revit document.</param>
         /// <returns name="Documents">Revit documents.</returns>
         /// <returns name="Titles">The file paths of the linked documents.</returns>
         [MultiReturn(new[] { "Documents", "Titles" })]
         [IsDesignScriptCompatible]
-        public static IDictionary GetLinkedRevit(RevitDoc document)
+        public static IDictionary GetLinkedRevit([DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc Document)
         {
-            RevitDB.FilteredElementCollector links = new RevitDB.FilteredElementCollector(document);
+            RevitDB.FilteredElementCollector links = new RevitDB.FilteredElementCollector(Document);
             links.OfClass(typeof(RevitDB.RevitLinkInstance));
 
             List<RevitDoc> linkDocs = new List<RevitDoc>();
@@ -355,6 +356,203 @@ namespace Synthetic.Revit
                 {"Documents", linkDocs},
                 {"Titles", linkNames}
             };
+        }
+
+        /// <summary>
+        /// Get all the linked Revit type elements in a document.
+        /// </summary>
+        /// <param name="Document">A revit document.</param>
+        /// <returns name="Links">Revit RevitLinkType</returns>
+        /// <returns name="Titles">The file paths of the linked documents.</returns>
+        [MultiReturn(new[] { "Links", "Titles" })]
+        [IsDesignScriptCompatible]
+        public static IDictionary GetRevitLinkTypes([DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc Document)
+        {
+            RevitDB.FilteredElementCollector links = new RevitDB.FilteredElementCollector(Document);
+            links.OfClass(typeof(RevitDB.RevitLinkType));
+
+            List<RevitDB.RevitLinkType> linkDocs = new List<RevitDB.RevitLinkType>();
+            List<string> linkNames = new List<string>();
+
+
+            foreach (RevitDB.RevitLinkType link in links)
+            {
+                if (link !=null && link.IsExternalFileReference())
+                {
+                    linkDocs.Add(link);
+                    linkNames.Add(link.Name);
+                }
+            }
+            return new Dictionary<string, object>
+            {
+                {"Links", linkDocs},
+                {"Titles", linkNames}
+            };
+        }
+
+        /// <summary>
+        /// Get all the linked CAD file in a document.
+        /// </summary>
+        /// <param name="Document">A revit document.</param>
+        /// <returns name="CAD">Linked CAD files.</returns>
+        /// <returns name="Titles">The file paths of the linked CAD files.</returns>
+        [MultiReturn(new[] { "CAD", "Titles" })]
+        [IsDesignScriptCompatible]
+        public static IDictionary GetCADLinkTypes([DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc Document)
+        {
+            RevitDB.FilteredElementCollector links = new RevitDB.FilteredElementCollector(Document);
+            links.OfClass(typeof(RevitDB.CADLinkType));
+
+            List<RevitDB.CADLinkType> linkDocs = new List<RevitDB.CADLinkType>();
+            List<string> linkNames = new List<string>();
+
+
+            foreach (RevitDB.CADLinkType link in links)
+            {
+                if (link != null && link.IsExternalFileReference())
+                {
+                    linkDocs.Add(link);
+                    linkNames.Add(link.Name);
+                }
+            }
+            return new Dictionary<string, object>
+            {
+                {"CAD", linkDocs},
+                {"Titles", linkNames}
+            };
+        }
+
+        /// <summary>
+        /// Given a CADLinkType element, returns it's path.
+        /// </summary>
+        /// <param name="RevitLink">A CADLinkType element</param>
+        /// <returns name="Path">The path of the CADLinkType element</returns>
+        public static string GetPathRevitLinkType(RevitDB.RevitLinkType RevitLink)
+        {
+            string pathString = null;
+
+            if (RevitLink != null)
+            {
+                if (RevitLink.IsExternalFileReference())
+                {
+                    RevitDB.ExternalFileReference exFiRef = RevitLink.GetExternalFileReference();
+                    RevitDB.ModelPath path = exFiRef.GetPath();
+
+                    if (path.ServerPath == true)
+                    {
+                        pathString = path.CentralServerPath;
+                    }
+                    else
+                    {
+                        pathString = RevitDB.ModelPathUtils.ConvertModelPathToUserVisiblePath(exFiRef.GetAbsolutePath());
+                    }
+                }
+            }
+            return pathString;
+        }
+
+        /// <summary>
+        /// Given a CADLinkType element, returns it's path.
+        /// </summary>
+        /// <param name="CADLink">A CADLinkType element</param>
+        /// <returns name="Path">The path of the CADLinkType element</returns>
+        public static string GetPathCADLinkTypes(RevitDB.CADLinkType CADLink)
+        {
+            string pathString = null;
+
+            if (CADLink != null)
+            {
+                if (CADLink.IsExternalFileReference())
+                {
+                    RevitDB.ExternalFileReference exFiRef = CADLink.GetExternalFileReference();
+                    RevitDB.ModelPath path = exFiRef.GetPath();
+
+                    if (path.ServerPath == true)
+                    {
+                        pathString = path.CentralServerPath;
+                    }
+                    else
+                    {
+                        pathString = RevitDB.ModelPathUtils.ConvertModelPathToUserVisiblePath(exFiRef.GetAbsolutePath());
+                    }
+                }
+            }
+            return pathString;
+        }
+
+        /// <summary>
+        /// Reloads the CAD Link from a new path.
+        /// </summary>
+        /// <param name="RevitLink">CADLinkType element</param>
+        /// <param name="path">new path to load link from.</param>
+        /// <returns name="RevitLink">The reloaded CADLinkType</returns>
+        public static RevitDB.RevitLinkType LoadFromRevitLinkType(RevitDB.RevitLinkType RevitLink, string path)
+        {
+            RevitDoc Document = RevitLink.Document;
+
+            if (RevitLink != null
+                && path != null
+                && RevitDB.RevitLinkType.IsLoaded(Document, RevitLink.Id))
+            {
+                RevitDB.ModelPath modelPath = RevitDB.ModelPathUtils.ConvertUserVisiblePathToModelPath(path);
+
+                string transactionName = "Reload Revit Link " + Document.Title;
+                if (Document.IsModifiable)
+                {
+                    TransactionManager.Instance.EnsureInTransaction(Document);
+                    RevitLink.LoadFrom(modelPath, new RevitDB.WorksetConfiguration());
+                    TransactionManager.Instance.TransactionTaskDone();
+                    //TransactionManager.Instance.ForceCloseTransaction();
+                }
+                else
+                {
+                    using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(Document))
+                    {
+                        trans.Start(transactionName);
+                        RevitLink.LoadFrom(modelPath, new RevitDB.WorksetConfiguration());
+                        trans.Commit();
+                    }
+                }
+                return RevitLink;
+            }
+            else { return null; }
+        }
+
+        /// <summary>
+        /// Reloads the CAD Link from a new path.
+        /// </summary>
+        /// <param name="CADLink">CADLinkType element</param>
+        /// <param name="path">new path to load link from.</param>
+        /// <returns name="CADLink">The reloaded CADLinkType</returns>
+        public static RevitDB.CADLinkType LoadFromCADLinkType(RevitDB.CADLinkType CADLink, string path)
+        {
+            RevitDoc Document = CADLink.Document;
+
+            if (CADLink != null
+                && path != null
+                && CADLink.IsExternalFileReference()
+                && CADLink.GetExternalFileReference().GetLinkedFileStatus() != RevitDB.LinkedFileStatus.Unloaded)
+            {
+                string transactionName = "Reload Revit Link " + Document.Title;
+                if (Document.IsModifiable)
+                {
+                    TransactionManager.Instance.EnsureInTransaction(Document);
+                    CADLink.LoadFrom(path);
+                    TransactionManager.Instance.TransactionTaskDone();
+                    //TransactionManager.Instance.ForceCloseTransaction();
+                }
+                else
+                {
+                    using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(Document))
+                    {
+                        trans.Start(transactionName);
+                        CADLink.LoadFrom(path);
+                        trans.Commit();
+                    }
+                }
+                return CADLink;
+            }
+            else { return null; }
         }
 
         /// <summary>
