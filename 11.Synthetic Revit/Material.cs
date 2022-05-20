@@ -125,10 +125,10 @@ namespace Synthetic.Revit
                     revitDB.AppearanceAssetElement assetElem = Material.Document.GetElement(appearanceAssetID) as revitDB.AppearanceAssetElement;
 
                     if (assetElem != null)
-                    {
-                        string transactionName = "Replace Bitmap Paths on Material " + Material.Name;
+                    {                        
                         revitDoc document = Material.Document;
 
+                        string transactionName = "Replace Bitmap Paths on Material " + Material.Name;
                         if (document.IsModifiable)
                         {
                             TransactionManager.Instance.EnsureInTransaction(document);
