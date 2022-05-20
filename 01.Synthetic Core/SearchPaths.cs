@@ -22,7 +22,7 @@ namespace Synthetic.Core
             set
             {
                 this.paths = value;
-                this.fileLibrary = this._GetFiles();
+                this.fileLibrary = this._GetFiles(value);
             }
         }
 
@@ -38,7 +38,7 @@ namespace Synthetic.Core
         public SearchPaths(List<string> Paths)
         {
             this.Paths = Paths;
-            this.fileLibrary = this._GetFiles();
+            this.fileLibrary = this._GetFiles(this.Paths);
         }
 
         /// <summary>
@@ -58,11 +58,11 @@ namespace Synthetic.Core
         /// Gets all the files in the search paths.  If more than one file has the same name, the only the first file found will be included.  This gives priority to paths listed first in the SearchPaths.
         /// </summary>
         /// <returns>A Dictionary with the file name as the key and the path as the value.</returns>
-        private Dictionary<string,string> _GetFiles()
+        private Dictionary<string,string> _GetFiles(List<string> Paths)
         {
             Dictionary<string, string> files = new Dictionary<string, string>();
 
-            foreach (string path in this.Paths)
+            foreach (string path in Paths)
             {
 
                 if (Directory.Exists(path))
