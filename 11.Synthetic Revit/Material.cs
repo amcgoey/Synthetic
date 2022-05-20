@@ -106,12 +106,14 @@ namespace Synthetic.Revit
         /// <param name="Material">A Autodesk.Revit.DB.Material element</param>
         /// <param name="searchPaths">A SearchPaths object that includes a prioritzed list of search paths</param>
         /// <param name="ReplaceRelativePaths">If True, replace files that are Relative Paths, otherwise don't replace.</param>
+        /// <param name="RunTest">If False, replace the paths. If True, the method runs a test replacement instead but doesn't actually edit the material.</param>
         /// <returns name="Paths Replaced">A list of the paths replaced</returns>
         /// <returns name="Paths NOT Replaced">A list of the paths that were left unchanged.</returns>
         [MultiReturn(new[] { "Paths Replaced", "Paths NOT Replaced" })]
-        public static Dictionary<string, object> ReplaceBitmapPaths (revitMaterial Material,
+        public static Dictionary<string, object> ReplaceBitmapPaths(revitMaterial Material,
             SearchPaths searchPaths,
-            bool ReplaceRelativePaths = false
+            bool ReplaceRelativePaths = false,
+            bool RunTest = false
             )
         {
             List<List<string>> results = null;
@@ -128,22 +130,29 @@ namespace Synthetic.Revit
                     {                        
                         revitDoc document = Material.Document;
 
-                        string transactionName = "Replace Bitmap Paths on Material " + Material.Name;
-                        if (document.IsModifiable)
+                        if (!RunTest)
                         {
-                            TransactionManager.Instance.EnsureInTransaction(document);
-                            results = _ReplaceBitmapPaths(assetElem, searchPaths, ReplaceRelativePaths);
-                            TransactionManager.Instance.TransactionTaskDone();
-                            //TransactionManager.Instance.ForceCloseTransaction();
+                            string transactionName = "Replace Bitmap Paths on Material " + Material.Name;
+                            if (document.IsModifiable)
+                            {
+                                TransactionManager.Instance.EnsureInTransaction(document);
+                                results = _ReplaceBitmapPaths(assetElem, searchPaths, ReplaceRelativePaths, RunTest);
+                                TransactionManager.Instance.TransactionTaskDone();
+                                //TransactionManager.Instance.ForceCloseTransaction();
+                            }
+                            else
+                            {
+                                using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
+                                {
+                                    trans.Start(transactionName);
+                                    results = _ReplaceBitmapPaths(assetElem, searchPaths, ReplaceRelativePaths, RunTest);
+                                    trans.Commit();
+                                }
+                            }
                         }
                         else
                         {
-                            using (Autodesk.Revit.DB.Transaction trans = new Autodesk.Revit.DB.Transaction(document))
-                            {
-                                trans.Start(transactionName);
-                                results = _ReplaceBitmapPaths(assetElem, searchPaths, ReplaceRelativePaths);
-                                trans.Commit();
-                            }
+                            results = _ReplaceBitmapPaths(assetElem, searchPaths, ReplaceRelativePaths, RunTest);
                         }
                     }
                 }
@@ -166,7 +175,12 @@ namespace Synthetic.Revit
             }
         }
 
-        private static List<List<string>> _ReplaceBitmapPaths (revitDB.AppearanceAssetElement assetElem, SearchPaths searchPaths, bool ReplaceRelativePaths)
+        private static List<List<string>> _ReplaceBitmapPaths (
+            revitDB.AppearanceAssetElement assetElem,
+            SearchPaths searchPaths,
+            bool ReplaceRelativePaths,
+            bool RunTest
+            )
         {
             List<string> pathsReplaced = new List<string>();
             List<string> pathsNotReplaced = new List<string>();
@@ -176,12 +190,21 @@ namespace Synthetic.Revit
 
             using (AppearanceAssetEditScope editScope = new AppearanceAssetEditScope(assetElem.Document))
             {
-                // returns an editable copy of the appearance asset
-                Asset editableAsset = editScope.Start(assetElem.Id);
+                Asset renderAsset = null;
 
-                for (int idx = 0; idx < editableAsset.Size; idx++)
+                if (!RunTest)
                 {
-                    AssetProperty property = editableAsset.Get(idx);
+                    // returns an editable copy of the appearance asset
+                    renderAsset = editScope.Start(assetElem.Id);
+                }
+                else
+                {
+                    renderAsset = assetElem.GetRenderingAsset();
+                }
+
+                for (int idx = 0; idx < renderAsset.Size; idx++)
+                {
+                    AssetProperty property = renderAsset.Get(idx);
                     Asset connectedAsset = property.GetSingleConnectedAsset();
 
                     if (connectedAsset != null)
@@ -217,9 +240,12 @@ namespace Synthetic.Revit
 
                                 // If a new path is found and it is a valid proerpty value, the edit the path.
                                 // Else, record that the path was not changed.
-                                if (newFilePath != null && bitmapProperty.IsValidValue(newFilePath))
+                                if (newFilePath != null)
                                 {
-                                    bitmapProperty.Value = newFilePath;
+                                    // Only make the change is Execute is True
+                                    if (!RunTest && bitmapProperty.IsValidValue(newFilePath))
+                                    { bitmapProperty.Value = newFilePath; }
+                                    
                                     pathsReplaced.Add(newFilePath);
                                 }
                                 else
@@ -230,7 +256,10 @@ namespace Synthetic.Revit
                         }
                     }
                 }
-                editScope.Commit(true);
+                if (!RunTest)
+                {
+                    editScope.Commit(true);
+                }
             }
             return new List<List<string>> { { pathsReplaced}, { pathsNotReplaced} };
         }
