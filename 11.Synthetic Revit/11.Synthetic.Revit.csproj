@@ -85,10 +85,13 @@
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoundingBox.cs" />
     <Compile Include="Category.cs" />
+    <Compile Include="KeyboardShortcutItem.cs" />
     <Compile Include="CollectorFilterRules.cs" />
     <Compile Include="CompoundStructure.cs" />
     <Compile Include="DesignOptions.cs" />
@@ -104,6 +107,7 @@
     <Compile Include="RevitLinkType.cs" />
     <Compile Include="Select.cs" />
     <Compile Include="Sheet.cs" />
+    <Compile Include="KeyboardShortcuts.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="Transform.cs" />
     <Compile Include="TransmissionData.cs" />

@@ -10,6 +10,12 @@
     <namespace name="Synthetic.Revit.CollectorFilterRules">
       <category>Synthetic.Revit.CollectorFilterRules</category>
     </namespace>
+    <namespace name="Synthetic.Revit.KeyboardShortcuts">
+      <category>Synthetic.Revit.KeyboardShortcuts</category>
+    </namespace>
+    <namespace name="Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts">
+      <category>Synthetic.Revit</category>
+    </namespace>
     <namespace name="Synthetic.Experimental">
       <category>Synthetic.Experimental</category>
     </namespace>

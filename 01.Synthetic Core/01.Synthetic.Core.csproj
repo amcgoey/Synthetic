@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Assemblies.cs" />
     <Compile Include="Dictionary.cs" />
+    <Compile Include="DynamoUtility.cs" />
     <Compile Include="Enum.cs" />
     <Compile Include="Json.cs" />
     <Compile Include="Object.cs" />

@@ -172,7 +172,9 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>echo "$(TargetDir)$(TargetName).*"
-del "$(TargetDir)$(TargetName).*"</PostBuildEvent>
+del "$(TargetDir)$(TargetName).*"
+
+"C:\Users\amcgoey\Dropbox\Revit Dynamo Synthetic R2\output\Copy to Dynamo Packages.bat"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
