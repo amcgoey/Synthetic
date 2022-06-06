@@ -55,6 +55,30 @@ namespace Synthetic.Core
         }
 
         /// <summary>
+        /// Searches the paths for a file and returns a relative path if found, otherwise returns null.
+        /// </summary>
+        /// <param name="File">A string that is the path to the a file in the search paths</param>
+        /// <returns name="RelativePath">A string of the relative file path if found.  If the file is not found, it returns null.  The relative path removes the search path from the FilePath</returns>
+        public string GetRelativeFilePath(string File)
+        {
+            string relativePath = null;
+
+            if (File != null && this.fileLibrary.ContainsKey(File))
+            {
+                string FilePath = this.fileLibrary[File];
+
+                foreach (string path in this.Paths)
+                {
+                    if (File.Contains(path))
+                    {
+                        relativePath = File.Replace(File, path);
+                    }
+                }
+            }
+            return relativePath;
+        }
+
+        /// <summary>
         /// Gets all the files in the search paths.  If more than one file has the same name, the only the first file found will be included.  This gives priority to paths listed first in the SearchPaths.
         /// </summary>
         /// <returns>A Dictionary with the file name as the key and the path as the value.</returns>
@@ -79,6 +103,25 @@ namespace Synthetic.Core
                 }
             }
             return files;
+        }
+
+        /// <summary>
+        /// Prints the Searchpaths as a string including all the files in the library.
+        /// </summary>
+        /// <returns name="string">Converts to a string.</returns>
+        public override string ToString()
+        {
+            Type t = typeof(SearchPaths);
+
+            string s = t.Namespace + "." + GetType().Name;
+
+            int i = 0;
+            foreach (KeyValuePair<string, string> file in this.fileLibrary)
+            {
+                s = s + string.Format("\n  {0} file-> \"{1}\" path-> \"{2}\"", i, file.Key, file.Value);
+                i++;
+            }
+            return s;
         }
     }
 }
