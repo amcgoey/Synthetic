@@ -1,7 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+
+using Autodesk.DesignScript.Runtime;
 
 namespace Synthetic.Core
 {
@@ -22,7 +25,7 @@ namespace Synthetic.Core
             set
             {
                 this.paths = value;
-                this.fileLibrary = this._GetFiles(value);
+                this.fileLibrary = this.GetFileLibrary(value);
             }
         }
 
@@ -38,7 +41,7 @@ namespace Synthetic.Core
         public SearchPaths(List<string> Paths)
         {
             this.Paths = Paths;
-            this.fileLibrary = this._GetFiles(this.Paths);
+            this.fileLibrary = this.GetFileLibrary(this.Paths);
         }
 
         /// <summary>
@@ -69,9 +72,9 @@ namespace Synthetic.Core
 
                 foreach (string path in this.Paths)
                 {
-                    if (File.Contains(path))
+                    if (FilePath.Contains(path))
                     {
-                        relativePath = File.Replace(File, path);
+                        relativePath = FilePath.Replace(path, "");
                     }
                 }
             }
@@ -79,10 +82,103 @@ namespace Synthetic.Core
         }
 
         /// <summary>
+        /// Checks if the FileLibrary contains the file.
+        /// </summary>
+        /// <param name="File">A string of the file name.</param>
+        /// <returns name="bool">Returns true if the file is in the File Library, false if it does not.</returns>
+        public bool ContainsFile (string File)
+        {
+            if (File != null && this.fileLibrary.ContainsKey(File))
+                return true;
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// Checks if the given path is a search path.
+        /// </summary>
+        /// <param name="Path">A string of the path</param>
+        /// <returns name="bool">Returns True if the path is a search path and false if it is not.</returns>
+        public bool ContainsPath (string Path)
+        {
+            if (Path != null && this.Paths.Contains(Path))
+                return true;
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// Copies the files given that are found in the Search Path File Library to a new location.
+        /// </summary>
+        /// <param name="Files">A list of file names to copy</param>
+        /// <param name="Path">The root path to copy</param>
+        /// <param name="Overwrite">If True, the method will overwrite any files if they already exist. If false, only new files will be copied.</param>
+        /// <returns name="Copied?">If true, the file was copied, otherwise it was not because it didn't exist or there was an trouble copying the file.</returns>
+        /// <returns name="Files Copied">A list of the file names copied</returns>
+        /// <returns name="Files Not Copied">A list of the file names that were not able to be copied</returns>
+        [MultiReturn(new[] { "Copied?", "Files Copied", "Files Not Copied" })]
+        public IDictionary CopyFiles (List<string> Files, string Path, bool Overwrite = false)
+        {
+            bool result;
+            List<bool> resultsBool = new List<bool>();
+            List<string> filesCopied = new List<string>();
+            List<string> filesNotCopied = new List<string>();
+
+
+            foreach (string file in Files)
+            {
+                result = false;
+                if (this.fileLibrary.ContainsKey(file))
+                {
+                    string relativeFilePath = GetRelativeFilePath(file);
+                    string relativePath = System.IO.Path.GetDirectoryName(relativeFilePath);
+                    string newPath = Path + relativePath;
+                    string newFilePath = newPath + "\\" + file;
+
+                    bool newPathExists = Directory.Exists(newPath);
+
+                    if (!newPathExists)
+                    {
+                        Directory.CreateDirectory(newPath);
+                        newPathExists = Directory.Exists(newPath);
+                    }
+                    if (newPathExists)
+                    {
+                        bool newFileExists = File.Exists(newFilePath);
+                        if (!newFileExists || (newFileExists && Overwrite))
+                        {
+
+                            File.Copy(this.FileLibrary[file], newFilePath, Overwrite);
+                            newFileExists = File.Exists(newFilePath);
+
+                            if (newFileExists)
+                            {
+                                result = true;
+                                resultsBool.Add(result);
+                                filesCopied.Add(file);
+                            }
+                        }
+                    }
+                }
+                if(result == false)
+                {
+                    resultsBool.Add(result);
+                    filesNotCopied.Add(file);
+                }
+            }
+            return new Dictionary<string, object>
+            {
+                {"Copied?", resultsBool},
+                {"Files Copied", filesCopied },
+                {"Files Not Copied", filesNotCopied }
+            };
+        }
+
+        /// <summary>
         /// Gets all the files in the search paths.  If more than one file has the same name, the only the first file found will be included.  This gives priority to paths listed first in the SearchPaths.
         /// </summary>
         /// <returns>A Dictionary with the file name as the key and the path as the value.</returns>
-        private Dictionary<string,string> _GetFiles(List<string> Paths)
+        private Dictionary<string,string> GetFileLibrary(List<string> Paths)
         {
             Dictionary<string, string> files = new Dictionary<string, string>();
 
@@ -115,12 +211,13 @@ namespace Synthetic.Core
 
             string s = t.Namespace + "." + GetType().Name;
 
-            int i = 0;
-            foreach (KeyValuePair<string, string> file in this.fileLibrary)
-            {
-                s = s + string.Format("\n  {0} file-> \"{1}\" path-> \"{2}\"", i, file.Key, file.Value);
-                i++;
-            }
+            // Disabled printing the contents of the File Library becuase it was taking a very long time given the number of files.
+            //int i = 0;
+            //foreach (KeyValuePair<string, string> file in this.fileLibrary)
+            //{
+            //    s = s + string.Format("\n  {0} file-> \"{1}\" path-> \"{2}\"", i, file.Key, file.Value);
+            //    i++;
+            //}
             return s;
         }
     }

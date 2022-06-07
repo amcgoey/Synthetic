@@ -282,7 +282,7 @@ namespace Synthetic.Revit
                 {
                     bitmapProperty = connectedAsset.FindByName(BumpMap.BumpmapBitmap) as AssetPropertyString;
                 }
-                if (bitmapProperty != null)
+                if (bitmapProperty != null && bitmapProperty.Value != "")
                 {
                     paths.Add(bitmapProperty.Value);
                 }                    
