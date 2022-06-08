@@ -7,6 +7,12 @@
     <namespace name="Synthetic.UI">
       <category>Synthetic.UI</category>
     </namespace>
+    <namespace name="Autodesk.Revit.DB">
+      <category>Synthetic.ΦNotUsed</category>
+    </namespace>
+    <namespace name="Autodesk.Revit.UI">
+      <category>Synthetic.ΦNotUsed</category>
+    </namespace>
     <namespace name="Synthetic.Experimental">
       <category>Synthetic.Experimental</category>
     </namespace>

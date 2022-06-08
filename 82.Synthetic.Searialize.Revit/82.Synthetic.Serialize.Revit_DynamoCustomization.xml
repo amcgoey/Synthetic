@@ -7,6 +7,9 @@
     <namespace name="Synthetic.Serialize.Revit">
       <category>Synthetic.Serialize.Revit</category>
     </namespace>
+    <namespace name="Autodesk.Revit.DB">
+      <category>Synthetic.ΦNotUsed</category>
+    </namespace>
     <namespace name="Synthetic.Experimental">
       <category>Synthetic.Experimental</category>
     </namespace>

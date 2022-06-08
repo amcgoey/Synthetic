@@ -132,7 +132,7 @@ namespace Synthetic.Revit
         /// <param name="Name">Name of the new Subcategory</param>
         /// <param name="document">Document to make the subcategory in.</param>
         /// <returns name="Subcategory">Returns the newly made subcategory</returns>
-        public static Category SubcategoryByName(string parentCategory,
+        public static Category SubcategoryByName(string ParentCategory,
             string Name,
             [DefaultArgument("Synthetic.Revit.Document.Current()")] RevitDoc document)
         {
@@ -142,9 +142,9 @@ namespace Synthetic.Revit
 
             RevitDB.Categories categories = document.Settings.Categories;
             RevitDB.Category pCat;
-            if (categories.Contains(parentCategory))
+            if (categories.Contains(ParentCategory))
             {
-                pCat = categories.get_Item(parentCategory);
+                pCat = categories.get_Item(ParentCategory);
 
                 RevitDB.CategoryNameMap categoryNameMap = pCat.SubCategories;
 

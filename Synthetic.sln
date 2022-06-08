@@ -17,6 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "99.Dynamo.Pkg", "99.Dynamo.
 		{58E24E04-01F6-43EC-B2D7-07A96BD5D1B9} = {58E24E04-01F6-43EC-B2D7-07A96BD5D1B9}
 		{5D72B274-2496-4CC8-B39E-AB4F517D39A4} = {5D72B274-2496-4CC8-B39E-AB4F517D39A4}
 		{9DE0F913-AFC3-41B1-B266-6E248CB6E984} = {9DE0F913-AFC3-41B1-B266-6E248CB6E984}
+		{D2A46CDF-1181-49B1-96EA-F76552E0EBC8} = {D2A46CDF-1181-49B1-96EA-F76552E0EBC8}
 		{E4B1863B-67EC-40F7-8E63-2917B4485E71} = {E4B1863B-67EC-40F7-8E63-2917B4485E71}
 	EndProjectSection
 EndProject
@@ -25,9 +26,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		License.txt = License.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "19.Synthetic.Pulldowns", "19.Synthetic.Pulldowns\19.Synthetic.Pulldowns.csproj", "{58E24E04-01F6-43EC-B2D7-07A96BD5D1B9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "19.Synthetic.Revit.Pulldowns", "19.Synthetic.Pulldowns\19.Synthetic.Revit.Pulldowns.csproj", "{58E24E04-01F6-43EC-B2D7-07A96BD5D1B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Synthetic.Customization", "Synthetic.Customization\Synthetic.Customization.csproj", "{1D4D5A4D-E64B-41BD-8793-3245D00318DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "98.Synthetic.Customization", "98.Synthetic.Customization\98.Synthetic.Customization.csproj", "{1D4D5A4D-E64B-41BD-8793-3245D00318DD}"
 	ProjectSection(ProjectDependencies) = postProject
 		{496ADF96-42B2-49E8-ADF2-4F5CF1E08511} = {496ADF96-42B2-49E8-ADF2-4F5CF1E08511}
 		{58E24E04-01F6-43EC-B2D7-07A96BD5D1B9} = {58E24E04-01F6-43EC-B2D7-07A96BD5D1B9}
@@ -36,9 +37,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Synthetic.Customization", "
 		{E4B1863B-67EC-40F7-8E63-2917B4485E71} = {E4B1863B-67EC-40F7-8E63-2917B4485E71}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "21.Synthetic.Serialize.Revit", "21.Synthetic.Searialize.Revit\21.Synthetic.Serialize.Revit.csproj", "{496ADF96-42B2-49E8-ADF2-4F5CF1E08511}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "82.Synthetic.Serialize.Revit", "82.Synthetic.Searialize.Revit\82.Synthetic.Serialize.Revit.csproj", "{496ADF96-42B2-49E8-ADF2-4F5CF1E08511}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "09.Synthetic.UI", "09.Synthetic.UI\09.Synthetic.UI.csproj", "{9DE0F913-AFC3-41B1-B266-6E248CB6E984}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "12.Synthetic.UI", "12.Synthetic.UI\12.Synthetic.UI.csproj", "{9DE0F913-AFC3-41B1-B266-6E248CB6E984}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "81.Synthetic.Core.Json", "81.Synthetic.Core.Json\81.Synthetic.Core.Json.csproj", "{D2A46CDF-1181-49B1-96EA-F76552E0EBC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,6 +77,10 @@ Global
 		{9DE0F913-AFC3-41B1-B266-6E248CB6E984}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DE0F913-AFC3-41B1-B266-6E248CB6E984}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DE0F913-AFC3-41B1-B266-6E248CB6E984}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2A46CDF-1181-49B1-96EA-F76552E0EBC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2A46CDF-1181-49B1-96EA-F76552E0EBC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2A46CDF-1181-49B1-96EA-F76552E0EBC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2A46CDF-1181-49B1-96EA-F76552E0EBC8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
