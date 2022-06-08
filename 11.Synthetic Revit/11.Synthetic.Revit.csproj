@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+    None
+  </ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E4B1863B-67EC-40F7-8E63-2917B4485E71}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Synthetic.Revit</RootNamespace>
+    <AssemblyName>11.Synthetic.Revit</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\output\Synthetic\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\output\Synthetic\bin\11.Synthetic.Revit.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CoreNodeModels">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Revit 2020\AddIns\DynamoForRevit\nodes\CoreNodeModels.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DSCoreNodes">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Revit 2020\AddIns\DynamoForRevit\DSCoreNodes.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DSRevitNodesUI">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Revit 2020\AddIns\DynamoForRevit\Revit\nodes\DSRevitNodesUI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DynamoCore">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Revit 2020\AddIns\DynamoForRevit\DynamoCore.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DynamoServices">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Revit 2020\AddIns\DynamoForRevit\DynamoServices.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DynamoUtilities">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Revit 2020\AddIns\DynamoForRevit\DynamoUtilities.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ProtoGeometry">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Revit 2020\AddIns\DynamoForRevit\ProtoGeometry.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPI">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Revit 2020\RevitAPI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPIUI">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Revit 2020\RevitAPIUI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitNodes">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Revit 2020\AddIns\DynamoForRevit\Revit\RevitNodes.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitServices">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Revit 2020\AddIns\DynamoForRevit\Revit\RevitServices.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Serialization" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BoundingBox.cs" />
+    <Compile Include="Category.cs" />
+    <Compile Include="KeyboardShortcutItem.cs" />
+    <Compile Include="CollectorFilterRules.cs" />
+    <Compile Include="CompoundStructure.cs" />
+    <Compile Include="DesignOptions.cs" />
+    <Compile Include="Document.cs" />
+    <Compile Include="ElementId.cs" />
+    <Compile Include="Elements.cs" />
+    <Compile Include="Color.cs" />
+    <Compile Include="Collector.cs" />
+    <Compile Include="CollectorElementFilter.cs" />
+    <Compile Include="LinePatternElement.cs" />
+    <Compile Include="Lines.cs" />
+    <Compile Include="Material.cs" />
+    <Compile Include="RevitLinkType.cs" />
+    <Compile Include="Select.cs" />
+    <Compile Include="Sheet.cs" />
+    <Compile Include="KeyboardShortcuts.cs" />
+    <Compile Include="Tools.cs" />
+    <Compile Include="Transform.cs" />
+    <Compile Include="TransmissionData.cs" />
+    <Compile Include="View.cs" />
+    <Compile Include="ViewOrientation.cs" />
+    <Compile Include="ViewTemplates.cs" />
+    <Compile Include="WallType.cs" />
+    <Compile Include="Worksets.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XYZ.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="11.Synthetic.Revit_DynamoCustomization.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="11.Synthetic.Revit.Migrations.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\01.Synthetic Core\01.Synthetic.Core.csproj">
+      <Project>{5d72b274-2496-4cc8-b39e-ab4f517d39a4}</Project>
+      <Name>01.Synthetic.Core</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

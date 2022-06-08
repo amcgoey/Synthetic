@@ -1,0 +1,2526 @@
+{
+  "Uuid": "dc2bc9a0-63a6-4c97-9ebc-52a3395803e6",
+  "IsCustomNode": false,
+  "Description": "",
+  "Name": "Example Keyboardshortcuts",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts.ConvertFromXML@string",
+      "Id": "21366d33e099477e9254d5fa1c64b1d1",
+      "Inputs": [
+        {
+          "Id": "71cdfb86750440ceb8824168dfb73a6c",
+          "Name": "Xml",
+          "Description": "A string of the XML representing a KeyboardShortcuts bojects\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "c3d3ea70ab5146adaad2e9c9a6a5eeac",
+          "Name": "KeyboardShortcuts",
+          "Description": "A KeyboardShortcuts object",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Deserializes a KeyboardShortcuts object from an string of XML\n\nKeyboardShortcuts.ConvertFromXML (Xml: string): KeyboardShortcuts"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.Filename, CoreNodeModels",
+      "HintPath": "G:\\Shared drives\\INC Library\\INC Software\\Revit\\Support\\Keyboard Shortucts Customization\\KeyboardShortcuts Default 2022.xml",
+      "InputValue": "G:\\Shared drives\\INC Library\\INC Software\\Revit\\Support\\Keyboard Shortucts Customization\\KeyboardShortcuts Default 2022.xml",
+      "NodeType": "ExtensionNode",
+      "Id": "69a4491dd6c74e36bd4f887a15f04fd1",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "cc41d80dd0c04569ac15a6db582ab8cc",
+          "Name": "",
+          "Description": "File Path",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows you to select a file on the system to get its file path."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.IO.FileSystem.ReadText@var",
+      "Id": "9004ad5439ba432aa011d827247af07a",
+      "Inputs": [
+        {
+          "Id": "349d9d6cc061450e82be5aa2789ba15a",
+          "Name": "file",
+          "Description": "File object to read text from\n\nvar",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "cad5808be95e4376873cdc45241aedba",
+          "Name": "string",
+          "Description": "Contents of the text file.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Reads a text file and returns the contents as a string.\n\nFileSystem.ReadText (file: var): string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.FileObject, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "3187609ec92a40f6b99ba38a1caf77e5",
+      "Inputs": [
+        {
+          "Id": "6bfcac333dd249c9b91b1073326aa6fa",
+          "Name": "path",
+          "Description": "Path to the file.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "51f5f745aef5499f8c34ee6de091348f",
+          "Name": "file",
+          "Description": "File object",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a file object from a path."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts.ConvertToXML",
+      "Id": "ac79030437d44fff99275c8ad0dd265c",
+      "Inputs": [
+        {
+          "Id": "426ecce201bc4ff1af061fbd17cb3f89",
+          "Name": "keyboardShortcuts",
+          "Description": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "9227523759de4b89a7c1adaf4eea7938",
+          "Name": "Xml",
+          "Description": "Returns a string of the XML representation of the shortucts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Converts the Keyboard Shortcuts to XML\n\nKeyboardShortcuts.ConvertToXML ( ): string"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "\"Duplicate View:Duplicate with Detailing\";\n\"ID_DUPLICATE_WITH_DETAILING\";\n\"DD\";\n\"View&gtCreate\";",
+      "Id": "ec23319b440a449db53c5094c8b57494",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "5f5a0346a2994daf9c67971149b1629a",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "345dd9d140984745be51996c104f4051",
+          "Name": "",
+          "Description": "Value of expression at line 2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "6f85088dbcd747108a82d2affdfcd51a",
+          "Name": "",
+          "Description": "Value of expression at line 3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "0973b0cce3944344a2a02cce107795ee",
+          "Name": "",
+          "Description": "Value of expression at line 4",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "\"DWG\";\n\"ID_EXPORT_DWG\";\n\"DWG\";\n\"Application Menu&gt Export &gtCAD Formats\";",
+      "Id": "50eb6ea0a8264fbea4217acbff960208",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "482bf7df8f1c49819791d3286b531a82",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "56107d48b59048e298c9f237d11bae8b",
+          "Name": "",
+          "Description": "Value of expression at line 2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "f6fb8ba5b4604bf9bc6ccddf6a9c32c8",
+          "Name": "",
+          "Description": "Value of expression at line 3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "b1ae0a64813d4e7996b498d4ca983bcd",
+          "Name": "",
+          "Description": "Value of expression at line 4",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.CreateList, CoreNodeModels",
+      "VariableInputPorts": true,
+      "NodeType": "ExtensionNode",
+      "Id": "2277afca621247fe9e6d3c0fe09ab927",
+      "Inputs": [
+        {
+          "Id": "95db404b9619447ba8c8fc88fb595328",
+          "Name": "item0",
+          "Description": "Item Index #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "6dc4915f3e144122bc5460cb770919bd",
+          "Name": "item1",
+          "Description": "Item Index #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "6ec69bed88274054ba5514e89d9a7592",
+          "Name": "item2",
+          "Description": "Item Index #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "ec898a45f83c4d85a5adfb0015a3462b",
+          "Name": "list",
+          "Description": "A list (type: var[]..[])",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Makes a new list out of the given inputs"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "6dfc92f8f1c0487faba1df5ac19f802d",
+      "Inputs": [
+        {
+          "Id": "e1e2e8e340e74775b599b02b3fa648fc",
+          "Name": "",
+          "Description": "Node to show output from",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "d133ff898ab841c280b4b8842df32132",
+          "Name": "",
+          "Description": "Node output",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the node's output"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcutItem.KeyboardShortcutItem@string,string,string,string",
+      "Id": "3097f1ca538e4b9b96904adade7680c1",
+      "Inputs": [
+        {
+          "Id": "a2ad3236eeea4e5e9cd976e1baf395bd",
+          "Name": "commandName",
+          "Description": "A revit command\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "24375c9c7ddd469cb8ada5d6c5796b43",
+          "Name": "CommandId",
+          "Description": "The Revit Command ID\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a05be176a1254442b13c4f0c6f840def",
+          "Name": "shortcuts",
+          "Description": "A string of shortcuts with multiple shortcuts delimited by a '#' character\n\nstring\nDefault value : Synthetic.Core.DynamoUtility.GetNull() (disabled)",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "e6b9514d4f3748d3965c077b5d95b20e",
+          "Name": "path",
+          "Description": "The namespace path to the command\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "6ab414c3f9c94eb797b49a30b2fefb48",
+          "Name": "KeyboardShortcutItem",
+          "Description": "KeyboardShortcutItem",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Creates a new Keyboard Shortcut Item.\n\nKeyboardShortcutItem.KeyboardShortcutItem (commandName: string, CommandId: string, shortcuts: string = Synthetic.Core.DynamoUtility.GetNull(), path: string): KeyboardShortcutItem"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcutItem.KeyboardShortcutItem@string,string,string,string",
+      "Id": "3ec48d704cf346beb5bedcfcc88a289e",
+      "Inputs": [
+        {
+          "Id": "d0c602d0191a43f694234c3ac24db343",
+          "Name": "commandName",
+          "Description": "A revit command\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "192c01095ccc416e8e943a9775bb807d",
+          "Name": "CommandId",
+          "Description": "The Revit Command ID\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "4c5a6402152243bf90f7e0c18c98e3e1",
+          "Name": "shortcuts",
+          "Description": "A string of shortcuts with multiple shortcuts delimited by a '#' character\n\nstring\nDefault value : Synthetic.Core.DynamoUtility.GetNull() (disabled)",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "fd583fa995a64579884a5921a7c48288",
+          "Name": "path",
+          "Description": "The namespace path to the command\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "77218ad5fe6f475c9ab7e7db5344fb6c",
+          "Name": "KeyboardShortcutItem",
+          "Description": "KeyboardShortcutItem",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Creates a new Keyboard Shortcut Item.\n\nKeyboardShortcutItem.KeyboardShortcutItem (commandName: string, CommandId: string, shortcuts: string = Synthetic.Core.DynamoUtility.GetNull(), path: string): KeyboardShortcutItem"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts.KeyboardShortcuts@Synthetic.Revit.KeyboardShortcuts.KeyboardShortcutItem[]",
+      "Id": "5315e8089ec84850b1ccc85137ecb711",
+      "Inputs": [
+        {
+          "Id": "272984933e594d959abf03fb1b14c2c5",
+          "Name": "shortcuts",
+          "Description": "KeyboardShortcutItem[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "a4aac6a6c66b4c4f8a491fd6cc9b7c26",
+          "Name": "KeyboardShortcuts",
+          "Description": "KeyboardShortcuts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "KeyboardShortcuts.KeyboardShortcuts (shortcuts: KeyboardShortcutItem[]): KeyboardShortcuts"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts.ConvertFromXML@string",
+      "Id": "f7b2d40d2e2d46b199dff88182ec5cf2",
+      "Inputs": [
+        {
+          "Id": "bcb658346c674c97b3e7a8ae54e3ad22",
+          "Name": "Xml",
+          "Description": "A string of the XML representing a KeyboardShortcuts bojects\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "78e8cf25bdcd494c9f683a3ac7269c9e",
+          "Name": "KeyboardShortcuts",
+          "Description": "A KeyboardShortcuts object",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Deserializes a KeyboardShortcuts object from an string of XML\n\nKeyboardShortcuts.ConvertFromXML (Xml: string): KeyboardShortcuts"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "cfe1dc3156c34213b80d15ffea0a089e",
+      "Inputs": [
+        {
+          "Id": "821ce62eee4c46ee95c8d18aff385ce1",
+          "Name": "",
+          "Description": "Node to show output from",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "af9e30d95b6c46ba8ad44f83e60da1b8",
+          "Name": "",
+          "Description": "Node output",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the node's output"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts.ConvertToXML",
+      "Id": "0709590500074ead97bcf94de173bfe9",
+      "Inputs": [
+        {
+          "Id": "46b4bede5b404d118e9e1984992b62b3",
+          "Name": "keyboardShortcuts",
+          "Description": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b512d9909d474af0b35a876fbb3f423f",
+          "Name": "Xml",
+          "Description": "Returns a string of the XML representation of the shortucts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Converts the Keyboard Shortcuts to XML\n\nKeyboardShortcuts.ConvertToXML ( ): string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "d73b087b50624f0993e0df1b986454b3",
+      "Inputs": [
+        {
+          "Id": "9997d1f80f104ee8bd3b2170a2148e6f",
+          "Name": "",
+          "Description": "Node to show output from",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "60c6d2104005428e8bff7838bd59a22f",
+          "Name": "",
+          "Description": "Node output",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the node's output"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts.ShortcutItems",
+      "Id": "32d0c4db0fd0447ca8b220289574f6f9",
+      "Inputs": [
+        {
+          "Id": "e1b795f8e7a946d0bc778f917e112a3b",
+          "Name": "keyboardShortcuts",
+          "Description": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "1440da99b9834966ab2197a8a231a0f3",
+          "Name": "KeyboardShortcutItem[]",
+          "Description": "KeyboardShortcutItem[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "List of ShortcutItems\n\nKeyboardShortcuts.ShortcutItems: KeyboardShortcutItem[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcutItem.ShortcutList",
+      "Id": "0495b409ec7744da87cd02262ef94540",
+      "Inputs": [
+        {
+          "Id": "286cf624e58446d2acdad17ba348e4d2",
+          "Name": "keyboardShortcutItem",
+          "Description": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcutItem",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "8bf7e1fa30d845068412252ba4baf516",
+          "Name": "string[]",
+          "Description": "string[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "The Shortcuts as a list.\n\nKeyboardShortcutItem.ShortcutList: string[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcutItem.ShortcutList",
+      "Id": "faa0b4c038b84355b00a1c9cbe7e2608",
+      "Inputs": [
+        {
+          "Id": "f7f2c03387764b57b8cc6eddd0a38e83",
+          "Name": "keyboardShortcutItem",
+          "Description": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcutItem",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "95477b55b1d941539ca393c8a89c0f63",
+          "Name": "string[]",
+          "Description": "string[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "The Shortcuts as a list.\n\nKeyboardShortcutItem.ShortcutList: string[]"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "3825e8301cc94bd98df1de5564426b38",
+      "Inputs": [
+        {
+          "Id": "4c013bb3632449e9907b99e8859e8d46",
+          "Name": "",
+          "Description": "Node to show output from",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "6d630783b77e40a0a30f48120024131d",
+          "Name": "",
+          "Description": "Node output",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the node's output"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcutItem.KeyboardShortcutItem@string,string,string,string",
+      "Id": "8861587869104e929f5fb57f98148b06",
+      "Inputs": [
+        {
+          "Id": "ff3e8bdce7be4a7493216dbe50912ce4",
+          "Name": "commandName",
+          "Description": "A revit command\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "80d51a099f4b46a598dcc5cb9a62081f",
+          "Name": "CommandId",
+          "Description": "The Revit Command ID\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "6b6a1fd881c94dee8f9c8d4a6b656919",
+          "Name": "shortcuts",
+          "Description": "A string of shortcuts with multiple shortcuts delimited by a '#' character\n\nstring\nDefault value : Synthetic.Core.DynamoUtility.GetNull()",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "e2b65aa14c1c49b4bc07cdc78851aaf8",
+          "Name": "path",
+          "Description": "The namespace path to the command\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "d28b3ab133cb4b51afd4fde5227717ba",
+          "Name": "KeyboardShortcutItem",
+          "Description": "KeyboardShortcutItem",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Creates a new Keyboard Shortcut Item.\n\nKeyboardShortcutItem.KeyboardShortcutItem (commandName: string, CommandId: string, shortcuts: string = Synthetic.Core.DynamoUtility.GetNull(), path: string): KeyboardShortcutItem"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcutItem.ToShortcutString@string[],string",
+      "Id": "19fc3d0c92084415a76a852e359db1e6",
+      "Inputs": [
+        {
+          "Id": "d740c810a6ee4c47823f43df1f9f166f",
+          "Name": "ShortCutList",
+          "Description": "List of shortcut strings\n\nstring[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "b4d00c04af884fa1adc651e0931d5bc1",
+          "Name": "seperator",
+          "Description": "A string used to delimit the shortcuts\n\nstring\nDefault value : \"#\"",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "d960d8104c254d10a71802b83871bdeb",
+          "Name": "ShortcutString",
+          "Description": "A delimited string of shortcuts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Returns the shortcuts seperated by the seperator string\n\nKeyboardShortcutItem.ToShortcutString (ShortCutList: string[], seperator: string = \"#\"): string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "64c920cdc0144c1c942ea52bd7615e63",
+      "Inputs": [
+        {
+          "Id": "774be9287b794a019bd63c779a879227",
+          "Name": "",
+          "Description": "Node to show output from",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "6328f4f5a3f843a5b971027dc1a1f711",
+          "Name": "",
+          "Description": "Node output",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the node's output"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts.RemoveEmptyShortcuts",
+      "Id": "6986552b468940c69560813af8a99b98",
+      "Inputs": [
+        {
+          "Id": "42797eb0064b41efaea9266342f9c53b",
+          "Name": "keyboardShortcuts",
+          "Description": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "1b061b043fe243bf888d0fafe72cf56d",
+          "Name": "KeyboardShortcuts",
+          "Description": "Creates a new KeyboardShortcut object with all the empty shortcut commands removed.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Creates a new KeyboardShortcut object with all the empty shortcut commands removed.\n\nKeyboardShortcuts.RemoveEmptyShortcuts ( ): KeyboardShortcuts"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts.RemoveShortcut@Synthetic.Revit.KeyboardShortcuts.KeyboardShortcutItem[]",
+      "Id": "1917232c3e5e4fe18849f54df7a62f3a",
+      "Inputs": [
+        {
+          "Id": "404321ea673f477b800af2f98ca95f0d",
+          "Name": "keyboardShortcuts",
+          "Description": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "e91464b28a384d28aaeb101f436917b0",
+          "Name": "ShortcutItems",
+          "Description": "A KeyboardShortcutItem with shortcuts to remove.\n\nKeyboardShortcutItem[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "a3defb4d4a284f87b265d2b43a19d7fa",
+          "Name": "KeyboardShortcuts",
+          "Description": "The modified KeyboardShortcut object",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "1b4b5ddc3b19447ab5a1e553bc52525d",
+          "Name": "Success",
+          "Description": "Returns true if the shortcut was removed.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Removes a shortcut from the list.\n\nKeyboardShortcuts.RemoveShortcut (ShortcutItems: KeyboardShortcutItem[]): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts.ToDictionaryByCommand",
+      "Id": "a714d90cbb654034bd318422088ff241",
+      "Inputs": [
+        {
+          "Id": "818dd5d3ba4d4198be0330aed6c924ae",
+          "Name": "keyboardShortcuts",
+          "Description": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b65e6973199b43a0bc7fdc7e5783cde6",
+          "Name": "Command Dictionary",
+          "Description": "Creates a Dictionary keyed to the command name.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Creates a Dictionary keyed to the command name.\n\nKeyboardShortcuts.ToDictionaryByCommand ( ): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts.ToDictionaryByShortcut",
+      "Id": "742233c3be4d4fd4afcf215ec05e5394",
+      "Inputs": [
+        {
+          "Id": "4e46b8dc1afd4a61bd20861e83fc005e",
+          "Name": "keyboardShortcuts",
+          "Description": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "0d3570c7ec974345a5563f04011c4196",
+          "Name": "Shortcut Dictionary",
+          "Description": "A dictionary keyed to the shortcuts.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Creates a dictionary with keys by shortcut and a list of commands using that shortcut. Commands without a shortcut are listed under \"NO SHORTCUT\"\n\nKeyboardShortcuts.ToDictionaryByShortcut ( ): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts.GetDuplicateShortcuts",
+      "Id": "8bfef45a60c04bc5886ef9d854a54a28",
+      "Inputs": [
+        {
+          "Id": "957be84524be44a999121021259f159b",
+          "Name": "keyboardShortcuts",
+          "Description": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "7bb45507573d40b7a31143b1991c6742",
+          "Name": "var[]..[]",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "KeyboardShortcuts.GetDuplicateShortcuts ( ): var[]..[]"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "478b559af047452a97c4fd253e305ac5",
+      "Inputs": [
+        {
+          "Id": "ec6344699d664c4b95686f86d9d74f9e",
+          "Name": "",
+          "Description": "Node to show output from",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "8bf1d254bb0e4e41a17bfb8728cc3f32",
+          "Name": "",
+          "Description": "Node output",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the node's output"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "d[\"!NO SHORTCUT!\"];",
+      "Id": "871f0ea077604ec1867b74639f1f8535",
+      "Inputs": [
+        {
+          "Id": "5d70afac6f4d493385ad06df4da61e27",
+          "Name": "d",
+          "Description": "d",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "19b61797df714e3496738d668410154b",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "dc00aadd6d7f4afbb976a8733b67f22e",
+      "Inputs": [
+        {
+          "Id": "ea3805cbe1ba427c983a830a4597131f",
+          "Name": "",
+          "Description": "Node to show output from",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "731655ce69054d9f99016ee915c26b36",
+          "Name": "",
+          "Description": "Node output",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the node's output"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "b19c3f9b0936461992655cbc6ce5b8df",
+      "Inputs": [
+        {
+          "Id": "6699980336da4dffb5b0f42447da779b",
+          "Name": "",
+          "Description": "Node to show output from",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "e961159efa5946c49fd4a1d489550732",
+          "Name": "",
+          "Description": "Node output",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the node's output"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "ae59ebfdf8b04f929e0501cb0767b8b3",
+      "Inputs": [
+        {
+          "Id": "150b73501202448da0189c2db5108bc8",
+          "Name": "",
+          "Description": "Node to show output from",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "4bfb79643690494ca270e374f311cb46",
+          "Name": "",
+          "Description": "Node output",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the node's output"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "a2bcc3c545cd43e9ae2e891b2215ceae",
+      "Inputs": [
+        {
+          "Id": "ba5ca6fcdaae401a82d255fbd7300204",
+          "Name": "",
+          "Description": "Node to show output from",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "a9fce5845ba74d6cb0cf14989392e64f",
+          "Name": "",
+          "Description": "Node output",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the node's output"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts.ToDictionaryByShortcut",
+      "Id": "66aba7cb3a35426faed71ff4b259e366",
+      "Inputs": [
+        {
+          "Id": "5a14e74bf00b40c89bfd0cd8e5962a6b",
+          "Name": "keyboardShortcuts",
+          "Description": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "456feb1e2f30443eb6f1c5586cdb6b54",
+          "Name": "Shortcut Dictionary",
+          "Description": "A dictionary keyed to the shortcuts.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Creates a dictionary with keys by shortcut and a list of commands using that shortcut. Commands without a shortcut are listed under \"NO SHORTCUT\"\n\nKeyboardShortcuts.ToDictionaryByShortcut ( ): var[]..[]"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "3afa01264915424cbf4fd7f64551e124",
+      "Inputs": [
+        {
+          "Id": "fe2cfe3db99b4187a6d411e021558223",
+          "Name": "",
+          "Description": "Node to show output from",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "698deaaa6e2142a1abee5a770f20a48d",
+          "Name": "",
+          "Description": "Node output",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the node's output"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "d[\"!NO SHORTCUT!\"];",
+      "Id": "501250eb4a4b4b2fb54c7f9a86b7acb3",
+      "Inputs": [
+        {
+          "Id": "516045a776a84d388835f68dcd29636a",
+          "Name": "d",
+          "Description": "d",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "72baf99ab0c94041ad919d12324d4dd4",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts.AddShortcut@Synthetic.Revit.KeyboardShortcuts.KeyboardShortcutItem[]",
+      "Id": "847be9e149ff46678ec20c871ff3d81f",
+      "Inputs": [
+        {
+          "Id": "56c35ddf2004430abe1c29157241c03e",
+          "Name": "keyboardShortcuts",
+          "Description": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a2052a86c05c4ae5a279d96ce415e212",
+          "Name": "ShortcutItems",
+          "Description": "A KeyboardShortcutItem with shortcuts to add.\n\nKeyboardShortcutItem[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "ebe0f4d93f1a4e86bf50211b54f7a230",
+          "Name": "KeyboardShortcuts",
+          "Description": "The modified KeyboardShortcut object",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "0ea22353e8e74c328f1ee94aaa8d66c8",
+          "Name": "Success",
+          "Description": "Returns true if the shortcut was added.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Add a shortcut to the list. It will merge the shortcut into any existing shortcuts.\n\nKeyboardShortcuts.AddShortcut (ShortcutItems: KeyboardShortcutItem[]): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "\"Image\";\n\"ID_FILE_PRINT_TO_IMAGE\";\n\"IM\";\n\"Application Menu&gt\";",
+      "Id": "a213dea54c1a433784fc998a8d97d4de",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "26e6644b2e9646e181c12add60334299",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "7d864d9308924c2582ad17574a0542c5",
+          "Name": "",
+          "Description": "Value of expression at line 2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a58830077e4e435f9047290f19d691aa",
+          "Name": "",
+          "Description": "Value of expression at line 3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "27e7b5ad02ad44f7a78addac10f0b075",
+          "Name": "",
+          "Description": "Value of expression at line 4",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcutItem.KeyboardShortcutItem@string,string,string,string",
+      "Id": "7efa3b362684400191aef641887ce738",
+      "Inputs": [
+        {
+          "Id": "27fea34341e54f3a8ce581c0ee2c9b12",
+          "Name": "commandName",
+          "Description": "A revit command\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "ac9224211ea14a14b88263b96c9a7324",
+          "Name": "CommandId",
+          "Description": "The Revit Command ID\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "5d032d7bfe0c43d99e92e58b4ed3f842",
+          "Name": "shortcuts",
+          "Description": "A string of shortcuts with multiple shortcuts delimited by a '#' character\n\nstring\nDefault value : Synthetic.Core.DynamoUtility.GetNull()",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "9fadd487af4144a08d0ae5f2bfd81d0b",
+          "Name": "path",
+          "Description": "The namespace path to the command\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "170b56e8acb546bab6962fbb6952f2ac",
+          "Name": "KeyboardShortcutItem",
+          "Description": "KeyboardShortcutItem",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Creates a new Keyboard Shortcut Item.\n\nKeyboardShortcutItem.KeyboardShortcutItem (commandName: string, CommandId: string, shortcuts: string = Synthetic.Core.DynamoUtility.GetNull(), path: string): KeyboardShortcutItem"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "\"Cut\";\n\"ID_CUT_HOST\";\n\"CT#CG\";\n\"Modify&gtGeometry\";",
+      "Id": "c4721fb6ca344fd89bd4140822c50cff",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "33ba7fa3013846a084eda11c6bfe01ff",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "05efc8380a9e4365b503ffa833064572",
+          "Name": "",
+          "Description": "Value of expression at line 2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "53ff081133ca405d8b3907a09873cd7b",
+          "Name": "",
+          "Description": "Value of expression at line 3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "ab9a261564024c7d81b0e7518eeb7dba",
+          "Name": "",
+          "Description": "Value of expression at line 4",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "c44fa633037541529b8d38973cf6f804",
+      "Inputs": [
+        {
+          "Id": "70b1b03bf28740d4a2c9c8a00d11ef48",
+          "Name": "",
+          "Description": "Node to show output from",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b4338e7484c94bf69a9f3ada32232b25",
+          "Name": "",
+          "Description": "Node output",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the node's output"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "cb7318a0b65f4ec6bde75079cd86141d",
+      "Inputs": [
+        {
+          "Id": "ed3b4724d2d649229825626f9a7847f5",
+          "Name": "",
+          "Description": "Node to show output from",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "ce96299b770142f6b58107eca3dbd17a",
+          "Name": "",
+          "Description": "Node output",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the node's output"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "11f2503824e9433f91f82c32d7adc783",
+      "Inputs": [
+        {
+          "Id": "f2dd1e93d62c41a9b3028972eb7e84c6",
+          "Name": "",
+          "Description": "Node to show output from",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "0ca7e5343c384476a5137c60f943202a",
+          "Name": "",
+          "Description": "Node output",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the node's output"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts.ToDictionaryByShortcut",
+      "Id": "0df5c31470634815bb2e3c4983942113",
+      "Inputs": [
+        {
+          "Id": "5e18f15365f9420b83c049e13e5fb832",
+          "Name": "keyboardShortcuts",
+          "Description": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "3d76922b9727420796ea221df754b515",
+          "Name": "Shortcut Dictionary",
+          "Description": "A dictionary keyed to the shortcuts.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Creates a dictionary with keys by shortcut and a list of commands using that shortcut. Commands without a shortcut are listed under \"NO SHORTCUT\"\n\nKeyboardShortcuts.ToDictionaryByShortcut ( ): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts.ConvertToXML",
+      "Id": "1a7e4bed551d498d872ca02f7919a772",
+      "Inputs": [
+        {
+          "Id": "fcc9665ace3d4161955ba0a95dcd9dd4",
+          "Name": "keyboardShortcuts",
+          "Description": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "1846840ea80b405b8d02e5db0ac1e71a",
+          "Name": "Xml",
+          "Description": "Returns a string of the XML representation of the shortucts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Converts the Keyboard Shortcuts to XML\n\nKeyboardShortcuts.ConvertToXML ( ): string"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts.ConvertToXML",
+      "Id": "02744d4952b44109b88864f094b63b4a",
+      "Inputs": [
+        {
+          "Id": "0d6a57bcad094bf78b35a63f70b1352f",
+          "Name": "keyboardShortcuts",
+          "Description": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "35f79503c2824cc38e6f6a0fe047fa5c",
+          "Name": "Xml",
+          "Description": "Returns a string of the XML representation of the shortucts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Converts the Keyboard Shortcuts to XML\n\nKeyboardShortcuts.ConvertToXML ( ): string"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts.RemoveEmptyShortcuts",
+      "Id": "43f350715152477fa5aac93bf0880e8f",
+      "Inputs": [
+        {
+          "Id": "883ec2ca0f71466e9b29c2aaa4fd23f8",
+          "Name": "keyboardShortcuts",
+          "Description": "Synthetic.Revit.KeyboardShortcuts.KeyboardShortcuts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "4125a999a7e24a7d98c0e99043586aed",
+          "Name": "KeyboardShortcuts",
+          "Description": "Creates a new KeyboardShortcut object with all the empty shortcut commands removed.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Creates a new KeyboardShortcut object with all the empty shortcut commands removed.\n\nKeyboardShortcuts.RemoveEmptyShortcuts ( ): KeyboardShortcuts"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "c3d3ea70ab5146adaad2e9c9a6a5eeac",
+      "End": "46b4bede5b404d118e9e1984992b62b3",
+      "Id": "efbff6b083f846ca95645f613d5baef2"
+    },
+    {
+      "Start": "c3d3ea70ab5146adaad2e9c9a6a5eeac",
+      "End": "818dd5d3ba4d4198be0330aed6c924ae",
+      "Id": "3aea5485c3d7465b8e917821e1dc4a65"
+    },
+    {
+      "Start": "c3d3ea70ab5146adaad2e9c9a6a5eeac",
+      "End": "e1b795f8e7a946d0bc778f917e112a3b",
+      "Id": "1185e24ea3d44e48903c94361d9bff16"
+    },
+    {
+      "Start": "c3d3ea70ab5146adaad2e9c9a6a5eeac",
+      "End": "4e46b8dc1afd4a61bd20861e83fc005e",
+      "Id": "b5de13583dab4261b9dce9818a9e37ed"
+    },
+    {
+      "Start": "c3d3ea70ab5146adaad2e9c9a6a5eeac",
+      "End": "42797eb0064b41efaea9266342f9c53b",
+      "Id": "42a2cf3145b541288cba08f9522316ff"
+    },
+    {
+      "Start": "c3d3ea70ab5146adaad2e9c9a6a5eeac",
+      "End": "957be84524be44a999121021259f159b",
+      "Id": "7bff8a7cfb0a4e96bdb8d1544cf3827e"
+    },
+    {
+      "Start": "cc41d80dd0c04569ac15a6db582ab8cc",
+      "End": "6bfcac333dd249c9b91b1073326aa6fa",
+      "Id": "9aacc89ffe8741bd96c737d37aca71e3"
+    },
+    {
+      "Start": "cad5808be95e4376873cdc45241aedba",
+      "End": "821ce62eee4c46ee95c8d18aff385ce1",
+      "Id": "f25a7f3a8b9c4b08b90ffd5d83b060f3"
+    },
+    {
+      "Start": "cad5808be95e4376873cdc45241aedba",
+      "End": "71cdfb86750440ceb8824168dfb73a6c",
+      "Id": "b3a592fda77b4fdc84659ac07f5af54f"
+    },
+    {
+      "Start": "51f5f745aef5499f8c34ee6de091348f",
+      "End": "349d9d6cc061450e82be5aa2789ba15a",
+      "Id": "ee0723cba9f34d5c93a7c4f820f389bc"
+    },
+    {
+      "Start": "9227523759de4b89a7c1adaf4eea7938",
+      "End": "e1e2e8e340e74775b599b02b3fa648fc",
+      "Id": "107fe56d3dbb4459b15b869445a2a6d0"
+    },
+    {
+      "Start": "9227523759de4b89a7c1adaf4eea7938",
+      "End": "bcb658346c674c97b3e7a8ae54e3ad22",
+      "Id": "b2405e3c7e604b7c9b85168542ca88ed"
+    },
+    {
+      "Start": "5f5a0346a2994daf9c67971149b1629a",
+      "End": "a2ad3236eeea4e5e9cd976e1baf395bd",
+      "Id": "101c8f23b3af4adf9345ceb865558935"
+    },
+    {
+      "Start": "345dd9d140984745be51996c104f4051",
+      "End": "24375c9c7ddd469cb8ada5d6c5796b43",
+      "Id": "d395678e377a44fcb36daf5abaa2966f"
+    },
+    {
+      "Start": "6f85088dbcd747108a82d2affdfcd51a",
+      "End": "a05be176a1254442b13c4f0c6f840def",
+      "Id": "a0e2686f765645f5bd03bf6a65bbda83"
+    },
+    {
+      "Start": "0973b0cce3944344a2a02cce107795ee",
+      "End": "e6b9514d4f3748d3965c077b5d95b20e",
+      "Id": "3581023837724bc2947b184ebf75f199"
+    },
+    {
+      "Start": "482bf7df8f1c49819791d3286b531a82",
+      "End": "d0c602d0191a43f694234c3ac24db343",
+      "Id": "bdb8ef32343849f7a4f0235782d48c20"
+    },
+    {
+      "Start": "56107d48b59048e298c9f237d11bae8b",
+      "End": "192c01095ccc416e8e943a9775bb807d",
+      "Id": "fcb8e4811fb043f69c88f20ed628d2d0"
+    },
+    {
+      "Start": "f6fb8ba5b4604bf9bc6ccddf6a9c32c8",
+      "End": "4c5a6402152243bf90f7e0c18c98e3e1",
+      "Id": "d5d028e14973451ca5f67185dccf00dd"
+    },
+    {
+      "Start": "b1ae0a64813d4e7996b498d4ca983bcd",
+      "End": "fd583fa995a64579884a5921a7c48288",
+      "Id": "f7f49fa05fc441bcb99a1b442b1f0d84"
+    },
+    {
+      "Start": "ec898a45f83c4d85a5adfb0015a3462b",
+      "End": "f7f2c03387764b57b8cc6eddd0a38e83",
+      "Id": "67d7191ada5a464c914c563757e027f7"
+    },
+    {
+      "Start": "ec898a45f83c4d85a5adfb0015a3462b",
+      "End": "e91464b28a384d28aaeb101f436917b0",
+      "Id": "596b51eebd3b4751a0205541a5b49d64"
+    },
+    {
+      "Start": "ec898a45f83c4d85a5adfb0015a3462b",
+      "End": "272984933e594d959abf03fb1b14c2c5",
+      "Id": "225363251a4349e79f437c5c73c9d588"
+    },
+    {
+      "Start": "6ab414c3f9c94eb797b49a30b2fefb48",
+      "End": "95db404b9619447ba8c8fc88fb595328",
+      "Id": "7ac7f57fbe1e4ed0aafca11ea07c97ea"
+    },
+    {
+      "Start": "77218ad5fe6f475c9ab7e7db5344fb6c",
+      "End": "6dc4915f3e144122bc5460cb770919bd",
+      "Id": "ae0cd86568ec4b9e8519a1f7f0fbd622"
+    },
+    {
+      "Start": "a4aac6a6c66b4c4f8a491fd6cc9b7c26",
+      "End": "426ecce201bc4ff1af061fbd17cb3f89",
+      "Id": "d2cd7b1d8cec4b63a246e25090cb7073"
+    },
+    {
+      "Start": "78e8cf25bdcd494c9f683a3ac7269c9e",
+      "End": "56c35ddf2004430abe1c29157241c03e",
+      "Id": "5718f8e0f6a5460d9ec58022150f0e40"
+    },
+    {
+      "Start": "78e8cf25bdcd494c9f683a3ac7269c9e",
+      "End": "5e18f15365f9420b83c049e13e5fb832",
+      "Id": "6d44f7e9de7f43af95b5b7b762024500"
+    },
+    {
+      "Start": "b512d9909d474af0b35a876fbb3f423f",
+      "End": "9997d1f80f104ee8bd3b2170a2148e6f",
+      "Id": "9976eced65f448fdbb96f94aea2dc69d"
+    },
+    {
+      "Start": "1440da99b9834966ab2197a8a231a0f3",
+      "End": "286cf624e58446d2acdad17ba348e4d2",
+      "Id": "759eabc7dc34445e81172a6af96e6750"
+    },
+    {
+      "Start": "8bf7e1fa30d845068412252ba4baf516",
+      "End": "4c013bb3632449e9907b99e8859e8d46",
+      "Id": "894e50129d2f435c8d6e92c9a2463e33"
+    },
+    {
+      "Start": "95477b55b1d941539ca393c8a89c0f63",
+      "End": "d740c810a6ee4c47823f43df1f9f166f",
+      "Id": "129640ca646248858426d189f4cfa235"
+    },
+    {
+      "Start": "d28b3ab133cb4b51afd4fde5227717ba",
+      "End": "6ec69bed88274054ba5514e89d9a7592",
+      "Id": "446c9b5e658a4bf585efea39997c7e1e"
+    },
+    {
+      "Start": "d960d8104c254d10a71802b83871bdeb",
+      "End": "774be9287b794a019bd63c779a879227",
+      "Id": "5079a4b9794e4b089f63fe89385e74fd"
+    },
+    {
+      "Start": "1b061b043fe243bf888d0fafe72cf56d",
+      "End": "5a14e74bf00b40c89bfd0cd8e5962a6b",
+      "Id": "03ca6cfea336464aa92fa1162874d87a"
+    },
+    {
+      "Start": "a3defb4d4a284f87b265d2b43a19d7fa",
+      "End": "883ec2ca0f71466e9b29c2aaa4fd23f8",
+      "Id": "fb14fbc887ff43669de40e12a1444352"
+    },
+    {
+      "Start": "b65e6973199b43a0bc7fdc7e5783cde6",
+      "End": "6699980336da4dffb5b0f42447da779b",
+      "Id": "6ae01d7bafec4fb9a9eb232ba35b4f6a"
+    },
+    {
+      "Start": "0d3570c7ec974345a5563f04011c4196",
+      "End": "5d70afac6f4d493385ad06df4da61e27",
+      "Id": "bf76668e1bfe4ae081712587de9c1273"
+    },
+    {
+      "Start": "0d3570c7ec974345a5563f04011c4196",
+      "End": "ea3805cbe1ba427c983a830a4597131f",
+      "Id": "34c51d7d32f24b76b3d81434ea7156f8"
+    },
+    {
+      "Start": "7bb45507573d40b7a31143b1991c6742",
+      "End": "ec6344699d664c4b95686f86d9d74f9e",
+      "Id": "73a4a71e66dc4953bdc5786f2bd2acd6"
+    },
+    {
+      "Start": "19b61797df714e3496738d668410154b",
+      "End": "ba5ca6fcdaae401a82d255fbd7300204",
+      "Id": "2ad2e3ee18d34de2bcc6f221e6bd326c"
+    },
+    {
+      "Start": "456feb1e2f30443eb6f1c5586cdb6b54",
+      "End": "150b73501202448da0189c2db5108bc8",
+      "Id": "26ca131dfb35406a9974d63fe6064e2e"
+    },
+    {
+      "Start": "456feb1e2f30443eb6f1c5586cdb6b54",
+      "End": "516045a776a84d388835f68dcd29636a",
+      "Id": "81aa6aeabda64994b4bf9d648557e624"
+    },
+    {
+      "Start": "72baf99ab0c94041ad919d12324d4dd4",
+      "End": "fe2cfe3db99b4187a6d411e021558223",
+      "Id": "f15f48165b7945e79fc09c5739dca7d6"
+    },
+    {
+      "Start": "ebe0f4d93f1a4e86bf50211b54f7a230",
+      "End": "fcc9665ace3d4161955ba0a95dcd9dd4",
+      "Id": "299756382c02431a8d6f59c62132cae9"
+    },
+    {
+      "Start": "ebe0f4d93f1a4e86bf50211b54f7a230",
+      "End": "404321ea673f477b800af2f98ca95f0d",
+      "Id": "1caa9bc98b9e491d8192cd9f0b9adc87"
+    },
+    {
+      "Start": "26e6644b2e9646e181c12add60334299",
+      "End": "27fea34341e54f3a8ce581c0ee2c9b12",
+      "Id": "47db9a4434da427eaa857d8f52a70aa2"
+    },
+    {
+      "Start": "7d864d9308924c2582ad17574a0542c5",
+      "End": "ac9224211ea14a14b88263b96c9a7324",
+      "Id": "79badf950f534d01bf77344043ec3b1d"
+    },
+    {
+      "Start": "a58830077e4e435f9047290f19d691aa",
+      "End": "5d032d7bfe0c43d99e92e58b4ed3f842",
+      "Id": "0e241aa895a44f5899103ca71b9a0d8f"
+    },
+    {
+      "Start": "27e7b5ad02ad44f7a78addac10f0b075",
+      "End": "9fadd487af4144a08d0ae5f2bfd81d0b",
+      "Id": "acfac766577e4c569a2de912a8cc1f8c"
+    },
+    {
+      "Start": "170b56e8acb546bab6962fbb6952f2ac",
+      "End": "a2052a86c05c4ae5a279d96ce415e212",
+      "Id": "3dd3a98abc8a4943866aae7d4ca4806a"
+    },
+    {
+      "Start": "33ba7fa3013846a084eda11c6bfe01ff",
+      "End": "ff3e8bdce7be4a7493216dbe50912ce4",
+      "Id": "5f635da41e3c4edf8a3d84b6311da554"
+    },
+    {
+      "Start": "05efc8380a9e4365b503ffa833064572",
+      "End": "80d51a099f4b46a598dcc5cb9a62081f",
+      "Id": "e0ba03db2c184be6bc7f520a26489463"
+    },
+    {
+      "Start": "ab9a261564024c7d81b0e7518eeb7dba",
+      "End": "e2b65aa14c1c49b4bc07cdc78851aaf8",
+      "Id": "b86189b74f334c818c14438d6cb36fba"
+    },
+    {
+      "Start": "3d76922b9727420796ea221df754b515",
+      "End": "f2dd1e93d62c41a9b3028972eb7e84c6",
+      "Id": "3f95ce7a93b143e7990d2654c003519f"
+    },
+    {
+      "Start": "1846840ea80b405b8d02e5db0ac1e71a",
+      "End": "70b1b03bf28740d4a2c9c8a00d11ef48",
+      "Id": "8603e9e1f0c94923b7c53ff3c82ab5bc"
+    },
+    {
+      "Start": "35f79503c2824cc38e6f6a0fe047fa5c",
+      "End": "ed3b4724d2d649229825626f9a7847f5",
+      "Id": "82f15dec4032485393f9f2328955368b"
+    },
+    {
+      "Start": "4125a999a7e24a7d98c0e99043586aed",
+      "End": "0d6a57bcad094bf78b35a63f70b1352f",
+      "Id": "9a42dfaf03f54054a4aa3a70ffa69a45"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [
+    {
+      "Name": "Synthetic",
+      "Version": "2.0.200207",
+      "ReferenceType": "Package",
+      "Nodes": [
+        "21366d33e099477e9254d5fa1c64b1d1",
+        "ac79030437d44fff99275c8ad0dd265c",
+        "3097f1ca538e4b9b96904adade7680c1",
+        "3ec48d704cf346beb5bedcfcc88a289e",
+        "5315e8089ec84850b1ccc85137ecb711",
+        "f7b2d40d2e2d46b199dff88182ec5cf2",
+        "0709590500074ead97bcf94de173bfe9",
+        "32d0c4db0fd0447ca8b220289574f6f9",
+        "0495b409ec7744da87cd02262ef94540",
+        "faa0b4c038b84355b00a1c9cbe7e2608",
+        "8861587869104e929f5fb57f98148b06",
+        "19fc3d0c92084415a76a852e359db1e6",
+        "6986552b468940c69560813af8a99b98",
+        "1917232c3e5e4fe18849f54df7a62f3a",
+        "a714d90cbb654034bd318422088ff241",
+        "742233c3be4d4fd4afcf215ec05e5394",
+        "8bfef45a60c04bc5886ef9d854a54a28",
+        "66aba7cb3a35426faed71ff4b259e366",
+        "847be9e149ff46678ec20c871ff3d81f",
+        "7efa3b362684400191aef641887ce738",
+        "0df5c31470634815bb2e3c4983942113",
+        "1a7e4bed551d498d872ca02f7919a772",
+        "02744d4952b44109b88864f094b63b4a",
+        "43f350715152477fa5aac93bf0880e8f"
+      ]
+    }
+  ],
+  "Thumbnail": "",
+  "GraphDocumentationURL": null,
+  "ExtensionWorkspaceData": [
+    {
+      "ExtensionGuid": "28992e1d-abb9-417f-8b1b-05e053bee670",
+      "Name": "Properties",
+      "Version": "2.12",
+      "Data": {}
+    },
+    {
+      "ExtensionGuid": "DFBD9CC0-DB40-457A-939E-8C8555555A9D",
+      "Name": "Generative Design",
+      "Version": "1.10",
+      "Data": {}
+    }
+  ],
+  "Author": "",
+  "Linting": {
+    "activeLinter": "None",
+    "activeLinterId": "7b75fb44-43fd-4631-a878-29f4d5d8399a",
+    "warningCount": 0,
+    "errorCount": 0
+  },
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.12.1.8246",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcuts.ConvertFromXML",
+        "Id": "21366d33e099477e9254d5fa1c64b1d1",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -246.50806865422419,
+        "Y": 148.059914723999
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "File Path",
+        "Id": "69a4491dd6c74e36bd4f887a15f04fd1",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1353.6360110166784,
+        "Y": 145.11745536714642
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "FileSystem.ReadText",
+        "Id": "9004ad5439ba432aa011d827247af07a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -537.40009683264964,
+        "Y": 150.71174086936571
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "File From Path",
+        "Id": "3187609ec92a40f6b99ba38a1caf77e5",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -681.69043555189967,
+        "Y": 150.38324005023446
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcuts.ConvertToXML",
+        "Id": "ac79030437d44fff99275c8ad0dd265c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 53.299142843582558,
+        "Y": -1465.0678164962274
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "ec23319b440a449db53c5094c8b57494",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1595.067460642555,
+        "Y": -1527.858929458464
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "50eb6ea0a8264fbea4217acbff960208",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1616.233736934229,
+        "Y": -1321.3017735650317
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "List Create",
+        "Id": "2277afca621247fe9e6d3c0fe09ab927",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -495.05232019775758,
+        "Y": -1410.2311630994614
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "6dfc92f8f1c0487faba1df5ac19f802d",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 523.70585383582193,
+        "Y": -1265.5605183691241
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcutItem.KeyboardShortcutItem",
+        "Id": "3097f1ca538e4b9b96904adade7680c1",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -961.114967376261,
+        "Y": -1528.0652131460124
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcutItem.KeyboardShortcutItem",
+        "Id": "3ec48d704cf346beb5bedcfcc88a289e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -959.19005837096972,
+        "Y": -1340.242389854136
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcuts.KeyboardShortcuts",
+        "Id": "5315e8089ec84850b1ccc85137ecb711",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -300.4289335684341,
+        "Y": -1468.9025182950559
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcuts.ConvertFromXML",
+        "Id": "f7b2d40d2e2d46b199dff88182ec5cf2",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 518.73184949054348,
+        "Y": -1400.3808979629061
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "cfe1dc3156c34213b80d15ffea0a089e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -101.45392292695067,
+        "Y": -275.62268774044924
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcuts.ConvertToXML",
+        "Id": "0709590500074ead97bcf94de173bfe9",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 135.40688892671608,
+        "Y": 294.94690996490112
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "d73b087b50624f0993e0df1b986454b3",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 520.05539074331136,
+        "Y": 292.37084380024919
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcuts.ShortcutItems",
+        "Id": "32d0c4db0fd0447ca8b220289574f6f9",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 98.703007486148692,
+        "Y": 146.66811999407568
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcutItem.ShortcutList",
+        "Id": "0495b409ec7744da87cd02262ef94540",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 528.31880721388143,
+        "Y": 146.14468944013049
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcutItem.ShortcutList",
+        "Id": "faa0b4c038b84355b00a1c9cbe7e2608",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -327.04511348499238,
+        "Y": -969.8140737311013
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "3825e8301cc94bd98df1de5564426b38",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1003.1211923350653,
+        "Y": 145.63268815589396
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcutItem.KeyboardShortcutItem",
+        "Id": "8861587869104e929f5fb57f98148b06",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -959.27186824785588,
+        "Y": -1155.6163826882073
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcutItem.ToShortcutString",
+        "Id": "19fc3d0c92084415a76a852e359db1e6",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 57.347464905765946,
+        "Y": -969.49762327655014
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "64c920cdc0144c1c942ea52bd7615e63",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 526.45069601436262,
+        "Y": -959.4863785232867
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcuts.RemoveEmptyShortcuts",
+        "Id": "6986552b468940c69560813af8a99b98",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 95.648361888272,
+        "Y": 1032.7104954003587
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcuts.RemoveShortcut",
+        "Id": "1917232c3e5e4fe18849f54df7a62f3a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 957.3846531200852,
+        "Y": -655.13499708688471
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcuts.ToDictionaryByCommand",
+        "Id": "a714d90cbb654034bd318422088ff241",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 107.30998651990251,
+        "Y": 706.75686386709435
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcuts.ToDictionaryByShortcut",
+        "Id": "742233c3be4d4fd4afcf215ec05e5394",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 123.80006903443399,
+        "Y": 526.684781813853
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcuts.GetDuplicateShortcuts",
+        "Id": "8bfef45a60c04bc5886ef9d854a54a28",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 259.3595690748644,
+        "Y": -197.43730183640332
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "478b559af047452a97c4fd253e305ac5",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 603.53133176367362,
+        "Y": -217.30316042777196
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "871f0ea077604ec1867b74639f1f8535",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1089.0103780995787,
+        "Y": 520.22421592983437
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "dc00aadd6d7f4afbb976a8733b67f22e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1080.0349521555111,
+        "Y": 690.62940344056722
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "b19c3f9b0936461992655cbc6ce5b8df",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 573.99345476356507,
+        "Y": 689.75306364978758
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "ae59ebfdf8b04f929e0501cb0767b8b3",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 979.39871337555815,
+        "Y": 1166.6307013775827
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "a2bcc3c545cd43e9ae2e891b2215ceae",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1404.0451733345642,
+        "Y": 500.31787771010909
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcuts.ToDictionaryByShortcut",
+        "Id": "66aba7cb3a35426faed71ff4b259e366",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 517.59732917237829,
+        "Y": 1036.0003433441316
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "3afa01264915424cbf4fd7f64551e124",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1431.3985197842562,
+        "Y": 989.69345208398136
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "501250eb4a4b4b2fb54c7f9a86b7acb3",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1116.3637245492762,
+        "Y": 1009.5997903037064
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcuts.AddShortcut",
+        "Id": "847be9e149ff46678ec20c871ff3d81f",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 965.72169380788853,
+        "Y": -942.89725056238535
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "a213dea54c1a433784fc998a8d97d4de",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1585.5188560321722,
+        "Y": -961.33591787233036
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcutItem.KeyboardShortcutItem",
+        "Id": "7efa3b362684400191aef641887ce738",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -952.14448245544008,
+        "Y": -968.69503991440365
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "c4721fb6ca344fd89bd4140822c50cff",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1545.1314530487937,
+        "Y": -1153.7500352466843
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "c44fa633037541529b8d38973cf6f804",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 2037.0829886587194,
+        "Y": -974.37488317636951
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "cb7318a0b65f4ec6bde75079cd86141d",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 2047.177930227406,
+        "Y": -659.15110638627141
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "11f2503824e9433f91f82c32d7adc783",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1875.9872771422788,
+        "Y": -1393.6060031459447
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcuts.ToDictionaryByShortcut",
+        "Id": "0df5c31470634815bb2e3c4983942113",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1382.4543937073104,
+        "Y": -1394.6475085418128
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcuts.ConvertToXML",
+        "Id": "1a7e4bed551d498d872ca02f7919a772",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1704.3862696021804,
+        "Y": -939.08789433669676
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcuts.ConvertToXML",
+        "Id": "02744d4952b44109b88864f094b63b4a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1738.760603897899,
+        "Y": -649.83249104256026
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "KeyboardShortcuts.RemoveEmptyShortcuts",
+        "Id": "43f350715152477fa5aac93bf0880e8f",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1348.7430499360012,
+        "Y": -653.23313731346161
+      }
+    ],
+    "Annotations": [],
+    "X": 715.84838802602337,
+    "Y": 519.69259597411235,
+    "Zoom": 0.26116008309625371
+  }
+}
