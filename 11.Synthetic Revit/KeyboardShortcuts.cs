@@ -68,7 +68,7 @@ namespace Synthetic.Revit.KeyboardShortcuts
             bool result = false;            
 
             //Dictionary<string, List<KeyboardShortcutItem>> shortcutDict = this.ToDictionaryByShortcut();
-            Dictionary<string, KeyboardShortcutItem> commandDict = this.ToDictionaryByCommand();
+            Dictionary<string, KeyboardShortcutItem> commandDict = this.ToDictionaryByCommandId();
 
             // Verify that the input wasn't null.
             if (ShortcutItems != null)
@@ -82,10 +82,10 @@ namespace Synthetic.Revit.KeyboardShortcuts
                     result = false;
 
                     // If the command already existings in the keyboardShortcuts
-                    if (commandDict.ContainsKey(shortcutItem.CommandName))
+                    if (commandDict.ContainsKey(shortcutItem.CommandId))
                     {
                         // Get the existing ShortcutItem
-                        KeyboardShortcutItem existShortcutItem = commandDict[shortcutItem.CommandName];
+                        KeyboardShortcutItem existShortcutItem = commandDict[shortcutItem.CommandId];
                         
                         // For each shortcut in the new shortcutItem
                         foreach (string shortcut in shortcutItem.ShortcutList)
@@ -153,15 +153,15 @@ namespace Synthetic.Revit.KeyboardShortcuts
             bool result = false;
 
             //Dictionary<string, List<KeyboardShortcutItem>> shortcutDict = this.ToDictionaryByShortcut();
-            Dictionary<string, KeyboardShortcutItem> commandDict = this.ToDictionaryByCommand();
+            Dictionary<string, KeyboardShortcutItem> commandDict = this.ToDictionaryByCommandId();
 
             if (ShortcutItems != null)
             {
                 foreach (KeyboardShortcutItem shortcutItem in ShortcutItems)
                 {
-                    if (commandDict.ContainsKey(shortcutItem.CommandName))
+                    if (commandDict.ContainsKey(shortcutItem.CommandId))
                     {
-                        KeyboardShortcutItem existShortcutItem = commandDict[shortcutItem.CommandName];
+                        KeyboardShortcutItem existShortcutItem = commandDict[shortcutItem.CommandId];
                         if (existShortcutItem.ShortcutList != null)
                         {
                             List<string> existList = new List<string>(existShortcutItem.ShortcutList);
@@ -191,7 +191,7 @@ namespace Synthetic.Revit.KeyboardShortcuts
 
             KeyboardShortcuts newKBS = new KeyboardShortcuts();
 
-            List<KeyboardShortcutItem> purgedValues = null;
+            List<KeyboardShortcutItem> savedItems = null;
 
             foreach(KeyboardShortcutItem itemList in this.shortcuts)
             {
@@ -199,12 +199,12 @@ namespace Synthetic.Revit.KeyboardShortcuts
                 {
                     foreach (string shortcut in itemList.ShortcutList)
                     {
-                        purgedValues = new List<KeyboardShortcutItem>();
+                        savedItems = new List<KeyboardShortcutItem>();
 
                         if (shortcut != null && shortcut != "" && shortcut != KeyboardShortcuts.EmptyShortcut)
                         {
-                            purgedValues.Add(new KeyboardShortcutItem(itemList.CommandName, itemList.CommandId, shortcut, itemList.Paths));
-                            newKBS.AddShortcut(purgedValues);
+                            savedItems.Add(new KeyboardShortcutItem(itemList.CommandName, itemList.CommandId, shortcut, itemList.Paths));
+                            newKBS.AddShortcut(savedItems);
                         }
                     }
                 }
@@ -278,11 +278,11 @@ namespace Synthetic.Revit.KeyboardShortcuts
                             foreach (KeyboardShortcutItem secondCommand in secondToSearch.ShortcutItems)
                             {
                                 // If Second has the same command, then it is a duplicate
-                                if (firstCommand.CommandName == secondCommand.CommandName)
+                                if (firstCommand.CommandId == secondCommand.CommandId)
                                 {
                                     // Create a new KeyboardShortcutItem that includes only the shortcut that is duplicate.
                                     KeyboardShortcutItem item = new KeyboardShortcutItem();
-                                    item.CommandName = firstCommand.CommandName;
+                                    item.CommandId = firstCommand.CommandId;
                                     item.ShortcutString = shortcut;
                                     item.CommandId = firstCommand.CommandId;
                                     item.Paths = firstCommand.Paths;
@@ -296,13 +296,13 @@ namespace Synthetic.Revit.KeyboardShortcuts
                                 {
                                     // Create a new KeyboardShortcutItems that includes only the shortcut in conflict.
                                     KeyboardShortcutItem firstItem = new KeyboardShortcutItem();
-                                    firstItem.CommandName = firstCommand.CommandName;
+                                    firstItem.CommandId = firstCommand.CommandId;
                                     firstItem.ShortcutString = shortcut;
                                     firstItem.CommandId = firstCommand.CommandId;
                                     firstItem.Paths = firstCommand.Paths;
 
                                     KeyboardShortcutItem secondItem = new KeyboardShortcutItem();
-                                    secondItem.CommandName = secondCommand.CommandName;
+                                    secondItem.CommandId = secondCommand.CommandId;
                                     secondItem.ShortcutString = shortcut;
                                     secondItem.CommandId = secondCommand.CommandId;
                                     secondItem.Paths = secondCommand.Paths;
@@ -343,6 +343,22 @@ namespace Synthetic.Revit.KeyboardShortcuts
         }
 
         /// <summary>
+        /// Checks if the command is in the KeyboardShortcuts object.
+        /// </summary>
+        /// <param name="CommandId">The name of a Revit command as listed in the Keyboard Shortcuts</param>
+        /// <returns name="Contains">Returns True if the command is in the KeyboardShortcut object, otherwise returns False.</returns>
+        public bool ContainsCommandId(string CommandId)
+        {
+            bool result = false;
+
+            Dictionary<string, KeyboardShortcutItem> dictCommands = this.ToDictionaryByCommandId();
+
+            if (dictCommands.ContainsKey(CommandId)) { result = true; }
+
+            return result;
+        }
+
+        /// <summary>
         /// Checks to see if the key combitnation is included in the KeyboardShortcuts object
         /// </summary>
         /// <param name="Shortcut">A key combniation</param>
@@ -370,6 +386,22 @@ namespace Synthetic.Revit.KeyboardShortcuts
             Dictionary<string, KeyboardShortcutItem> dictCommands = this.ToDictionaryByCommand();
 
             if (dictCommands.ContainsKey(CommandName)) { shortcut = dictCommands[CommandName]; }
+
+            return shortcut;
+        }
+
+        /// <summary>
+        /// Given a command ID, returns the KeyboardShortcutItem
+        /// </summary>
+        /// <param name="CommandId">ID of the Revit command</param>
+        /// <returns name="KeyboardShortcutItem">The KeyboardShortcutItem associated with the command.</returns>
+        public KeyboardShortcutItem GetByCommandId(string CommandId)
+        {
+            KeyboardShortcutItem shortcut = null;
+
+            Dictionary<string, KeyboardShortcutItem> dictCommands = this.ToDictionaryByCommandId();
+
+            if (dictCommands.ContainsKey(CommandId)) { shortcut = dictCommands[CommandId]; }
 
             return shortcut;
         }
@@ -449,6 +481,30 @@ namespace Synthetic.Revit.KeyboardShortcuts
                 foreach (KeyboardShortcutItem command in this.shortcuts)
                 {
                     string name = command.CommandName;
+                    if (!dict.ContainsKey(name))
+                    {
+                        dict.Add(name, command);
+                    }
+                }
+            }
+            else { dict = null; }
+
+            return dict;
+        }
+
+        /// <summary>
+        /// Creates a Dictionary keyed to the command ID.  Command ID is unqiue while command name may not be.
+        /// </summary>
+        /// <returns name="Command Dictionary">Creates a Dictionary keyed to the command name.</returns>
+        public Dictionary<string, KeyboardShortcutItem> ToDictionaryByCommandId()
+        {
+            Dictionary<string, KeyboardShortcutItem> dict = new Dictionary<string, KeyboardShortcutItem>();
+
+            if (this.shortcuts != null)
+            {
+                foreach (KeyboardShortcutItem command in this.shortcuts)
+                {
+                    string name = command.CommandId;
                     if (!dict.ContainsKey(name))
                     {
                         dict.Add(name, command);
