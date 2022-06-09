@@ -24,6 +24,12 @@ namespace Synthetic.Revit.KeyboardShortcuts
         public string CommandId { get; set; }
 
         /// <summary>
+        /// Dictionary value when a shortcut isn't included.
+        /// </summary>
+        [SupressImportIntoVM]
+        public const string EmptyShortcut = "!NO SHORTCUT!";
+
+        /// <summary>
         /// The Shortcuts as a deliminted string.
         /// </summary>
         [XmlAttribute(AttributeName = "Shortcuts")]
@@ -93,6 +99,11 @@ namespace Synthetic.Revit.KeyboardShortcuts
             {
                 List<string> shortcuts = new List<string>(ShortcutString.Split(new[] { seperator }, StringSplitOptions.None));
                 
+                if(shortcuts.Contains(KeyboardShortcutItem.EmptyShortcut))
+                {
+                    shortcuts.Remove(KeyboardShortcutItem.EmptyShortcut);
+                }
+
                 if (shortcuts != null && shortcuts.Count > 0)
                 {
                     results = shortcuts;
@@ -115,11 +126,14 @@ namespace Synthetic.Revit.KeyboardShortcuts
             {
                 foreach (string shortcut in ShortCutList)
                 {
-                    if (combined != "")
+                    if (shortcut != KeyboardShortcutItem.EmptyShortcut)
                     {
-                        combined = combined + seperator;
+                        if (combined != "")
+                        {
+                            combined = combined + seperator;
+                        }
+                        combined = combined + shortcut;
                     }
-                    combined = combined + shortcut;
                 }
             }
             if (combined == "") { combined = null; }
@@ -140,7 +154,8 @@ namespace Synthetic.Revit.KeyboardShortcuts
             {
                 if (Shortcut != null
                     && Shortcut != ""
-                    && !this.ShortcutList.Contains(Shortcut))
+                    && !this.ShortcutList.Contains(Shortcut)
+                    && Shortcut != KeyboardShortcutItem.EmptyShortcut)
                 {
                     this.ShortcutList.Add(Shortcut);
                     result = true;

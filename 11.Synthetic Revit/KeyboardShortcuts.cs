@@ -30,12 +30,6 @@ namespace Synthetic.Revit.KeyboardShortcuts
         }
 
         /// <summary>
-        /// Dictionary value when a shortcut isn't included.
-        /// </summary>
-        [SupressImportIntoVM]
-        public const string EmptyShortcut = "!NO SHORTCUT!";
-
-        /// <summary>
         /// Constructs an empty KeyboardShortcut object.
         /// </summary>
         [SupressImportIntoVM]
@@ -81,7 +75,7 @@ namespace Synthetic.Revit.KeyboardShortcuts
                 {
                     result = false;
 
-                    // If the command already existings in the keyboardShortcuts
+                    // If the command already exists in the keyboardShortcuts
                     if (commandDict.ContainsKey(shortcutItem.CommandId))
                     {
                         // Get the existing ShortcutItem
@@ -92,7 +86,7 @@ namespace Synthetic.Revit.KeyboardShortcuts
                         {
                             // Check if the shortcut existings in the existing ShortcutItem
                             // If it doesn't existing, add it.
-                            if (!existShortcutItem.ContainsShortcut(shortcut))
+                            if (!existShortcutItem.ContainsShortcut(shortcut) && shortcut != KeyboardShortcutItem.EmptyShortcut)
                             {
                                 result = existShortcutItem.AddShortcut(shortcut);
                                 results.Add(result);
@@ -201,7 +195,9 @@ namespace Synthetic.Revit.KeyboardShortcuts
                     {
                         savedItems = new List<KeyboardShortcutItem>();
 
-                        if (shortcut != null && shortcut != "" && shortcut != KeyboardShortcuts.EmptyShortcut)
+                        if (shortcut != null
+                            && shortcut != ""
+                            && shortcut != KeyboardShortcutItem.EmptyShortcut)
                         {
                             savedItems.Add(new KeyboardShortcutItem(itemList.CommandName, itemList.CommandId, shortcut, itemList.Paths));
                             newKBS.AddShortcut(savedItems);
@@ -265,7 +261,7 @@ namespace Synthetic.Revit.KeyboardShortcuts
                     List<KeyboardShortcutItem> firstCommands = firstPairs.Value;
 
                     // Only proceed if the there is a shortcut and that shortcut is in Second.
-                    if (shortcut != KeyboardShortcuts.EmptyShortcut && secondShortcuts.ContainsKey(shortcut))
+                    if (shortcut != KeyboardShortcutItem.EmptyShortcut && secondShortcuts.ContainsKey(shortcut))
                     {
                         // Create separate KeyboardShortcuts from Second to compare the current First entry against
                         List<KeyboardShortcutItem> secondCommands = secondShortcuts[shortcut];
@@ -439,15 +435,15 @@ namespace Synthetic.Revit.KeyboardShortcuts
                     {
                         if (shortcutList.Count == 0)
                         {
-                            shortcutList.Add(KeyboardShortcuts.EmptyShortcut);
+                            shortcutList.Add(KeyboardShortcutItem.EmptyShortcut);
                         }
 
                         foreach (string shortcut in shortcutList)
                         {
                             string sc = shortcut;
-                            if (sc == null || sc == "" || sc == KeyboardShortcuts.EmptyShortcut)
+                            if (sc == null || sc == "" || sc == KeyboardShortcutItem.EmptyShortcut)
                             {
-                                sc = KeyboardShortcuts.EmptyShortcut;
+                                sc = KeyboardShortcutItem.EmptyShortcut;
                             }
                             if (dict.ContainsKey(sc))
                             {
