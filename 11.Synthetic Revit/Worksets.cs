@@ -402,31 +402,36 @@ namespace Synthetic.Revit
         /// <returns name="element">The element that was changed.  Returns null if the change was unsuccessfull.</returns>
         public static dynamoElement SetElementWorkset(dynamoElement element, Workset workset)
         {
-            //Get Revit Document object
-            revitDoc doc = DocumentManager.Instance.CurrentDBDocument;
+            if (element != null)
+            {
 
-            Autodesk.Revit.DB.Element unwrapped = element.InternalElement;
+                //Get Revit Document object
+                revitDoc doc = DocumentManager.Instance.CurrentDBDocument;
 
-            WorksetId wId = unwrapped.WorksetId;
-            Autodesk.Revit.DB.Parameter wsParam = unwrapped.get_Parameter(BuiltInParameter.ELEM_PARTITION_PARAM);
-            if (wsParam == null)
-            {
-                return null;
-            }
-            if (doc.IsModifiable)
-            {
-                wsParam.Set(workset.internalId.IntegerValue);
-            }
-            else
-            {
-                using (Autodesk.Revit.DB.Transaction tx = new Autodesk.Revit.DB.Transaction(doc))
+                Autodesk.Revit.DB.Element unwrapped = element.InternalElement;
+
+                WorksetId wId = unwrapped.WorksetId;
+                Autodesk.Revit.DB.Parameter wsParam = unwrapped.get_Parameter(BuiltInParameter.ELEM_PARTITION_PARAM);
+                if (wsParam == null)
                 {
-                    tx.Start("Change Element's Workset");
-                    wsParam.Set(workset.internalId.IntegerValue);
-                    tx.Commit();
+                    return null;
                 }
+                if (doc.IsModifiable)
+                {
+                    wsParam.Set(workset.internalId.IntegerValue);
+                }
+                else
+                {
+                    using (Autodesk.Revit.DB.Transaction tx = new Autodesk.Revit.DB.Transaction(doc))
+                    {
+                        tx.Start("Change Element's Workset");
+                        wsParam.Set(workset.internalId.IntegerValue);
+                        tx.Commit();
+                    }
+                }
+                return unwrapped.ToDSType(true); ;
             }
-            return unwrapped.ToDSType(true); ;
+            else return null;
         }
 
         /// <summary>

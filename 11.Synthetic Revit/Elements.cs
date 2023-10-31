@@ -517,6 +517,18 @@ namespace Synthetic.Revit
         }
 
         /// <summary>
+        /// Gets an element given its UniqueId
+        /// </summary>
+        /// <param name="UniqueId">A UniqueId as a string</param>
+        /// <param name="document">Document that the element is in.</param>
+        /// <returns name="Element">Returns a wrapped Dynamo Revit Element</returns>
+        public static DynElem GetDynamoByUniqueId(string UniqueId, RevitDoc document)
+        {
+            RevitElem elem = document.GetElement(UniqueId);
+            return WrapRevitElement(elem);
+        }
+
+        /// <summary>
         /// Gets a Element's ElementId
         /// </summary>
         /// <param name="Element">A Autodesk.Revit.DB.Element, NOT a Dynamo wrapped element</param>
@@ -689,15 +701,19 @@ namespace Synthetic.Revit
         /// <returns name="Dynamo Element">If successful, returns a dynamo element, otherwise returns null.</returns>
         public static DynElem WrapRevitElement ( RevitElem element)
         {
-            DynElem dElem = null;
-
-            try
+            if (element != null)
             {
-                dElem = element.ToDSType(true);
-            }
-            catch { }
+                DynElem dElem = null;
 
-            return dElem;
+                try
+                {
+                    dElem = element.ToDSType(true);
+                }
+                catch { }
+
+                return dElem;
+            }
+            else return null;
         }
 
         /// <summary>
